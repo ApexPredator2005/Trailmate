@@ -20,6 +20,13 @@ import chatStreamRoutes from './routes/chat-stream.js';
 import flightRoutes     from './routes/flights.js';
 import placeRoutes      from './routes/places.js';
 import weatherRoutes    from './routes/weather.js';
+import {
+  authLimiter,
+  chatLimiter,
+  flightLimiter,
+  placesLimiter,
+  globalApiLimiter,
+} from './middleware/rateLimiters.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -27,6 +34,9 @@ const rootDir = path.resolve(__dirname, '..');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
+
+// Trust reverse proxies (Render, Railway, Heroku, Cloudflare, etc.) for correct IP resolution
+app.set('trust proxy', 1);
 
 // Security: Disable X-Powered-By fingerprinting
 app.disable('x-powered-by');
@@ -55,11 +65,18 @@ app.use('/embellishments', express.static('public/embellishments', {
   immutable: true,
 }));
 
-// API Routes
-app.use('/api/chat/stream', chatStreamRoutes);
-app.use('/api/chat',        chatRoutes);
-app.use('/api/flights',     flightRoutes);
-app.use('/api/places',      placeRoutes);
+// Apply global rate limiter to all API endpoints
+app.use('/api', globalApiLimiter);
+
+// Auth / Login Rate Limiting (strict 5 attempts per 15 minutes)
+app.use('/api/auth', authLimiter);
+app.use('/api/login', authLimiter);
+
+// Dedicated route-level limiters (protecting Gemini, Google Places, and Flight APIs)
+app.use('/api/chat/stream', chatLimiter, chatStreamRoutes);
+app.use('/api/chat',        chatLimiter, chatRoutes);
+app.use('/api/flights',     flightLimiter, flightRoutes);
+app.use('/api/places',      placesLimiter, placeRoutes);
 app.use('/api/weather',     weatherRoutes);
 
 // Health check
