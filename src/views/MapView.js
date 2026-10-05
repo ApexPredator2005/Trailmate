@@ -97,10 +97,6 @@ export function renderMapView(container, { switchView, store }) {
                 <span class="material-symbols-outlined text-xs">palette</span>
                 <span class="hidden sm:inline">Vibrant</span>
               </button>
-              <button type="button" class="map-layer-btn" data-layer="topo" title="National Geographic / Topo">
-                <span class="material-symbols-outlined text-xs">terrain</span>
-                <span class="hidden sm:inline">Terrain</span>
-              </button>
               <button type="button" class="map-layer-btn" data-layer="satellite" title="Esri Satellite">
                 <span class="material-symbols-outlined text-xs">satellite_alt</span>
                 <span class="hidden sm:inline">Satellite</span>
@@ -184,10 +180,6 @@ export function renderMapView(container, { switchView, store }) {
       maxZoom: 19,
       subdomains: ['a', 'b', 'c'],
       attribution: '&copy; OpenStreetMap contributors, Humanitarian Team',
-    }),
-    topo: L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Map/MapServer/tile/{z}/{y}/{x}', {
-      maxZoom: 16,
-      attribution: 'National Geographic, Esri',
     }),
     satellite: L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
       maxZoom: 19,
@@ -430,7 +422,7 @@ export function renderMapView(container, { switchView, store }) {
       const photoCount = (item.photos && item.photos.length > 0) ? item.photos.length : 1;
 
       const popupHtml = `
-        <div class="attraction-popup-card">
+        <div class="attraction-popup-card cursor-pointer" data-card-idx="${idx}">
           <div class="attraction-popup-hero group cursor-pointer" data-gallery-idx="${idx}">
             <img src="${escapeHtml(item.photo)}" alt="${escapeHtml(item.name)}" />
             <div class="absolute top-2 right-2 bg-black/60 backdrop-blur-md text-white text-[9.5px] font-mono font-bold px-2 py-0.5 rounded-full flex items-center gap-1 border border-white/20">
@@ -479,13 +471,20 @@ export function renderMapView(container, { switchView, store }) {
         // Attach gallery triggers inside Leaflet popup DOM
         const popupEl = marker.getPopup()?.getElement();
         if (popupEl) {
-          popupEl.querySelectorAll('.popup-gallery-trigger, .attraction-popup-hero').forEach(trigger => {
-            trigger.addEventListener('click', () => {
+          // Whole popup card or hero or button click opens gallery modal
+          const popupCard = popupEl.querySelector('.attraction-popup-card');
+          if (popupCard) {
+            popupCard.addEventListener('click', (e) => {
+              // If user clicked specifically on "Zoom Closer", don't open modal
+              if (e.target.closest('.popup-focus-btn')) {
+                return;
+              }
               openPhotoGalleryModal(item, 0);
             });
-          });
+          }
 
-          popupEl.querySelector('.popup-focus-btn')?.addEventListener('click', () => {
+          popupEl.querySelector('.popup-focus-btn')?.addEventListener('click', (e) => {
+            e.stopPropagation();
             map.flyTo([item.lat, item.lng], 16, { duration: 0.6 });
           });
         }
