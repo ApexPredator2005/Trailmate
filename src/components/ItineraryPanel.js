@@ -5,6 +5,7 @@
 import { store } from '../store/state.js';
 import { ItineraryDay } from './ItineraryDay.js';
 import { downloadIcsCalendar } from '../views/ShareView.js';
+import { getDestinationHeaderArt } from './HeaderDoodlesData.js';
 
 function esc(str) {
   return String(str ?? '')
@@ -60,14 +61,51 @@ export class ItineraryPanel {
 
       const dest = trip.destination || 'INDIA';
       const year = new Date().getFullYear();
+      const doodleArt = getDestinationHeaderArt(dest);
 
       this.body.innerHTML = `
-        <!-- Retro Passport Stamp Accent -->
-        <div class="passport-stamp mb-6 mx-auto w-fit py-1.5 px-4 border-2 border-dashed border-secondary/60 rounded-xl flex items-center gap-2 rotate-[-2deg] bg-secondary/5 select-none animate-stampDrop shadow-xs">
-          <span class="material-symbols-outlined text-secondary text-base">flight_land</span>
-          <div class="text-left font-label-sm">
-            <div class="text-[10px] font-bold tracking-widest text-secondary uppercase">${esc(dest)} EXPEDITION</div>
-            <div class="text-[8px] tracking-wider text-on-surface-variant font-mono">${year} • VERIFIED SCHEDULE</div>
+        <!-- Printable & Tactile Journal Hero Header -->
+        <div class="itinerary-journal-hero mb-6 p-4 rounded-2xl bg-surface-container-lowest border border-outline-variant/40 shadow-xs relative overflow-hidden">
+          <!-- Subtle decorative background stamp pattern -->
+          <div class="absolute -right-4 -bottom-4 w-28 h-28 opacity-10 pointer-events-none select-none">
+            <img src="/trailmate-logo.png" alt="" class="w-full h-full object-contain grayscale" />
+          </div>
+
+          <div class="flex items-center justify-between gap-3 border-b border-outline-variant/30 pb-3 mb-3 relative z-10">
+            <!-- Trailmate Brand Emblem -->
+            <div class="flex items-center gap-2.5">
+              <img src="/trailmate-logo.png" alt="Trailmate" class="w-10 h-10 rounded-full border border-secondary/30 shadow-xs shrink-0 object-cover" />
+              <div>
+                <h4 class="font-serif font-bold text-base text-primary leading-tight flex items-center gap-1.5">
+                  <span>${esc(dest)}</span>
+                  <span class="text-xs font-sans font-normal text-on-surface-variant">Expedition</span>
+                </h4>
+                <p class="font-mono text-[10px] text-secondary font-medium tracking-wide uppercase">TRAILMATE • CURATED JOURNEY</p>
+              </div>
+            </div>
+
+            <!-- Authentic Passport Stamp Accent -->
+            <div class="passport-stamp py-1 px-3 border-2 border-dashed border-secondary/70 rounded-xl flex items-center gap-1.5 rotate-[-2deg] bg-secondary/5 select-none shrink-0 shadow-2xs">
+              <span class="material-symbols-outlined text-secondary text-sm">flight_land</span>
+              <div class="text-left font-label-sm">
+                <div class="text-[9px] font-bold tracking-widest text-secondary uppercase">${esc(dest.toUpperCase())}</div>
+                <div class="text-[7.5px] tracking-wider text-on-surface-variant font-mono">${year} • VERIFIED</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Destination Doodle Art Accent Strip -->
+          ${doodleArt?.src ? `
+            <div class="itinerary-doodle-banner flex items-center justify-center py-1 opacity-70 hover:opacity-100 transition-opacity">
+              <img src="${esc(doodleArt.src)}" alt="${esc(doodleArt.title || 'Art')}" class="h-10 w-auto max-w-[280px] object-contain select-none pointer-events-none filter drop-shadow-xs" />
+            </div>
+          ` : ''}
+
+          <!-- Quick Expedition Meta Badges -->
+          <div class="flex flex-wrap items-center justify-between gap-2 mt-2 pt-2 border-t border-dashed border-outline-variant/30 text-[11px] font-mono text-on-surface-variant">
+            <span class="flex items-center gap-1"><span class="text-secondary font-bold">📅</span> ${itinerary.days.length} Days</span>
+            <span class="flex items-center gap-1"><span class="text-secondary font-bold">👥</span> ${trip.travelers || 2} Travelers</span>
+            <span class="flex items-center gap-1"><span class="text-secondary font-bold">💰</span> ${trip.budgetTier ? trip.budgetTier.toUpperCase() : 'MODERATE'}</span>
           </div>
         </div>
       `;

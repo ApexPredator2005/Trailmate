@@ -425,20 +425,23 @@
 @media print {
   /* Set standard printable page margins */
   @page {
-    margin: 15mm 15mm 15mm 15mm;
+    margin: 12mm 14mm 14mm 14mm;
     size: portrait;
   }
 
-  /* Reset body and html flow */
+  /* Reset body and html flow with subtle tactile warm paper tint */
   html, body {
-    background: #ffffff !important;
-    color: #1a1a1a !important;
+    background: #FAF7F2 !important;
+    background-color: #FAF7F2 !important;
+    color: #2D1E14 !important;
     margin: 0 !important;
     padding: 0 !important;
     width: 100% !important;
     height: auto !important;
     min-height: 0 !important;
     overflow: visible !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
   }
 
   /* 1. Hide everything on the page by default when printing */
@@ -452,7 +455,7 @@
     visibility: visible !important;
   }
 
-  /* 3. Take #itineraryPane out of the flex/fixed layout and place it at the page origin */
+  /* 3. Take #itineraryPane out of the flex/fixed layout and format as a vintage travel journal page */
   #itineraryPane {
     position: absolute !important;
     left: 0 !important;
@@ -463,13 +466,19 @@
     height: auto !important;
     min-height: 0 !important;
     overflow: visible !important;
-    border: none !important;
-    background: #ffffff !important;
-    padding: 0 !important;
+    background-color: #FAF7F2 !important;
+    background-image: radial-gradient(#d3c7b6 0.75px, transparent 0.75px), radial-gradient(#d3c7b6 0.75px, #FAF7F2 0.75px) !important;
+    background-size: 16px 16px !important;
+    background-position: 0 0, 8px 8px !important;
+    border: 2px solid #8B4A28 !important;
+    border-radius: 12px !important;
+    padding: 16px 20px !important;
     margin: 0 !important;
     box-shadow: none !important;
     display: block !important;
     z-index: 999999 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
   }
 
   /* 4. Hide interactive widgets inside #itineraryPane during print */
@@ -487,27 +496,36 @@
     visibility: hidden !important;
   }
 
-  /* 5. Clean Itinerary Header Bar */
+  /* 5. Clean Itinerary Header Bar — replaced with journal book style */
   #itineraryPane > div:first-child {
-    position: static !important;
-    border-bottom: 2px solid #944A1A !important;
-    padding: 8px 0 14px 0 !important;
-    margin-bottom: 20px !important;
-    background: transparent !important;
-    display: flex !important;
-    justify-content: space-between !important;
-    align-items: center !important;
+    display: none !important;
+  }
+
+  /* 6. Journal Hero Header Block */
+  .itinerary-journal-hero {
+    border: 1.5px solid #C4973B !important;
+    background: #FFFDF9 !important;
+    box-shadow: none !important;
+    padding: 16px 18px !important;
+    margin-bottom: 24px !important;
+    border-radius: 10px !important;
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
   }
 
-  #itineraryPane > div:first-child h3 {
-    font-size: 22pt !important;
-    font-family: serif !important;
+  .itinerary-journal-hero h4 {
     color: #2D1E14 !important;
+    font-size: 18pt !important;
   }
 
-  /* 6. Timeline body container */
+  .itinerary-doodle-banner img {
+    max-height: 44px !important;
+    opacity: 0.85 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* 7. Timeline body container */
   #itineraryBody {
     overflow: visible !important;
     height: auto !important;
@@ -516,16 +534,16 @@
     display: block !important;
   }
 
-  /* 7. Passport Stamp styling */
+  /* 8. Passport Stamp styling */
   .passport-stamp {
-    border: 2px dashed #944A1A !important;
-    background: rgba(148, 74, 26, 0.05) !important;
+    border: 2px dashed #8B4A28 !important;
+    background: rgba(139, 74, 40, 0.08) !important;
+    color: #8B4A28 !important;
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
-    margin-bottom: 22px !important;
   }
 
-  /* 8. Prevent awkward page breaks across itinerary days and cards */
+  /* 9. Prevent awkward page breaks across itinerary days and cards */
   .itinerary-day,
   [role="region"][aria-label^="Day"],
   .itinerary-stop,
@@ -533,12 +551,13 @@
   .itinerary-hotel-confirmed {
     break-inside: avoid !important;
     page-break-inside: avoid !important;
-    margin-bottom: 18px !important;
+    margin-bottom: 16px !important;
   }
 
   /* Stop cards styling for clean print */
   #itineraryBody .bg-surface-container-lowest {
-    border: 1px solid #DDD6CE !important;
+    border: 1px solid #D5C8B8 !important;
+    background: #FFFFFF !important;
     box-shadow: none !important;
     border-radius: 8px !important;
     padding: 12px 14px !important;
@@ -555,10 +574,12 @@
 
   /* Budget summary card styling */
   #itineraryBody .bg-surface-container-low {
-    border: 1px solid #D8CEBE !important;
-    background: #FAF7F2 !important;
+    border: 1.5px solid #8B4A28 !important;
+    background: #FFFDF9 !important;
     break-inside: avoid !important;
     page-break-inside: avoid !important;
+    border-radius: 10px !important;
+    padding: 16px !important;
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
   }
