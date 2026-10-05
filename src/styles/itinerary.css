@@ -449,11 +449,14 @@
   body:not(.is-printing-scrapbook) .split-resizer,
   body:not(.is-printing-scrapbook) #fullViewSection,
   body:not(.is-printing-scrapbook) #appModal,
+  body:not(.is-printing-scrapbook) #mapPreview,
   body:not(.is-printing-scrapbook) .itinerary-map-preview,
   body:not(.is-printing-scrapbook) #itineraryMapPreview,
   body:not(.is-printing-scrapbook) .itinerary-day-toggle,
   body:not(.is-printing-scrapbook) .itinerary-stop-swap-btn,
+  body:not(.is-printing-scrapbook) .btn-swap-stop,
   body:not(.is-printing-scrapbook) .itinerary-day-add-btn,
+  body:not(.is-printing-scrapbook) .btn-add-activity,
   body:not(.is-printing-scrapbook) #itineraryExportSection,
   body:not(.is-printing-scrapbook) .itinerary-panel-export {
     display: none !important;

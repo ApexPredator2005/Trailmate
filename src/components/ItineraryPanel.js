@@ -141,7 +141,8 @@ export class ItineraryPanel {
 
       // ── 1c. Action Section: Export, Print & Download Itinerary ────────────
       const exportSection = document.createElement('div');
-      exportSection.className = 'mt-5 mb-8 space-y-2.5 animate-fadeIn';
+      exportSection.id = 'itineraryExportSection';
+      exportSection.className = 'itinerary-panel-export mt-5 mb-8 space-y-2.5 animate-fadeIn';
       exportSection.innerHTML = `
         <div class="flex items-center justify-between text-[11px] font-mono font-bold text-on-surface-variant uppercase tracking-wider px-1">
           <span>Export &amp; Download</span>
