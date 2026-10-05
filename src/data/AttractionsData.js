@@ -1,6 +1,6 @@
 /**
- * AttractionsData.js — Curated verified sights with geo-coordinates and multi-photo galleries.
- * 14 authentic attractions per destination with verified latitude/longitude and high-res photography.
+ * AttractionsData.js — Curated verified sights with geo-coordinates and authentic multi-photo galleries.
+ * Verified local embedded assets with real photography.
  */
 
 export const CURATED_ATTRACTIONS = {
@@ -14,11 +14,10 @@ export const CURATED_ATTRACTIONS = {
       "category": "Heritage Tea",
       "lat": 11.408,
       "lng": 76.735,
-      "photo": "https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=1200&q=82",
+      "photo": "/images/attractions/ooty/tea-museum-1.jpg",
       "photos": [
-        "https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?auto=format&fit=crop&w=1200&q=82"
+        "/images/attractions/ooty/tea-museum-1.jpg",
+        "/images/attractions/ooty/tea-museum-2.jpg"
       ]
     },
     {
@@ -30,11 +29,11 @@ export const CURATED_ATTRACTIONS = {
       "category": "Alpine Lake",
       "lat": 11.3,
       "lng": 76.592,
-      "photo": "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=82",
+      "photo": "/images/attractions/ooty/avalanche-lake-1.jpg",
       "photos": [
-        "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1432405972618-c60b0225b8f9?auto=format&fit=crop&w=1200&q=82"
+        "/images/attractions/ooty/avalanche-lake-1.jpg",
+        "/images/attractions/ooty/avalanche-lake-2.jpg",
+        "/images/attractions/ooty/avalanche-lake-3.jpg"
       ]
     },
     {
@@ -46,11 +45,11 @@ export const CURATED_ATTRACTIONS = {
       "category": "Botanical Garden",
       "lat": 11.418,
       "lng": 76.7115,
-      "photo": "https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?auto=format&fit=crop&w=1200&q=82",
+      "photo": "/images/attractions/ooty/botanical-gardens-1.jpg",
       "photos": [
-        "https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=82"
+        "/images/attractions/ooty/botanical-gardens-1.jpg",
+        "/images/attractions/ooty/botanical-gardens-2.jpg",
+        "/images/attractions/ooty/botanical-gardens-3.jpg"
       ]
     },
     {
@@ -62,11 +61,11 @@ export const CURATED_ATTRACTIONS = {
       "category": "Vantage Peak",
       "lat": 11.401,
       "lng": 76.7355,
-      "photo": "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1200&q=82",
+      "photo": "/images/attractions/ooty/doddabetta-peak-1.jpg",
       "photos": [
-        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1200&q=82"
+        "/images/attractions/ooty/doddabetta-peak-1.jpg",
+        "/images/attractions/ooty/doddabetta-peak-2.jpg",
+        "/images/attractions/ooty/doddabetta-peak-3.jpg"
       ]
     },
     {
@@ -78,11 +77,11 @@ export const CURATED_ATTRACTIONS = {
       "category": "Heritage Train",
       "lat": 11.406,
       "lng": 76.702,
-      "photo": "https://images.unsplash.com/photo-1513836279014-a89f7a76ae86?auto=format&fit=crop&w=1200&q=82",
+      "photo": "/images/attractions/ooty/toy-train-1.jpg",
       "photos": [
-        "https://images.unsplash.com/photo-1513836279014-a89f7a76ae86?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1200&q=82"
+        "/images/attractions/ooty/toy-train-1.jpg",
+        "/images/attractions/ooty/toy-train-2.jpg",
+        "/images/attractions/ooty/toy-train-3.jpg"
       ]
     },
     {
@@ -94,11 +93,11 @@ export const CURATED_ATTRACTIONS = {
       "category": "Waterfalls",
       "lat": 11.474,
       "lng": 76.594,
-      "photo": "https://images.unsplash.com/photo-1432405972618-c60b0225b8f9?auto=format&fit=crop&w=1200&q=82",
+      "photo": "/images/attractions/ooty/pykara-falls-1.jpg",
       "photos": [
-        "https://images.unsplash.com/photo-1432405972618-c60b0225b8f9?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1200&q=82"
+        "/images/attractions/ooty/pykara-falls-1.jpg",
+        "/images/attractions/ooty/pykara-falls-2.jpg",
+        "/images/attractions/ooty/pykara-falls-3.jpg"
       ]
     },
     {
@@ -110,11 +109,11 @@ export const CURATED_ATTRACTIONS = {
       "category": "Boathouse",
       "lat": 11.405,
       "lng": 76.688,
-      "photo": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=82",
+      "photo": "/images/attractions/ooty/ooty-lake-1.jpg",
       "photos": [
-        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1200&q=82"
+        "/images/attractions/ooty/ooty-lake-1.jpg",
+        "/images/attractions/ooty/ooty-lake-2.jpg",
+        "/images/attractions/ooty/ooty-lake-3.jpg"
       ]
     },
     {
@@ -126,11 +125,11 @@ export const CURATED_ATTRACTIONS = {
       "category": "Rose Garden",
       "lat": 11.4045,
       "lng": 76.7125,
-      "photo": "https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?auto=format&fit=crop&w=1200&q=82",
+      "photo": "/images/attractions/ooty/rose-garden-1.jpg",
       "photos": [
-        "https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1200&q=82"
+        "/images/attractions/ooty/rose-garden-1.jpg",
+        "/images/attractions/ooty/rose-garden-2.jpg",
+        "/images/attractions/ooty/rose-garden-3.jpg"
       ]
     },
     {
@@ -142,11 +141,11 @@ export const CURATED_ATTRACTIONS = {
       "category": "Turquoise Lake",
       "lat": 11.328,
       "lng": 76.621,
-      "photo": "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=82",
+      "photo": "/images/attractions/ooty/emerald-lake-1.jpg",
       "photos": [
-        "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1200&q=82"
+        "/images/attractions/ooty/emerald-lake-1.jpg",
+        "/images/attractions/ooty/emerald-lake-2.jpg",
+        "/images/attractions/ooty/emerald-lake-3.jpg"
       ]
     },
     {
@@ -158,11 +157,11 @@ export const CURATED_ATTRACTIONS = {
       "category": "Pine Woods",
       "lat": 11.432,
       "lng": 76.662,
-      "photo": "https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1200&q=82",
+      "photo": "/images/attractions/ooty/pine-forest-1.jpg",
       "photos": [
-        "https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1511497584788-87676104235f?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=82"
+        "/images/attractions/ooty/pine-forest-1.jpg",
+        "/images/attractions/ooty/pine-forest-2.jpg",
+        "/images/attractions/ooty/pine-forest-3.jpg"
       ]
     },
     {
@@ -174,11 +173,11 @@ export const CURATED_ATTRACTIONS = {
       "category": "Shooting Meadows",
       "lat": 11.446,
       "lng": 76.641,
-      "photo": "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1200&q=82",
+      "photo": "/images/attractions/ooty/wenlock-downs-1.jpg",
       "photos": [
-        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=1200&q=82"
+        "/images/attractions/ooty/wenlock-downs-1.jpg",
+        "/images/attractions/ooty/wenlock-downs-2.jpg",
+        "/images/attractions/ooty/wenlock-downs-3.jpg"
       ]
     },
     {
@@ -190,27 +189,27 @@ export const CURATED_ATTRACTIONS = {
       "category": "Wildlife Sanctuary",
       "lat": 11.584,
       "lng": 76.581,
-      "photo": "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=1200&q=82",
+      "photo": "/images/attractions/ooty/mudumalai-safari-1.jpg",
       "photos": [
-        "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=82"
+        "/images/attractions/ooty/mudumalai-safari-1.jpg",
+        "/images/attractions/ooty/mudumalai-safari-2.jpg",
+        "/images/attractions/ooty/mudumalai-safari-3.jpg"
       ]
     },
     {
       "id": "pl-ooty-a13",
-      "name": "St. Stephen\u2019s Colonial Church",
+      "name": "St. Stephen’s Colonial Church",
       "formattedAddress": "Upper Bazaar Road, Ooty, Tamil Nadu 643001",
-      "description": "Built in 1829 with stained glass windows and timber beams from Tipu Sultan\u2019s palace.",
+      "description": "Built in 1829 with stained glass windows and timber beams from Tipu Sultan’s palace.",
       "rating": 4.6,
       "category": "Colonial Church",
       "lat": 11.4135,
       "lng": 76.7035,
-      "photo": "https://images.unsplash.com/photo-1590077428593-a55bb07c4665?auto=format&fit=crop&w=1200&q=82",
+      "photo": "/images/attractions/ooty/st-stephens-church-1.jpg",
       "photos": [
-        "https://images.unsplash.com/photo-1590077428593-a55bb07c4665?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1582719508461-905c673771fd?auto=format&fit=crop&w=1200&q=82"
+        "/images/attractions/ooty/st-stephens-church-1.jpg",
+        "/images/attractions/ooty/st-stephens-church-2.jpg",
+        "/images/attractions/ooty/st-stephens-church-3.jpg"
       ]
     },
     {
@@ -222,15 +221,32 @@ export const CURATED_ATTRACTIONS = {
       "category": "Cliff Viewpoint",
       "lat": 11.492,
       "lng": 76.529,
-      "photo": "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1200&q=82",
+      "photo": "/images/attractions/ooty/needle-rock-1.jpg",
       "photos": [
-        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1200&q=82"
+        "/images/attractions/ooty/needle-rock-1.jpg",
+        "/images/attractions/ooty/needle-rock-2.jpg",
+        "/images/attractions/ooty/needle-rock-3.jpg"
       ]
     }
   ],
   "goa": [
+    {
+      "id": "pl-goa-sinquerim",
+      "name": "Sinquerim Fort",
+      "formattedAddress": "Sinquerim, Candolim, Goa 403515",
+      "description": "17th-century coastal bastion and fortress walls flanking Sinquerim Beach, extending the Aguada fortifications.",
+      "rating": 4.6,
+      "category": "Portuguese Bastion",
+      "lat": 15.4985,
+      "lng": 73.7664,
+      "photo": "/images/attractions/goa/sinquerim-fort-1.jpg",
+      "photos": [
+        "/images/attractions/goa/sinquerim-fort-1.jpg",
+        "/images/attractions/goa/sinquerim-fort-2.jpg",
+        "/images/attractions/goa/sinquerim-fort-3.jpg",
+        "/images/attractions/goa/sinquerim-fort-4.jpg"
+      ]
+    },
     {
       "id": "pl-goa-a1",
       "name": "Aguada Fort & Lighthouse",
@@ -240,11 +256,11 @@ export const CURATED_ATTRACTIONS = {
       "category": "Coastal Fort",
       "lat": 15.4923,
       "lng": 73.7737,
-      "photo": "https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?auto=format&fit=crop&w=1200&q=82",
+      "photo": "/images/attractions/goa/aguada-fort-1.jpg",
       "photos": [
-        "https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=1200&q=82"
+        "/images/attractions/goa/aguada-fort-1.jpg",
+        "/images/attractions/goa/aguada-fort-2.jpg",
+        "/images/attractions/goa/aguada-fort-3.jpg"
       ]
     },
     {
@@ -256,11 +272,11 @@ export const CURATED_ATTRACTIONS = {
       "category": "Cascading Falls",
       "lat": 15.3144,
       "lng": 74.3143,
-      "photo": "https://images.unsplash.com/photo-1432405972618-c60b0225b8f9?auto=format&fit=crop&w=1200&q=82",
+      "photo": "/images/attractions/goa/dudhsagar-waterfalls-1.jpg",
       "photos": [
-        "https://images.unsplash.com/photo-1432405972618-c60b0225b8f9?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1200&q=82"
+        "/images/attractions/goa/dudhsagar-waterfalls-1.jpg",
+        "/images/attractions/goa/dudhsagar-waterfalls-2.jpg",
+        "/images/attractions/goa/dudhsagar-waterfalls-3.jpg"
       ]
     },
     {
@@ -272,11 +288,11 @@ export const CURATED_ATTRACTIONS = {
       "category": "UNESCO Basilica",
       "lat": 15.5008,
       "lng": 73.9116,
-      "photo": "https://images.unsplash.com/photo-1590077428593-a55bb07c4665?auto=format&fit=crop&w=1200&q=82",
+      "photo": "/images/attractions/goa/basilica-bom-jesus-1.jpg",
       "photos": [
-        "https://images.unsplash.com/photo-1590077428593-a55bb07c4665?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1582719508461-905c673771fd?auto=format&fit=crop&w=1200&q=82"
+        "/images/attractions/goa/basilica-bom-jesus-1.jpg",
+        "/images/attractions/goa/basilica-bom-jesus-2.jpg",
+        "/images/attractions/goa/basilica-bom-jesus-3.jpg"
       ]
     },
     {
@@ -288,11 +304,11 @@ export const CURATED_ATTRACTIONS = {
       "category": "Rampart View",
       "lat": 15.6046,
       "lng": 73.737,
-      "photo": "https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?auto=format&fit=crop&w=1200&q=82",
+      "photo": "/images/attractions/goa/chapora-fort-1.jpg",
       "photos": [
-        "https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1200&q=82"
+        "/images/attractions/goa/chapora-fort-1.jpg",
+        "/images/attractions/goa/chapora-fort-2.jpg",
+        "/images/attractions/goa/chapora-fort-3.jpg"
       ]
     },
     {
@@ -304,11 +320,11 @@ export const CURATED_ATTRACTIONS = {
       "category": "Bohemian Market",
       "lat": 15.579,
       "lng": 73.744,
-      "photo": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=82",
+      "photo": "/images/attractions/goa/anjuna-beach-1.jpg",
       "photos": [
-        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1513836279014-a89f7a76ae86?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1200&q=82"
+        "/images/attractions/goa/anjuna-beach-1.jpg",
+        "/images/attractions/goa/anjuna-beach-2.jpg",
+        "/images/attractions/goa/anjuna-beach-3.jpg"
       ]
     },
     {
@@ -320,27 +336,27 @@ export const CURATED_ATTRACTIONS = {
       "category": "Crescent Beach",
       "lat": 15.01,
       "lng": 74.0232,
-      "photo": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=82",
+      "photo": "/images/attractions/goa/palolem-beach-1.jpg",
       "photos": [
-        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?auto=format&fit=crop&w=1200&q=82"
+        "/images/attractions/goa/palolem-beach-1.jpg",
+        "/images/attractions/goa/palolem-beach-2.jpg",
+        "/images/attractions/goa/palolem-beach-3.jpg"
       ]
     },
     {
       "id": "pl-goa-a7",
       "name": "Fontainhas Latin Quarter",
       "formattedAddress": "Panaji, Goa 403001",
-      "description": "Asia\u2019s only Latin quarter featuring vibrant pastel Portuguese villas and heritage bakeries.",
+      "description": "Asia’s only Latin quarter featuring vibrant pastel Portuguese villas and heritage bakeries.",
       "rating": 4.7,
       "category": "Heritage Latin Quarter",
       "lat": 15.4989,
       "lng": 73.8322,
-      "photo": "https://images.unsplash.com/photo-1513836279014-a89f7a76ae86?auto=format&fit=crop&w=1200&q=82",
+      "photo": "/images/attractions/goa/fontainhas-1.jpg",
       "photos": [
-        "https://images.unsplash.com/photo-1513836279014-a89f7a76ae86?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=1200&q=82"
+        "/images/attractions/goa/fontainhas-1.jpg",
+        "/images/attractions/goa/fontainhas-2.jpg",
+        "/images/attractions/goa/fontainhas-3.jpg"
       ]
     },
     {
@@ -352,11 +368,11 @@ export const CURATED_ATTRACTIONS = {
       "category": "Cliff Fortress",
       "lat": 15.0888,
       "lng": 73.9216,
-      "photo": "https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?auto=format&fit=crop&w=1200&q=82",
+      "photo": "/images/attractions/goa/cabo-de-rama-1.jpg",
       "photos": [
-        "https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1200&q=82"
+        "/images/attractions/goa/cabo-de-rama-1.jpg",
+        "/images/attractions/goa/cabo-de-rama-2.jpg",
+        "/images/attractions/goa/cabo-de-rama-3.jpg"
       ]
     },
     {
@@ -368,11 +384,11 @@ export const CURATED_ATTRACTIONS = {
       "category": "Cathedral",
       "lat": 15.5034,
       "lng": 73.9126,
-      "photo": "https://images.unsplash.com/photo-1590077428593-a55bb07c4665?auto=format&fit=crop&w=1200&q=82",
+      "photo": "/images/attractions/goa/se-cathedral-1.jpg",
       "photos": [
-        "https://images.unsplash.com/photo-1590077428593-a55bb07c4665?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1582719508461-905c673771fd?auto=format&fit=crop&w=1200&q=82"
+        "/images/attractions/goa/se-cathedral-1.jpg",
+        "/images/attractions/goa/se-cathedral-2.jpg",
+        "/images/attractions/goa/se-cathedral-3.jpg"
       ]
     },
     {
@@ -384,11 +400,11 @@ export const CURATED_ATTRACTIONS = {
       "category": "River Fort",
       "lat": 15.5015,
       "lng": 73.808,
-      "photo": "https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?auto=format&fit=crop&w=1200&q=82",
+      "photo": "/images/attractions/goa/reis-magos-1.jpg",
       "photos": [
-        "https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=82"
+        "/images/attractions/goa/reis-magos-1.jpg",
+        "/images/attractions/goa/reis-magos-2.jpg",
+        "/images/attractions/goa/reis-magos-3.jpg"
       ]
     },
     {
@@ -400,11 +416,11 @@ export const CURATED_ATTRACTIONS = {
       "category": "Mangrove Sanctuary",
       "lat": 15.5186,
       "lng": 73.8711,
-      "photo": "https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1200&q=82",
+      "photo": "/images/attractions/goa/salim-ali-bird-sanctuary-1.jpg",
       "photos": [
-        "https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1432405972618-c60b0225b8f9?auto=format&fit=crop&w=1200&q=82"
+        "/images/attractions/goa/salim-ali-bird-sanctuary-1.jpg",
+        "/images/attractions/goa/salim-ali-bird-sanctuary-2.jpg",
+        "/images/attractions/goa/salim-ali-bird-sanctuary-3.jpg"
       ]
     },
     {
@@ -416,11 +432,11 @@ export const CURATED_ATTRACTIONS = {
       "category": "Bustling Beach",
       "lat": 15.5553,
       "lng": 73.7517,
-      "photo": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=82",
+      "photo": "/images/attractions/goa/baga-beach-1.jpg",
       "photos": [
-        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1200&q=82"
+        "/images/attractions/goa/baga-beach-1.jpg",
+        "/images/attractions/goa/baga-beach-2.jpg",
+        "/images/attractions/goa/baga-beach-3.jpg"
       ]
     },
     {
@@ -432,11 +448,11 @@ export const CURATED_ATTRACTIONS = {
       "category": "Spice Plantation",
       "lat": 15.4055,
       "lng": 74.0267,
-      "photo": "https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=1200&q=82",
+      "photo": "/images/attractions/goa/dudhsagar-waterfalls-1.jpg",
       "photos": [
-        "https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1200&q=82"
+        "/images/attractions/goa/dudhsagar-waterfalls-1.jpg",
+        "/images/attractions/goa/dudhsagar-waterfalls-2.jpg",
+        "/images/attractions/goa/dudhsagar-waterfalls-3.jpg"
       ]
     },
     {
@@ -448,11 +464,11 @@ export const CURATED_ATTRACTIONS = {
       "category": "Sweet Lagoon",
       "lat": 15.6869,
       "lng": 73.7042,
-      "photo": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=82",
+      "photo": "/images/attractions/goa/arambol-beach-1.jpg",
       "photos": [
-        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1200&q=82"
+        "/images/attractions/goa/arambol-beach-1.jpg",
+        "/images/attractions/goa/arambol-beach-2.jpg",
+        "/images/attractions/goa/arambol-beach-3.jpg"
       ]
     }
   ],
@@ -466,11 +482,11 @@ export const CURATED_ATTRACTIONS = {
       "category": "Pagoda Temple",
       "lat": 32.2483,
       "lng": 77.1802,
-      "photo": "https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?auto=format&fit=crop&w=1200&q=82",
+      "photo": "/images/attractions/manali/hadimba-temple-1.jpg",
       "photos": [
-        "https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1605649487212-47bdab064df7?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1590077428593-a55bb07c4665?auto=format&fit=crop&w=1200&q=82"
+        "/images/attractions/manali/hadimba-temple-1.jpg",
+        "/images/attractions/manali/hadimba-temple-2.jpg",
+        "/images/attractions/manali/hadimba-temple-3.jpg"
       ]
     },
     {
@@ -482,11 +498,11 @@ export const CURATED_ATTRACTIONS = {
       "category": "Adventure Valley",
       "lat": 32.316,
       "lng": 77.158,
-      "photo": "https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=1200&q=82",
+      "photo": "/images/attractions/manali/solang-valley-1.jpg",
       "photos": [
-        "https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1200&q=82"
+        "/images/attractions/manali/solang-valley-1.jpg",
+        "/images/attractions/manali/solang-valley-2.jpg",
+        "/images/attractions/manali/solang-valley-3.jpg"
       ]
     },
     {
@@ -498,11 +514,11 @@ export const CURATED_ATTRACTIONS = {
       "category": "Waterfall Trail",
       "lat": 32.269,
       "lng": 77.195,
-      "photo": "https://images.unsplash.com/photo-1432405972618-c60b0225b8f9?auto=format&fit=crop&w=1200&q=82",
+      "photo": "/images/attractions/manali/jogini-waterfalls-1.jpg",
       "photos": [
-        "https://images.unsplash.com/photo-1432405972618-c60b0225b8f9?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1511497584788-87676104235f?auto=format&fit=crop&w=1200&q=82"
+        "/images/attractions/manali/jogini-waterfalls-1.jpg",
+        "/images/attractions/manali/jogini-waterfalls-2.jpg",
+        "/images/attractions/manali/jogini-waterfalls-3.jpg"
       ]
     },
     {
@@ -514,11 +530,11 @@ export const CURATED_ATTRACTIONS = {
       "category": "Thermal Springs",
       "lat": 32.2645,
       "lng": 77.193,
-      "photo": "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=1200&q=82",
+      "photo": "/images/attractions/manali/vashisht-temple-1.jpg",
       "photos": [
-        "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1584132967334-10e028bd69f7?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=82"
+        "/images/attractions/manali/vashisht-temple-1.jpg",
+        "/images/attractions/manali/vashisht-temple-2.jpg",
+        "/images/attractions/manali/vashisht-temple-3.jpg"
       ]
     },
     {
@@ -530,11 +546,11 @@ export const CURATED_ATTRACTIONS = {
       "category": "Bohemian Village",
       "lat": 32.253,
       "lng": 77.178,
-      "photo": "https://images.unsplash.com/photo-1513836279014-a89f7a76ae86?auto=format&fit=crop&w=1200&q=82",
+      "photo": "/images/attractions/manali/manu-temple-1.jpg",
       "photos": [
-        "https://images.unsplash.com/photo-1513836279014-a89f7a76ae86?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1578632767115-351597cf2477?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1200&q=82"
+        "/images/attractions/manali/manu-temple-1.jpg",
+        "/images/attractions/manali/manu-temple-2.jpg",
+        "/images/attractions/manali/manu-temple-3.jpg"
       ]
     },
     {
@@ -546,11 +562,11 @@ export const CURATED_ATTRACTIONS = {
       "category": "Folk Art Museum",
       "lat": 32.2492,
       "lng": 77.182,
-      "photo": "https://images.unsplash.com/photo-1566127444979-b3d2b654e3d7?auto=format&fit=crop&w=1200&q=82",
+      "photo": "/images/attractions/manali/himachal-museum-1.jpg",
       "photos": [
-        "https://images.unsplash.com/photo-1566127444979-b3d2b654e3d7?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1582555172866-f73bb12a2ab3?auto=format&fit=crop&w=1200&q=82"
+        "/images/attractions/manali/himachal-museum-1.jpg",
+        "/images/attractions/manali/himachal-museum-2.jpg",
+        "/images/attractions/manali/himachal-museum-3.jpg"
       ]
     },
     {
@@ -562,11 +578,11 @@ export const CURATED_ATTRACTIONS = {
       "category": "Pine Riverbank",
       "lat": 32.2395,
       "lng": 77.188,
-      "photo": "https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1200&q=82",
+      "photo": "/images/attractions/manali/van-vihar-1.jpg",
       "photos": [
-        "https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=1200&q=82"
+        "/images/attractions/manali/van-vihar-1.jpg",
+        "/images/attractions/manali/van-vihar-2.jpg",
+        "/images/attractions/manali/van-vihar-3.jpg"
       ]
     },
     {
@@ -578,27 +594,27 @@ export const CURATED_ATTRACTIONS = {
       "category": "Heritage Castle",
       "lat": 32.118,
       "lng": 77.1685,
-      "photo": "https://images.unsplash.com/photo-1582719508461-905c673771fd?auto=format&fit=crop&w=1200&q=82",
+      "photo": "/images/attractions/manali/naggar-castle-1.jpg",
       "photos": [
-        "https://images.unsplash.com/photo-1582719508461-905c673771fd?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=1200&q=82"
+        "/images/attractions/manali/naggar-castle-1.jpg",
+        "/images/attractions/manali/naggar-castle-2.jpg",
+        "/images/attractions/manali/naggar-castle-3.jpg"
       ]
     },
     {
       "id": "pl-manali-a9",
       "name": "Atal Tunnel & Sissu Waterfall Gateway",
       "formattedAddress": "Atal Tunnel North Portal, Sissu, Lahaul 175140",
-      "description": "World\u2019s longest highway tunnel at 10,000 ft leading to dramatic high-altitude Sissu waterfalls.",
+      "description": "World’s longest highway tunnel at 10,000 ft leading to dramatic high-altitude Sissu waterfalls.",
       "rating": 4.9,
       "category": "High Altitude Tunnel",
       "lat": 32.364,
       "lng": 77.133,
-      "photo": "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1200&q=82",
+      "photo": "/images/attractions/manali/atal-tunnel-1.jpg",
       "photos": [
-        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=82"
+        "/images/attractions/manali/atal-tunnel-1.jpg",
+        "/images/attractions/manali/atal-tunnel-2.jpg",
+        "/images/attractions/manali/atal-tunnel-3.jpg"
       ]
     },
     {
@@ -610,11 +626,11 @@ export const CURATED_ATTRACTIONS = {
       "category": "Alpine Lake",
       "lat": 32.29,
       "lng": 77.209,
-      "photo": "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=82",
+      "photo": "/images/attractions/manali/bhrigu-lake-1.jpg",
       "photos": [
-        "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1200&q=82"
+        "/images/attractions/manali/bhrigu-lake-1.jpg",
+        "/images/attractions/manali/bhrigu-lake-2.jpg",
+        "/images/attractions/manali/bhrigu-lake-3.jpg"
       ]
     },
     {
@@ -626,11 +642,11 @@ export const CURATED_ATTRACTIONS = {
       "category": "Tibetan Gompa",
       "lat": 32.2415,
       "lng": 77.1895,
-      "photo": "https://images.unsplash.com/photo-1590077428593-a55bb07c4665?auto=format&fit=crop&w=1200&q=82",
+      "photo": "/images/attractions/manali/manu-temple-1.jpg",
       "photos": [
-        "https://images.unsplash.com/photo-1590077428593-a55bb07c4665?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1566127444979-b3d2b654e3d7?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1200&q=82"
+        "/images/attractions/manali/manu-temple-1.jpg",
+        "/images/attractions/manali/manu-temple-2.jpg",
+        "/images/attractions/manali/manu-temple-3.jpg"
       ]
     },
     {
@@ -642,11 +658,11 @@ export const CURATED_ATTRACTIONS = {
       "category": "Forest Falls",
       "lat": 32.14,
       "lng": 77.21,
-      "photo": "https://images.unsplash.com/photo-1432405972618-c60b0225b8f9?auto=format&fit=crop&w=1200&q=82",
+      "photo": "/images/attractions/manali/jogini-waterfalls-1.jpg",
       "photos": [
-        "https://images.unsplash.com/photo-1432405972618-c60b0225b8f9?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1200&q=82"
+        "/images/attractions/manali/jogini-waterfalls-1.jpg",
+        "/images/attractions/manali/jogini-waterfalls-2.jpg",
+        "/images/attractions/manali/jogini-waterfalls-3.jpg"
       ]
     },
     {
@@ -658,11 +674,11 @@ export const CURATED_ATTRACTIONS = {
       "category": "Trek Portal",
       "lat": 32.231,
       "lng": 77.205,
-      "photo": "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1200&q=82",
+      "photo": "/images/attractions/manali/hampta-pass-1.jpg",
       "photos": [
-        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=82"
+        "/images/attractions/manali/hampta-pass-1.jpg",
+        "/images/attractions/manali/hampta-pass-2.jpg",
+        "/images/attractions/manali/hampta-pass-3.jpg"
       ]
     },
     {
@@ -674,11 +690,11 @@ export const CURATED_ATTRACTIONS = {
       "category": "Mall Road",
       "lat": 32.242,
       "lng": 77.189,
-      "photo": "https://images.unsplash.com/photo-1513836279014-a89f7a76ae86?auto=format&fit=crop&w=1200&q=82",
+      "photo": "/images/attractions/manali/mall-road-1.jpg",
       "photos": [
-        "https://images.unsplash.com/photo-1513836279014-a89f7a76ae86?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1566127444979-b3d2b654e3d7?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=1200&q=82"
+        "/images/attractions/manali/mall-road-1.jpg",
+        "/images/attractions/manali/mall-road-2.jpg",
+        "/images/attractions/manali/mall-road-3.jpg"
       ]
     }
   ],
@@ -692,11 +708,11 @@ export const CURATED_ATTRACTIONS = {
       "category": "Royal Fort",
       "lat": 26.9855,
       "lng": 75.8513,
-      "photo": "https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=1200&q=82",
+      "photo": "/images/attractions/jaipur/amber-palace-1.jpg",
       "photos": [
-        "https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1582719508461-905c673771fd?auto=format&fit=crop&w=1200&q=82"
+        "/images/attractions/jaipur/amber-palace-1.jpg",
+        "/images/attractions/jaipur/amber-palace-2.jpg",
+        "/images/attractions/jaipur/amber-palace-3.jpg"
       ]
     },
     {
@@ -708,11 +724,11 @@ export const CURATED_ATTRACTIONS = {
       "category": "Palace of Winds",
       "lat": 26.9239,
       "lng": 75.8267,
-      "photo": "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&w=1200&q=82",
+      "photo": "/images/attractions/jaipur/hawa-mahal-1.jpg",
       "photos": [
-        "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=1200&q=82"
+        "/images/attractions/jaipur/hawa-mahal-1.jpg",
+        "/images/attractions/jaipur/hawa-mahal-2.jpg",
+        "/images/attractions/jaipur/hawa-mahal-3.jpg"
       ]
     },
     {
@@ -724,11 +740,11 @@ export const CURATED_ATTRACTIONS = {
       "category": "Royal Residence",
       "lat": 26.9258,
       "lng": 75.8237,
-      "photo": "https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=1200&q=82",
+      "photo": "/images/attractions/jaipur/city-palace-1.jpg",
       "photos": [
-        "https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1582719508461-905c673771fd?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&w=1200&q=82"
+        "/images/attractions/jaipur/city-palace-1.jpg",
+        "/images/attractions/jaipur/city-palace-2.jpg",
+        "/images/attractions/jaipur/city-palace-3.jpg"
       ]
     },
     {
@@ -740,11 +756,11 @@ export const CURATED_ATTRACTIONS = {
       "category": "Astronomical Observatory",
       "lat": 26.9248,
       "lng": 75.8246,
-      "photo": "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=1200&q=82",
+      "photo": "/images/attractions/jaipur/jantar-mantar-1.jpg",
       "photos": [
-        "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&w=1200&q=82"
+        "/images/attractions/jaipur/jantar-mantar-1.jpg",
+        "/images/attractions/jaipur/jantar-mantar-2.jpg",
+        "/images/attractions/jaipur/jantar-mantar-3.jpg"
       ]
     },
     {
@@ -756,27 +772,27 @@ export const CURATED_ATTRACTIONS = {
       "category": "Sunset Fort",
       "lat": 26.9373,
       "lng": 75.8155,
-      "photo": "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1200&q=82",
+      "photo": "/images/attractions/jaipur/nahargarh-fort-1.jpg",
       "photos": [
-        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&w=1200&q=82"
+        "/images/attractions/jaipur/nahargarh-fort-1.jpg",
+        "/images/attractions/jaipur/nahargarh-fort-2.jpg",
+        "/images/attractions/jaipur/nahargarh-fort-3.jpg"
       ]
     },
     {
       "id": "pl-jpr-a6",
       "name": "Jaigarh Fort & Jaivana Cannon",
       "formattedAddress": "Amer, Jaipur, Rajasthan 302028",
-      "description": "Imposing military fort housing the world\u2019s largest wheeled cannon and underground water reservoirs.",
+      "description": "Imposing military fort housing the world’s largest wheeled cannon and underground water reservoirs.",
       "rating": 4.5,
       "category": "Cannon Citadel",
       "lat": 26.9825,
       "lng": 75.845,
-      "photo": "https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=1200&q=82",
+      "photo": "/images/attractions/jaipur/jaigarh-fort-1.jpg",
       "photos": [
-        "https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1582719508461-905c673771fd?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1200&q=82"
+        "/images/attractions/jaipur/jaigarh-fort-1.jpg",
+        "/images/attractions/jaipur/jaigarh-fort-2.jpg",
+        "/images/attractions/jaipur/jaigarh-fort-3.jpg"
       ]
     },
     {
@@ -788,11 +804,11 @@ export const CURATED_ATTRACTIONS = {
       "category": "Water Palace",
       "lat": 26.9534,
       "lng": 75.8462,
-      "photo": "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=82",
+      "photo": "/images/attractions/jaipur/jal-mahal-1.jpg",
       "photos": [
-        "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&w=1200&q=82"
+        "/images/attractions/jaipur/jal-mahal-1.jpg",
+        "/images/attractions/jaipur/jal-mahal-2.jpg",
+        "/images/attractions/jaipur/jal-mahal-3.jpg"
       ]
     },
     {
@@ -804,11 +820,11 @@ export const CURATED_ATTRACTIONS = {
       "category": "Central Museum",
       "lat": 26.9116,
       "lng": 75.8195,
-      "photo": "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=1200&q=82",
+      "photo": "/images/attractions/jaipur/albert-hall-1.jpg",
       "photos": [
-        "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1582719508461-905c673771fd?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&w=1200&q=82"
+        "/images/attractions/jaipur/albert-hall-1.jpg",
+        "/images/attractions/jaipur/albert-hall-2.jpg",
+        "/images/attractions/jaipur/albert-hall-3.jpg"
       ]
     },
     {
@@ -820,11 +836,11 @@ export const CURATED_ATTRACTIONS = {
       "category": "Monkey Temple",
       "lat": 26.916,
       "lng": 75.8655,
-      "photo": "https://images.unsplash.com/photo-1590077428593-a55bb07c4665?auto=format&fit=crop&w=1200&q=82",
+      "photo": "/images/attractions/jaipur/galtaji-temple-1.jpg",
       "photos": [
-        "https://images.unsplash.com/photo-1590077428593-a55bb07c4665?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=1200&q=82"
+        "/images/attractions/jaipur/galtaji-temple-1.jpg",
+        "/images/attractions/jaipur/galtaji-temple-2.jpg",
+        "/images/attractions/jaipur/galtaji-temple-3.jpg"
       ]
     },
     {
@@ -836,11 +852,11 @@ export const CURATED_ATTRACTIONS = {
       "category": "Symmetric Stepwell",
       "lat": 26.988,
       "lng": 75.857,
-      "photo": "https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=1200&q=82",
+      "photo": "/images/attractions/jaipur/panna-meena-kund-1.jpg",
       "photos": [
-        "https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1582719508461-905c673771fd?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=1200&q=82"
+        "/images/attractions/jaipur/panna-meena-kund-1.jpg",
+        "/images/attractions/jaipur/panna-meena-kund-2.jpg",
+        "/images/attractions/jaipur/panna-meena-kund-3.jpg"
       ]
     },
     {
@@ -852,11 +868,11 @@ export const CURATED_ATTRACTIONS = {
       "category": "Marble Temple",
       "lat": 26.892,
       "lng": 75.815,
-      "photo": "https://images.unsplash.com/photo-1590077428593-a55bb07c4665?auto=format&fit=crop&w=1200&q=82",
+      "photo": "/images/attractions/jaipur/birla-mandir-1.jpg",
       "photos": [
-        "https://images.unsplash.com/photo-1590077428593-a55bb07c4665?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1582719508461-905c673771fd?auto=format&fit=crop&w=1200&q=82"
+        "/images/attractions/jaipur/birla-mandir-1.jpg",
+        "/images/attractions/jaipur/birla-mandir-2.jpg",
+        "/images/attractions/jaipur/birla-mandir-3.jpg"
       ]
     },
     {
@@ -868,11 +884,11 @@ export const CURATED_ATTRACTIONS = {
       "category": "Terraced Palace Garden",
       "lat": 26.891,
       "lng": 75.861,
-      "photo": "https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?auto=format&fit=crop&w=1200&q=82",
+      "photo": "/images/attractions/jaipur/sisodia-rani-garden-1.jpg",
       "photos": [
-        "https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1200&q=82"
+        "/images/attractions/jaipur/sisodia-rani-garden-1.jpg",
+        "/images/attractions/jaipur/sisodia-rani-garden-2.jpg",
+        "/images/attractions/jaipur/sisodia-rani-garden-3.jpg"
       ]
     },
     {
@@ -884,27 +900,27 @@ export const CURATED_ATTRACTIONS = {
       "category": "Heritage Bazaar",
       "lat": 26.92,
       "lng": 75.822,
-      "photo": "https://images.unsplash.com/photo-1513836279014-a89f7a76ae86?auto=format&fit=crop&w=1200&q=82",
+      "photo": "/images/attractions/jaipur/johari-bazar-1.jpg",
       "photos": [
-        "https://images.unsplash.com/photo-1513836279014-a89f7a76ae86?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1566127444979-b3d2b654e3d7?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=1200&q=82"
+        "/images/attractions/jaipur/johari-bazar-1.jpg",
+        "/images/attractions/jaipur/johari-bazar-2.jpg",
+        "/images/attractions/jaipur/johari-bazar-3.jpg"
       ]
     },
     {
       "id": "pl-jpr-a14",
       "name": "Patrika Gate & Jawahar Circle",
       "formattedAddress": "Jawahar Circle, Malviya Nagar, Jaipur 302017",
-      "description": "Vibrantly hand-painted nine-arched monument celebrating Rajasthan\u2019s architectural traditions.",
+      "description": "Vibrantly hand-painted nine-arched monument celebrating Rajasthan’s architectural traditions.",
       "rating": 4.8,
       "category": "Painted Gate",
       "lat": 26.853,
       "lng": 75.8055,
-      "photo": "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&w=1200&q=82",
+      "photo": "/images/attractions/jaipur/patrika-gate-1.jpg",
       "photos": [
-        "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=1200&q=82"
+        "/images/attractions/jaipur/patrika-gate-1.jpg",
+        "/images/attractions/jaipur/patrika-gate-2.jpg",
+        "/images/attractions/jaipur/patrika-gate-3.jpg"
       ]
     }
   ],
@@ -918,11 +934,11 @@ export const CURATED_ATTRACTIONS = {
       "category": "Lakeside Palace",
       "lat": 24.5764,
       "lng": 73.6835,
-      "photo": "https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=1200&q=82",
+      "photo": "/images/attractions/udaipur/city-palace-1.jpg",
       "photos": [
-        "https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1582719508461-905c673771fd?auto=format&fit=crop&w=1200&q=82"
+        "/images/attractions/udaipur/city-palace-1.jpg",
+        "/images/attractions/udaipur/city-palace-2.jpg",
+        "/images/attractions/udaipur/city-palace-3.jpg"
       ]
     },
     {
@@ -934,11 +950,11 @@ export const CURATED_ATTRACTIONS = {
       "category": "Lake Pichola",
       "lat": 24.571,
       "lng": 73.676,
-      "photo": "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=82",
+      "photo": "/images/attractions/udaipur/lake-pichola-1.jpg",
       "photos": [
-        "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1582719508461-905c673771fd?auto=format&fit=crop&w=1200&q=82"
+        "/images/attractions/udaipur/lake-pichola-1.jpg",
+        "/images/attractions/udaipur/lake-pichola-2.jpg",
+        "/images/attractions/udaipur/lake-pichola-3.jpg"
       ]
     },
     {
@@ -950,11 +966,11 @@ export const CURATED_ATTRACTIONS = {
       "category": "Island Palace",
       "lat": 24.5678,
       "lng": 73.678,
-      "photo": "https://images.unsplash.com/photo-1582719508461-905c673771fd?auto=format&fit=crop&w=1200&q=82",
+      "photo": "/images/attractions/udaipur/jag-mandir-1.jpg",
       "photos": [
-        "https://images.unsplash.com/photo-1582719508461-905c673771fd?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=1200&q=82"
+        "/images/attractions/udaipur/jag-mandir-1.jpg",
+        "/images/attractions/udaipur/jag-mandir-2.jpg",
+        "/images/attractions/udaipur/jag-mandir-3.jpg"
       ]
     },
     {
@@ -966,11 +982,11 @@ export const CURATED_ATTRACTIONS = {
       "category": "Royal Garden",
       "lat": 24.603,
       "lng": 73.684,
-      "photo": "https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?auto=format&fit=crop&w=1200&q=82",
+      "photo": "/images/attractions/udaipur/saheliyon-ki-bari-1.jpg",
       "photos": [
-        "https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=1200&q=82"
+        "/images/attractions/udaipur/saheliyon-ki-bari-1.jpg",
+        "/images/attractions/udaipur/saheliyon-ki-bari-2.jpg",
+        "/images/attractions/udaipur/saheliyon-ki-bari-3.jpg"
       ]
     },
     {
@@ -982,11 +998,11 @@ export const CURATED_ATTRACTIONS = {
       "category": "Carved Temple",
       "lat": 24.5794,
       "lng": 73.6842,
-      "photo": "https://images.unsplash.com/photo-1590077428593-a55bb07c4665?auto=format&fit=crop&w=1200&q=82",
+      "photo": "/images/attractions/udaipur/jagdish-temple-1.jpg",
       "photos": [
-        "https://images.unsplash.com/photo-1590077428593-a55bb07c4665?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=1200&q=82"
+        "/images/attractions/udaipur/jagdish-temple-1.jpg",
+        "/images/attractions/udaipur/jagdish-temple-2.jpg",
+        "/images/attractions/udaipur/jagdish-temple-3.jpg"
       ]
     },
     {
@@ -998,11 +1014,11 @@ export const CURATED_ATTRACTIONS = {
       "category": "Cultural Haveli",
       "lat": 24.579,
       "lng": 73.68,
-      "photo": "https://images.unsplash.com/photo-1566127444979-b3d2b654e3d7?auto=format&fit=crop&w=1200&q=82",
+      "photo": "/images/attractions/udaipur/bagore-ki-haveli-1.jpg",
       "photos": [
-        "https://images.unsplash.com/photo-1566127444979-b3d2b654e3d7?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=1200&q=82"
+        "/images/attractions/udaipur/bagore-ki-haveli-1.jpg",
+        "/images/attractions/udaipur/bagore-ki-haveli-2.jpg",
+        "/images/attractions/udaipur/bagore-ki-haveli-3.jpg"
       ]
     },
     {
@@ -1014,11 +1030,11 @@ export const CURATED_ATTRACTIONS = {
       "category": "Monsoon Peak Palace",
       "lat": 24.595,
       "lng": 73.638,
-      "photo": "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1200&q=82",
+      "photo": "/images/attractions/udaipur/monsoon-palace-1.jpg",
       "photos": [
-        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=82"
+        "/images/attractions/udaipur/monsoon-palace-1.jpg",
+        "/images/attractions/udaipur/monsoon-palace-2.jpg",
+        "/images/attractions/udaipur/monsoon-palace-3.jpg"
       ]
     },
     {
@@ -1030,11 +1046,11 @@ export const CURATED_ATTRACTIONS = {
       "category": "Lake & Island Park",
       "lat": 24.604,
       "lng": 73.673,
-      "photo": "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=82",
+      "photo": "/images/attractions/udaipur/fateh-sagar-lake-1.jpg",
       "photos": [
-        "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1200&q=82"
+        "/images/attractions/udaipur/fateh-sagar-lake-1.jpg",
+        "/images/attractions/udaipur/fateh-sagar-lake-2.jpg",
+        "/images/attractions/udaipur/fateh-sagar-lake-3.jpg"
       ]
     },
     {
@@ -1046,27 +1062,27 @@ export const CURATED_ATTRACTIONS = {
       "category": "Crafts Village",
       "lat": 24.621,
       "lng": 73.655,
-      "photo": "https://images.unsplash.com/photo-1566127444979-b3d2b654e3d7?auto=format&fit=crop&w=1200&q=82",
+      "photo": "/images/attractions/udaipur/shilpgram-1.jpg",
       "photos": [
-        "https://images.unsplash.com/photo-1566127444979-b3d2b654e3d7?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1513836279014-a89f7a76ae86?auto=format&fit=crop&w=1200&q=82"
+        "/images/attractions/udaipur/shilpgram-1.jpg",
+        "/images/attractions/udaipur/shilpgram-2.jpg",
+        "/images/attractions/udaipur/shilpgram-3.jpg"
       ]
     },
     {
       "id": "pl-udp-a10",
       "name": "Karni Mata Ropeway & Machla Magra",
       "formattedAddress": "Deendayal Upadhyay Park, Udaipur 313001",
-      "description": "Cable car ride ascending Machla Magra hill providing sweeping views over the city\u2019s palaces and lakes.",
+      "description": "Cable car ride ascending Machla Magra hill providing sweeping views over the city’s palaces and lakes.",
       "rating": 4.5,
       "category": "Hilltop Ropeway",
       "lat": 24.569,
       "lng": 73.691,
-      "photo": "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1200&q=82",
+      "photo": "/images/attractions/udaipur/karni-mata-ropeway-1.jpg",
       "photos": [
-        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=1200&q=82"
+        "/images/attractions/udaipur/karni-mata-ropeway-1.jpg",
+        "/images/attractions/udaipur/karni-mata-ropeway-2.jpg",
+        "/images/attractions/udaipur/karni-mata-ropeway-3.jpg"
       ]
     },
     {
@@ -1078,11 +1094,11 @@ export const CURATED_ATTRACTIONS = {
       "category": "Royal Cenotaphs",
       "lat": 24.588,
       "lng": 73.722,
-      "photo": "https://images.unsplash.com/photo-1590077428593-a55bb07c4665?auto=format&fit=crop&w=1200&q=82",
+      "photo": "/images/attractions/udaipur/ahar-cenotaphs-1.jpg",
       "photos": [
-        "https://images.unsplash.com/photo-1590077428593-a55bb07c4665?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1582719508461-905c673771fd?auto=format&fit=crop&w=1200&q=82"
+        "/images/attractions/udaipur/ahar-cenotaphs-1.jpg",
+        "/images/attractions/udaipur/ahar-cenotaphs-2.jpg",
+        "/images/attractions/udaipur/ahar-cenotaphs-3.jpg"
       ]
     },
     {
@@ -1094,11 +1110,11 @@ export const CURATED_ATTRACTIONS = {
       "category": "Classic Car Collection",
       "lat": 24.578,
       "lng": 73.702,
-      "photo": "https://images.unsplash.com/photo-1582719508461-905c673771fd?auto=format&fit=crop&w=1200&q=82",
+      "photo": "/images/attractions/udaipur/vintage-car-museum-1.jpg",
       "photos": [
-        "https://images.unsplash.com/photo-1582719508461-905c673771fd?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=82"
+        "/images/attractions/udaipur/vintage-car-museum-1.jpg",
+        "/images/attractions/udaipur/vintage-car-museum-2.jpg",
+        "/images/attractions/udaipur/vintage-car-museum-3.jpg"
       ]
     },
     {
@@ -1110,11 +1126,11 @@ export const CURATED_ATTRACTIONS = {
       "category": "Waterfront Ghat",
       "lat": 24.58,
       "lng": 73.6805,
-      "photo": "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=82",
+      "photo": "/images/attractions/udaipur/ambrai-ghat-1.jpg",
       "photos": [
-        "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1200&q=82"
+        "/images/attractions/udaipur/ambrai-ghat-1.jpg",
+        "/images/attractions/udaipur/ambrai-ghat-2.jpg",
+        "/images/attractions/udaipur/ambrai-ghat-3.jpg"
       ]
     },
     {
@@ -1126,11 +1142,11 @@ export const CURATED_ATTRACTIONS = {
       "category": "Tranquil Lake",
       "lat": 24.615,
       "lng": 73.623,
-      "photo": "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1200&q=82",
+      "photo": "/images/attractions/udaipur/badi-lake-1.jpg",
       "photos": [
-        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1200&q=82"
+        "/images/attractions/udaipur/badi-lake-1.jpg",
+        "/images/attractions/udaipur/badi-lake-2.jpg",
+        "/images/attractions/udaipur/badi-lake-3.jpg"
       ]
     }
   ],
@@ -1144,11 +1160,11 @@ export const CURATED_ATTRACTIONS = {
       "category": "National Park",
       "lat": 10.15,
       "lng": 77.06,
-      "photo": "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1200&q=82",
+      "photo": "/images/attractions/munnar/eravikulam-national-park-1.jpg",
       "photos": [
-        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=82"
+        "/images/attractions/munnar/eravikulam-national-park-1.jpg",
+        "/images/attractions/munnar/eravikulam-national-park-2.jpg",
+        "/images/attractions/munnar/eravikulam-national-park-3.jpg"
       ]
     },
     {
@@ -1160,11 +1176,11 @@ export const CURATED_ATTRACTIONS = {
       "category": "Tea Museum",
       "lat": 10.088,
       "lng": 77.054,
-      "photo": "https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=1200&q=82",
+      "photo": "/images/attractions/munnar/tea-museum-1.jpg",
       "photos": [
-        "https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?auto=format&fit=crop&w=1200&q=82"
+        "/images/attractions/munnar/tea-museum-1.jpg",
+        "/images/attractions/munnar/tea-museum-2.jpg",
+        "/images/attractions/munnar/tea-museum-3.jpg"
       ]
     },
     {
@@ -1176,11 +1192,11 @@ export const CURATED_ATTRACTIONS = {
       "category": "Reservoir Dam",
       "lat": 10.106,
       "lng": 77.124,
-      "photo": "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=82",
+      "photo": "/images/attractions/munnar/mattupetty-dam-1.jpg",
       "photos": [
-        "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1432405972618-c60b0225b8f9?auto=format&fit=crop&w=1200&q=82"
+        "/images/attractions/munnar/mattupetty-dam-1.jpg",
+        "/images/attractions/munnar/mattupetty-dam-2.jpg",
+        "/images/attractions/munnar/mattupetty-dam-3.jpg"
       ]
     },
     {
@@ -1192,11 +1208,11 @@ export const CURATED_ATTRACTIONS = {
       "category": "Cloud Viewpoint",
       "lat": 10.123,
       "lng": 77.245,
-      "photo": "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1200&q=82",
+      "photo": "/images/attractions/munnar/top-station-1.jpg",
       "photos": [
-        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1200&q=82"
+        "/images/attractions/munnar/top-station-1.jpg",
+        "/images/attractions/munnar/top-station-2.jpg",
+        "/images/attractions/munnar/top-station-3.jpg"
       ]
     },
     {
@@ -1208,27 +1224,26 @@ export const CURATED_ATTRACTIONS = {
       "category": "Jungle Waterfalls",
       "lat": 10.051,
       "lng": 77.042,
-      "photo": "https://images.unsplash.com/photo-1432405972618-c60b0225b8f9?auto=format&fit=crop&w=1200&q=82",
+      "photo": "/images/attractions/munnar/attukad-waterfalls-1.jpg",
       "photos": [
-        "https://images.unsplash.com/photo-1432405972618-c60b0225b8f9?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1200&q=82"
+        "/images/attractions/munnar/attukad-waterfalls-1.jpg",
+        "/images/attractions/munnar/attukad-waterfalls-2.jpg"
       ]
     },
     {
       "id": "pl-mnr-a6",
       "name": "Kundala Arch Dam & Shikara Boating",
       "formattedAddress": "Kundala, Munnar, Kerala 685615",
-      "description": "Asia\u2019s first arched masonry dam surrounded by cherry blossom trees and pedal boats.",
+      "description": "Asia’s first arched masonry dam surrounded by cherry blossom trees and pedal boats.",
       "rating": 4.6,
       "category": "Arch Dam & Lake",
       "lat": 10.141,
       "lng": 77.195,
-      "photo": "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=82",
+      "photo": "/images/attractions/munnar/kundala-dam-1.jpg",
       "photos": [
-        "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=82"
+        "/images/attractions/munnar/kundala-dam-1.jpg",
+        "/images/attractions/munnar/kundala-dam-2.jpg",
+        "/images/attractions/munnar/kundala-dam-3.jpg"
       ]
     },
     {
@@ -1240,11 +1255,11 @@ export const CURATED_ATTRACTIONS = {
       "category": "Highest South Peak",
       "lat": 10.17,
       "lng": 77.064,
-      "photo": "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1200&q=82",
+      "photo": "/images/attractions/munnar/anamudi-peak-1.jpg",
       "photos": [
-        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1200&q=82"
+        "/images/attractions/munnar/anamudi-peak-1.jpg",
+        "/images/attractions/munnar/anamudi-peak-2.jpg",
+        "/images/attractions/munnar/anamudi-peak-3.jpg"
       ]
     },
     {
@@ -1256,11 +1271,11 @@ export const CURATED_ATTRACTIONS = {
       "category": "Tea Canopy",
       "lat": 10.095,
       "lng": 77.102,
-      "photo": "https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=1200&q=82",
+      "photo": "/images/attractions/munnar/photo-point-1.jpg",
       "photos": [
-        "https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1200&q=82"
+        "/images/attractions/munnar/photo-point-1.jpg",
+        "/images/attractions/munnar/photo-point-2.jpg",
+        "/images/attractions/munnar/photo-point-3.jpg"
       ]
     },
     {
@@ -1272,11 +1287,9 @@ export const CURATED_ATTRACTIONS = {
       "category": "Sunset Ridge",
       "lat": 10.056,
       "lng": 77.062,
-      "photo": "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1200&q=82",
+      "photo": "/images/attractions/munnar/pothamedu-viewpoint-1.jpg",
       "photos": [
-        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=82"
+        "/images/attractions/munnar/pothamedu-viewpoint-1.jpg"
       ]
     },
     {
@@ -1288,11 +1301,11 @@ export const CURATED_ATTRACTIONS = {
       "category": "Cascade Pool",
       "lat": 10.224,
       "lng": 77.151,
-      "photo": "https://images.unsplash.com/photo-1432405972618-c60b0225b8f9?auto=format&fit=crop&w=1200&q=82",
+      "photo": "/images/attractions/munnar/lakkam-waterfalls-1.jpg",
       "photos": [
-        "https://images.unsplash.com/photo-1432405972618-c60b0225b8f9?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=82"
+        "/images/attractions/munnar/lakkam-waterfalls-1.jpg",
+        "/images/attractions/munnar/lakkam-waterfalls-2.jpg",
+        "/images/attractions/munnar/lakkam-waterfalls-3.jpg"
       ]
     },
     {
@@ -1304,27 +1317,27 @@ export const CURATED_ATTRACTIONS = {
       "category": "Wildlife Sanctuary",
       "lat": 10.312,
       "lng": 77.198,
-      "photo": "https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1200&q=82",
+      "photo": "/images/attractions/munnar/chinnar-sanctuary-1.jpg",
       "photos": [
-        "https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1200&q=82"
+        "/images/attractions/munnar/chinnar-sanctuary-1.jpg",
+        "/images/attractions/munnar/chinnar-sanctuary-2.jpg",
+        "/images/attractions/munnar/chinnar-sanctuary-3.jpg"
       ]
     },
     {
       "id": "pl-mnr-a12",
       "name": "Kolukkumalai Tea Estate (Highest in World)",
       "formattedAddress": "Kolukkumalai, Bodinayakanur Range 685581",
-      "description": "World\u2019s highest organic tea plantation (7,900 ft) renowned for breathtaking cloud sunrise views.",
+      "description": "World’s highest organic tea plantation (7,900 ft) renowned for breathtaking cloud sunrise views.",
       "rating": 4.9,
       "category": "Highest Tea Estate",
       "lat": 10.091,
       "lng": 77.254,
-      "photo": "https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=1200&q=82",
+      "photo": "/images/attractions/munnar/kolukkumalai-tea-1.jpg",
       "photos": [
-        "https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=82"
+        "/images/attractions/munnar/kolukkumalai-tea-1.jpg",
+        "/images/attractions/munnar/kolukkumalai-tea-2.jpg",
+        "/images/attractions/munnar/kolukkumalai-tea-3.jpg"
       ]
     },
     {
@@ -1336,11 +1349,11 @@ export const CURATED_ATTRACTIONS = {
       "category": "Hydel Flora Park",
       "lat": 10.071,
       "lng": 77.061,
-      "photo": "https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?auto=format&fit=crop&w=1200&q=82",
+      "photo": "/images/attractions/munnar/photo-point-1.jpg",
       "photos": [
-        "https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=1200&q=82"
+        "/images/attractions/munnar/photo-point-1.jpg",
+        "/images/attractions/munnar/photo-point-2.jpg",
+        "/images/attractions/munnar/photo-point-3.jpg"
       ]
     },
     {
@@ -1352,11 +1365,11 @@ export const CURATED_ATTRACTIONS = {
       "category": "Sandalwood Forest",
       "lat": 10.276,
       "lng": 77.168,
-      "photo": "https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1200&q=82",
+      "photo": "/images/attractions/munnar/marayoor-dolmens-1.jpg",
       "photos": [
-        "https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=1200&q=82",
-        "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1200&q=82"
+        "/images/attractions/munnar/marayoor-dolmens-1.jpg",
+        "/images/attractions/munnar/marayoor-dolmens-2.jpg",
+        "/images/attractions/munnar/marayoor-dolmens-3.jpg"
       ]
     }
   ]
