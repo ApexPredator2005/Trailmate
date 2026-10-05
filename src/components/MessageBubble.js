@@ -121,7 +121,7 @@ function _destinationsRow(message, onDestinationSelect) {
     if (row.dataset.hasSelected) return;
     row.dataset.hasSelected = 'true';
 
-    // Disable all filter pills
+    // Disable all filter pills and fade them out smoothly
     const pills = header.querySelectorAll('.dest-filter-pill');
     pills.forEach((p) => {
       p.style.pointerEvents = 'none';
@@ -130,7 +130,7 @@ function _destinationsRow(message, onDestinationSelect) {
 
     const isReduced = typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    // 1. Mark selected card
+    // 1. Mark selected card & update check icon immediately
     selectedCard.classList.add('dest-card-selected');
     const arrowIcon = selectedCard.querySelector('.dest-card-arrow');
     if (arrowIcon) {
@@ -138,54 +138,164 @@ function _destinationsRow(message, onDestinationSelect) {
       arrowIcon.className = 'dest-card-arrow material-symbols-outlined text-base opacity-100 text-terracotta transition-all';
     }
 
-    // 2. Animate all OTHER currently visible cards
+    // Measure starting coordinates (First) relative to viewport
+    const firstRect = selectedCard.getBoundingClientRect();
+
+    // 2. Identify sibling cards and fade them out simultaneously
     const allCards = Array.from(grid.querySelectorAll('.dest-card'));
     const otherCards = allCards.filter((c) => c !== selectedCard);
-
-    const STAGGER_MS = 18;
-    const DURATION_MS = isReduced ? 120 : 280;
-    let maxDelay = 0;
-
-    otherCards.forEach((otherCard, idx) => {
+    otherCards.forEach((otherCard) => {
       otherCard.style.pointerEvents = 'none';
-      const delay = isReduced ? 0 : idx * STAGGER_MS;
-      if (delay > maxDelay) maxDelay = delay;
-
-      otherCard.style.animationDelay = `${delay}ms`;
       otherCard.classList.add('dest-card-shrink-out');
     });
 
-    const totalAnimationTime = maxDelay + DURATION_MS;
+    // Fade out filter pills cleanly
+    const filterPillsContainer = header.querySelector('#destFilterPills');
+    if (filterPillsContainer) {
+      filterPillsContainer.style.opacity = '0';
+      filterPillsContainer.style.transition = 'opacity 200ms ease';
+      setTimeout(() => { filterPillsContainer.style.display = 'none'; }, 200);
+    }
 
-    // 3. Coordinate cleanup, reflow, and chat confirmation
-    setTimeout(() => {
-      // Remove shrunk cards from layout so grid reflows
+    if (isReduced) {
+      // Reduced motion: immediate settlement
       otherCards.forEach((c) => c.remove());
-
-      // Transition grid container so selected card sits cleanly
-      grid.className = 'w-full max-w-md transition-all duration-300';
+      grid.className = 'w-full max-w-md';
       selectedCard.classList.remove('dest-card-selected');
       selectedCard.classList.add('dest-card-confirmed');
-      selectedCard.style.width = '100%';
-
-      // Update header labels
       const titleLabel = header.querySelector('.dest-header-title');
       if (titleLabel) titleLabel.textContent = 'Selected Destination';
       const subtitleLabel = header.querySelector('.dest-header-subtitle');
       if (subtitleLabel) subtitleLabel.textContent = 'Confirmed';
-      const filterPillsContainer = header.querySelector('#destFilterPills');
-      if (filterPillsContainer) {
-        filterPillsContainer.style.opacity = '0';
-        filterPillsContainer.style.transition = 'opacity 200ms ease';
-        setTimeout(() => { filterPillsContainer.style.display = 'none'; }, 200);
-      }
-
-      // 4. Dispatch selection to chat thread & conversation engine
       if (typeof onDestinationSelect === 'function') {
         onDestinationSelect(dest, row);
       }
-    }, totalAnimationTime + 20);
+      return;
+    }
+
+    // 3. FRAME 1 INSTANT MORPH:
+    // Create an invisible placeholder with exact target hero dimensions in the grid
+    // so we can measure the final target coordinates (Last) right now!
+    const targetPlaceholder = document.createElement('div');
+    targetPlaceholder.style.width = '100%';
+    targetPlaceholder.style.maxWidth = '480px';
+    targetPlaceholder.style.height = '180px';
+    targetPlaceholder.style.visibility = 'hidden';
+    targetPlaceholder.style.pointerEvents = 'none';
+    grid.insertBefore(targetPlaceholder, grid.firstChild);
+
+    const lastRect = targetPlaceholder.getBoundingClientRect();
+    targetPlaceholder.remove();
+
+    // Take selectedCard out of grid flow IMMEDIATELY so sibling collapse does not alter its position
+    const rowRect = row.getBoundingClientRect();
+    row.style.position = 'relative';
+
+    // Measure relative starting and target offsets inside row
+    const startLeft = firstRect.left - rowRect.left;
+    const startTop = firstRect.top - rowRect.top;
+    const targetLeft = lastRect.left - rowRect.left;
+    const targetTop = lastRect.top - rowRect.top;
+
+    // Fix the card at its exact starting position in absolute coordinates
+    selectedCard.classList.add('dest-card-morphing');
+    selectedCard.style.left = `${startLeft}px`;
+    selectedCard.style.top = `${startTop}px`;
+    selectedCard.style.width = `${firstRect.width}px`;
+    selectedCard.style.height = `${firstRect.height}px`;
+
+    // Calculate invert delta
+    const deltaX = targetLeft - startLeft;
+    const deltaY = targetTop - startTop;
+    const scaleX = lastRect.width / Math.max(firstRect.width, 1);
+    const scaleY = lastRect.height / Math.max(firstRect.height, 1);
+
+    // Update header labels concurrently
+    const titleLabel = header.querySelector('.dest-header-title');
+    if (titleLabel) titleLabel.textContent = 'Selected Destination';
+    const subtitleLabel = header.querySelector('.dest-header-subtitle');
+    if (subtitleLabel) subtitleLabel.textContent = 'Confirmed';
+
+    // Remove other cards after fade completes
+    setTimeout(() => {
+      otherCards.forEach((c) => c.remove());
+    }, 280);
+
+    // PLAY on frame 1: Single, uninterrupted 360ms compositor tween
+    const DURATION = 360;
+    const EASING = 'cubic-bezier(0.2, 0, 0, 1)';
+
+    const cardAnim = selectedCard.animate(
+      [
+        {
+          transform: 'translate(0px, 0px) scale(1, 1)',
+          boxShadow: '0 4px 16px rgba(0, 0, 0, 0.25)',
+        },
+        {
+          transform: `translate(${deltaX}px, ${deltaY}px) scale(${scaleX}, ${scaleY})`,
+          boxShadow: '0 0 0 2.5px var(--terracotta), 0 12px 36px -4px rgba(148, 74, 26, 0.32)',
+        },
+      ],
+      {
+        duration: DURATION,
+        easing: EASING,
+        fill: 'forwards',
+      }
+    );
+
+    // Counter-scale inner image so aspect ratio does not distort while container expands
+    const innerImg = selectedCard.querySelector('img');
+    let imgAnim = null;
+    if (innerImg) {
+      imgAnim = innerImg.animate(
+        [
+          { transform: 'scale(1, 1)' },
+          { transform: `scale(${1 / scaleX}, ${1 / scaleY})` },
+        ],
+        {
+          duration: DURATION,
+          easing: EASING,
+          fill: 'forwards',
+        }
+      );
+    }
+
+    // When card expansion reaches >85% (around 310ms), trigger follow-up message creation
+    let callbackTriggered = false;
+    const triggerTimeout = setTimeout(() => {
+      if (!callbackTriggered) {
+        callbackTriggered = true;
+        if (typeof onDestinationSelect === 'function') {
+          onDestinationSelect(dest, row);
+        }
+      }
+    }, Math.round(DURATION * 0.88));
+
+    // When animation completes, settle DOM classes cleanly
+    cardAnim.onfinish = () => {
+      cardAnim.cancel();
+      if (imgAnim) imgAnim.cancel();
+
+      // Clean up inline styles and finalize resting layout
+      selectedCard.classList.remove('dest-card-selected', 'dest-card-morphing');
+      selectedCard.classList.add('dest-card-confirmed');
+      selectedCard.style.left = '';
+      selectedCard.style.top = '';
+      selectedCard.style.width = '';
+      selectedCard.style.height = '';
+      selectedCard.style.transform = '';
+      grid.className = 'w-full max-w-md';
+
+      if (!callbackTriggered) {
+        callbackTriggered = true;
+        clearTimeout(triggerTimeout);
+        if (typeof onDestinationSelect === 'function') {
+          onDestinationSelect(dest, row);
+        }
+      }
+    };
   }
+
 
   function renderCards(list) {
     grid.innerHTML = '';

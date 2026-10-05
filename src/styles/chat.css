@@ -294,36 +294,51 @@
    ========================================================================== */
 
 .dest-card {
-  transform-origin: center center;
+  transform-origin: top left;
   will-change: transform, opacity;
-  transition: transform 220ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 220ms ease, border-color 200ms ease;
+  transition: box-shadow 220ms ease, border-color 200ms ease;
+  overflow: hidden;
+  border-radius: 1rem; /* 16px */
+}
+
+.dest-card img {
+  transform-origin: center center;
+  will-change: transform;
 }
 
 .dest-card.dest-card-selected {
   border-color: var(--terracotta) !important;
-  box-shadow: 0 0 0 2px var(--terracotta), 0 8px 24px -4px rgba(148, 74, 26, 0.3) !important;
-  transform: scale(1.03) !important;
+  box-shadow: 0 0 0 2px var(--terracotta), 0 12px 32px -4px rgba(148, 74, 26, 0.35) !important;
   pointer-events: none;
-  z-index: 10;
+  z-index: 40;
+}
+
+.dest-card.dest-card-morphing {
+  position: absolute !important;
+  z-index: 50 !important;
+  margin: 0 !important;
+  pointer-events: none !important;
+  transform-origin: top left !important;
+  will-change: transform, box-shadow !important;
 }
 
 .dest-card.dest-card-confirmed {
   width: 100% !important;
-  max-width: 420px !important;
-  height: 164px !important;
-  min-height: 164px !important;
+  max-width: 480px !important;
+  height: 180px !important;
+  min-height: 180px !important;
   display: block !important;
-  margin-top: 8px;
+  position: relative !important;
+  margin-top: 4px;
+  border-radius: 1rem !important;
   border-color: var(--terracotta) !important;
-  box-shadow: 0 0 0 2.5px var(--terracotta), 0 8px 26px -4px rgba(148, 74, 26, 0.28) !important;
+  box-shadow: 0 0 0 2.5px var(--terracotta), 0 12px 36px -4px rgba(148, 74, 26, 0.32) !important;
   pointer-events: none;
   cursor: default;
-  transform: scale(1.02);
-  transition: width 300ms cubic-bezier(0.16, 1, 0.3, 1), height 300ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 300ms ease, transform 300ms ease;
 }
 
 .dest-card.dest-card-shrink-out {
-  animation: destCardShrinkInward 280ms cubic-bezier(0.4, 0, 1, 1) forwards;
+  animation: destCardShrinkInward 280ms cubic-bezier(0.2, 0, 0, 1) forwards;
   pointer-events: none;
 }
 
@@ -332,12 +347,8 @@
     transform: scale(1);
     opacity: 1;
   }
-  40% {
-    transform: scale(0.72);
-    opacity: 0.7;
-  }
   100% {
-    transform: scale(0);
+    transform: scale(0.7);
     opacity: 0;
   }
 }
@@ -355,6 +366,7 @@
     }
   }
 }
+
 
 /* ==========================================================================
    Refined Satin Gold Input Bar (Subtle Luxury)
@@ -400,6 +412,8 @@
   max-height: 50px;
   object-fit: contain;
 }
+
+
 
 
 

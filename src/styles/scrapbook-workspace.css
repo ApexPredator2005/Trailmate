@@ -1564,14 +1564,14 @@
 
 /* ---- Print Styles for Clean Scrapbook Book Export ---- */
 @media print {
-  body * {
+  body.is-printing-scrapbook * {
     visibility: hidden;
   }
-  .scrapbook-artboard,
-  .scrapbook-artboard * {
+  body.is-printing-scrapbook .scrapbook-artboard,
+  body.is-printing-scrapbook .scrapbook-artboard * {
     visibility: visible;
   }
-  .scrapbook-artboard {
+  body.is-printing-scrapbook .scrapbook-artboard {
     position: absolute;
     left: 0;
     top: 0;
@@ -1580,15 +1580,15 @@
     box-shadow: none !important;
     border: none !important;
   }
-  .canvas-selection-toolbar,
-  .canvas-resize-handle,
-  .canvas-rotate-handle,
-  .text-inspector-bar,
-  .scrapbook-floating-dock,
-  .scrapbook-floating-tray {
+  body.is-printing-scrapbook .canvas-selection-toolbar,
+  body.is-printing-scrapbook .canvas-resize-handle,
+  body.is-printing-scrapbook .canvas-rotate-handle,
+  body.is-printing-scrapbook .text-inspector-bar,
+  body.is-printing-scrapbook .scrapbook-floating-dock,
+  body.is-printing-scrapbook .scrapbook-floating-tray {
     display: none !important;
   }
-  .canvas-element {
+  body.is-printing-scrapbook .canvas-element {
     outline: none !important;
   }
 }

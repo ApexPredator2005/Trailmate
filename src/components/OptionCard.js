@@ -13,64 +13,104 @@ function getAirlineBrand(airlineName = '') {
   const name = String(airlineName).toLowerCase();
   if (name.includes('indigo')) {
     return {
-      bg: 'bg-gradient-to-br from-[#001B94] to-[#0A32B8]',
-      badgeColor: 'bg-white/20 text-white',
+      bg: 'bg-gradient-to-r from-[#001B94] via-[#0527B0] to-[#001B94]',
+      badgeColor: 'bg-white/20 text-white border-white/25',
       accent: '#38BDF8',
       code: '6E',
-      logoSvg: `<svg class="w-7 h-7 flex-shrink-0" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="14" fill="#001B94" stroke="#ffffff" stroke-width="1.5"/><path d="M10 18L16 12L22 18M16 12V24" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+      displayName: 'IndiGo',
+      textColor: 'text-white',
+      subTextColor: 'text-blue-200/80',
+      lineColor: 'bg-blue-300/40',
+      planeColor: 'text-sky-300',
+      timeColor: 'text-white',
+      logoHtml: `<div class="bg-white p-1 rounded-md shadow-xs flex items-center justify-center shrink-0">
+        <img src="/images/airlines/indigo.jpg" alt="IndiGo" class="h-6 w-6 object-contain" />
+      </div>`,
     };
   }
-  if (name.includes('air india express')) {
+  if (name.includes('air india express') || name.includes('air india')) {
+    const isExpress = name.includes('express');
     return {
-      bg: 'bg-gradient-to-br from-[#D9381E] to-[#EA580C]',
-      badgeColor: 'bg-white/20 text-white',
-      accent: '#FEF08A',
-      code: 'IX',
-      logoSvg: `<svg class="w-7 h-7 flex-shrink-0" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="14" fill="#D9381E" stroke="#ffffff" stroke-width="1.5"/><path d="M8 16H24M18 10L24 16L18 22" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
-    };
-  }
-  if (name.includes('air india')) {
-    return {
-      bg: 'bg-gradient-to-br from-[#8B1E28] to-[#B91C1C]',
-      badgeColor: 'bg-black/25 text-amber-300',
-      accent: '#FDE047',
-      code: 'AI',
-      logoSvg: `<svg class="w-7 h-7 flex-shrink-0" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="14" fill="#8B1E28" stroke="#FBBF24" stroke-width="1.5"/><path d="M12 20L16 8L20 20M13.5 16H18.5" stroke="#FBBF24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+      bg: 'bg-gradient-to-r from-[#FFF5F0] via-[#FFFFFF] to-[#FFF0E8] border-b border-[#EA580C]/20',
+      badgeColor: 'bg-[#EA580C]/10 text-[#C2410C] border-[#EA580C]/25',
+      accent: '#EA580C',
+      code: isExpress ? 'IX' : 'AI',
+      displayName: isExpress ? 'Air India Express' : 'Air India',
+      textColor: 'text-stone-900',
+      subTextColor: 'text-stone-500',
+      lineColor: 'bg-[#EA580C]/30',
+      planeColor: 'text-[#EA580C]',
+      timeColor: 'text-stone-900',
+      logoHtml: `<div class="bg-white px-2 py-0.5 rounded-md shadow-xs border border-stone-200 flex items-center shrink-0">
+        <img src="/images/airlines/airindia.png" alt="Air India" class="h-6 w-auto max-w-[110px] object-contain" />
+      </div>`,
     };
   }
   if (name.includes('vistara')) {
     return {
-      bg: 'bg-gradient-to-br from-[#4B1738] to-[#6B21A8]',
-      badgeColor: 'bg-white/20 text-amber-200',
+      bg: 'bg-gradient-to-r from-[#2D0A20] via-[#451032] to-[#2D0A20]',
+      badgeColor: 'bg-amber-400/20 text-amber-200 border-amber-400/30',
       accent: '#FDE047',
       code: 'UK',
-      logoSvg: `<svg class="w-7 h-7 flex-shrink-0" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="14" fill="#4B1738" stroke="#FBBF24" stroke-width="1.5"/><path d="M10 11L16 22L22 11" stroke="#FBBF24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+      displayName: 'Vistara',
+      textColor: 'text-white',
+      subTextColor: 'text-pink-100/75',
+      lineColor: 'bg-amber-300/30',
+      planeColor: 'text-amber-300',
+      timeColor: 'text-white',
+      logoHtml: `<div class="bg-white/10 p-1 rounded-md border border-amber-300/30 flex items-center justify-center shrink-0">
+        <img src="/images/airlines/vistara.jpg" alt="Vistara" class="h-6 w-6 rounded object-cover" />
+      </div>`,
     };
   }
   if (name.includes('akasa')) {
     return {
-      bg: 'bg-gradient-to-br from-[#EA580C] to-[#C2410C]',
-      badgeColor: 'bg-white/20 text-white',
+      bg: 'bg-[#EA580C]',
+      badgeColor: 'bg-white/20 text-white border-white/25',
       accent: '#FED7AA',
       code: 'QP',
-      logoSvg: `<svg class="w-7 h-7 flex-shrink-0" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="14" fill="#EA580C" stroke="#ffffff" stroke-width="1.5"/><path d="M9 22L16 10L23 22M12 17L16 13L20 17" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+      displayName: 'Akasa Air',
+      textColor: 'text-white',
+      subTextColor: 'text-orange-100/80',
+      lineColor: 'bg-white/40',
+      planeColor: 'text-amber-200',
+      timeColor: 'text-white',
+      logoHtml: `<div class="bg-white p-1 rounded-md shadow-xs flex items-center justify-center shrink-0">
+        <svg class="w-6 h-6" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="14" fill="#EA580C"/><path d="M9 22L16 10L23 22M12 17L16 13L20 17" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>`,
     };
   }
   if (name.includes('spicejet')) {
     return {
-      bg: 'bg-gradient-to-br from-[#DC2626] to-[#991B1B]',
-      badgeColor: 'bg-white/20 text-yellow-300',
+      bg: 'bg-[#DC2626]',
+      badgeColor: 'bg-yellow-400/20 text-yellow-200 border-yellow-400/30',
       accent: '#FEF08A',
       code: 'SG',
-      logoSvg: `<svg class="w-7 h-7 flex-shrink-0" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="14" fill="#DC2626" stroke="#ffffff" stroke-width="1.5"/><circle cx="16" cy="16" r="5" fill="#FBBF24"/><circle cx="23" cy="16" r="2.5" fill="#ffffff"/></svg>`,
+      displayName: 'SpiceJet',
+      textColor: 'text-white',
+      subTextColor: 'text-red-100/80',
+      lineColor: 'bg-white/40',
+      planeColor: 'text-yellow-300',
+      timeColor: 'text-white',
+      logoHtml: `<div class="bg-white p-1 rounded-md shadow-xs flex items-center justify-center shrink-0">
+        <svg class="w-6 h-6" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="14" fill="#DC2626"/><circle cx="16" cy="16" r="4" fill="#FBBF24"/><circle cx="23" cy="16" r="2" fill="#ffffff"/></svg>
+      </div>`,
     };
   }
   return {
-    bg: 'bg-gradient-to-br from-[#1E3A34] to-[#06241F]',
-    badgeColor: 'bg-white/20 text-white',
+    bg: 'bg-[#1E3A34]',
+    badgeColor: 'bg-white/15 text-emerald-100 border-white/20',
     accent: '#A7F3D0',
     code: 'FL',
-    logoSvg: `<svg class="w-7 h-7 flex-shrink-0" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="14" fill="#1E3A34" stroke="#ffffff" stroke-width="1.5"/><path d="M16 8L20 16L24 18L16 20L8 18L12 16L16 8Z" fill="#ffffff"/></svg>`,
+    displayName: airlineName || 'Airline',
+    textColor: 'text-white',
+    subTextColor: 'text-emerald-100/75',
+    lineColor: 'bg-emerald-300/30',
+    planeColor: 'text-emerald-300',
+    timeColor: 'text-white',
+    logoHtml: `<div class="bg-white/10 p-1 rounded-md border border-white/20 flex items-center justify-center shrink-0">
+      <svg class="w-6 h-6" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="14" fill="#1E3A34"/><path d="M16 8L20 16L24 18L16 20L8 18L12 16L16 8Z" fill="#ffffff"/></svg>
+    </div>`,
   };
 }const LANDMARK_PHOTOS = {
   'hadimba': 'https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?auto=format&fit=crop&w=600&q=80',
@@ -189,10 +229,11 @@ export class OptionCard {
     );
 
     // Stretch vs Normal
+    const cardWidth = isFlight ? 'w-[280px]' : 'w-64';
     if (data.isStretch) {
-      el.className = 'option-card snap-start flex-shrink-0 w-64 bg-surface rounded-xl border border-dashed border-secondary overflow-hidden group hover:shadow-md transition-shadow cursor-pointer relative';
+      el.className = `option-card snap-start flex-shrink-0 ${cardWidth} bg-surface rounded-xl border border-dashed border-secondary overflow-hidden group hover:shadow-md transition-shadow cursor-pointer relative`;
     } else {
-      el.className = 'option-card snap-start flex-shrink-0 w-64 bg-surface rounded-xl border border-surface-variant overflow-hidden group hover:shadow-md transition-shadow cursor-pointer relative';
+      el.className = `option-card snap-start flex-shrink-0 ${cardWidth} bg-surface rounded-xl border border-surface-variant overflow-hidden group hover:shadow-md transition-shadow cursor-pointer relative`;
     }
 
     el.setAttribute('role', 'listitem');
@@ -208,6 +249,12 @@ export class OptionCard {
       const arrTime = data._raw?.arrivalTime || data._raw?.arrival_time || '';
       const duration = data._raw?.duration || 'Non-stop';
       const badge = data.badge || data._raw?.badge || (data._raw?.stops === 0 ? 'Non-stop' : null);
+      // Clean up badge display text: if badge contains 'AeroDataBox Verified', shorten to 'Verified Live'
+      let displayBadge = badge;
+      if (displayBadge && displayBadge.includes('AeroDataBox Verified')) {
+        const terminalMatch = displayBadge.match(/·\s*(Terminal\s*\d+)/i);
+        displayBadge = terminalMatch ? `Verified · ${terminalMatch[1]}` : 'Verified Live';
+      }
 
       el.innerHTML = `
         ${data.isStretch ? `
@@ -215,44 +262,44 @@ export class OptionCard {
             Worth a look
           </div>` : ''}
 
-        <!-- Aviation Airline Logo Header (No generic scenery photo) -->
-        <div class="h-32 relative overflow-hidden ${brand.bg} p-3 flex flex-col justify-between text-white select-none">
-          <div class="absolute inset-0 opacity-15 bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:10px_10px] pointer-events-none"></div>
+        <!-- Aviation Airline Logo Header with authentic branding -->
+        <div class="h-36 relative overflow-hidden ${brand.bg} p-3 flex flex-col justify-between ${brand.textColor || 'text-white'} select-none">
+          <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#888_1px,transparent_1px)] [background-size:10px_10px] pointer-events-none"></div>
 
-          <!-- Top row: Airline logo & Flight Number / Baggage badge -->
-          <div class="relative z-10 flex items-center justify-between">
+          <!-- Top row: Airline logo & Flight Number / Badge -->
+          <div class="relative z-10 flex items-center justify-between gap-2 border-b border-black/5 pb-2">
             <div class="flex items-center gap-2 min-w-0">
-              ${brand.logoSvg}
-              <div class="min-w-0">
-                <span class="text-xs font-bold font-headline-sm tracking-wide block leading-tight truncate">${esc(airlineName)}</span>
-                <span class="text-[10px] font-mono text-white/80 font-semibold block leading-none mt-0.5">${esc(flightNum)}</span>
+              ${brand.logoHtml}
+              <div class="flex flex-col min-w-0">
+                <span class="text-[12px] font-bold tracking-tight truncate leading-tight">${esc(brand.displayName || airlineName)}</span>
+                <span class="text-[9.5px] font-mono ${brand.subTextColor || 'text-white/80'} font-semibold tracking-wide leading-tight mt-0.5">${esc(flightNum)}</span>
               </div>
             </div>
-            ${badge ? `
-              <span class="bg-black/35 backdrop-blur-md text-white text-[10px] font-mono font-medium px-2 py-0.5 rounded-full border border-white/20 flex-shrink-0 max-w-[130px] truncate" title="${esc(badge)}">
-                ${esc(badge)}
+            ${displayBadge ? `
+              <span class="${brand.badgeColor || 'bg-black/20 text-white'} text-[9px] font-mono font-medium px-2 py-0.5 rounded-full border shrink-0 whitespace-nowrap" title="${esc(badge)}">
+                ${esc(displayBadge)}
               </span>` : ''}
           </div>
 
           <!-- Route & Aviation Visual -->
           <div class="relative z-10 flex items-center justify-between pt-1">
             <div class="text-left">
-              <span class="text-base font-mono font-bold leading-none block">${esc(origin)}</span>
-              <span class="text-[10px] text-white/80 font-medium block mt-0.5">${esc(depTime)}</span>
+              <span class="text-base font-mono font-bold leading-none block ${brand.timeColor || 'text-white'}">${esc(origin)}</span>
+              <span class="text-[10px] ${brand.subTextColor || 'text-white/80'} font-medium block mt-1">${esc(depTime)}</span>
             </div>
             
-            <div class="flex flex-col items-center flex-1 px-2">
-              <span class="text-[9px] font-mono text-white/80 mb-0.5">${esc(duration)}</span>
+            <div class="flex flex-col items-center flex-1 px-3">
+              <span class="text-[9px] font-mono ${brand.subTextColor || 'text-white/80'} mb-1">${esc(duration)}</span>
               <div class="w-full flex items-center gap-1 opacity-80">
-                <div class="h-[1px] bg-white/50 flex-1"></div>
-                <span class="material-symbols-outlined text-xs transform rotate-90 text-white">flight</span>
-                <div class="h-[1px] bg-white/50 flex-1"></div>
+                <div class="h-[1px] ${brand.lineColor || 'bg-white/50'} flex-1"></div>
+                <span class="material-symbols-outlined text-xs transform rotate-90 ${brand.planeColor || 'text-white'}">flight</span>
+                <div class="h-[1px] ${brand.lineColor || 'bg-white/50'} flex-1"></div>
               </div>
             </div>
 
             <div class="text-right">
-              <span class="text-base font-mono font-bold leading-none block">${esc(dest)}</span>
-              <span class="text-[10px] text-white/80 font-medium block mt-0.5">${esc(arrTime)}</span>
+              <span class="text-base font-mono font-bold leading-none block ${brand.timeColor || 'text-white'}">${esc(dest)}</span>
+              <span class="text-[10px] ${brand.subTextColor || 'text-white/80'} font-medium block mt-1">${esc(arrTime)}</span>
             </div>
           </div>
         </div>
@@ -327,21 +374,46 @@ export class OptionCard {
         </div>
 
         <div class="p-3">
-          <h4 class="font-label-md text-label-md text-on-surface font-semibold truncate">${esc(data.name)}</h4>
-          <p class="font-label-sm text-label-sm text-on-surface-variant mt-1 line-clamp-2">${esc(data.description ?? '')}</p>
+          <div class="flex items-center justify-between gap-1 mb-1">
+            <h4 class="font-label-md text-label-md text-on-surface font-semibold truncate flex-1" title="${esc(data.name)}">${esc(data.name)}</h4>
+            ${data.cuisine ? `
+              <span class="text-[9.5px] font-mono text-[#C4703D] bg-[#C4703D]/10 font-bold px-1.5 py-0.5 rounded-full flex-shrink-0">${esc(data.cuisine)}</span>
+            ` : ''}
+          </div>
+
+          ${data.famousFor ? `
+            <p class="text-[11px] text-neutral-800 font-medium leading-snug mb-1.5">${esc(data.famousFor)}</p>
+          ` : (data.description ? `
+            <p class="font-label-sm text-label-sm text-on-surface-variant mt-1 line-clamp-2">${esc(data.description)}</p>
+          ` : '')}
+
+          ${data.specialties && data.specialties.length > 0 ? `
+            <div class="mb-1.5 flex flex-wrap gap-1">
+              ${data.specialties.slice(0, 2).map(dish => `
+                <span class="text-[9.5px] bg-[#E8DFD0]/60 text-[#1E3A34] px-1.5 py-0.5 rounded font-mono font-medium truncate max-w-full">
+                  🍴 ${esc(dish)}
+                </span>
+              `).join('')}
+            </div>
+          ` : ''}
+
+          ${data.ambience ? `
+            <p class="text-[10px] text-neutral-500 italic mb-2 line-clamp-1 leading-tight">${esc(data.ambience)}</p>
+          ` : ''}
           
-          <div class="mt-3 flex flex-col gap-1">
-            <div class="flex justify-between items-center">
+          <div class="mt-2 pt-2 border-t border-[#BFA895]/20 flex justify-between items-center">
+            <div>
               <span class="font-label-md text-label-md text-primary font-bold">
                 ${esc(data.price ?? '')}<span class="text-[10px] font-normal text-outline">${esc(data.priceUnit ?? '')}</span>
               </span>
-              <button class="option-card-select text-secondary hover:bg-secondary/10 p-1.5 rounded-full transition-colors flex items-center justify-center" type="button" aria-label="Select ${esc(data.name)}">
-                <span class="material-symbols-outlined text-lg">${selectIcon}</span>
-              </button>
+              <span class="text-[9px] text-neutral-400 font-mono block">Estimated Cost</span>
             </div>
-            ${data.isStretch && data.stretchReason ? `
-              <span class="font-label-sm text-[10px] text-secondary font-medium">${esc(data.stretchReason)}</span>` : ''}
+            <button class="option-card-select text-secondary hover:bg-secondary/10 p-1.5 rounded-full transition-colors flex items-center justify-center cursor-pointer" type="button" aria-label="Select ${esc(data.name)}">
+              <span class="material-symbols-outlined text-lg">${selectIcon}</span>
+            </button>
           </div>
+          ${data.isStretch && data.stretchReason ? `
+            <span class="font-label-sm text-[10px] text-secondary font-medium block mt-1">${esc(data.stretchReason)}</span>` : ''}
         </div>`;
 
       if (photos.length > 1) {

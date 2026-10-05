@@ -119,7 +119,15 @@ export async function searchPlaces(query, options = {}) {
   };
 
   if (type) {
-    body.includedType = type;
+    // Map common aliases to Google Places API (New) supported Table A types
+    const TYPE_MAP = {
+      attraction: 'tourist_attraction',
+      hotel: 'lodging',
+      food: 'restaurant',
+      sight: 'tourist_attraction',
+    };
+    const validIncludedType = TYPE_MAP[type.toLowerCase()] || type;
+    body.includedType = validIncludedType;
   }
 
   if (locationBias) {

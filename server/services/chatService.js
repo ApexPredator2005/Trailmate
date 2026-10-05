@@ -153,11 +153,18 @@ async function handleComposeStage(tripState, onProgress = null) {
   let raw;
   try {
     const prompt = buildComposeItineraryPrompt(tripForCompose);
-    raw = await generateJSON(prompt, COMPOSE_ITINERARY_SYSTEM_INSTRUCTION);
+    // 12-second timeout so user never waits more than 12s for composition
+    const timeoutPromise = new Promise((_, reject) =>
+      setTimeout(() => reject(new Error('Composition timed out after 12s')), 12000)
+    );
+    raw = await Promise.race([
+      generateJSON(prompt, COMPOSE_ITINERARY_SYSTEM_INSTRUCTION),
+      timeoutPromise,
+    ]);
     if (onProgress) onProgress(`Organizing daily schedules and activity blocks…`);
   } catch (err) {
-    console.warn('[chatService] Gemini compose failed:', err.message);
-    // Return null — conversation engine has a client-side fallback composer
+    console.warn('[chatService] Gemini compose failed or timed out:', err.message);
+    // Return null — conversation engine has a rich client-side fallback composer
     return {
       reply: null,
       itinerary: null,

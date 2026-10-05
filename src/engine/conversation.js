@@ -22,6 +22,7 @@
 import { store } from '../store/state.js';
 import { api, syncDestinationCardWeather, formatWeatherString } from '../services/api.js';
 import { downloadIcsCalendar } from '../views/ShareView.js';
+import { getRestaurantInsights } from '../data/RestaurantInsightsData.js';
 
 /* ── Constants ──────────────────────────────────────────────────────── */
 
@@ -1954,15 +1955,36 @@ export class ConversationEngine {
         return await this._composeItinerary();
       }
 
-      const cards = places.map((p, i) => ({
-        id: p.id || `rest-${i}`,
-        name: p.name,
-        description: p.description || p.formattedAddress || '',
-        rating: p.rating ? String(p.rating) : null,
-        photo: p.photo || null,
-        photos: p.photos || (p.photo ? [p.photo] : []),
-        _raw: p,
-      }));
+      const cards = places.map((p, i) => {
+        const insights = getRestaurantInsights(p.name);
+        const dishes = insights.specialties ? insights.specialties.slice(0, 3).join(' • ') : '';
+        const richDesc = `${insights.famousFor}\n\n🍴 Must-try: ${dishes}\n${insights.ambience}`;
+        const photos = (p.photos && p.photos.length > 0)
+          ? p.photos
+          : (insights.photo ? [insights.photo] : (p.photo ? [p.photo] : []));
+
+        return {
+          id: p.id || `rest-${i}`,
+          name: p.name,
+          description: richDesc,
+          famousFor: insights.famousFor,
+          specialties: insights.specialties,
+          ambience: insights.ambience,
+          cuisine: insights.cuisine,
+          price: insights.price || p.price,
+          rating: p.rating ? String(p.rating) : null,
+          photo: photos[0] || null,
+          photos,
+          _raw: {
+            ...p,
+            famousFor: insights.famousFor,
+            specialties: insights.specialties,
+            ambience: insights.ambience,
+            cuisine: insights.cuisine,
+            price: insights.price || p.price,
+          },
+        };
+      });
 
       store.pushMessage({
         role: 'bot',
@@ -2549,25 +2571,30 @@ export class ConversationEngine {
       if (i === 0) {
         // ── Arrival day ──
         if (trip.selectedFlight) {
+          const f = trip.selectedFlight;
+          const airline = f.airline || f.name || 'Flight';
+          const flightNum = f.flightNumber || f._raw?.flightNumber || '';
+          const route = f.origin && f.destination ? ` (${f.origin} ➔ ${f.destination})` : '';
           day.stops.push({
             time:
-              trip.selectedFlight.arrival_time ||
-              trip.selectedFlight.arrivalTime ||
+              f.arrival_time ||
+              f.arrivalTime ||
               'Morning',
             title: `Arrive at ${trip.destination}`,
-            description: trip.selectedFlight.airline
-              ? `${trip.selectedFlight.airline} flight`
-              : 'Arrival',
+            description: `${airline} ${flightNum}${route} · Touchdown & airport transfer`.trim(),
             isComplete: false,
           });
         }
 
         if (trip.selectedHotel) {
+          const h = trip.selectedHotel;
+          const rating = h.rating ? ` · ★ ${h.rating}` : '';
+          const style = h.type || (h.price ? `Rate: ${h.price}` : 'Boutique Stay');
           day.stops.push({
             time: 'Afternoon',
-            title: `Check in: ${trip.selectedHotel.name}`,
-            description: trip.selectedHotel.formattedAddress || '',
-            photo: trip.selectedHotel.photo || null,
+            title: `Check in: ${h.name}`,
+            description: `${style}${rating} — Unpack, refresh, and settle into your accommodations.`,
+            photo: h.photo || null,
             isComplete: false,
           });
         }
@@ -2585,10 +2612,14 @@ export class ConversationEngine {
 
         const timeSlots = ['Morning', 'Late Morning', 'Afternoon', 'Evening'];
         dayPlaces.forEach((p, pi) => {
+          let desc = p.description || '';
+          if (!desc || desc.length < 5 || desc.includes('Located in')) {
+            desc = p.category ? `Explore ${p.category} highlights and take in scenic views.` : 'Must-visit regional attraction and landmark walking tour.';
+          }
           day.stops.push({
             time: timeSlots[pi] || 'Afternoon',
             title: p.name,
-            description: p.formattedAddress || '',
+            description: desc,
             photo: p.photo || null,
             isComplete: false,
           });
@@ -2598,10 +2629,19 @@ export class ConversationEngine {
         const restIdx = i - 1;
         const restaurant = (trip.selectedRestaurants || [])[restIdx];
         if (restaurant) {
+          const ins = getRestaurantInsights(restaurant.name);
+          let desc = '';
+          if (ins) {
+            const dishes = ins.specialties?.slice(0, 2).join(', ');
+            desc = `Famous for ${ins.famousFor}. Must-try: ${dishes}. ${ins.ambience}`;
+          } else {
+            desc = restaurant.cuisine ? `${restaurant.cuisine} specialties in an ambient evening setting.` : 'Authentic regional dinner and local flavours.';
+          }
+
           day.stops.push({
             time: 'Evening',
             title: `Dinner: ${restaurant.name}`,
-            description: restaurant.formattedAddress || '',
+            description: desc,
             isComplete: false,
           });
         }
@@ -2616,7 +2656,7 @@ export class ConversationEngine {
           day.stops.push({
             time: 'Morning',
             title: `Check out: ${trip.selectedHotel.name}`,
-            description: '',
+            description: 'Pack luggage, complete check-out, and enjoy a leisurely morning coffee.',
             isComplete: false,
           });
         }
@@ -2624,7 +2664,7 @@ export class ConversationEngine {
         day.stops.push({
           time: 'Afternoon',
           title: `Depart ${trip.destination}`,
-          description: '',
+          description: `Farewell ${trip.destination} — transfer to airport / station for onward journey.`,
           isComplete: false,
         });
       }

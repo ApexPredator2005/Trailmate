@@ -25,6 +25,9 @@
   <link rel="stylesheet" href="/src/styles/cards.css"/>
   <link rel="stylesheet" href="/src/styles/scrapbook.css"/>
   <link rel="stylesheet" href="/src/styles/scrapbook-workspace.css"/>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+  <link rel="stylesheet" href="/src/styles/map.css"/>
+  <link rel="stylesheet" href="/src/styles/community.css"/>
 
   <script id="tailwind-config">
     tailwind.config = {
@@ -428,6 +431,12 @@
         </a>
       </li>
       <li>
+        <a class="sidebar-nav-item flex items-center gap-3 text-on-surface-variant px-3.5 py-2.5 hover:bg-surface-container-high rounded-lg scale-100 active:scale-95 transition-transform" data-view="community" href="#community">
+          <span class="material-symbols-outlined text-lg">group</span>
+          Community
+        </a>
+      </li>
+      <li>
         <a class="sidebar-nav-item flex items-center gap-3 text-on-surface-variant px-3.5 py-2.5 hover:bg-surface-container-high rounded-lg scale-100 active:scale-95 transition-transform" data-view="settings" href="#settings">
           <span class="material-symbols-outlined text-lg">settings</span>
           Settings
@@ -659,7 +668,29 @@
       <!-- ScrapbookWorkspace mounts here -->
     </div>
 
+    <!-- Dedicated Full-Screen Map Workspace View (fills 100% available space right of sidebar) -->
+    <div id="mapWorkspaceView" class="hidden flex-1 h-full w-full absolute inset-0 overflow-hidden z-20 bg-[#FBF8F3]">
+      <!-- Full MapView mounts here -->
+    </div>
+
+    <!-- Dedicated Full-Screen Community Workspace View (Feed, Quests, Badges) -->
+    <div id="communityWorkspaceView" class="hidden flex-1 h-full w-full absolute inset-0 overflow-hidden z-20 bg-[#FBF8F3]">
+      <!-- CommunityView mounts here -->
+    </div>
+
   </main>
+
+  <!-- App Global Modal (Traveler Passport & Quest Rewards) -->
+  <div id="appModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-xs transition-opacity duration-200">
+    <div class="relative w-full max-w-lg bg-[#FCF9F4] rounded-2xl border border-[#BFA895]/50 shadow-2xl p-6 overflow-hidden">
+      <button id="btnModalClose" class="absolute top-4 right-4 p-1.5 rounded-full text-neutral-500 hover:text-neutral-800 hover:bg-black/5 transition-colors cursor-pointer" aria-label="Close modal">
+        <span class="material-symbols-outlined text-xl">close</span>
+      </button>
+      <div id="modalBody">
+        <!-- Injected dynamically -->
+      </div>
+    </div>
+  </div>
 
   <script type="module" src="/src/main.js"></script>
 </body>

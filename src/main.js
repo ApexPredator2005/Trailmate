@@ -18,15 +18,18 @@ import { api, syncDestinationCardWeather, formatWeatherString } from './services
 import { renderSettingsView } from './views/SettingsView.js';
 import { renderTripsView }    from './views/TripsView.js';
 import { renderMapView }      from './views/MapView.js';
+import { renderCommunityView } from './views/CommunityView.js';
 import { renderGuideView }    from './views/GuideView.js';
 import { renderPrivacyView }  from './views/PrivacyView.js';
 import { renderShareView, downloadIcsCalendar } from './views/ShareView.js';
+import { communityService }   from './services/CommunityService.js';
 import { getDestinationHeaderArt } from './components/HeaderDoodlesData.js';
 
 document.addEventListener('DOMContentLoaded', () => {
 
   // ── 0. Conversation engine ──────────────────────────────────────────
   const engine = new ConversationEngine();
+  window.__trailmate = { engine, store };
 
   // ── 1. Resizable split-view ─────────────────────────────────────────
   initSplitView({
@@ -154,6 +157,8 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   const scrapbookView = document.getElementById('scrapbookWorkspaceView');
+  const mapWorkspaceView = document.getElementById('mapWorkspaceView');
+  const communityWorkspaceView = document.getElementById('communityWorkspaceView');
   let scrapbookWorkspace = null;
 
   function clearTransitionClasses() {
@@ -162,6 +167,8 @@ document.addEventListener('DOMContentLoaded', () => {
     fullViewBackground?.classList.remove('view-section-enter');
     fullViewCard?.classList.remove('view-card-stagger-in', 'view-card-sub-swap');
     scrapbookView?.classList.remove('view-section-enter', 'view-section-exit');
+    mapWorkspaceView?.classList.remove('view-section-enter', 'view-section-exit');
+    communityWorkspaceView?.classList.remove('view-section-enter', 'view-section-exit');
   }
 
   function switchView(viewName) {
@@ -183,6 +190,8 @@ document.addEventListener('DOMContentLoaded', () => {
       // Show full-screen Canva-like Scrapbook Studio
       splitChatView?.classList.add('hidden');
       fullViewSection?.classList.add('hidden');
+      if (mapWorkspaceView) mapWorkspaceView.classList.add('hidden');
+      if (communityWorkspaceView) communityWorkspaceView.classList.add('hidden');
       if (scrapbookView) scrapbookView.classList.remove('hidden');
 
       if (!scrapbookWorkspace) {
@@ -202,12 +211,65 @@ document.addEventListener('DOMContentLoaded', () => {
       }, 220);
       return;
     } else {
-      // Leaving scrapbook
       if (scrapbookView) scrapbookView.classList.add('hidden');
     }
 
+    if (viewName === 'map') {
+      // Show full-screen interactive MapView covering all space right of sidebar
+      splitChatView?.classList.add('hidden');
+      fullViewSection?.classList.add('hidden');
+      if (scrapbookView) scrapbookView.classList.add('hidden');
+      if (communityWorkspaceView) communityWorkspaceView.classList.add('hidden');
+      if (mapWorkspaceView) {
+        mapWorkspaceView.classList.remove('hidden');
+        renderMapView(mapWorkspaceView, { switchView, store });
+      }
+
+      if (reduced) return;
+
+      isTransitioning = true;
+      mapWorkspaceView?.classList.add('view-section-enter');
+      pendingTransitionTimer = setTimeout(() => {
+        clearTransitionClasses();
+        isTransitioning = false;
+        pendingTransitionTimer = null;
+      }, 220);
+      return;
+    } else {
+      if (mapWorkspaceView) mapWorkspaceView.classList.add('hidden');
+    }
+
+    if (viewName === 'community') {
+      // Show full-screen Community Hub, Quests & Badges
+      splitChatView?.classList.add('hidden');
+      fullViewSection?.classList.add('hidden');
+      if (scrapbookView) scrapbookView.classList.add('hidden');
+      if (mapWorkspaceView) mapWorkspaceView.classList.add('hidden');
+      if (communityWorkspaceView) {
+        communityWorkspaceView.classList.remove('hidden');
+        renderCommunityView(communityWorkspaceView, {
+          switchView,
+          store,
+          openPassportModal,
+        });
+      }
+
+      if (reduced) return;
+
+      isTransitioning = true;
+      communityWorkspaceView?.classList.add('view-section-enter');
+      pendingTransitionTimer = setTimeout(() => {
+        clearTransitionClasses();
+        isTransitioning = false;
+        pendingTransitionTimer = null;
+      }, 220);
+      return;
+    } else {
+      if (communityWorkspaceView) communityWorkspaceView.classList.add('hidden');
+    }
+
     if (viewName === 'chat') {
-      // Switching from FullView back to Chat
+      // Switching back to Chat
       if (fullViewScrollContainer) fullViewScrollContainer.scrollTop = 0;
       if (splitChatView) splitChatView.classList.remove('hidden');
 
@@ -228,14 +290,14 @@ document.addEventListener('DOMContentLoaded', () => {
       }, 190);
 
     } else {
-      // Switching to a FullView section (settings, map, trips, guide, privacy, share)
+      // Switching to a standard FullView section (settings, trips, guide, privacy, share)
       if (fullViewSection) fullViewSection.classList.remove('hidden');
       if (fullViewScrollContainer) fullViewScrollContainer.scrollTop = 0;
 
-      const isSubNav = previousView !== 'chat' && previousView !== null && previousView !== 'scrapbook';
+      const isSubNav = previousView !== 'chat' && previousView !== null && previousView !== 'scrapbook' && previousView !== 'map';
 
       if (isSubNav) {
-        // Instant calm cross-fade between subviews (Trips <-> Map <-> Settings)
+        // Instant calm cross-fade between subviews (Trips <-> Settings)
         renderCardContent(viewName);
         splitChatView?.classList.add('hidden');
         if (reduced) return;
@@ -292,6 +354,125 @@ document.addEventListener('DOMContentLoaded', () => {
     },
   });
 
+  // ── Traveler Passport & Profile Modal ───────────────────────────────
+  function openPassportModal() {
+    const profile = communityService.getProfile();
+    const earnedBadges = communityService.getEarnedBadges();
+    const earnedIds = new Set(communityService.getEarnedBadgeIds());
+    const unlockedStickers = communityService.getUnlockedStickerIds();
+
+    const passportHtml = `
+      <div class="p-1">
+        <!-- Passport Header -->
+        <div class="flex items-start justify-between pb-4 pr-7 border-b border-[#BFA895]/30">
+          <div class="flex items-center gap-3.5">
+            <img src="${profile.avatar}" alt="${profile.name}" class="w-14 h-14 rounded-full object-cover border-2 border-[#BFA895] shadow-sm" />
+            <div>
+              <div class="flex items-center gap-2">
+                <h3 class="text-base font-bold text-neutral-900 font-headline-md">${profile.name}</h3>
+                <span class="text-[10px] font-mono text-neutral-500">${profile.handle}</span>
+              </div>
+              <p class="text-[11px] font-mono font-bold text-[#8B4513] mt-0.5">
+                Level ${profile.level || 1} Adventurer · ${profile.xp || 0} Total XP
+              </p>
+              <p class="text-[10.5px] text-neutral-600 font-medium">From ${profile.homeCity || 'Delhi'}, India</p>
+            </div>
+          </div>
+          <span class="hidden sm:inline-block bg-[#5B8C7B]/10 text-[#2E4433] text-[9.5px] font-mono font-bold px-2.5 py-1 rounded-full border border-[#5B8C7B]/30 whitespace-nowrap">
+            PASSPORT
+          </span>
+        </div>
+
+        <!-- Editable Bio & One-Word Micro Tags -->
+        <div class="my-4 p-3 bg-white/70 rounded-xl border border-[#BFA895]/35">
+          <div class="flex items-center justify-between mb-1.5">
+            <span class="text-[10px] font-mono font-bold uppercase text-neutral-500">ONE-WORD BIO TAGS (#INSTA-STYLE):</span>
+            <button id="btnEditBioTags" class="text-[10px] font-bold text-[#8B4513] hover:underline cursor-pointer">
+              Edit Tags
+            </button>
+          </div>
+          <div class="flex flex-wrap gap-1.5" id="passportBioTagsList">
+            ${(profile.bioTags || []).map(tag => `
+              <span class="bio-tag-pill text-xs py-0.5 px-2">#${tag}</span>
+            `).join('')}
+          </div>
+          <p class="text-[11px] text-neutral-700 italic mt-2.5 pt-2 border-t border-black/5">
+            "${profile.bioNote || 'Roaming through mountain valleys & coastal forts.'}"
+          </p>
+        </div>
+
+        <!-- Earned Medallions & Trophy Shelf -->
+        <div class="mb-4">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-[10px] font-mono font-bold uppercase text-neutral-500">
+              EARNED TROPHIES &amp; MEDALLIONS (${earnedBadges.length})
+            </span>
+            <button id="btnViewAllBadgesFromPassport" class="text-[10px] font-bold text-[#5B8C7B] hover:underline cursor-pointer">
+              Open Trophy Hall
+            </button>
+          </div>
+          <div class="grid grid-cols-2 gap-2">
+            ${earnedBadges.map(b => `
+              <div class="flex items-center gap-2 p-2 bg-[#F6F3EE] rounded-xl border border-black/5">
+                <span class="material-symbols-outlined text-lg text-[#C4703D]">${b.icon}</span>
+                <div class="min-w-0">
+                  <h5 class="text-[11px] font-bold text-neutral-900 truncate">${b.name}</h5>
+                  <p class="text-[9px] font-mono text-neutral-500 capitalize">+${b.points} XP · ${b.tier}</p>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+
+        <!-- Unlocked Coordinate Quest Stickers -->
+        <div class="mb-4 p-3 bg-[#FBF3DB]/60 rounded-xl border border-[#C4703D]/25">
+          <div class="flex items-center justify-between mb-1.5">
+            <span class="text-[10px] font-mono font-bold uppercase text-[#944A1A]">
+              QUEST TREASURE STICKERS UNLOCKED:
+            </span>
+            <span class="text-[10px] font-mono text-[#944A1A] font-bold">${unlockedStickers.length} in Scrapbook</span>
+          </div>
+          <p class="text-[10.5px] text-neutral-600">
+            ${unlockedStickers.length > 0 ? 'Your unlocked quest emblems are ready to paste in Scrapbook Studio!' : 'Complete coordinate quests on the Community tab to unlock rare seals.'}
+          </p>
+        </div>
+
+        <div class="flex gap-2 pt-2 border-t border-[#BFA895]/20">
+          <button id="btnGoToCommunityFromPassport" class="flex-1 py-2.5 bg-[#8b4513] text-white rounded-xl text-xs font-bold hover:bg-[#703810] cursor-pointer">
+            Explore Community &amp; Quests
+          </button>
+          <button id="btnClosePassportModal" class="py-2.5 px-4 bg-white border border-neutral-300 rounded-xl text-xs font-bold text-neutral-700 hover:bg-neutral-50 cursor-pointer">
+            Close
+          </button>
+        </div>
+      </div>
+    `;
+
+    if (modal && modalBody) {
+      modalBody.innerHTML = passportHtml;
+      modal.classList.remove('hidden');
+
+      document.getElementById('btnClosePassportModal')?.addEventListener('click', closeModal);
+      document.getElementById('btnGoToCommunityFromPassport')?.addEventListener('click', () => {
+        closeModal();
+        switchView('community');
+      });
+      document.getElementById('btnViewAllBadgesFromPassport')?.addEventListener('click', () => {
+        closeModal();
+        switchView('community');
+      });
+      document.getElementById('btnEditBioTags')?.addEventListener('click', () => {
+        const current = (profile.bioTags || []).join(', ');
+        const input = prompt('Enter your one-word bio tags (separated by commas):', current);
+        if (input !== null) {
+          const tags = input.split(',').map(s => s.trim().replace(/^#/, '')).filter(Boolean);
+          communityService.saveProfile({ bioTags: tags });
+          openPassportModal();
+        }
+      });
+    }
+  }
+
   // ── Footer Profile, Help & Privacy ──────────────────────────────────
   const btnProfile = document.getElementById('btnProfile');
   const btnHelp = document.getElementById('btnHelp');
@@ -299,7 +480,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (btnProfile) {
     btnProfile.addEventListener('click', () => {
-      switchView('settings');
+      openPassportModal();
     });
   }
 
@@ -365,6 +546,7 @@ document.addEventListener('DOMContentLoaded', () => {
       engine.handleCardSelected(card);
     },
   });
+  if (window.__trailmate) window.__trailmate.chatThread = chatThread;
 
   // ── 4. Chat Input & Voice Recognition ───────────────────────────────
   const chatInput = new ChatInput({

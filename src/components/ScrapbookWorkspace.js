@@ -2936,7 +2936,11 @@ export class ScrapbookWorkspace {
     });
 
     this.container.querySelector('#btnExportScrapbook')?.addEventListener('click', () => {
+      document.body.classList.add('is-printing-scrapbook');
       window.print();
+      setTimeout(() => {
+        document.body.classList.remove('is-printing-scrapbook');
+      }, 1000);
     });
 
     // In-Canvas Zoom Controls

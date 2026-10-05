@@ -6,11 +6,10 @@
 // anti-fabrication constraints.
 
 const CANDIDATE_MODELS = [
-  process.env.GEMINI_MODEL || "gemini-3-flash-preview",
+  process.env.GEMINI_MODEL || "gemini-3.8-flash",
+  "gemini-3.8-flash",
+  "gemini-3-flash-preview",
   "gemini-3.7-flash",
-  "gemini-3.5-flash",
-  "gemini-flash-latest",
-  "gemini-3.5-flash-lite",
 ];
 
 const MAX_RETRIES = 3;

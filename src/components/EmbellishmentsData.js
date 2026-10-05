@@ -118,6 +118,7 @@ export const SCRAPBOOK_FONTS = [
 export const EMBELLISHMENT_CATEGORIES = [
   { id: 'recent', name: '🕐 Recent', icon: 'history' },
   { id: 'favorites', name: '❤️ Favorites', icon: 'favorite' },
+  { id: 'quests', name: '💎 Quest Treasures', icon: 'military_tech' },
   { id: 'stamps', name: '✉️ City Postage Stamps', icon: 'local_post_office' },
   { id: 'food', name: 'Food & Snacks', icon: 'restaurant' },
   { id: 'travel', name: 'Travel, Trails & Moments', icon: 'explore' },
@@ -128,6 +129,82 @@ export const EMBELLISHMENT_CATEGORIES = [
 ];
 
 export const EMBELLISHMENTS = {
+  quests: [
+    {
+      id: 'quest-sticker-goa-compass',
+      name: '🧭 Golden Portuguese Compass',
+      category: 'quests',
+      width: 140,
+      height: 140,
+      svg: `<svg viewBox="0 0 100 100" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="50" cy="50" r="46" fill="#F8E7BE" stroke="#B8860B" stroke-width="4"/>
+        <circle cx="50" cy="50" r="40" fill="none" stroke="#D4AF37" stroke-dasharray="2,3" stroke-width="1.5"/>
+        <polygon points="50,12 55,45 50,40 45,45" fill="#C4703D"/>
+        <polygon points="50,88 55,55 50,60 45,55" fill="#1E3A34"/>
+        <polygon points="12,50 45,55 40,50 45,45" fill="#8B5A2B"/>
+        <polygon points="88,50 55,55 60,50 55,45" fill="#8B5A2B"/>
+        <circle cx="50" cy="50" r="6" fill="#D4AF37" stroke="#FFFFFF" stroke-width="2"/>
+        <text x="50" y="24" font-size="8" font-family="'JetBrains Mono', monospace" font-weight="bold" fill="#703810" text-anchor="middle">N</text>
+      </svg>`,
+    },
+    {
+      id: 'quest-sticker-ooty-fern',
+      name: '🌿 Ancient Silver Fern Emblem',
+      category: 'quests',
+      width: 130,
+      height: 130,
+      svg: `<svg viewBox="0 0 100 100" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="50" cy="50" r="45" fill="#EAF3EC" stroke="#5B8C7B" stroke-width="3"/>
+        <path d="M50 15 Q55 50 35 85 Q52 52 50 15" fill="#5B8C7B"/>
+        <path d="M50 25 Q68 30 72 20 Q62 38 50 40" fill="#2E4433"/>
+        <path d="M48 35 Q30 38 25 30 Q36 48 48 50" fill="#2E4433"/>
+        <path d="M50 48 Q70 54 75 45 Q64 62 50 64" fill="#2E4433"/>
+        <circle cx="50" cy="50" r="40" fill="none" stroke="#5B8C7B" stroke-dasharray="3,2" stroke-width="1"/>
+      </svg>`,
+    },
+    {
+      id: 'quest-sticker-manali-crest',
+      name: '❄️ Alpine Ice Crystal Seal',
+      category: 'quests',
+      width: 130,
+      height: 130,
+      svg: `<svg viewBox="0 0 100 100" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+        <polygon points="50,6 88,28 88,72 50,94 12,72 12,28" fill="#E8F4F8" stroke="#4682B4" stroke-width="3"/>
+        <line x1="50" y1="16" x2="50" y2="84" stroke="#4682B4" stroke-width="2.5"/>
+        <line x1="20" y1="33" x2="80" y2="67" stroke="#4682B4" stroke-width="2.5"/>
+        <line x1="20" y1="67" x2="80" y2="33" stroke="#4682B4" stroke-width="2.5"/>
+        <circle cx="50" cy="50" r="7" fill="#FFFFFF" stroke="#4682B4" stroke-width="2"/>
+      </svg>`,
+    },
+    {
+      id: 'quest-sticker-jaipur-peacock',
+      name: '🦚 Royal Amber Peacock Seal',
+      category: 'quests',
+      width: 140,
+      height: 140,
+      svg: `<svg viewBox="0 0 100 100" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="50" cy="50" r="46" fill="#FBF3DB" stroke="#C4703D" stroke-width="3.5"/>
+        <circle cx="50" cy="50" r="39" fill="none" stroke="#D4AF37" stroke-dasharray="2,2"/>
+        <path d="M40 75 Q42 50 50 35 Q55 25 58 35 Q60 55 52 75 Z" fill="#0E4D92"/>
+        <circle cx="56" cy="28" r="4" fill="#00A877"/>
+        <circle cx="34" cy="40" r="6" fill="#00A877" stroke="#D4AF37" stroke-width="1.5"/>
+        <circle cx="66" cy="40" r="6" fill="#00A877" stroke="#D4AF37" stroke-width="1.5"/>
+      </svg>`,
+    },
+    {
+      id: 'quest-sticker-munnar-tea',
+      name: '🍵 Golden Orthodox Tea Monogram',
+      category: 'quests',
+      width: 130,
+      height: 130,
+      svg: `<svg viewBox="0 0 100 100" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="50" cy="50" r="46" fill="#F4EDE1" stroke="#8B5A2B" stroke-width="3"/>
+        <path d="M50 20 C65 20 75 35 70 55 C65 75 50 85 50 85 C50 85 35 75 30 55 C25 35 35 20 50 20 Z" fill="#758E4F" opacity="0.9"/>
+        <line x1="50" y1="30" x2="50" y2="80" stroke="#F4EDE1" stroke-width="2"/>
+        <text x="50" y="93" font-size="7" font-family="'JetBrains Mono', monospace" font-weight="bold" fill="#8B5A2B" text-anchor="middle">EST. 1888</text>
+      </svg>`,
+    },
+  ],
   stamps: [
     { id: 'stamp-goa', name: 'Goa Coastal Portuguese Church Stamp', category: 'stamps', width: 130, height: 130, imgSrc: '/embellishments/stamps/stamp-goa.png', svg: '<img src="/embellishments/stamps/stamp-goa.png" alt="Goa Coastal Portuguese Church Stamp" class="w-full h-full object-contain pointer-events-none select-none drop-shadow-md" />' },
     { id: 'stamp-manali', name: 'Manali Himalayan Glacier Peak Stamp', category: 'stamps', width: 130, height: 130, imgSrc: '/embellishments/stamps/stamp-manali.png', svg: '<img src="/embellishments/stamps/stamp-manali.png" alt="Manali Himalayan Glacier Peak Stamp" class="w-full h-full object-contain pointer-events-none select-none drop-shadow-md" />' },
