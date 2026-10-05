@@ -423,25 +423,30 @@
    Ensures clicking "Download / Print PDF" outputs a complete, editorial travel guide
    ========================================================================== */
 @media print {
-  /* Only apply when NOT printing from Scrapbook */
+  /* Set standard printable page margins */
+  @page {
+    margin: 14mm 15mm 15mm 15mm;
+    size: portrait;
+  }
+
+  /* Reset document flow when printing Itinerary (not scrapbook) */
+  html:not(.is-printing-scrapbook),
   body:not(.is-printing-scrapbook) {
     overflow: visible !important;
     height: auto !important;
+    min-height: 0 !important;
     background: #ffffff !important;
     color: #1a1a1a !important;
-  }
-
-  body:not(.is-printing-scrapbook) #app,
-  body:not(.is-printing-scrapbook) #appMain,
-  body:not(.is-printing-scrapbook) .app-container {
+    font-size: 12pt;
+    margin: 0 !important;
+    padding: 0 !important;
     display: block !important;
-    height: auto !important;
-    overflow: visible !important;
-    background: #ffffff !important;
   }
 
-  /* Hide navigation, sidebar, chat thread, input, floating tools, and preview maps */
+  /* Hide app navigation sidebar, chat panel, resizer, modals, and extraneous overlays */
   body:not(.is-printing-scrapbook) #sidebar,
+  body:not(.is-printing-scrapbook) nav#sidebar,
+  body:not(.is-printing-scrapbook) .sidebar,
   body:not(.is-printing-scrapbook) .app-sidebar,
   body:not(.is-printing-scrapbook) #chatPane,
   body:not(.is-printing-scrapbook) .chat-pane,
@@ -460,65 +465,121 @@
   body:not(.is-printing-scrapbook) #itineraryExportSection,
   body:not(.is-printing-scrapbook) .itinerary-panel-export {
     display: none !important;
+    visibility: hidden !important;
   }
 
-  /* Expand Itinerary Pane to full width editorial printable booklet */
-  body:not(.is-printing-scrapbook) #itineraryPane,
-  body:not(.is-printing-scrapbook) .itinerary-pane {
+  /* Unwrap main app containers so the itinerary takes natural print layout */
+  body:not(.is-printing-scrapbook) #app,
+  body:not(.is-printing-scrapbook) #appMain,
+  body:not(.is-printing-scrapbook) main#appMain,
+  body:not(.is-printing-scrapbook) #splitChatView,
+  body:not(.is-printing-scrapbook) .app-container {
     display: block !important;
+    position: static !important;
+    margin: 0 !important;
+    padding: 0 !important;
     width: 100% !important;
     max-width: 100% !important;
     height: auto !important;
+    min-height: 0 !important;
+    overflow: visible !important;
+    background: transparent !important;
+  }
+
+  /* Expand Itinerary Pane to full-width editorial printable booklet */
+  body:not(.is-printing-scrapbook) #itineraryPane,
+  body:not(.is-printing-scrapbook) aside#itineraryPane,
+  body:not(.is-printing-scrapbook) .itinerary-pane {
+    display: block !important;
+    position: static !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
     overflow: visible !important;
     border: none !important;
     background: #ffffff !important;
     padding: 0 !important;
     margin: 0 !important;
+    box-shadow: none !important;
   }
 
-  body:not(.is-printing-scrapbook) .itinerary-body,
-  body:not(.is-printing-scrapbook) #itineraryBody {
-    overflow: visible !important;
-    height: auto !important;
-    padding: 12px 20px !important;
-    display: block !important;
-  }
-
-  /* Print Header Banner */
+  /* Clean Itinerary Header Bar */
+  body:not(.is-printing-scrapbook) #itineraryPane > div:first-child,
   body:not(.is-printing-scrapbook) .itinerary-pane-header,
   body:not(.is-printing-scrapbook) .itinerary-header {
     position: static !important;
-    border-bottom: 2px solid #8b4513 !important;
-    padding: 16px 20px !important;
-    margin-bottom: 16px !important;
-    background: #faf7f2 !important;
+    border-bottom: 2px solid #944A1A !important;
+    padding: 12px 0 16px 0 !important;
+    margin-bottom: 20px !important;
+    background: transparent !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
   }
 
-  /* Prevent page breaks inside cards and days */
+  body:not(.is-printing-scrapbook) #itineraryPane > div:first-child h3 {
+    font-size: 22pt !important;
+    color: #2D1E14 !important;
+  }
+
+  /* Timeline body container */
+  body:not(.is-printing-scrapbook) .itinerary-body,
+  body:not(.is-printing-scrapbook) #itineraryBody {
+    overflow: visible !important;
+    height: auto !important;
+    min-height: 0 !important;
+    padding: 0 !important;
+    display: block !important;
+  }
+
+  /* Passport Stamp styling */
+  body:not(.is-printing-scrapbook) .passport-stamp {
+    border: 2px dashed #944A1A !important;
+    background: rgba(148, 74, 26, 0.04) !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    margin-bottom: 24px !important;
+  }
+
+  /* Prevent awkward page breaks across itinerary days and cards */
   body:not(.is-printing-scrapbook) .itinerary-day,
+  body:not(.is-printing-scrapbook) [role="region"][aria-label^="Day"],
   body:not(.is-printing-scrapbook) .itinerary-stop,
   body:not(.is-printing-scrapbook) .itinerary-ticket-stub,
   body:not(.is-printing-scrapbook) .itinerary-hotel-confirmed {
     break-inside: avoid !important;
     page-break-inside: avoid !important;
-    margin-bottom: 16px !important;
+    margin-bottom: 20px !important;
+  }
+
+  /* Stop cards styling for clean print */
+  body:not(.is-printing-scrapbook) #itineraryBody .bg-surface-container-lowest {
+    border: 1px solid #E5DFD7 !important;
     box-shadow: none !important;
-    border: 1px solid #d4c5b9 !important;
+    border-radius: 10px !important;
+    padding: 12px 14px !important;
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
   }
 
-  body:not(.is-printing-scrapbook) .itinerary-timeline {
-    border-left: 2px solid #c4703d !important;
-    margin-left: 14px !important;
-    padding-left: 18px !important;
+  /* Timeline line and node styling */
+  body:not(.is-printing-scrapbook) .itinerary-timeline,
+  body:not(.is-printing-scrapbook) #itineraryBody [style*="background-color"] {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
   }
 
-  body:not(.is-printing-scrapbook) .itinerary-timeline-node {
-    border: 2px solid #c4703d !important;
-    background: #ffffff !important;
+  /* Budget summary card styling */
+  body:not(.is-printing-scrapbook) #itineraryBody .bg-surface-container-low {
+    border: 1px solid #D8CEBE !important;
+    background: #FAF7F2 !important;
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
   }
 }
 
