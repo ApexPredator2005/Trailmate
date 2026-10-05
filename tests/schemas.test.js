@@ -76,4 +76,27 @@ describe('Zod API Route Schemas', () => {
       }
     });
   });
+
+  describe('Security & Input Sanitization', () => {
+    it('rejects oversized chat message exceeding 4000 characters', () => {
+      const oversizedMessage = 'a'.repeat(4001);
+      const result = chatTurnSchema.safeParse({ message: oversizedMessage });
+      expect(result.success).toBe(false);
+    });
+
+    it('validates chat message within bounds', () => {
+      const validMessage = 'a'.repeat(4000);
+      const result = chatTurnSchema.safeParse({ message: validMessage });
+      expect(result.success).toBe(true);
+    });
+
+    it('rejects malformed date formats in flightSearchSchema', () => {
+      const result = flightSearchSchema.safeParse({
+        from: 'DEL',
+        to: 'CJB',
+        date: '15-09-2026', // wrong format
+      });
+      expect(result.success).toBe(false);
+    });
+  });
 });

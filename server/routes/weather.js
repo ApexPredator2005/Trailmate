@@ -9,7 +9,7 @@ import { Router } from 'express';
 import { cache } from '../services/cache.js';
 import { getForecast, getAlerts } from '../services/weatherApi.js';
 import { validateQuery } from '../middleware/validate.js';
-import { weatherForecastSchema } from '../schemas/index.js';
+import { weatherForecastSchema, weatherAlertsSchema } from '../schemas/index.js';
 
 const router = Router();
 
@@ -85,7 +85,7 @@ router.get('/forecast', validateQuery(weatherForecastSchema), async (req, res, n
 });
 
 // GET /api/weather/alerts
-router.get('/alerts', async (req, res, next) => {
+router.get('/alerts', validateQuery(weatherAlertsSchema), async (req, res, next) => {
   try {
     const { location = 'Ooty' } = req.query;
     const cleanLocation = String(location).trim().toLowerCase();

@@ -16,7 +16,7 @@ import { Router } from 'express';
 import { searchFlights, findNearestAirport } from '../services/flightService.js';
 import { getLastMileFare } from '../services/lastMileService.js';
 import { validateQuery } from '../middleware/validate.js';
-import { flightSearchSchema } from '../schemas/index.js';
+import { flightSearchSchema, lastMileFareSchema } from '../schemas/index.js';
 
 const router = Router();
 
@@ -82,7 +82,7 @@ router.get('/search', validateQuery(flightSearchSchema), async (req, res, next) 
  * GET /api/flights/last-mile-fare
  * Google Search-grounded last-mile transport pricing and routing.
  */
-router.get('/last-mile-fare', async (req, res) => {
+router.get('/last-mile-fare', validateQuery(lastMileFareSchema), async (req, res) => {
   try {
     const {
       fromAirport,

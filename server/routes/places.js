@@ -10,6 +10,8 @@ import { cache } from '../services/cache.js';
 import { searchPlaces, getPlaceDetails, getPhotoUrl } from '../services/placesApi.js';
 import { rankCandidates } from '../services/rankingService.js';
 import { getHotelLivePrice, getStayApiQuota } from '../services/stayApi.js';
+import { validateQuery } from '../middleware/validate.js';
+import { placesSearchSchema, hotelPriceSchema, placeDetailsSchema } from '../schemas/index.js';
 
 const router = Router();
 
@@ -2164,7 +2166,7 @@ function getCuratedData(query, type) {
 }
 
 // GET /api/places/search
-router.get('/search', async (req, res, next) => {
+router.get('/search', validateQuery(placesSearchSchema), async (req, res, next) => {
   try {
     const {
       query,
@@ -2321,7 +2323,7 @@ router.get('/search', async (req, res, next) => {
 });
 
 // GET /api/places/hotel-price
-router.get('/hotel-price', async (req, res, next) => {
+router.get('/hotel-price', validateQuery(hotelPriceSchema), async (req, res, next) => {
   try {
     const { hotelId, hotelName = 'Hotel', checkIn, checkOut, guests = 2 } = req.query;
     const priceData = await getHotelLivePrice({
@@ -2348,7 +2350,10 @@ router.get('/stay-quota', (req, res) => {
 // GET /api/places/details/:placeId
 router.get('/details/:placeId', async (req, res, next) => {
   try {
-    const { placeId } = req.params;
+    const placeId = String(req.params.placeId || '').trim();
+    if (!placeId || placeId.length > 150 || !/^[\w\-\.]+$/.test(placeId)) {
+      return res.status(400).json({ error: 'Invalid or malformed placeId parameter.' });
+    }
     const { includeReviews = 'false', includePriceLevel = 'false' } = req.query;
 
     const cacheKey = `places:details:${placeId}:${includeReviews}:${includePriceLevel}`;
