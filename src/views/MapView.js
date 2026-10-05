@@ -23,6 +23,13 @@ const DESTINATION_CENTERS = {
   munnar: { lat: 10.0889, lng: 77.0595, zoom: 13, label: 'Munnar Tea Highlands' },
   shimla: { lat: 31.1048, lng: 77.1734, zoom: 13, label: 'Shimla Ridge & Hills' },
   andaman: { lat: 11.6234, lng: 92.7265, zoom: 11, label: 'Andaman & Nicobar Islands' },
+  coorg: { lat: 12.4244, lng: 75.7382, zoom: 12, label: 'Coorg (Kodagu)' },
+  mussoorie: { lat: 30.4598, lng: 78.0644, zoom: 13, label: 'Mussoorie Queen of the Hills' },
+  nainital: { lat: 29.3919, lng: 79.4542, zoom: 13, label: 'Nainital Lake District' },
+  kodaikanal: { lat: 10.2381, lng: 77.4892, zoom: 13, label: 'Kodaikanal Princess of Hill Stations' },
+  darjeeling: { lat: 27.0410, lng: 88.2663, zoom: 13, label: 'Darjeeling Queen of the Himalayas' },
+  wayanad: { lat: 11.6854, lng: 76.1320, zoom: 12, label: 'Wayanad Green Paradise' },
+  gangtok: { lat: 27.3389, lng: 88.6065, zoom: 13, label: 'Gangtok & Sikkim Himalayas' },
 };
 
 import { CURATED_ATTRACTIONS } from '../data/AttractionsData.js';
@@ -44,7 +51,14 @@ export function renderMapView(container, { switchView, store }) {
     if (d.includes('udaipur')) return 'udaipur';
     if (d.includes('munnar')) return 'munnar';
     if (d.includes('shimla')) return 'shimla';
-    if (d.includes('andaman')) return 'andaman';
+    if (d.includes('andaman') || d.includes('port blair') || d.includes('havelock')) return 'andaman';
+    if (d.includes('coorg') || d.includes('madikeri') || d.includes('kodagu')) return 'coorg';
+    if (d.includes('mussoorie') || d.includes('landour')) return 'mussoorie';
+    if (d.includes('nainital') || d.includes('bhimtal')) return 'nainital';
+    if (d.includes('kodaikanal') || d.includes('kodai')) return 'kodaikanal';
+    if (d.includes('darjeeling') || d.includes('ghoom')) return 'darjeeling';
+    if (d.includes('wayanad') || d.includes('kalpetta')) return 'wayanad';
+    if (d.includes('gangtok') || d.includes('sikkim')) return 'gangtok';
     return 'ooty';
   };
 
@@ -103,6 +117,15 @@ export function renderMapView(container, { switchView, store }) {
               { name: 'Jaipur', key: 'jaipur' },
               { name: 'Udaipur', key: 'udaipur' },
               { name: 'Munnar', key: 'munnar' },
+              { name: 'Shimla', key: 'shimla' },
+              { name: 'Andaman', key: 'andaman' },
+              { name: 'Coorg', key: 'coorg' },
+              { name: 'Mussoorie', key: 'mussoorie' },
+              { name: 'Nainital', key: 'nainital' },
+              { name: 'Kodaikanal', key: 'kodaikanal' },
+              { name: 'Darjeeling', key: 'darjeeling' },
+              { name: 'Wayanad', key: 'wayanad' },
+              { name: 'Gangtok', key: 'gangtok' },
             ].map(c => `
               <button type="button" class="map-city-pill ${c.key === activeDestKey ? 'active' : ''}" data-dest="${c.name}" data-key="${c.key}">
                 ${c.name}

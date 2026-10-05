@@ -12,6 +12,7 @@ import { rankCandidates } from '../services/rankingService.js';
 import { getHotelLivePrice, getStayApiQuota } from '../services/stayApi.js';
 import { validateQuery } from '../middleware/validate.js';
 import { placesSearchSchema, hotelPriceSchema, placeDetailsSchema } from '../schemas/index.js';
+import { CURATED_ATTRACTIONS } from '../../src/data/AttractionsData.js';
 
 const router = Router();
 
@@ -2250,6 +2251,15 @@ function getCuratedData(query, type) {
   else if (q.includes('jaipur') || q.includes('amer') || q.includes('jai')) cityKey = 'jaipur';
   else if (q.includes('udaipur') || q.includes('pichola') || q.includes('udr')) cityKey = 'udaipur';
   else if (q.includes('munnar') || q.includes('kerala') || q.includes('cok') || q.includes('idukki')) cityKey = 'munnar';
+  else if (q.includes('shimla') || q.includes('kufri') || q.includes('slv')) cityKey = 'shimla';
+  else if (q.includes('andaman') || q.includes('port blair') || q.includes('havelock') || q.includes('ixz')) cityKey = 'andaman';
+  else if (q.includes('coorg') || q.includes('madikeri') || q.includes('kodagu')) cityKey = 'coorg';
+  else if (q.includes('mussoorie') || q.includes('landour') || q.includes('ded')) cityKey = 'mussoorie';
+  else if (q.includes('nainital') || q.includes('bhimtal') || q.includes('pgn')) cityKey = 'nainital';
+  else if (q.includes('kodaikanal') || q.includes('kodai')) cityKey = 'kodaikanal';
+  else if (q.includes('darjeeling') || q.includes('ghoom') || q.includes('ixb')) cityKey = 'darjeeling';
+  else if (q.includes('wayanad') || q.includes('kalpetta') || q.includes('meppadi')) cityKey = 'wayanad';
+  else if (q.includes('gangtok') || q.includes('sikkim') || q.includes('pyg')) cityKey = 'gangtok';
 
   const data = DESTINATION_FALLBACKS[cityKey] || DESTINATION_FALLBACKS.default;
 
@@ -2259,6 +2269,12 @@ function getCuratedData(query, type) {
   if (type === 'restaurant' || q.includes('restaurant') || q.includes('eat') || q.includes('food') || q.includes('cafe')) {
     return data.restaurants || DESTINATION_FALLBACKS.default.restaurants;
   }
+
+  // If attractions are requested and we have verified curated data for this cityKey, return it
+  if (CURATED_ATTRACTIONS && CURATED_ATTRACTIONS[cityKey]) {
+    return CURATED_ATTRACTIONS[cityKey];
+  }
+
   return data.attractions || DESTINATION_FALLBACKS.default.attractions;
 }
 
@@ -2345,6 +2361,13 @@ router.get('/search', validateQuery(placesSearchSchema), async (req, res, next) 
             if (!item.photos || item.photos.length === 0 || itemLower.includes('sinquerim') || itemLower.includes('aguada') || itemLower.includes('chapora') || itemLower.includes('dudhsagar') || itemLower.includes('bom jesus')) {
               item.photo = match.photo || match.photos[0];
               item.photos = match.photos;
+            }
+          } else if ((!item.photo || item.photos.length === 0) && curatedList.length > 0) {
+            // Authentic destination fallback for sights without Google Place photo
+            const fallbackCurated = curatedList[Math.abs(item.name.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0)) % curatedList.length];
+            if (fallbackCurated && fallbackCurated.photos && fallbackCurated.photos.length > 0) {
+              item.photo = fallbackCurated.photo || fallbackCurated.photos[0];
+              item.photos = fallbackCurated.photos;
             }
           }
         });
