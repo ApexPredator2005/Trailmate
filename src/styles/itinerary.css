@@ -425,75 +425,41 @@
 @media print {
   /* Set standard printable page margins */
   @page {
-    margin: 14mm 15mm 15mm 15mm;
+    margin: 15mm 15mm 15mm 15mm;
     size: portrait;
   }
 
-  /* Reset document flow when printing Itinerary (not scrapbook) */
-  html:not(.is-printing-scrapbook),
-  body:not(.is-printing-scrapbook) {
-    overflow: visible !important;
-    height: auto !important;
-    min-height: 0 !important;
+  /* Reset body and html flow */
+  html, body {
     background: #ffffff !important;
     color: #1a1a1a !important;
-    font-size: 12pt;
     margin: 0 !important;
     padding: 0 !important;
-    display: block !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: visible !important;
   }
 
-  /* Hide app navigation sidebar, chat panel, resizer, modals, and extraneous overlays */
-  body:not(.is-printing-scrapbook) #sidebar,
-  body:not(.is-printing-scrapbook) nav#sidebar,
-  body:not(.is-printing-scrapbook) .sidebar,
-  body:not(.is-printing-scrapbook) .app-sidebar,
-  body:not(.is-printing-scrapbook) #chatPane,
-  body:not(.is-printing-scrapbook) .chat-pane,
-  body:not(.is-printing-scrapbook) #splitResizer,
-  body:not(.is-printing-scrapbook) .split-resizer,
-  body:not(.is-printing-scrapbook) #fullViewSection,
-  body:not(.is-printing-scrapbook) #appModal,
-  body:not(.is-printing-scrapbook) #mapPreview,
-  body:not(.is-printing-scrapbook) .itinerary-map-preview,
-  body:not(.is-printing-scrapbook) #itineraryMapPreview,
-  body:not(.is-printing-scrapbook) .itinerary-day-toggle,
-  body:not(.is-printing-scrapbook) .itinerary-stop-swap-btn,
-  body:not(.is-printing-scrapbook) .btn-swap-stop,
-  body:not(.is-printing-scrapbook) .itinerary-day-add-btn,
-  body:not(.is-printing-scrapbook) .btn-add-activity,
-  body:not(.is-printing-scrapbook) #itineraryExportSection,
-  body:not(.is-printing-scrapbook) .itinerary-panel-export {
-    display: none !important;
+  /* 1. Hide everything on the page by default when printing */
+  body * {
     visibility: hidden !important;
   }
 
-  /* Unwrap main app containers so the itinerary takes natural print layout */
-  body:not(.is-printing-scrapbook) #app,
-  body:not(.is-printing-scrapbook) #appMain,
-  body:not(.is-printing-scrapbook) main#appMain,
-  body:not(.is-printing-scrapbook) #splitChatView,
-  body:not(.is-printing-scrapbook) .app-container {
-    display: block !important;
-    position: static !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    width: 100% !important;
-    max-width: 100% !important;
-    height: auto !important;
-    min-height: 0 !important;
-    overflow: visible !important;
-    background: transparent !important;
+  /* 2. Make ONLY #itineraryPane and its contents visible */
+  #itineraryPane,
+  #itineraryPane * {
+    visibility: visible !important;
   }
 
-  /* Expand Itinerary Pane to full-width editorial printable booklet */
-  body:not(.is-printing-scrapbook) #itineraryPane,
-  body:not(.is-printing-scrapbook) aside#itineraryPane,
-  body:not(.is-printing-scrapbook) .itinerary-pane {
-    display: block !important;
-    position: static !important;
+  /* 3. Take #itineraryPane out of the flex/fixed layout and place it at the page origin */
+  #itineraryPane {
+    position: absolute !important;
+    left: 0 !important;
+    top: 0 !important;
     width: 100% !important;
     max-width: 100% !important;
+    min-width: 0 !important;
     height: auto !important;
     min-height: 0 !important;
     overflow: visible !important;
@@ -502,15 +468,30 @@
     padding: 0 !important;
     margin: 0 !important;
     box-shadow: none !important;
+    display: block !important;
+    z-index: 999999 !important;
   }
 
-  /* Clean Itinerary Header Bar */
-  body:not(.is-printing-scrapbook) #itineraryPane > div:first-child,
-  body:not(.is-printing-scrapbook) .itinerary-pane-header,
-  body:not(.is-printing-scrapbook) .itinerary-header {
+  /* 4. Hide interactive widgets inside #itineraryPane during print */
+  #itineraryPane #mapPreview,
+  #itineraryPane .itinerary-map-preview,
+  #itineraryPane #itineraryMapPreview,
+  #itineraryPane .itinerary-day-toggle,
+  #itineraryPane .itinerary-stop-swap-btn,
+  #itineraryPane .btn-swap-stop,
+  #itineraryPane .itinerary-day-add-btn,
+  #itineraryPane .btn-add-activity,
+  #itineraryPane #itineraryExportSection,
+  #itineraryPane .itinerary-panel-export {
+    display: none !important;
+    visibility: hidden !important;
+  }
+
+  /* 5. Clean Itinerary Header Bar */
+  #itineraryPane > div:first-child {
     position: static !important;
     border-bottom: 2px solid #944A1A !important;
-    padding: 12px 0 16px 0 !important;
+    padding: 8px 0 14px 0 !important;
     margin-bottom: 20px !important;
     background: transparent !important;
     display: flex !important;
@@ -520,14 +501,14 @@
     print-color-adjust: exact !important;
   }
 
-  body:not(.is-printing-scrapbook) #itineraryPane > div:first-child h3 {
+  #itineraryPane > div:first-child h3 {
     font-size: 22pt !important;
+    font-family: serif !important;
     color: #2D1E14 !important;
   }
 
-  /* Timeline body container */
-  body:not(.is-printing-scrapbook) .itinerary-body,
-  body:not(.is-printing-scrapbook) #itineraryBody {
+  /* 6. Timeline body container */
+  #itineraryBody {
     overflow: visible !important;
     height: auto !important;
     min-height: 0 !important;
@@ -535,45 +516,45 @@
     display: block !important;
   }
 
-  /* Passport Stamp styling */
-  body:not(.is-printing-scrapbook) .passport-stamp {
+  /* 7. Passport Stamp styling */
+  .passport-stamp {
     border: 2px dashed #944A1A !important;
-    background: rgba(148, 74, 26, 0.04) !important;
+    background: rgba(148, 74, 26, 0.05) !important;
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
-    margin-bottom: 24px !important;
+    margin-bottom: 22px !important;
   }
 
-  /* Prevent awkward page breaks across itinerary days and cards */
-  body:not(.is-printing-scrapbook) .itinerary-day,
-  body:not(.is-printing-scrapbook) [role="region"][aria-label^="Day"],
-  body:not(.is-printing-scrapbook) .itinerary-stop,
-  body:not(.is-printing-scrapbook) .itinerary-ticket-stub,
-  body:not(.is-printing-scrapbook) .itinerary-hotel-confirmed {
+  /* 8. Prevent awkward page breaks across itinerary days and cards */
+  .itinerary-day,
+  [role="region"][aria-label^="Day"],
+  .itinerary-stop,
+  .itinerary-ticket-stub,
+  .itinerary-hotel-confirmed {
     break-inside: avoid !important;
     page-break-inside: avoid !important;
-    margin-bottom: 20px !important;
+    margin-bottom: 18px !important;
   }
 
   /* Stop cards styling for clean print */
-  body:not(.is-printing-scrapbook) #itineraryBody .bg-surface-container-lowest {
-    border: 1px solid #E5DFD7 !important;
+  #itineraryBody .bg-surface-container-lowest {
+    border: 1px solid #DDD6CE !important;
     box-shadow: none !important;
-    border-radius: 10px !important;
+    border-radius: 8px !important;
     padding: 12px 14px !important;
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
   }
 
   /* Timeline line and node styling */
-  body:not(.is-printing-scrapbook) .itinerary-timeline,
-  body:not(.is-printing-scrapbook) #itineraryBody [style*="background-color"] {
+  .itinerary-timeline,
+  #itineraryBody [style*="background-color"] {
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
   }
 
   /* Budget summary card styling */
-  body:not(.is-printing-scrapbook) #itineraryBody .bg-surface-container-low {
+  #itineraryBody .bg-surface-container-low {
     border: 1px solid #D8CEBE !important;
     background: #FAF7F2 !important;
     break-inside: avoid !important;
