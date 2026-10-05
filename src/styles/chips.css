@@ -1,0 +1,95 @@
+/* ==========================================================================
+   Trailmate — Tappable Chips
+   Used for quick-reply options, multi-select checklists
+   ========================================================================== */
+
+.chip-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+}
+
+.chip,
+.chip-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  background: #5B8C7B;
+  border: 1px solid #4C7768;
+  color: #FFFFFF;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  transition: all var(--transition-fast);
+}
+
+.chip:hover,
+.chip-btn:hover {
+  background: #4B7869;
+  border-color: #3D6456;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+  transform: translateY(-1px);
+}
+
+.chip:active,
+.chip-btn:active {
+  transform: scale(0.97);
+}
+
+.chip.is-selected,
+.chip.selected,
+.chip-btn.is-selected,
+.chip-btn.selected {
+  background: #1E3A34;
+  border-color: #1E3A34;
+  color: #FFFFFF;
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.9), 0 0 0 3.5px #1E3A34, 0 3px 8px rgba(30, 58, 52, 0.25);
+  transform: scale(1.02);
+}
+
+/* ---- "None of these" / Skip variant: outlined, visually distinct ---- */
+
+.chip.border-dashed,
+.chip.is-none-option {
+  background: rgba(91, 140, 123, 0.14);
+  border: 1.5px dashed #5B8C7B;
+  color: #1E3A34;
+  font-weight: 500;
+  box-shadow: none;
+}
+
+.chip.border-dashed:hover,
+.chip.is-none-option:hover {
+  background: rgba(91, 140, 123, 0.25);
+  color: #06241F;
+}
+
+.chip.border-dashed.is-selected,
+.chip.is-none-option.is-selected,
+.chip.is-none-option.selected {
+  background: #1E3A34;
+  border-color: #1E3A34;
+  color: #FFFFFF;
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.9), 0 0 0 3.5px #1E3A34;
+}
+
+/* ---- Chip checkmark icon (shown when selected) ---- */
+
+.chip-check {
+  width: 14px;
+  height: 14px;
+  display: none;
+}
+
+.chip.is-selected .chip-check,
+.chip.selected .chip-check,
+.chip-btn.is-selected .chip-check,
+.chip-btn.selected .chip-check {
+  display: inline-block;
+}

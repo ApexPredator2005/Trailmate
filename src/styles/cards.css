@@ -1,0 +1,286 @@
+/* ==========================================================================
+   Trailmate — Option Cards & Carousel
+   Used for flight / hotel / restaurant selection cards in-chat
+   ========================================================================== */
+
+.cards-carousel-container {
+  width: 100%;
+  padding: var(--space-2) 0;
+}
+
+.cards-carousel {
+  display: flex;
+  gap: var(--space-4);
+  overflow-x: auto;
+  padding: 4px 4px var(--space-3);
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+
+.cards-carousel::-webkit-scrollbar {
+  height: 4px;
+}
+
+.cards-carousel::-webkit-scrollbar-thumb {
+  background: var(--sand-dark);
+  border-radius: var(--radius-full);
+}
+
+/* ---- Placeholder when no photo is available ---- */
+
+.option-card-media-placeholder {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, var(--sand) 0%, var(--sand-dark) 100%);
+}
+
+/* ---- Small badge (e.g. 'Non-stop', 'Breakfast incl.') ---- */
+
+.option-card-badge {
+  display: inline-block;
+  margin-top: var(--space-1);
+  padding: 2px 8px;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  background: var(--sage-tint);
+  color: var(--sage);
+  border: 1px solid var(--sage);
+}
+
+/* ---- External booking link (e.g. 'Check live price ↗') ---- */
+
+.option-card-link {
+  display: block;
+  margin-top: var(--space-2);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--terracotta-dark);
+  letter-spacing: 0.02em;
+  transition: color var(--transition-fast);
+}
+
+.option-card-link:hover {
+  color: var(--terracotta);
+}
+
+
+.option-card {
+  flex-shrink: 0;
+  scroll-snap-align: start;
+  width: 260px;
+  background: var(--surface-container-lowest);
+  border: 1px solid var(--outline-variant);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  transition: box-shadow var(--transition-base), transform var(--transition-base), border-color var(--transition-base);
+}
+
+.option-card:hover {
+  box-shadow: var(--shadow-lift);
+  transform: translateY(-2px);
+}
+
+.option-card.is-selected {
+  border-color: var(--terracotta) !important;
+  box-shadow: 0 0 0 2.5px var(--terracotta), 0 8px 24px -4px rgba(148, 74, 26, 0.25) !important;
+  transform: scale(1.025) !important;
+  z-index: 5;
+}
+
+.option-card.is-selected .option-card-select {
+  background-color: var(--terracotta) !important;
+  color: #ffffff !important;
+}
+
+.option-card-media,
+.card-media {
+  position: relative;
+  height: 128px;
+  background: var(--surface-container);
+  overflow: hidden;
+}
+
+.option-card-media img,
+.card-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 500ms ease;
+}
+
+.option-card:hover .option-card-media img,
+.option-card:hover .card-media img {
+  transform: scale(1.05);
+}
+
+.option-card-rating,
+.card-rating-badge {
+  position: absolute;
+  top: var(--space-2);
+  right: var(--space-2);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(4px);
+  border-radius: var(--radius-full);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--on-surface);
+  box-shadow: var(--shadow-sm);
+  z-index: 2;
+}
+
+.option-card-rating .star-icon,
+.card-rating-badge svg {
+  color: var(--terracotta-dark);
+  width: 12px;
+  height: 12px;
+  font-size: 12px;
+}
+
+.option-card-body,
+.card-content {
+  padding: var(--space-3);
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  justify-content: space-between;
+}
+
+.option-card-title,
+.card-title {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: 15px;
+  color: var(--on-surface);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.option-card-desc,
+.card-description {
+  font-family: var(--font-sans);
+  font-size: 12.5px;
+  color: var(--on-surface-variant);
+  margin-top: var(--space-1);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  line-height: 1.45;
+}
+
+.option-card-footer,
+.card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: var(--space-3);
+  padding-top: var(--space-2);
+  border-top: 1px solid var(--surface-container-high);
+}
+
+.option-card-price,
+.card-price {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--forest);
+}
+
+.option-card-price .unit,
+.card-price-unit {
+  font-family: var(--font-mono);
+  font-weight: 400;
+  font-size: 10px;
+  color: var(--outline);
+}
+
+.option-card-select,
+.btn-card-action {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-full);
+  color: var(--terracotta-dark);
+  border: 1px solid var(--terracotta-tint);
+  transition: background var(--transition-fast), color var(--transition-fast), transform var(--transition-fast);
+}
+
+.option-card-select:hover,
+.btn-card-action:hover {
+  background: var(--terracotta-tint);
+  border-color: var(--terracotta);
+}
+
+/* ---- Flagged card variant: recent-review warning ---- */
+
+.option-card.is-flagged .option-card-media,
+.option-card.is-flagged .card-media {
+  position: relative;
+}
+
+.option-card-warning-tag,
+.card-warning-tag {
+  position: absolute;
+  bottom: var(--space-2);
+  left: var(--space-2);
+  z-index: 2;
+  padding: 3px 8px;
+  background: var(--error-container);
+  color: var(--error);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+/* ---- Budget-stretch suggestion card variant ---- */
+
+.option-card.is-stretch,
+.option-card.card-stretch {
+  border: 1.5px dashed var(--terracotta);
+  position: relative;
+}
+
+.option-card-ribbon,
+.stretch-ribbon {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 3;
+  padding: 4px 10px;
+  background: var(--terracotta);
+  color: #FFFFFF;
+  border-radius: 0 0 var(--radius-md) 0;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.option-card-stretch-reason {
+  display: block;
+  margin-top: 4px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--terracotta-dark);
+  font-weight: 500;
+}

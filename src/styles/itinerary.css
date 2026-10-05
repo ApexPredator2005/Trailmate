@@ -1,0 +1,420 @@
+/* ==========================================================================
+   Trailmate — Right Itinerary Pane (Journey-Line Timeline)
+   ========================================================================== */
+
+.itinerary-pane {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: var(--surface);
+  border-left: 1px solid var(--outline-variant);
+}
+
+/* ---- Header ---- */
+
+.itinerary-header,
+.itinerary-pane-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-4);
+  background: var(--surface);
+  border-bottom: 1px solid var(--outline-variant);
+}
+
+.itinerary-header-title,
+.itinerary-main-title {
+  font-family: var(--font-serif);
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--forest);
+}
+
+.itinerary-status-tag,
+.day-theme-tag {
+  padding: 4px 12px;
+  background: var(--surface-container-high);
+  border: 1px solid var(--outline-variant);
+  border-radius: var(--radius-full);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--on-surface-variant);
+}
+
+/* ---- Scrollable timeline body ---- */
+
+.itinerary-body,
+.itinerary-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--space-6) var(--space-4) var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+/* ---- Day block ---- */
+
+.itinerary-day,
+.day-block {
+  margin-bottom: var(--space-8);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  /* Per-day accent color, set inline or via a modifier class,
+     e.g. style="--day-accent: var(--sage)" — see Section 4.21
+     (destination-based day theming) in the project documentation. */
+  --day-accent: var(--sage);
+}
+
+.itinerary-day-header,
+.day-badge-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-5);
+}
+
+.itinerary-day-title,
+.day-title-text {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-family: var(--font-serif);
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--on-surface);
+}
+
+.itinerary-day-badge,
+.day-badge {
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-full);
+  background: var(--day-accent);
+  color: #FFFFFF;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.itinerary-day-theme-pill {
+  padding: 4px 12px;
+  border-radius: var(--radius-full);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  background: color-mix(in srgb, var(--day-accent) 12%, transparent);
+  color: var(--day-accent);
+}
+
+/* ---- Timeline list & stop ---- */
+
+.timeline-list {
+  position: relative;
+  padding-left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.timeline-list::before {
+  content: '';
+  position: absolute;
+  top: 8px;
+  bottom: 8px;
+  left: 5px;
+  width: 2px;
+  background: color-mix(in srgb, var(--day-accent, var(--sage)) 30%, transparent);
+}
+
+.itinerary-stop {
+  position: relative;
+  padding-left: var(--space-6);
+  padding-bottom: var(--space-6);
+}
+
+.itinerary-stop:last-child {
+  padding-bottom: var(--space-2);
+}
+
+.itinerary-stop-line {
+  position: absolute;
+  left: 11px;
+  top: 8px;
+  bottom: 0;
+  width: 2px;
+  background: color-mix(in srgb, var(--day-accent, var(--sage)) 30%, transparent);
+}
+
+.itinerary-stop:last-child .itinerary-stop-line {
+  bottom: 32px; /* line stops short of the final marker */
+}
+
+.itinerary-stop-marker {
+  position: absolute;
+  left: 6px;
+  top: 4px;
+  width: 12px;
+  height: 12px;
+  border-radius: var(--radius-full);
+  background: var(--surface);
+  border: 2px solid var(--day-accent, var(--sage));
+  z-index: 1;
+}
+
+.itinerary-stop-marker.is-complete {
+  background: var(--day-accent, var(--sage));
+}
+
+.timeline-item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  top: 4px;
+  left: -20px;
+  width: 12px;
+  height: 12px;
+  border-radius: var(--radius-full);
+  background: var(--canvas);
+  border: 2px solid var(--day-accent, var(--sage));
+  z-index: 2;
+}
+
+.timeline-item.completed::before {
+  background-color: var(--day-accent, var(--sage));
+}
+
+/* ---- Stop card ---- */
+
+.itinerary-stop-card,
+.timeline-card {
+  background: var(--surface-container-lowest);
+  border: 1px solid var(--outline-variant);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow var(--transition-base);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.itinerary-stop-card:hover,
+.timeline-card:hover {
+  box-shadow: var(--shadow-md);
+}
+
+.itinerary-stop-card.is-selected {
+  border-left: 3px solid var(--terracotta);
+}
+
+.itinerary-stop-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: var(--space-2);
+}
+
+.itinerary-stop-time,
+.timeline-time {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--forest);
+  letter-spacing: 0.02em;
+}
+
+.itinerary-stop-status {
+  padding: 2px 8px;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  background: var(--terracotta-tint);
+  color: var(--terracotta-dark);
+}
+
+.itinerary-stop-title,
+.timeline-card-title {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: 14.5px;
+  color: var(--on-surface);
+}
+
+.itinerary-stop-desc,
+.timeline-card-desc {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  color: var(--on-surface-variant);
+  margin-top: var(--space-1);
+  line-height: 1.45;
+}
+
+.itinerary-stop-photo,
+.timeline-card-thumb {
+  height: 80px;
+  width: 100%;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  margin-top: var(--space-3);
+  object-fit: cover;
+}
+
+.itinerary-stop-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.itinerary-stop-swap,
+.stop-swap-btn {
+  position: absolute;
+  top: var(--space-3);
+  right: var(--space-3);
+  padding: 4px;
+  border-radius: var(--radius-full);
+  color: var(--on-surface-variant);
+  opacity: 0;
+  transition: opacity var(--transition-fast), color var(--transition-fast), background var(--transition-fast);
+}
+
+.itinerary-stop-card:hover .itinerary-stop-swap,
+.timeline-card:hover .itinerary-stop-swap,
+.timeline-card:hover .stop-swap-btn {
+  opacity: 1;
+}
+
+.itinerary-stop-swap:hover,
+.stop-swap-btn:hover {
+  background: var(--surface-container);
+  color: var(--terracotta-dark);
+}
+
+/* ---- Empty / add-activity state ---- */
+
+.itinerary-stop-empty {
+  width: 100%;
+  padding: var(--space-4);
+  border: 1px dashed var(--outline-variant);
+  border-radius: var(--radius-lg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  color: var(--on-surface-variant);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  transition: background var(--transition-fast), color var(--transition-fast);
+}
+
+.itinerary-stop-empty:hover {
+  background: var(--surface-container-low);
+  color: var(--forest);
+}
+
+/* ---- Map preview footer ---- */
+
+.itinerary-map-preview,
+.map-preview-container {
+  position: relative;
+  height: 140px;
+  padding: var(--space-4);
+  border-top: 1px solid var(--outline-variant);
+  background: var(--surface-container-low);
+  cursor: pointer;
+  overflow: hidden;
+  flex-shrink: 0;
+  margin-top: auto;
+}
+
+.itinerary-map-preview img,
+.map-preview-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--outline-variant);
+}
+
+.itinerary-map-preview-btn {
+  position: absolute;
+  bottom: var(--space-6);
+  right: var(--space-6);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  background: var(--surface);
+  border-radius: var(--radius-full);
+  box-shadow: var(--shadow-md);
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--forest);
+  transition: transform var(--transition-fast);
+}
+
+.itinerary-map-preview:hover .itinerary-map-preview-btn {
+  transform: scale(1.05);
+}
+
+/* ---- Itinerary Empty State ---- */
+
+.itinerary-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: var(--space-8) var(--space-4);
+  margin: auto 0;
+  gap: var(--space-3);
+  color: var(--on-surface-variant);
+}
+
+.itinerary-empty-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-full);
+  background: var(--surface-container);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--sage);
+  margin-bottom: var(--space-2);
+}
+
+.itinerary-empty-title {
+  font-family: var(--font-serif);
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--forest);
+}
+
+.itinerary-empty-desc {
+  font-family: var(--font-sans);
+  font-size: 13.5px;
+  line-height: 1.5;
+  max-width: 260px;
+  opacity: 0.85;
+}
+

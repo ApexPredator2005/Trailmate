@@ -1,0 +1,33 @@
+{
+  "name": "trailmate",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "concurrently -n \"SERVER,VITE,FLIGHTS\" -c \"blue,green,yellow\" \"node server/index.js\" \"vite\" \"python3 server/flights/app.py\"",
+    "dev:node": "concurrently -n \"SERVER,VITE\" -c \"blue,green\" \"node server/index.js\" \"vite\"",
+    "server": "node server/index.js",
+    "client": "vite",
+    "flights": "python3 server/flights/app.py",
+    "build": "vite build",
+    "start": "node server/index.js",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "@google/generative-ai": "^0.24.0",
+    "concurrently": "^9.1.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "marked": "^15.0.7",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.3.3",
+    "tailwindcss": "^4.3.3",
+    "vite": "^6.1.0",
+    "vitest": "^4.1.11"
+  }
+}

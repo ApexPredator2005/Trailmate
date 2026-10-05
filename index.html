@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>Trailmate - Your Travel Partner</title>
+  <meta name="description" content="AI travel planner where APIs fetch verified facts and AI composes personalized, day-by-day itineraries.">
+  <link rel="icon" type="image/png" href="/favicon.png"/>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+  <!-- Google Fonts: JetBrains Mono, Noto Serif, Public Sans, Caveat, Playfair Display, Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=JetBrains+Mono:wght@400;500;600&family=Noto+Serif:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Public+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  <link rel="preload" href="/backgrounds/bg-settings-instruments.svg" as="image"/>
+  <link rel="preload" href="/backgrounds/bg-map-mountains.svg" as="image"/>
+  <link rel="preload" href="/backgrounds/bg-trips-heritage.svg" as="image"/>
+  <link rel="stylesheet" href="/src/styles/variables.css"/>
+  <link rel="stylesheet" href="/src/styles/base.css"/>
+  <link rel="stylesheet" href="/src/styles/layout.css"/>
+  <link rel="stylesheet" href="/src/styles/chat.css"/>
+  <link rel="stylesheet" href="/src/styles/cards.css"/>
+  <link rel="stylesheet" href="/src/styles/scrapbook.css"/>
+  <link rel="stylesheet" href="/src/styles/scrapbook-workspace.css"/>
+
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "on-secondary-fixed-variant": "#763302",
+            "on-secondary": "#ffffff",
+            "surface-container-low": "#f6f3ee",
+            "inverse-surface": "#31302d",
+            "surface-container-highest": "#e5e2dd",
+            "on-tertiary-container": "#76a896",
+            "on-primary": "#ffffff",
+            "surface-container-lowest": "#ffffff",
+            "on-secondary-container": "#763403",
+            "on-surface": "#1c1c19",
+            "primary-container": "#1e3a34",
+            "on-primary-container": "#86a49c",
+            "error": "#ba1a1a",
+            "inverse-primary": "#aecdc4",
+            "on-error-container": "#93000a",
+            "outline-variant": "#c1c8c5",
+            "primary-fixed": "#cae9e0",
+            "surface-container": "#f0ede9",
+            "primary-fixed-dim": "#aecdc4",
+            "tertiary-fixed": "#b9eeda",
+            "tertiary-container": "#053d2f",
+            "secondary": "#944a1a",
+            "surface-dim": "#dcdad5",
+            "secondary-container": "#fe9f67",
+            "surface-variant": "#e5e2dd",
+            "error-container": "#ffdad6",
+            "tertiary": "#00251c",
+            "on-error": "#ffffff",
+            "secondary-fixed-dim": "#ffb68e",
+            "primary": "#06241f",
+            "on-primary-fixed": "#02201b",
+            "surface-bright": "#fcf9f4",
+            "on-surface-variant": "#414846",
+            "on-tertiary-fixed-variant": "#1d4f41",
+            "outline": "#727976",
+            "on-tertiary-fixed": "#002118",
+            "on-primary-fixed-variant": "#304c46",
+            "secondary-fixed": "#ffdbca",
+            "tertiary-fixed-dim": "#9ed1be",
+            "background": "#fcf9f4",
+            "on-tertiary": "#ffffff",
+            "on-secondary-fixed": "#331200",
+            "on-background": "#1c1c19",
+            "surface-container-high": "#ebe8e3",
+            "surface-tint": "#48645d",
+            "surface": "#fcf9f4",
+            "inverse-on-surface": "#f3f0eb",
+            "tea-green": "#7A9B76",
+            "slate-brown": "#8C7355"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "gutter": "16px",
+            "margin-desktop": "64px",
+            "stack-md": "16px",
+            "stack-lg": "32px",
+            "margin-mobile": "20px",
+            "unit": "4px",
+            "stack-sm": "8px"
+          },
+          "fontFamily": {
+            "sans": ["Public Sans", "sans-serif"],
+            "serif": ["Noto Serif", "serif"],
+            "mono": ["JetBrains Mono", "monospace"],
+            "body-sm": ["Public Sans", "sans-serif"],
+            "body-md": ["Public Sans", "sans-serif"],
+            "body-lg": ["Public Sans", "sans-serif"],
+            "label-sm": ["JetBrains Mono", "monospace"],
+            "label-md": ["JetBrains Mono", "monospace"],
+            "headline-sm": ["Noto Serif", "serif"],
+            "headline-md": ["Noto Serif", "serif"],
+            "headline-lg": ["Noto Serif", "serif"],
+            "headline-lg-mobile": ["Noto Serif", "serif"],
+            "display-lg": ["Noto Serif", "serif"]
+          },
+          "fontSize": {
+            "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+            "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.02em", "fontWeight": "500" }],
+            "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+            "label-sm": ["12px", { "lineHeight": "16px", "letterSpacing": "0.04em", "fontWeight": "500" }],
+            "headline-lg": ["32px", { "lineHeight": "40px", "fontWeight": "600" }],
+            "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+            "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+            "headline-lg-mobile": ["28px", { "lineHeight": "36px", "fontWeight": "600" }]
+          }
+        },
+      },
+    }
+  </script>
+
+  <style>
+    body { background-color: #fcf9f4; }
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+    .material-fill {
+      font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+    ::-webkit-scrollbar {
+      width: 5px;
+      height: 5px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #dcdad5;
+      border-radius: 10px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #c1c8c5;
+    }
+    :root {
+      --bg-color: #f8f4ec;
+      --stroke-color: #bfa895;
+      --doodle-opacity: 0.45;
+      --stroke-width: 1.8px;
+    }
+
+    /* OptionCard 3D Hover & Animations */
+    .option-card {
+      transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.28s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease;
+      will-change: transform, box-shadow;
+    }
+    .option-card:hover {
+      transform: translateY(-3px) scale(1.01);
+      box-shadow: 0 8px 24px -4px rgba(6, 36, 31, 0.08), 0 2px 6px -1px rgba(6, 36, 31, 0.04);
+    }
+    .option-card.is-selected {
+      border-color: #944a1a !important;
+      box-shadow: 0 0 0 2px #944a1a, 0 8px 20px -4px rgba(148, 74, 26, 0.15) !important;
+      transform: translateY(-2px);
+    }
+    .option-card.is-selected .option-card-select {
+      background-color: #944a1a !important;
+      color: #ffffff !important;
+    }
+
+    /* Message Bubbles Fluid Entrance */
+    .chat-bubble-enter {
+      animation: slideUpFade 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    @keyframes slideUpFade {
+      from {
+        opacity: 0;
+        transform: translateY(12px) scale(0.985);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    /* ── Seamless Calm UI Transitions ── */
+    @keyframes sectionFadeExit {
+      0% {
+        opacity: 1;
+        transform: scale(1);
+      }
+      100% {
+        opacity: 0;
+        transform: scale(0.99);
+      }
+    }
+
+    @keyframes sectionFadeEnter {
+      0% {
+        opacity: 0;
+        transform: scale(0.99) translateY(6px);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
+    }
+
+    @keyframes cardStaggerEnter {
+      0% {
+        opacity: 0;
+        transform: translateY(8px) scale(0.985);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    @keyframes cardSubFadeIn {
+      0% {
+        opacity: 0.2;
+        transform: scale(0.99);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    /* Transition utility classes */
+    .view-section-exit {
+      animation: sectionFadeExit 200ms cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+      pointer-events: none !important;
+      will-change: opacity, transform;
+    }
+    .view-section-enter {
+      animation: sectionFadeEnter 260ms cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+      will-change: opacity, transform;
+    }
+    .view-card-stagger-in {
+      animation: cardStaggerEnter 250ms cubic-bezier(0.16, 1, 0.3, 1) 60ms both !important;
+      will-change: opacity, transform;
+    }
+    .view-card-sub-swap {
+      animation: cardSubFadeIn 200ms cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+      will-change: opacity, transform;
+    }
+
+    /* Interactive UI Micro-Transitions */
+    button, a, input, select {
+      transition: background-color 0.18s ease, border-color 0.18s ease, color 0.18s ease, box-shadow 0.18s ease, transform 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .sidebar-nav-item {
+      transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    }
+    .sidebar-nav-item:hover {
+      transform: translateX(4px);
+    }
+    .sidebar-nav-item:active {
+      transform: translateX(2px) scale(0.98);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .view-section-exit,
+      .view-section-enter,
+      .view-card-stagger-in,
+      .view-card-sub-swap,
+      .chat-bubble-enter,
+      .animate-stampDrop {
+        animation-duration: 1ms !important;
+        animation-delay: 0ms !important;
+        transform: none !important;
+        transition: none !important;
+      }
+    }
+
+    /* Passport Stamp Animation */
+    .animate-stampDrop {
+      animation: stampDrop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    }
+    @keyframes stampDrop {
+      from {
+        opacity: 0;
+        transform: scale(1.3) rotate(-8deg);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1) rotate(-2deg);
+      }
+    }
+
+    /* Chips Interactive Styling */
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      padding: 6px 14px;
+      border-radius: 9999px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      font-weight: 500;
+      background-color: rgba(91, 140, 123, 0.10);
+      color: #1c1c19;
+      border: 1px solid rgba(91, 140, 123, 0.25);
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .chip:hover {
+      background-color: rgba(91, 140, 123, 0.20);
+      border-color: #5b8c7b;
+      transform: translateY(-1px);
+    }
+    .chip:active {
+      transform: scale(0.96);
+    }
+    .chip.is-selected {
+      background-color: #5b8c7b;
+      color: #ffffff;
+      border-color: #5b8c7b;
+      box-shadow: 0 2px 8px rgba(91, 140, 123, 0.3);
+    }
+
+    .typing-dot {
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background-color: #727976;
+      animation: typingBounce 1.2s infinite ease-in-out;
+    }
+    .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+    .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes typingBounce {
+      0%, 80%, 100% { transform: translateY(0); }
+      40% { transform: translateY(-5px); }
+    }
+
+    /* Split-Resizer */
+    .split-resizer {
+      width: 8px;
+      height: 100vh;
+      background: #f0ede9;
+      border-left: 1px solid #c1c8c5;
+      border-right: 1px solid #c1c8c5;
+      cursor: col-resize;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      z-index: 30;
+      transition: background 150ms ease, border-color 150ms ease;
+      touch-action: none;
+    }
+    .split-resizer:hover, .split-resizer.is-active {
+      background: rgba(148, 74, 26, 0.15);
+      border-left-color: #944a1a;
+      border-right-color: #944a1a;
+    }
+    .split-resizer::before {
+      content: "";
+      width: 3px;
+      height: 32px;
+      border-radius: 9999px;
+      background: #c1c8c5;
+      transition: background 150ms ease, height 150ms ease;
+    }
+    .split-resizer:hover::before, .split-resizer.is-active::before {
+      background: #944a1a;
+      height: 48px;
+    }
+    body.is-resizing {
+      cursor: col-resize !important;
+      user-select: none !important;
+    }
+    body.is-resizing #chatPane,
+    body.is-resizing #itineraryPane {
+      pointer-events: none;
+    }
+  </style>
+</head>
+
+<body class="bg-background text-on-background font-body-md min-h-screen flex overflow-hidden selection:bg-secondary-container selection:text-on-secondary-container">
+
+  <!-- Sidebar Navigation -->
+  <nav class="h-screen w-56 fixed left-0 top-0 bg-surface-container-low dark:bg-primary text-secondary dark:text-secondary-fixed font-label-md text-label-md border-r border-surface-variant z-20 flex flex-col h-full pt-[15px] pb-6 px-3 flex-shrink-0" id="sidebar">
+    <div class="px-2" style="margin-bottom: 25px;">
+      <h1 class="font-serif text-xl font-bold text-primary dark:text-primary-fixed tracking-tight leading-tight">Trailmate</h1>
+      <p class="font-mono text-xs text-on-surface-variant mt-0.5 opacity-80">Your Travel Partner</p>
+    </div>
+
+    <button id="btnNewTrip" class="mb-stack-md w-full bg-secondary hover:bg-secondary/90 text-on-secondary py-2.5 px-4 rounded-full flex items-center justify-center gap-2 transition-transform scale-100 active:scale-95 shadow-sm">
+      <span class="material-symbols-outlined text-sm">add</span>
+      New Trip
+    </button>
+
+    <ul class="flex-1 flex flex-col gap-1.5 mt-stack-sm" id="sidebarNav">
+      <li>
+        <a class="sidebar-nav-item flex items-center gap-3 bg-secondary text-on-secondary rounded-lg px-3.5 py-2.5 scale-100 active:scale-95 transition-transform" data-view="chat" href="#chat">
+          <span class="material-symbols-outlined material-fill text-lg">chat</span>
+          Chat
+        </a>
+      </li>
+      <li>
+        <a class="sidebar-nav-item flex items-center gap-3 text-on-surface-variant px-3.5 py-2.5 hover:bg-surface-container-high rounded-lg scale-100 active:scale-95 transition-transform" data-view="trips" href="#trips">
+          <span class="material-symbols-outlined text-lg">travel_explore</span>
+          Trips
+        </a>
+      </li>
+      <li>
+        <a class="sidebar-nav-item flex items-center gap-3 text-on-surface-variant px-3.5 py-2.5 hover:bg-surface-container-high rounded-lg scale-100 active:scale-95 transition-transform" data-view="scrapbook" href="#scrapbook">
+          <span class="material-symbols-outlined text-lg">auto_awesome_mosaic</span>
+          Scrapbook
+        </a>
+      </li>
+      <li>
+        <a class="sidebar-nav-item flex items-center gap-3 text-on-surface-variant px-3.5 py-2.5 hover:bg-surface-container-high rounded-lg scale-100 active:scale-95 transition-transform" data-view="map" href="#map">
+          <span class="material-symbols-outlined text-lg">map</span>
+          Map
+        </a>
+      </li>
+      <li>
+        <a class="sidebar-nav-item flex items-center gap-3 text-on-surface-variant px-3.5 py-2.5 hover:bg-surface-container-high rounded-lg scale-100 active:scale-95 transition-transform" data-view="settings" href="#settings">
+          <span class="material-symbols-outlined text-lg">settings</span>
+          Settings
+        </a>
+      </li>
+    </ul>
+
+    <div class="mt-auto flex items-center justify-between px-2 pt-3 border-t border-outline-variant/20">
+      <button id="btnProfile" class="flex items-center gap-2 text-left hover:opacity-80 transition-opacity" title="Traveler Profile" aria-label="Open traveler profile">
+        <img alt="User Profile Picture" class="w-8 h-8 rounded-full object-cover border border-surface-variant shadow-sm" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&q=80"/>
+        <div class="hidden lg:block">
+          <p class="font-label-sm text-xs font-semibold text-primary truncate w-20">Traveler</p>
+          <p class="font-label-sm text-[10px] text-on-surface-variant">Preferences</p>
+        </div>
+      </button>
+      <div class="flex gap-0.5">
+        <button id="btnHelp" aria-label="Help" class="p-1.5 text-on-surface-variant hover:text-secondary transition-colors" title="About Trailmate">
+          <span class="material-symbols-outlined text-sm">help</span>
+        </button>
+        <button id="btnPrivacy" aria-label="Privacy" class="p-1.5 text-on-surface-variant hover:text-secondary transition-colors" title="Privacy & Sources">
+          <span class="material-symbols-outlined text-sm">shield</span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content Area (Offset by Sidebar Width) -->
+  <main class="ml-56 flex flex-1 h-screen relative overflow-hidden" id="appMain">
+
+    <!-- Split Chat & Itinerary View Container -->
+    <div id="splitChatView" class="flex flex-1 h-full w-full relative overflow-hidden">
+      <!-- Central Chat Pane -->
+      <section class="flex-1 flex flex-col h-full min-h-0 bg-surface-bright relative z-10 border-r border-surface-variant shadow-[4px_0_24px_rgba(0,0,0,0.02)] min-w-[360px] overflow-hidden" id="chatPane">
+
+        <!-- Dynamic Ambient Header Backdrop -->
+        <div id="chatAmbientBackdrop" class="absolute top-0 left-0 right-0 h-28 opacity-25 pointer-events-none transition-all duration-700 bg-gradient-to-b from-tea-green/40 to-transparent"></div>
+
+        <!-- Chat Header -->
+        <header class="px-gutter py-3.5 border-b border-surface-variant flex items-center justify-between bg-surface-bright/90 backdrop-blur-md sticky top-0 z-30 flex-shrink-0 relative">
+          <div class="relative z-10 flex-shrink-0">
+            <div class="flex items-center gap-2.5">
+              <h2 class="font-serif text-xl font-bold text-primary transition-all duration-300 leading-tight" id="chatTripTitle">AI Travel Planner</h2>
+              <!-- Compact Weather Pill (Idea 1) -->
+              <div id="headerWeatherPill" class="hidden items-center gap-1 px-2 py-0.5 rounded-full bg-surface-container-highest/90 border border-outline-variant/30 text-[11px] font-mono text-primary backdrop-blur-sm shadow-xs transition-opacity duration-300">
+                <span id="weatherIcon">🌤️</span>
+                <span id="weatherText">17°C · Pleasant</span>
+              </div>
+            </div>
+            <p class="font-mono text-xs text-on-surface-variant mt-0.5" id="chatTripMeta"></p>
+          </div>
+
+          <!-- Rising Destination Header Artwork Container -->
+          <div id="chatHeaderDoodleContainer" class="flex items-center justify-center flex-1 min-w-[140px] max-w-[420px] h-14 mx-2 pointer-events-none relative z-0 overflow-hidden">
+          </div>
+
+          <div class="flex items-center gap-2 relative z-10 flex-shrink-0">
+            <div class="relative">
+              <button id="btnShareItinerary" class="p-2 rounded-full hover:bg-surface-container transition-colors text-on-surface-variant cursor-pointer" title="Share or Copy Itinerary" aria-label="Share itinerary">
+                <span class="material-symbols-outlined">share</span>
+              </button>
+
+              <!-- Share Dropdown Popover Menu (Anchored under Share button) -->
+              <div id="shareOptionsMenu" class="hidden absolute right-0 top-full mt-2 w-72 bg-[#F6F3EE] rounded-2xl shadow-xl border border-black/10 p-3 z-50 animate-fadeIn space-y-2">
+                <div class="px-1 py-1 border-b border-black/5 flex items-center justify-between">
+                  <h4 class="text-xs font-bold text-neutral-900 font-headline-sm">Share &amp; Export</h4>
+                  <span class="text-[9px] font-mono font-bold tracking-wider uppercase text-[#944a1a] bg-[#944a1a]/10 px-2 py-0.5 rounded-full" id="shareDestBadge">Trip Plan</span>
+                </div>
+
+                <button id="btnDropdownCopyMarkdown" class="w-full text-left p-2.5 rounded-xl bg-[#ECE7DE] hover:bg-[#E2DDD3] transition-all flex items-center justify-between group cursor-pointer border border-black/5">
+                  <div>
+                    <h5 class="text-xs font-bold text-neutral-900">Copy Markdown</h5>
+                    <p class="text-[10px] text-neutral-600">Formatted for Notion, Notes &amp; docs</p>
+                  </div>
+                  <span class="material-symbols-outlined text-neutral-700 text-base ml-2 group-hover:translate-x-0.5 transition-transform">content_copy</span>
+                </button>
+
+                <button id="btnDropdownCopyWhatsapp" class="w-full text-left p-2.5 rounded-xl bg-[#ECE7DE] hover:bg-[#E2DDD3] transition-all flex items-center justify-between group cursor-pointer border border-black/5">
+                  <div>
+                    <h5 class="text-xs font-bold text-neutral-900">WhatsApp Summary</h5>
+                    <p class="text-[10px] text-neutral-600">Ready to send friends &amp; family</p>
+                  </div>
+                  <span class="material-symbols-outlined text-neutral-700 text-base ml-2 group-hover:translate-x-0.5 transition-transform">send</span>
+                </button>
+
+                <button id="btnDropdownDownloadIcs" class="w-full text-left p-2.5 rounded-xl bg-[#ECE7DE] hover:bg-[#E2DDD3] transition-all flex items-center justify-between group cursor-pointer border border-black/5">
+                  <div>
+                    <h5 class="text-xs font-bold text-neutral-900">Export to Calendar (.ics)</h5>
+                    <p class="text-[10px] text-neutral-600">Syncs to Google &amp; Apple Calendar</p>
+                  </div>
+                  <span class="material-symbols-outlined text-neutral-700 text-base ml-2 group-hover:translate-x-0.5 transition-transform">calendar_month</span>
+                </button>
+              </div>
+            </div>
+            
+            <div class="relative">
+              <button id="btnMoreOptions" class="p-2 rounded-full hover:bg-surface-container transition-colors text-on-surface-variant cursor-pointer" title="Trip Options" aria-label="More options">
+                <span class="material-symbols-outlined">more_vert</span>
+              </button>
+
+              <!-- Dropdown Popover Menu (Anchored under 3-dots) -->
+              <div id="moreOptionsMenu" class="hidden absolute right-0 top-full mt-2 w-72 bg-[#F6F3EE] rounded-2xl shadow-xl border border-black/10 p-3 z-50 animate-fadeIn space-y-2">
+                <button id="btnDropdownScrapbook" class="w-full text-left p-3 rounded-xl bg-[#ECE7DE] hover:bg-[#E2DDD3] transition-all flex items-center justify-between group cursor-pointer border border-black/5">
+                  <div>
+                    <h4 class="text-xs font-bold text-neutral-900">Scrapbook Studio</h4>
+                    <p class="text-[10px] text-neutral-600">Backgrounds, frames &amp; stickers</p>
+                  </div>
+                  <span class="material-symbols-outlined text-secondary text-base ml-2">auto_awesome</span>
+                </button>
+
+                <button id="btnDropdownPrint" class="w-full text-left p-3 rounded-xl bg-[#ECE7DE] hover:bg-[#E2DDD3] transition-all flex items-center justify-between group cursor-pointer border border-black/5">
+                  <div>
+                    <h4 class="text-xs font-bold text-neutral-900">Print / Save as PDF</h4>
+                    <p class="text-[10px] text-neutral-600">Letterhead layout for printing</p>
+                  </div>
+                  <span class="material-symbols-outlined text-neutral-600 text-base ml-2">print</span>
+                </button>
+
+                <div id="btnDropdownBudget" class="w-full text-left p-3 rounded-xl bg-[#ECE7DE] border border-black/5 flex items-center justify-between">
+                  <div>
+                    <h4 class="text-xs font-bold text-neutral-900">Estimated Budget</h4>
+                    <p class="text-[10px] text-neutral-600" id="dropdownBudgetTotal">Configured during selection</p>
+                  </div>
+                  <span class="material-symbols-outlined text-neutral-600 text-base ml-2">account_balance_wallet</span>
+                </div>
+
+                <button id="btnDropdownReset" class="w-full py-2.5 px-3 bg-[#8b4513] text-white rounded-xl text-xs font-bold hover:bg-[#703810] transition-all text-center flex items-center justify-center gap-1.5 cursor-pointer shadow-xs active:scale-95">
+                  <span class="material-symbols-outlined text-sm">restart_alt</span>
+                  Restart &amp; Plan New Trip
+                </button>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <!-- Slim Budget Progress Bar (Idea 5) -->
+        <div class="w-full bg-surface-container-high/60 h-[3px] relative overflow-hidden" id="budgetBarWrapper" title="Estimated budget pacing">
+          <div class="h-full bg-secondary transition-all duration-700 ease-out rounded-r-full" id="budgetBarFill" style="width: 0%;"></div>
+        </div>
+
+        <!-- Chat History Area (Scrollable Feed) -->
+        <div class="flex-1 min-h-0 overflow-y-auto overflow-x-hidden px-6 py-4 flex flex-col gap-4 scroll-smooth" id="chatThread" aria-live="polite" aria-label="Conversation">
+          <!-- Message bubbles, carousels and chips mount here dynamically -->
+        </div>
+
+        <!-- Chat Input Area (In-flow flex child — zero text overlap on Safari) -->
+        <div class="flex-shrink-0 px-6 py-3 bg-surface-bright border-t border-outline-variant/20 z-20 relative">
+          <form class="luxury-gold-bar max-w-2xl mx-auto relative flex items-center" id="chatForm">
+            <textarea
+              class="w-full bg-transparent border-none focus:ring-0 resize-none font-body-md pl-5 pr-20 py-3.5 max-h-28 min-h-[48px] text-on-surface placeholder-on-surface-variant/60 text-xs sm:text-sm rounded-full leading-relaxed"
+              id="chatInput"
+              placeholder="Ask about places to eat, things to do..."
+              rows="1"
+              autocomplete="off"
+              aria-label="Message Trailmate"
+            ></textarea>
+            <div class="absolute right-3 top-1/2 -translate-y-1/2 flex gap-1.5 items-center">
+              <button type="button" class="p-1.5 text-on-surface-variant hover:text-primary transition-colors rounded-full hover:bg-surface-container" id="btnVoiceInput" title="Voice input (Click to speak)" aria-label="Voice input">
+                <span class="material-symbols-outlined text-lg" id="micIcon">mic</span>
+              </button>
+              <button type="submit" class="p-1.5 bg-primary text-on-primary rounded-full hover:bg-primary/90 transition-transform active:scale-95 flex items-center justify-center shadow-sm w-7 h-7" id="btnSend" aria-label="Send message">
+                <span class="material-symbols-outlined text-xs">arrow_upward</span>
+              </button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <!-- Resizable Split-View Handle -->
+      <div class="split-resizer" id="splitResizer" role="separator" tabindex="0" aria-label="Resize chat and itinerary split view" title="Drag to resize, double-click to reset"></div>
+
+      <!-- Right Hand Itinerary Pane -->
+      <aside class="w-80 bg-surface flex flex-col h-full min-h-0 border-l border-surface-variant flex-shrink-0 z-0 min-w-[250px] overflow-hidden" id="itineraryPane">
+
+        <!-- Itinerary Header -->
+        <div class="px-5 py-3.5 border-b border-surface-variant bg-surface sticky top-0 z-10 flex justify-between items-center flex-shrink-0">
+          <h3 class="font-serif text-xl font-bold text-primary">Itinerary</h3>
+          <span class="bg-surface-container-high text-on-surface-variant px-2.5 py-0.5 rounded-full font-mono text-[11px] border border-outline-variant/30 font-medium" id="itineraryStatusTag">Draft Blueprint</span>
+        </div>
+
+        <!-- Itinerary Timeline (Scrollable) -->
+        <div class="flex-1 min-h-0 overflow-y-auto overflow-x-hidden px-4 pt-4 scroll-smooth" id="itineraryBody">
+          <!-- Day blocks mount here dynamically -->
+        </div>
+
+        <!-- Map Preview Footer -->
+        <div class="p-3 border-t border-surface-variant bg-surface-container-low h-36 relative overflow-hidden group cursor-pointer" id="mapPreview" role="button" tabindex="0" aria-label="Open full map view">
+          <div class="absolute inset-0 bg-primary/5 group-hover:bg-transparent transition-colors z-10 pointer-events-none"></div>
+          <img class="w-full h-full object-cover rounded-lg border border-surface-variant" alt="Map view of Ooty" src="https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&w=600&q=70"/>
+          <div class="absolute bottom-4 right-4 bg-surface shadow-md rounded-full px-3 py-1.5 flex items-center gap-1.5 z-20 group-hover:scale-105 transition-transform" id="btnViewMap">
+            <span class="material-symbols-outlined text-primary text-xs">map</span>
+            <span class="font-label-md text-xs font-semibold text-primary">View Map</span>
+          </div>
+        </div>
+
+      </aside>
+    </div>
+
+    <!-- Full-Width View Section (Trips, Map, Settings) taking 100% of #appMain -->
+    <section id="fullViewSection" class="hidden flex-1 flex flex-col h-full w-full absolute inset-0 overflow-hidden bg-[#FBF8F3]">
+      
+      <!-- Full-Bleed Themed Background Illustration Layer -->
+      <div id="fullViewBackground" class="fullview-bg-layer flex items-center justify-center">
+        <img id="fullViewBgImg" src="/backgrounds/bg-trips-heritage.svg" alt="Themed Travel Background" class="w-full h-full object-cover object-center select-none pointer-events-none transition-opacity duration-300" />
+      </div>
+
+      <!-- Centered Content Floating Area (Scrollable) -->
+      <div class="flex-1 flex items-center justify-center p-4 sm:p-8 overflow-y-auto z-10 w-full min-h-full" id="fullViewScrollContainer">
+        <div class="tactile-fullview-card relative my-auto" id="fullViewCard">
+          <!-- Tactile Archival Corner Mounts -->
+          <div class="corner-bracket corner-bracket-tl"></div>
+          <div class="corner-bracket corner-bracket-tr"></div>
+          <div class="corner-bracket corner-bracket-bl"></div>
+          <div class="corner-bracket corner-bracket-br"></div>
+
+          <!-- Close / Back to Chat button -->
+          <button id="btnFullViewClose" class="btn-tactile-close" aria-label="Return to planner">
+            <span class="material-symbols-outlined text-lg">close</span>
+          </button>
+          
+          <div id="fullViewBody">
+            <!-- Dynamic view content mounts here -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Dedicated Canva-Like Scrapbook Studio Workspace View -->
+    <div id="scrapbookWorkspaceView" class="hidden flex-1 h-full w-full absolute inset-0 overflow-hidden z-20">
+      <!-- ScrapbookWorkspace mounts here -->
+    </div>
+
+  </main>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,289 @@
+/* ==========================================================================
+   Trailmate — App Shell Layout
+   3-pane grid: Sidebar | Chat | Resizer | Itinerary
+   ========================================================================== */
+
+.app-container {
+  display: grid;
+  grid-template-columns:
+    var(--sidebar-width)
+    1fr
+    var(--resizer-width)
+    var(--itinerary-width);
+  grid-template-areas: "sidebar chat resizer itinerary";
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  background: var(--canvas);
+}
+
+.app-sidebar,
+.sidebar {
+  grid-area: sidebar;
+  min-width: 0;
+  height: 100vh;
+  overflow-y: auto;
+}
+
+.app-chat,
+.chat-pane {
+  grid-area: chat;
+  min-width: var(--min-chat-width);
+  height: 100vh;
+  overflow: hidden; /* inner .chat-thread scrolls, not this wrapper */
+  position: relative;
+}
+
+.app-itinerary,
+.itinerary-pane {
+  grid-area: itinerary;
+  min-width: var(--min-itinerary-width);
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* ---- Resizable Split-View Handle ---- */
+
+.split-resizer {
+  grid-area: resizer;
+  width: var(--resizer-width);
+  height: 100vh;
+  background: var(--surface-container);
+  border-left: 1px solid var(--outline-variant);
+  border-right: 1px solid var(--outline-variant);
+  cursor: col-resize;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background var(--transition-fast), border-color var(--transition-fast);
+  touch-action: none;
+}
+
+.split-resizer:hover,
+.split-resizer.is-active {
+  background: var(--terracotta-tint);
+  border-left-color: var(--terracotta);
+  border-right-color: var(--terracotta);
+}
+
+/* Grip pill indicator, centered vertically */
+.split-resizer::before {
+  content: "";
+  width: 3px;
+  height: 32px;
+  border-radius: var(--radius-full);
+  background: var(--outline-variant);
+  transition: background var(--transition-fast), height var(--transition-fast);
+}
+
+.split-resizer:hover::before,
+.split-resizer.is-active::before {
+  background: var(--terracotta);
+  height: 48px;
+}
+
+/* Applied to <body> while a drag is in progress, so the cursor and
+   selection stay consistent even if the pointer leaves the handle. */
+body.is-resizing {
+  cursor: col-resize;
+  user-select: none;
+}
+
+body.is-resizing .app-chat,
+body.is-resizing .app-itinerary,
+body.is-resizing .chat-pane,
+body.is-resizing .itinerary-pane {
+  pointer-events: none; /* prevents accidental hover/scroll churn mid-drag */
+}
+
+/* ==========================================================================
+   Responsive Breakpoints
+   ========================================================================== */
+
+/* ---- Tablet: sidebar collapses to icon rail, split-view stays ---- */
+@media (max-width: 1024px) and (min-width: 769px) {
+  .app-container {
+    grid-template-columns:
+      var(--sidebar-width-collapsed)
+      1fr
+      var(--resizer-width)
+      var(--itinerary-width);
+  }
+}
+
+/* ---- Mobile: single column, resizer hidden, bottom tab switch ---- */
+@media (max-width: 768px) {
+  .app-container {
+    display: flex;
+    flex-direction: column;
+    height: 100dvh;
+  }
+
+  .app-sidebar,
+  .sidebar {
+    display: none; /* replaced by a mobile nav pattern elsewhere */
+  }
+
+  .split-resizer {
+    display: none;
+  }
+
+  .app-chat,
+  .chat-pane,
+  .app-itinerary,
+  .itinerary-pane {
+    width: 100%;
+    min-width: 0;
+    flex: 1 1 auto;
+    height: calc(100dvh - var(--mobile-tabbar-height, 64px));
+  }
+
+  /* Only one pane visible at a time on mobile, toggled via a
+     `.is-active-pane` or `data-mobile-view` class. */
+  .app-chat:not(.is-active-pane),
+  .chat-pane:not(.is-active-pane),
+  .app-itinerary:not(.is-active-pane),
+  .itinerary-pane:not(.is-active-pane) {
+    display: none;
+  }
+
+  .mobile-tab-bar,
+  .mobile-nav-tabs {
+    display: flex;
+    height: var(--mobile-tabbar-height, 64px);
+    border-top: 1px solid var(--outline-variant);
+    background: var(--surface);
+    flex-shrink: 0;
+  }
+}
+
+@media (min-width: 769px) {
+  .mobile-tab-bar,
+  .mobile-nav-tabs {
+    display: none;
+  }
+}
+
+/* ==========================================================================
+   Full-View Section (Trips, Map, Settings) — Tactile Journal Architecture
+   ========================================================================== */
+
+.fullview-bg-layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--canvas);
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  transition: background-image 240ms ease, opacity 200ms ease;
+  pointer-events: none;
+  user-select: none;
+}
+
+.tactile-fullview-card {
+  position: relative;
+  width: 580px;
+  max-width: 94vw;
+  margin: auto;
+  background: rgba(251, 248, 243, 0.95);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(191, 168, 149, 0.45);
+  border-radius: 28px;
+  padding: 2.25rem 2.25rem 2rem;
+  box-shadow:
+    0 1px 3px rgba(45, 30, 20, 0.04),
+    0 6px 20px -2px rgba(45, 30, 20, 0.07),
+    0 20px 48px -6px rgba(45, 30, 20, 0.09),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.85);
+  transition: transform 220ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 220ms ease;
+}
+
+/* Subtle top archival color accent band */
+.tactile-fullview-card::before {
+  content: "";
+  position: absolute;
+  top: -1px;
+  left: 36px;
+  right: 36px;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, var(--terracotta) 20%, var(--terracotta) 80%, transparent);
+  border-radius: 3px;
+  opacity: 0.85;
+}
+
+/* Vintage Paper Corner Mounts */
+.tactile-fullview-card .corner-bracket {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  pointer-events: none;
+  opacity: 0.55;
+}
+.tactile-fullview-card .corner-bracket-tl {
+  top: 8px;
+  left: 8px;
+  border-top: 2px solid #BFA895;
+  border-left: 2px solid #BFA895;
+}
+.tactile-fullview-card .corner-bracket-tr {
+  top: 8px;
+  right: 8px;
+  border-top: 2px solid #BFA895;
+  border-right: 2px solid #BFA895;
+}
+.tactile-fullview-card .corner-bracket-bl {
+  bottom: 8px;
+  left: 8px;
+  border-bottom: 2px solid #BFA895;
+  border-left: 2px solid #BFA895;
+}
+.tactile-fullview-card .corner-bracket-br {
+  bottom: 8px;
+  right: 8px;
+  border-bottom: 2px solid #BFA895;
+  border-right: 2px solid #BFA895;
+}
+
+/* Tactile Inset Panel for form fields & trip blocks */
+.tactile-inset-panel {
+  background: rgba(236, 231, 222, 0.65);
+  border: 1px solid rgba(191, 168, 149, 0.28);
+  border-radius: 16px;
+  padding: 1rem;
+  transition: background 150ms ease, border-color 150ms ease;
+}
+.tactile-inset-panel:hover {
+  background: rgba(236, 231, 222, 0.85);
+  border-color: rgba(191, 168, 149, 0.45);
+}
+
+/* Close button on tactile card */
+.btn-tactile-close {
+  position: absolute;
+  top: 1.25rem;
+  right: 1.25rem;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(191, 168, 149, 0.35);
+  color: var(--on-surface-variant);
+  cursor: pointer;
+  transition: all 150ms ease;
+  box-shadow: 0 1px 2px rgba(45, 30, 20, 0.05);
+}
+.btn-tactile-close:hover {
+  background: #FFFFFF;
+  color: var(--on-surface);
+  border-color: var(--terracotta);
+  transform: scale(1.06);
+}
+

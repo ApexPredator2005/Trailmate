@@ -1,0 +1,142 @@
+{
+  "lastmile:cjb:ooty": {
+    "fromAirport": "CJB",
+    "fromAirportName": "Coimbatore International Airport",
+    "destination": "Ooty",
+    "options": [
+      {
+        "mode": "Taxi",
+        "operatorOrRoute": "Prepaid Airport Taxi / Private Cab via NH181 (Kotagiri/Coonoor Ghats)",
+        "durationRange": "2.5 - 3.5 hrs",
+        "fareRange": { "min": 2200, "max": 3200, "currency": "INR" },
+        "classes": [
+          { "className": "Hatchback / Sedan", "fare": 2400 },
+          { "className": "Mountain SUV / Innova", "fare": 3200 }
+        ],
+        "isHeritageExperience": false,
+        "heritageNote": "",
+        "notes": "Direct point-to-point drop at your hotel. Fixed government counters available at arrivals.",
+        "hasDirectRoute": true
+      },
+      {
+        "mode": "Train",
+        "operatorOrRoute": "Nilgiri Mountain Railway (NMR) via Mettupalayam Junction",
+        "durationRange": "4.5 - 5 hrs (plus 1 hr road transfer to Mettupalayam)",
+        "fareRange": { "min": 35, "max": 205, "currency": "INR" },
+        "classes": [
+          { "className": "First Class (FC)", "fare": 205 },
+          { "className": "Second Sitting (2S)", "fare": 35 }
+        ],
+        "isHeritageExperience": true,
+        "heritageNote": "UNESCO World Heritage 'Toy Train' featuring 16 tunnels, 250 bridges, and historic Swiss rack-and-pinion steam ascent.",
+        "bookingReality": {
+          "scarcityLevel": "EXTREME_DEMAND",
+          "advanceBookingWindow": "IRCTC reservation opens 120 days in advance and sells out within minutes during season (Apr-Jun, Sep-Dec).",
+          "spotQueueAdvisory": "Unreserved general ticket counter at Mettupalayam opens around 05:00 AM. Requires queuing 2–3 hours in advance for ~30 unreserved seats with a severe risk of not getting a ticket.",
+          "actionableTip": "If tickets are sold out online, take a comfortable direct taxi up to Ooty on arrival and book the shorter local 2-hour Joyride (Ooty ➔ Coonoor) or downhill return leg where availability is much easier."
+        },
+        "notes": "Requires taking a taxi/bus (~35 km / 1 hr) from Coimbatore Airport to Mettupalayam Station first. Departs Mettupalayam at 07:10 AM daily. Advance IRCTC reservation essential as seats sell out 60-120 days early.",
+        "hasDirectRoute": false
+      },
+      {
+        "mode": "Bus",
+        "operatorOrRoute": "TNSTC / SETC Deluxe Express via Gandhipuram Central Bus Stand",
+        "durationRange": "3.5 - 4.5 hrs",
+        "fareRange": { "min": 90, "max": 250, "currency": "INR" },
+        "classes": [
+          { "className": "TNSTC Ultra Deluxe AC", "fare": 220 },
+          { "className": "Express Non-AC", "fare": 110 }
+        ],
+        "isHeritageExperience": false,
+        "heritageNote": "",
+        "notes": "Buses depart every 15-20 minutes from Gandhipuram Central Bus Stand (10 km from CJB airport).",
+        "hasDirectRoute": false
+      }
+    ],
+    "recommendation": {
+      "mode": "Prepaid Taxi",
+      "reason": "Direct 2.5 hr door-to-door transfer via NH181 is most practical when arriving with flight luggage, saving ~3 hours over multi-leg bus or early morning train transfers.",
+      "experienceAlternative": "The UNESCO World Heritage Nilgiri Mountain Railway Toy Train from Mettupalayam is an unforgettable historic journey — book IRCTC First Class well in advance or take it on your return trip down the valley."
+    },
+    "sources": [
+      { "uri": "https://www.irctc.co.in", "title": "IRCTC Official Train Booking Portal" },
+      { "uri": "https://www.tamilnadutourism.tn.gov.in/destinations/ooty", "title": "Tamil Nadu Tourism Official Nilgiri Transport Guide" },
+      { "uri": "https://www.tnstc.in", "title": "Tamil Nadu State Transport Corporation Bus Schedules" }
+    ],
+    "fallback": false,
+    "cached": false,
+    "fetchedAt": 1786960000000,
+    "fetchedAtIso": "2026-08-17T10:40:00.000Z",
+    "freshnessLabel": "Estimated from public sources · estimated Aug 17, 10:40 AM"
+  },
+  "lastmile:ixb:darjeeling": {
+    "fromAirport": "IXB",
+    "fromAirportName": "Bagdogra Airport",
+    "destination": "Darjeeling",
+    "options": [
+      {
+        "mode": "Taxi",
+        "operatorOrRoute": "Prepaid Bagdogra Airport Taxi / Shared Cab via Rohini Tea Valley / Hill Cart Rd",
+        "durationRange": "2.5 - 3.5 hrs",
+        "fareRange": { "min": 2500, "max": 3800, "currency": "INR" },
+        "classes": [
+          { "className": "Private Sedan / WagonR", "fare": 2600 },
+          { "className": "Mountain SUV (Innova / Scorpio)", "fare": 3600 },
+          { "className": "Shared Sumo (from Siliguri)", "fare": 250 }
+        ],
+        "isHeritageExperience": false,
+        "heritageNote": "",
+        "notes": "Direct scenic route through Kurseong and sprawling tea gardens. Prepaid counter right outside baggage claim.",
+        "hasDirectRoute": true
+      },
+      {
+        "mode": "Train",
+        "operatorOrRoute": "Darjeeling Himalayan Railway (DHR) from New Jalpaiguri (NJP) / Kurseong",
+        "durationRange": "7 - 7.5 hrs (plus 45 min transfer from Bagdogra to NJP)",
+        "fareRange": { "min": 95, "max": 1420, "currency": "INR" },
+        "classes": [
+          { "className": "Steam Joy Ride / AC CC (NJP)", "fare": 1420 },
+          { "className": "Diesel First Class (FC)", "fare": 600 },
+          { "className": "Second Class (2S)", "fare": 95 }
+        ],
+        "isHeritageExperience": true,
+        "heritageNote": "UNESCO World Heritage DHR 'Toy Train' engineered in 1881 with famous Batasia Loop and Ghum station (highest in India at 7,407 ft).",
+        "bookingReality": {
+          "scarcityLevel": "EXTREME_DEMAND",
+          "advanceBookingWindow": "Full-route NJP-Darjeeling toy train runs only once daily and fills 60–90 days ahead on IRCTC. Darjeeling-Ghum Steam Joy Rides also sell out weeks early in peak season (Oct-Nov, Apr-May).",
+          "spotQueueAdvisory": "Station booking counter at Darjeeling/NJP has long lines in the morning; unreserved seats are extremely limited.",
+          "actionableTip": "Take a direct 3-hr taxi from Bagdogra Airport to your Darjeeling hotel on arrival day, and pre-book a dedicated 2-hour Darjeeling ➔ Ghum ➔ Batasia Loop Joy Ride for day 2 or 3."
+        },
+        "notes": "Requires transferring to NJP Junction (~18 km). Full NJP to Darjeeling toy train runs once daily (08:30 AM). Alternatively, book the 2-hour Joy Ride from Darjeeling to Ghum.",
+        "hasDirectRoute": false
+      },
+      {
+        "mode": "Bus",
+        "operatorOrRoute": "NBSTC / Private Minibus via Siliguri Tenzing Norgay Bus Terminus",
+        "durationRange": "3.5 - 4.5 hrs",
+        "fareRange": { "min": 120, "max": 200, "currency": "INR" },
+        "classes": [
+          { "className": "NBSTC Express Bus", "fare": 140 }
+        ],
+        "isHeritageExperience": false,
+        "heritageNote": "",
+        "notes": "Buses operate frequently from Siliguri bus terminal (14 km from Bagdogra airport).",
+        "hasDirectRoute": false
+      }
+    ],
+    "recommendation": {
+      "mode": "Prepaid Taxi",
+      "reason": "Direct 3-hour private cab via Rohini tea valley is the fastest and most reliable mountain transfer when arriving with luggage.",
+      "experienceAlternative": "Experience the UNESCO World Heritage Darjeeling Himalayan Railway Joy Ride between Darjeeling and Ghum loop during your stay."
+    },
+    "sources": [
+      { "uri": "https://www.irctc.co.in", "title": "IRCTC DHR Toy Train Booking" },
+      { "uri": "https://wbtourism.gov.in", "title": "West Bengal Tourism Darjeeling Guide" }
+    ],
+    "fallback": false,
+    "cached": false,
+    "fetchedAt": 1786960000000,
+    "fetchedAtIso": "2026-08-17T10:40:00.000Z",
+    "freshnessLabel": "Estimated from public sources · estimated Aug 17, 10:40 AM"
+  }
+}

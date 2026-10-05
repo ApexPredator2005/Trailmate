@@ -1,0 +1,1813 @@
+/* ==========================================================================
+   Trailmate — Canva-Like Travel Scrapbook Studio Workspace
+   ========================================================================== */
+
+.scrapbook-workspace {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  background: #f0ede6;
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  user-select: none;
+}
+
+/* ---- Top Toolbar ---- */
+.scrapbook-top-bar {
+  height: 56px;
+  background: #fbf9f5;
+  border-bottom: 1px solid #e5dfd5;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  flex-shrink: 0;
+  z-index: 20;
+}
+
+.scrapbook-title-input {
+  background: transparent;
+  border: none;
+  font-family: 'Noto Serif', serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: #1b1c1a;
+  padding: 4px 8px;
+  border-radius: 8px;
+  transition: background 0.15s ease;
+}
+
+.scrapbook-title-input:hover,
+.scrapbook-title-input:focus {
+  background: #ebe5dc;
+  outline: none;
+}
+
+/* ---- Workspace Main Stage (Full-bleed Canvas Viewport) ---- */
+.scrapbook-main-stage {
+  display: flex;
+  flex: 1;
+  height: calc(100% - 56px);
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+}
+
+/* ---- Center Canvas Viewport & Artboard ---- */
+.scrapbook-canvas-viewport {
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 40px 100px 40px;
+  background-color: #f4efe6;
+  background-image:
+    radial-gradient(ellipse at center, rgba(255, 255, 255, 0.4) 0%, rgba(228, 220, 206, 0.6) 100%),
+    url('/backgrounds/travel-scribble-paper-bg.svg');
+  background-size: cover, 720px 720px;
+  background-repeat: no-repeat, repeat;
+  background-position: center center, 0 0;
+  position: relative;
+  touch-action: pan-x pan-y;
+}
+
+.scrapbook-artboard {
+  background: #fbf9f5;
+  border-radius: 8px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.14), 0 2px 8px rgba(0, 0, 0, 0.04);
+  position: relative;
+  overflow: hidden;
+  transform-origin: center center;
+  transition: width 0.25s cubic-bezier(0.16, 1, 0.3, 1), height 0.25s cubic-bezier(0.16, 1, 0.3, 1), background 0.2s ease, clip-path 0.2s ease, transform 0.15s ease-out;
+  flex-shrink: 0;
+}
+
+/* ---- Floating Bottom Toolbar (Hovering Rounded Capsule Dock) ---- */
+.scrapbook-floating-dock {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 9999px;
+  padding: 6px 12px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.05);
+  z-index: 50;
+  max-width: calc(100vw - 32px);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.scrapbook-floating-dock::-webkit-scrollbar {
+  display: none;
+}
+
+.floating-dock-btn {
+  background: transparent;
+  border: none;
+  color: #3b4038;
+  padding: 7px 11px;
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+}
+
+.floating-dock-btn:hover {
+  color: #1a1c18;
+  background: rgba(0, 0, 0, 0.06);
+  transform: translateY(-1px);
+}
+
+.floating-dock-btn:active {
+  transform: translateY(0);
+}
+
+.floating-dock-btn.is-active {
+  color: #ffffff;
+  background: #c86d51;
+  box-shadow: 0 2px 8px rgba(200, 109, 81, 0.4);
+}
+
+.floating-dock-divider {
+  width: 1px;
+  height: 20px;
+  background: rgba(0, 0, 0, 0.12);
+  margin: 0 4px;
+  flex-shrink: 0;
+}
+
+.floating-dock-badge {
+  font-size: 9px;
+  background: rgba(0, 0, 0, 0.08);
+  color: #1a1c18;
+  padding: 1px 5px;
+  border-radius: 9999px;
+  font-family: monospace;
+}
+
+/* ---- Floating Asset Drawer Tray (Slides up above bottom dock) ---- */
+.scrapbook-floating-tray {
+  position: absolute;
+  bottom: 76px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 500px;
+  max-width: calc(100vw - 32px);
+  max-height: 420px;
+  background: rgba(251, 249, 245, 0.98);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 24px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.28), 0 4px 16px rgba(0, 0, 0, 0.08);
+  z-index: 45;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: trayPop 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes trayPop {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, 12px) scale(0.97);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, 0) scale(1);
+  }
+}
+
+.floating-tray-header {
+  padding: 12px 16px;
+  background: #f4efe6;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+}
+
+.floating-tray-body {
+  padding: 16px;
+  overflow-y: auto;
+  flex: 1;
+  max-height: 360px;
+}
+
+/* Floating Zoom Control Pill */
+.floating-zoom-group {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  background: rgba(0, 0, 0, 0.05);
+  padding: 2px;
+  border-radius: 9999px;
+}
+
+.floating-zoom-btn {
+  background: transparent;
+  border: none;
+  color: #3b4038;
+  width: 24px;
+  height: 24px;
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.floating-zoom-btn:hover {
+  background: rgba(0, 0, 0, 0.08);
+  color: #1a1c18;
+}
+
+.floating-zoom-label {
+  font-family: monospace;
+  font-size: 10px;
+  font-weight: 700;
+  color: #2b3028;
+  padding: 0 4px;
+  min-width: 38px;
+  text-align: center;
+}
+
+/* Upload Dropzone */
+.photo-upload-dropzone {
+  border: 2px dashed #c86d51;
+  background: rgba(200, 109, 81, 0.05);
+  border-radius: 16px;
+  padding: 20px 16px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.photo-upload-dropzone:hover {
+  background: rgba(200, 109, 81, 0.12);
+  transform: translateY(-1px);
+}
+
+.photo-upload-dropzone.is-dragging {
+  background: rgba(200, 109, 81, 0.2);
+  border-color: #944a1a;
+}
+
+/* Photo Gallery Grid in Dock */
+.dock-photo-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.dock-photo-item {
+  aspect-ratio: 1;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid #e5dfd5;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.15s ease;
+}
+
+.dock-photo-item:hover {
+  transform: scale(1.03);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-color: #944a1a;
+}
+
+.dock-photo-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Edge & Border Styles for Canvas Paper */
+.scrapbook-artboard.edge-straight {
+  border-radius: 8px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.14), 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+/* 1. Realistic Organic Deckled Torn Edge */
+.scrapbook-artboard.edge-torn {
+  border-radius: 0;
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.18), 0 2px 8px rgba(0, 0, 0, 0.08);
+  clip-path: polygon(
+    0% 4px, 1.2% 1px, 2.5% 5px, 3.8% 2px, 5.2% 6px, 6.7% 2px, 8% 5px, 9.5% 1px,
+    11% 4px, 12.5% 6px, 14% 2px, 15.6% 5px, 17.2% 1px, 18.8% 4px, 20.5% 6px, 22% 2px,
+    23.6% 5px, 25.3% 1px, 27% 4px, 28.8% 6px, 30.5% 2px, 32.2% 5px, 34% 1px, 35.8% 4px,
+    37.6% 6px, 39.4% 2px, 41.2% 5px, 43% 1px, 44.8% 4px, 46.6% 2px, 48.5% 6px, 50.3% 2px,
+    52.2% 5px, 54.1% 1px, 56% 4px, 57.9% 6px, 59.8% 2px, 61.7% 5px, 63.6% 1px, 65.5% 4px,
+    67.4% 6px, 69.3% 2px, 71.2% 5px, 73.1% 1px, 75% 4px, 76.9% 6px, 78.8% 2px, 80.7% 5px,
+    82.6% 1px, 84.5% 4px, 86.4% 6px, 88.3% 2px, 90.2% 5px, 92.1% 1px, 94% 4px, 96% 6px,
+    98% 2px, 99.2% 5px, 100% 2px,
+    99.5% 2.5%, 100% 4.8%, 99.1% 7.2%, 100% 9.6%, 99.3% 12%, 99.8% 14.5%, 99% 17%, 100% 19.5%,
+    99.2% 22%, 99.7% 24.5%, 98.9% 27%, 100% 29.5%, 99.3% 32%, 99.8% 34.5%, 99.1% 37%, 100% 39.5%,
+    99.4% 42%, 99.8% 44.5%, 99% 47%, 100% 49.5%, 99.2% 52%, 99.7% 54.5%, 98.9% 57%, 100% 59.5%,
+    99.3% 62%, 99.8% 64.5%, 99.1% 67%, 100% 69.5%, 99.4% 72%, 99.8% 74.5%, 99% 77%, 100% 79.5%,
+    99.2% 82%, 99.7% 84.5%, 98.9% 87%, 100% 89.5%, 99.3% 92%, 99.8% 94.5%, 99.1% 97%, 100% 99.5%,
+    99.2% 99.8%, 98% 98.8%, 96.5% 100%, 95% 99.1%, 93.5% 99.8%, 92% 98.7%, 90.5% 100%, 89% 99.2%,
+    87.5% 99.8%, 86% 98.6%, 84.5% 100%, 83% 99.1%, 81.5% 99.8%, 80% 98.7%, 78.5% 100%, 77% 99.2%,
+    75.5% 99.8%, 74% 98.6%, 72.5% 100%, 71% 99.1%, 69.5% 99.8%, 68% 98.7%, 66.5% 100%, 65% 99.2%,
+    63.5% 99.8%, 62% 98.6%, 60.5% 100%, 59% 99.1%, 57.5% 99.8%, 56% 98.7%, 54.5% 100%, 53% 99.2%,
+    51.5% 99.8%, 50% 98.6%, 48.5% 100%, 47% 99.1%, 45.5% 99.8%, 44% 98.7%, 42.5% 100%, 41% 99.2%,
+    39.5% 99.8%, 38% 98.6%, 36.5% 100%, 35% 99.1%, 33.5% 99.8%, 32% 98.7%, 30.5% 100%, 29% 99.2%,
+    27.5% 99.8%, 26% 98.6%, 24.5% 100%, 23% 99.1%, 21.5% 99.8%, 20% 98.7%, 18.5% 100%, 17% 99.2%,
+    15.5% 99.8%, 14% 98.6%, 12.5% 100%, 11% 99.1%, 9.5% 99.8%, 8% 98.7%, 6.5% 100%, 5% 99.2%,
+    3.5% 99.8%, 2% 98.6%, 0.8% 100%, 0% 99.2%,
+    0.6% 97%, 0% 94.5%, 0.8% 92%, 0% 89.5%, 0.7% 87%, 0.2% 84.5%, 0.9% 82%, 0% 79.5%,
+    0.6% 77%, 0% 74.5%, 0.8% 72%, 0% 69.5%, 0.7% 67%, 0.2% 64.5%, 0.9% 62%, 0% 59.5%,
+    0.6% 57%, 0% 54.5%, 0.8% 52%, 0% 49.5%, 0.7% 47%, 0.2% 44.5%, 0.9% 42%, 0% 39.5%,
+    0.6% 37%, 0% 34.5%, 0.8% 32%, 0% 29.5%, 0.7% 27%, 0.2% 24.5%, 0.9% 22%, 0% 19.5%,
+    0.6% 17%, 0% 14.5%, 0.8% 12%, 0% 9.5%, 0.7% 7%, 0.2% 4.5%, 0.8% 2%, 0% 0.5%
+  );
+}
+
+.scrapbook-artboard.edge-torn::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  box-shadow: inset 0 0 20px rgba(180, 140, 100, 0.22);
+}
+
+/* 2. Perforated Postage Stamp Edge */
+.scrapbook-artboard.edge-postage {
+  border-radius: 4px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.16);
+  border: 10px solid #ffffff;
+  outline: 2px dashed rgba(180, 160, 140, 0.6);
+  outline-offset: -6px;
+}
+
+/* 3. Spiral Bound Notebook Tear-Off Sheet */
+.scrapbook-artboard.edge-spiral {
+  border-radius: 0 6px 6px 0;
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.16);
+  border-left: 28px solid #f1ede5;
+  position: relative;
+}
+
+.scrapbook-artboard.edge-spiral::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -24px;
+  width: 16px;
+  background-image: radial-gradient(circle at center, #6b7280 4px, transparent 5px);
+  background-size: 16px 28px;
+  background-repeat: repeat-y;
+  pointer-events: none;
+  z-index: 9991;
+}
+
+.scrapbook-artboard.edge-spiral::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 1.5px;
+  background: rgba(220, 38, 38, 0.35);
+  pointer-events: none;
+  z-index: 9991;
+}
+
+/* 4. Aged Scorched Vignette */
+.scrapbook-artboard.edge-burnt {
+  border-radius: 6px;
+  box-shadow: inset 0 0 55px rgba(90, 45, 15, 0.42), 0 16px 40px rgba(0, 0, 0, 0.16);
+  border: 1px solid rgba(120, 60, 20, 0.35);
+}
+
+/* 5. Hand-Stitched Journal Edge */
+.scrapbook-artboard.edge-stitched::before {
+  content: '';
+  position: absolute;
+  inset: 12px;
+  border: 1.5px dashed rgba(148, 74, 26, 0.45);
+  border-radius: 4px;
+  pointer-events: none;
+  z-index: 9990;
+}
+
+/* Canvas Aspect Ratio Formats */
+.scrapbook-artboard.format-spread {
+  width: 760px;
+  height: 520px;
+}
+
+.scrapbook-artboard.format-story {
+  width: 420px;
+  height: 740px;
+}
+
+.scrapbook-artboard.format-postcard {
+  width: 720px;
+  height: 480px;
+}
+
+/* Dynamic Snap & Alignment Guide Lines */
+.canvas-snap-guide-x {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: #c86d51;
+  box-shadow: 0 0 6px rgba(200, 109, 81, 0.8);
+  z-index: 9998;
+  pointer-events: none;
+}
+
+.canvas-snap-guide-y {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: #c86d51;
+  box-shadow: 0 0 6px rgba(200, 109, 81, 0.8);
+  z-index: 9998;
+  pointer-events: none;
+}
+
+/* Canvas Elements Direct Manipulation */
+.canvas-element {
+  position: absolute;
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+  transition: outline 0.15s ease, box-shadow 0.15s ease;
+}
+
+.canvas-element.is-jumping {
+  animation: softElementJump 0.28s cubic-bezier(0.25, 1.2, 0.5, 1);
+  will-change: translate, scale;
+}
+
+@keyframes softElementJump {
+  0% {
+    translate: 0 0;
+    scale: 1;
+  }
+  38% {
+    translate: 0 -7px;
+    scale: 1.025;
+  }
+  70% {
+    translate: 0 1px;
+    scale: 0.995;
+  }
+  100% {
+    translate: 0 0;
+    scale: 1;
+  }
+}
+
+.canvas-element:hover:not(.is-selected) {
+  outline: 1.5px dashed rgba(200, 109, 81, 0.45);
+  outline-offset: 4px;
+}
+
+.canvas-element.is-selected {
+  outline: 2px solid #c86d51;
+  outline-offset: 4px;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.8);
+}
+
+.canvas-element:active {
+  cursor: grabbing;
+}
+
+/* Quick Action Toolbar on Selected Element */
+.canvas-selection-toolbar {
+  position: absolute;
+  top: -54px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 24px;
+  padding: 4px 8px;
+  display: none;
+  align-items: center;
+  gap: 4px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.14), 0 2px 6px rgba(0, 0, 0, 0.05);
+  z-index: 9999;
+  pointer-events: auto;
+  animation: toolbarSpring 0.22s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes toolbarSpring {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, 8px) scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, 0) scale(1);
+  }
+}
+
+.canvas-element.is-selected .canvas-selection-toolbar {
+  display: flex;
+}
+
+.canvas-tool-btn {
+  background: transparent;
+  border: none;
+  color: #3b4038;
+  padding: 4px 6px;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  transition: all 0.16s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.canvas-tool-btn:hover {
+  background: rgba(0, 0, 0, 0.07);
+  color: #1a1c18;
+  transform: scale(1.12);
+}
+
+.canvas-tool-btn:active {
+  transform: scale(0.92);
+}
+
+/* 4 Corner Resize Handles */
+.canvas-resize-handle {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: #ffffff;
+  border: 1.5px solid #944a1a;
+  border-radius: 2px;
+  display: none;
+  pointer-events: auto;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+}
+
+.canvas-element.is-selected .canvas-resize-handle {
+  display: block;
+}
+
+.handle-nw { top: -6px; left: -6px; cursor: nwse-resize; }
+.handle-ne { top: -6px; right: -6px; cursor: nesw-resize; }
+.handle-sw { bottom: -6px; left: -6px; cursor: nesw-resize; }
+.handle-se { bottom: -6px; right: -6px; cursor: nwse-resize; }
+
+/* Rotation Stem Handle */
+.canvas-rotate-handle {
+  position: absolute;
+  top: -26px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 20px;
+  height: 20px;
+  background: #944a1a;
+  color: #ffffff;
+  border: 2px solid #ffffff;
+  border-radius: 9999px;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  cursor: grab;
+  pointer-events: auto;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+  z-index: 9995;
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+
+.canvas-rotate-handle:hover {
+  background: #763403;
+  transform: translateX(-50%) scale(1.15);
+}
+
+.canvas-rotate-handle:active {
+  cursor: grabbing;
+  transform: translateX(-50%) scale(1.1);
+}
+
+.canvas-rotate-handle::after {
+  content: '';
+  position: absolute;
+  top: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 1.5px;
+  height: 10px;
+  background: #944a1a;
+}
+
+.canvas-element.is-selected .canvas-rotate-handle {
+  display: flex;
+}
+
+/* Photo Frames Styling on Canvas */
+.canvas-photo-wrapper {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  box-sizing: border-box;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.canvas-photo-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+  display: block;
+}
+
+/* 1. Polaroid Classic Frame */
+.canvas-photo-wrapper.frame-polaroid {
+  background: #ffffff;
+  padding: 8px 8px 30px 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.16), 0 2px 6px rgba(0, 0, 0, 0.08);
+  border-radius: 3px;
+  display: flex;
+  flex-direction: column;
+}
+
+.canvas-photo-wrapper.frame-polaroid img {
+  height: calc(100% - 22px);
+  object-fit: cover;
+  border-radius: 2px;
+}
+
+.canvas-photo-wrapper.frame-polaroid::after {
+  content: 'FIELD MEMORY';
+  display: block;
+  text-align: center;
+  font-family: 'Caveat', cursive;
+  font-size: 13px;
+  font-weight: 700;
+  color: #6b6357;
+  margin-top: 6px;
+  line-height: 1;
+}
+
+/* 2. Deckled Torn Edge Frame */
+.canvas-photo-wrapper.frame-deckled {
+  background: #fdfbf7;
+  padding: 10px;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.16);
+  border-radius: 0;
+  clip-path: polygon(
+    0% 2px, 3% 0px, 6% 3px, 10% 1px, 15% 3px, 20% 0px, 25% 2px, 30% 0px, 35% 3px, 40% 1px,
+    45% 2px, 50% 0px, 55% 3px, 60% 1px, 65% 3px, 70% 0px, 75% 2px, 80% 0px, 85% 3px, 90% 1px,
+    95% 2px, 100% 0px, 98% 5%, 100% 10%, 98% 15%, 100% 20%, 98% 25%, 99% 30%, 98% 35%, 100% 40%,
+    98% 45%, 100% 50%, 98% 55%, 99% 60%, 98% 65%, 100% 70%, 98% 75%, 99% 80%, 98% 85%, 100% 90%,
+    98% 95%, 100% 100%, 95% 98%, 90% 100%, 85% 98%, 80% 100%, 75% 98%, 70% 100%, 65% 98%, 60% 100%,
+    55% 98%, 50% 100%, 45% 98%, 40% 100%, 35% 98%, 30% 100%, 25% 98%, 20% 100%, 15% 98%, 10% 100%,
+    5% 98%, 0% 100%, 2% 95%, 0% 90%, 2% 85%, 0% 80%, 2% 75%, 1% 70%, 2% 65%, 0% 60%,
+    2% 55%, 1% 50%, 2% 45%, 0% 40%, 2% 35%, 1% 30%, 2% 25%, 0% 20%, 2% 15%, 1% 10%, 2% 5%, 0% 0%
+  );
+}
+
+.canvas-photo-wrapper.frame-deckled img {
+  border-radius: 2px;
+}
+
+/* 3. Perforated Postage Frame */
+.canvas-photo-wrapper.frame-postage {
+  background: #fbf9f4;
+  padding: 10px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.14);
+  border: 3px dashed #baa47e;
+  border-radius: 6px;
+}
+
+.canvas-photo-wrapper.frame-postage img {
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+/* 4. Vintage Brass Inset Frame */
+.canvas-photo-wrapper.frame-brass {
+  background: #23201d;
+  padding: 8px;
+  border: 3px solid #d1a847;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.28), inset 0 0 12px rgba(0, 0, 0, 0.7);
+  border-radius: 4px;
+}
+
+.canvas-photo-wrapper.frame-brass img {
+  border: 1.5px solid #d1a847;
+}
+
+/* 5. 35mm Film Slide Frame */
+.canvas-photo-wrapper.frame-film-slide {
+  background: #1a1918;
+  padding: 16px 8px;
+  border-radius: 4px;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.35);
+  position: relative;
+}
+
+.canvas-photo-wrapper.frame-film-slide::before,
+.canvas-photo-wrapper.frame-film-slide::after {
+  content: '■  ■  ■  ■  ■  ■  ■  ■  ■';
+  position: absolute;
+  left: 0;
+  right: 0;
+  text-align: center;
+  color: #44403c;
+  font-size: 6px;
+  letter-spacing: 5px;
+  line-height: 1;
+}
+
+.canvas-photo-wrapper.frame-film-slide::before { top: 5px; }
+.canvas-photo-wrapper.frame-film-slide::after { bottom: 5px; }
+
+.canvas-photo-wrapper.frame-film-slide img {
+  border-radius: 2px;
+}
+
+/* 6. Washi Taped Snapshot Frame */
+.canvas-photo-wrapper.frame-washi-taped {
+  background: #ffffff;
+  padding: 6px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+  position: relative;
+}
+
+.canvas-photo-wrapper.frame-washi-taped::before {
+  content: '';
+  position: absolute;
+  top: -8px;
+  left: -12px;
+  width: 38px;
+  height: 14px;
+  background: rgba(224, 185, 131, 0.88);
+  transform: rotate(-32deg);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+  z-index: 5;
+}
+
+.canvas-photo-wrapper.frame-washi-taped::after {
+  content: '';
+  position: absolute;
+  top: -8px;
+  right: -12px;
+  width: 38px;
+  height: 14px;
+  background: rgba(148, 74, 26, 0.82);
+  transform: rotate(32deg);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+  z-index: 5;
+}
+
+/* 7. Deep Archival Shadowbox */
+.canvas-photo-wrapper.frame-shadowbox {
+  background: #fbf9f4;
+  padding: 10px;
+  border: 5px solid #2e261f;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3), inset 0 2px 6px rgba(0, 0, 0, 0.2);
+  border-radius: 2px;
+}
+
+.canvas-photo-wrapper.frame-shadowbox img {
+  border: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+/* 8. Victorian Gilt Lace Frame */
+.canvas-photo-wrapper.frame-victorian {
+  background: #fdfaf2;
+  padding: 8px;
+  border: 3px double #b8860b;
+  box-shadow: 0 8px 24px rgba(184, 134, 11, 0.2);
+  border-radius: 6px;
+  position: relative;
+}
+
+.canvas-photo-wrapper.frame-victorian img {
+  border: 1.5px solid #d4af37;
+  border-radius: 2px;
+}
+
+/* 9. Kraft Corner Mount Frame */
+.canvas-photo-wrapper.frame-kraft-mount {
+  background: #d8c2a7;
+  padding: 10px;
+  border: 1px solid #bba387;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.14);
+  position: relative;
+  border-radius: 4px;
+}
+
+.canvas-photo-wrapper.frame-kraft-mount img {
+  border-radius: 2px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* 10. Modern Clean Cut */
+.canvas-photo-wrapper.frame-clean {
+  background: transparent;
+  padding: 0;
+  border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.14);
+  overflow: hidden;
+}
+
+.canvas-photo-wrapper.frame-clean img {
+  border-radius: 10px;
+}
+
+/* Editable Text Element on Canvas */
+.canvas-text-content {
+  width: 100%;
+  height: 100%;
+  outline: none;
+  background: transparent;
+  word-break: break-word;
+  padding: 4px;
+  cursor: text;
+}
+
+/* ---- Floating Typography Inspector ---- */
+.text-inspector-bar {
+  position: absolute;
+  top: -85px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 16px;
+  padding: 6px 12px;
+  display: none;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.14), 0 2px 6px rgba(0, 0, 0, 0.05);
+  z-index: 1000;
+  pointer-events: auto;
+  white-space: nowrap;
+  animation: inspectorSpring 0.22s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes inspectorSpring {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, 8px) scale(0.92);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, 0) scale(1);
+  }
+}
+
+.canvas-element.is-selected.is-text .text-inspector-bar {
+  display: flex;
+}
+
+.color-swatch-dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 9999px;
+  border: 1.5px solid rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+
+.color-swatch-dot:hover {
+  transform: scale(1.25);
+  border-color: #000000;
+}
+
+/* ---- Travel Ephemera & Keepsakes Styles ---- */
+
+/* 1. Boarding Pass */
+.ephemera-boarding-pass-card {
+  background: #ffffff;
+  border: 1.5px solid #d4cdc1;
+  border-radius: 12px;
+  padding: 12px 14px;
+  width: 100%;
+  height: 100%;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  font-family: 'JetBrains Mono', monospace;
+  position: relative;
+  overflow: hidden;
+}
+
+.ephemera-boarding-pass-card::after {
+  content: '';
+  position: absolute;
+  right: 75px;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  border-right: 1.5px dashed #c0b7a8;
+}
+
+/* 2. Heritage Mountain Railway Ticket */
+.ephemera-train-ticket-card {
+  background: #f7ecd7;
+  border: 2px solid #a84e34;
+  border-radius: 10px;
+  padding: 10px 14px;
+  width: 100%;
+  height: 100%;
+  box-shadow: 0 4px 14px rgba(168, 78, 52, 0.15);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  font-family: 'Noto Serif', serif;
+  position: relative;
+}
+
+.ephemera-train-ticket-card::before {
+  content: '★ HERITAGE PASS ★';
+  font-size: 8px;
+  letter-spacing: 0.15em;
+  font-weight: 700;
+  color: #a84e34;
+  text-align: center;
+  display: block;
+}
+
+/* 3. Artisan Cafe Slip */
+.ephemera-cafe-receipt-card {
+  background: #faf8f5;
+  border-top: 4px solid #763403;
+  border-bottom: 2px dashed #bbb3a6;
+  border-left: 1px solid #e0d8cc;
+  border-right: 1px solid #e0d8cc;
+  padding: 12px 10px;
+  width: 100%;
+  height: 100%;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);
+  font-family: 'JetBrains Mono', monospace;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* 4. Stitched Luggage Tag */
+.ephemera-luggage-tag-card {
+  background: #c86d51;
+  color: #ffffff;
+  border: 2px solid #8e3f29;
+  border-radius: 12px;
+  padding: 10px 14px;
+  width: 100%;
+  height: 100%;
+  box-shadow: 0 4px 12px rgba(142, 63, 41, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: 'JetBrains Mono', monospace;
+  position: relative;
+}
+
+.ephemera-luggage-tag-card::before {
+  content: '';
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 10px;
+  height: 10px;
+  border-radius: 9999px;
+  background: #fbf9f5;
+  border: 2px solid #8e3f29;
+}
+
+/* ---- Route Snippets & Badges ---- */
+.badge-route-card {
+  background: #ffffff;
+  border: 1.5px solid #88a384;
+  border-radius: 12px;
+  padding: 10px 14px;
+  width: 100%;
+  height: 100%;
+  box-shadow: 0 4px 12px rgba(46, 68, 51, 0.08);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-family: 'Public Sans', sans-serif;
+}
+
+.badge-altitude-card {
+  background: #2e4433;
+  color: #ffffff;
+  border: 2px solid #d1a847;
+  border-radius: 14px;
+  padding: 10px 12px;
+  width: 100%;
+  height: 100%;
+  box-shadow: 0 4px 14px rgba(46, 68, 51, 0.25);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.badge-postal-stamp-card {
+  width: 100%;
+  height: 100%;
+  border-radius: 9999px;
+  border: 3px double #ba1a1a;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #ba1a1a;
+  font-family: 'JetBrains Mono', monospace;
+  transform: rotate(-12deg);
+  opacity: 0.9;
+}
+
+.badge-passport-stamp-card {
+  width: 100%;
+  height: 100%;
+  border: 2px dashed #1d3557;
+  border-radius: 12px;
+  background: rgba(29, 53, 87, 0.05);
+  color: #1d3557;
+  padding: 8px 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  text-align: center;
+  font-family: 'JetBrains Mono', monospace;
+  box-shadow: 0 2px 8px rgba(29, 53, 87, 0.08);
+}
+
+.badge-national-park-card {
+  width: 100%;
+  height: 100%;
+  background: #1f3322;
+  color: #ffffff;
+  border: 2px solid #c9a84d;
+  border-radius: 8px 8px 24px 24px;
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-family: 'Noto Serif', serif;
+  box-shadow: 0 4px 14px rgba(31, 51, 34, 0.25);
+}
+
+.badge-coordinates-card {
+  width: 100%;
+  height: 100%;
+  background: #d4b886;
+  color: #3b2c1a;
+  border: 2px solid #8e6c38;
+  border-radius: 8px;
+  padding: 8px 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  font-family: 'JetBrains Mono', monospace;
+  box-shadow: 0 4px 12px rgba(142, 108, 56, 0.2);
+}
+
+.badge-odometer-card {
+  width: 100%;
+  height: 100%;
+  background: #1e1d1b;
+  color: #f7f3eb;
+  border: 2px solid #44403c;
+  border-radius: 8px;
+  padding: 8px 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-family: 'JetBrains Mono', monospace;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+}
+
+.badge-railway-ribbon-card {
+  width: 100%;
+  height: 100%;
+  background: #8b261d;
+  color: #fcf8f2;
+  border: 2px solid #d4af37;
+  border-radius: 12px;
+  padding: 8px 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-family: 'Noto Serif', serif;
+  box-shadow: 0 4px 14px rgba(139, 38, 29, 0.25);
+}
+
+/* ---- Fun & Colorful Tickets & Route Badges ---- */
+.ephemera-festival-ticket-card {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #ff7e5f 0%, #feb47b 100%);
+  color: #ffffff;
+  border-radius: 12px;
+  border: 2px dashed #ffffff;
+  padding: 10px 14px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  font-family: 'Montserrat', sans-serif;
+  box-shadow: 0 8px 20px rgba(255, 126, 95, 0.35);
+  position: relative;
+}
+
+.ephemera-palace-pass-card {
+  width: 100%;
+  height: 100%;
+  background: #2a1b40;
+  color: #fce4b8;
+  border: 2px solid #e5b970;
+  border-radius: 10px;
+  padding: 10px 14px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  font-family: 'Playfair Display', serif;
+  box-shadow: 0 8px 24px rgba(42, 27, 64, 0.4);
+}
+
+.ephemera-safari-pass-card {
+  width: 100%;
+  height: 100%;
+  background: #e8a838;
+  color: #2b220d;
+  border: 2px solid #8c5b11;
+  border-radius: 12px;
+  padding: 10px 14px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  font-family: 'JetBrains Mono', monospace;
+  box-shadow: 0 6px 18px rgba(232, 168, 56, 0.3);
+}
+
+.ephemera-ferry-pass-card {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #0077b6 0%, #00b4d8 100%);
+  color: #ffffff;
+  border-radius: 12px;
+  border: 2px solid #90e0ef;
+  padding: 10px 14px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  font-family: 'JetBrains Mono', monospace;
+  box-shadow: 0 8px 22px rgba(0, 119, 182, 0.35);
+}
+
+.badge-sunset-coastal-card {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #f72585 0%, #7209b7 100%);
+  color: #ffffff;
+  border-radius: 14px;
+  border: 2px solid #fce4b8;
+  padding: 10px 14px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  font-family: 'Montserrat', sans-serif;
+  box-shadow: 0 8px 22px rgba(247, 37, 133, 0.3);
+}
+
+
+.ephemera-hot-air-balloon-card {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #f97316 0%, #ec4899 50%, #8b5cf6 100%);
+  color: #ffffff;
+  border-radius: 14px;
+  border: 2px dashed rgba(255, 255, 255, 0.8);
+  padding: 10px 14px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  font-family: 'Montserrat', sans-serif;
+  box-shadow: 0 8px 24px rgba(249, 115, 22, 0.35);
+}
+
+.ephemera-night-cinema-card {
+  width: 100%;
+  height: 100%;
+  background: #0f172a;
+  color: #fbbf24;
+  border-radius: 12px;
+  border: 2px solid #f59e0b;
+  padding: 10px 14px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  font-family: 'Playfair Display', serif;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.4);
+}
+
+.ephemera-tasting-flight-card {
+  width: 100%;
+  height: 100%;
+  background: #fdf6ec;
+  color: #7c2d12;
+  border-radius: 12px;
+  border: 2px solid #b45309;
+  border-left: 6px solid #d97706;
+  padding: 10px 14px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  font-family: 'Playfair Display', serif;
+  box-shadow: 0 6px 20px rgba(124, 45, 18, 0.15);
+}
+
+.ephemera-vintage-cable-car-card {
+  width: 100%;
+  height: 100%;
+  background: #dc2626;
+  color: #ffffff;
+  border-radius: 12px;
+  border: 2px solid #fef08a;
+  padding: 10px 14px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  font-family: 'JetBrains Mono', monospace;
+  box-shadow: 0 8px 22px rgba(220, 38, 38, 0.35);
+}
+
+.badge-coral-reef-card {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%);
+  color: #ffffff;
+  border-radius: 14px;
+  border: 2px solid #a5f3fc;
+  padding: 10px 14px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  font-family: 'Montserrat', sans-serif;
+  box-shadow: 0 8px 22px rgba(6, 182, 212, 0.35);
+}
+
+.badge-desert-caravan-card {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #b45309 0%, #78350f 100%);
+  color: #fef3c7;
+  border-radius: 14px;
+  border: 2px solid #fde68a;
+  padding: 10px 14px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  font-family: 'Montserrat', sans-serif;
+  box-shadow: 0 8px 22px rgba(180, 83, 9, 0.35);
+}
+
+.badge-starlit-camp-card {
+  width: 100%;
+  height: 100%;
+  background: #090d16;
+  color: #e0e7ff;
+  border-radius: 14px;
+  border: 2px solid #818cf8;
+  padding: 10px 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-family: 'JetBrains Mono', monospace;
+  box-shadow: 0 8px 24px rgba(9, 13, 22, 0.5);
+}
+
+.badge-mountain-high-pass-card {
+  width: 100%;
+  height: 100%;
+  background: #1e3a8a;
+  color: #ffffff;
+  border-radius: 14px;
+  border: 2px solid #93c5fd;
+  padding: 10px 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-family: 'Noto Serif', serif;
+  box-shadow: 0 8px 24px rgba(30, 58, 138, 0.4);
+}
+
+/* 1920s French Railway Conductor Ticket */
+.ephemera-railway-vintage-card {
+  width: 100%;
+  height: 100%;
+  background: #fdfaf3;
+  color: #3b2c1a;
+  border: 1.5px solid #c2b199;
+  border-left: 6px solid #8e3f29;
+  border-radius: 10px;
+  padding: 10px 14px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  font-family: 'Noto Serif', serif;
+  box-shadow: 0 6px 18px rgba(142, 63, 41, 0.15);
+  position: relative;
+}
+
+/* Antique Botanical Royal Garden Admit Pass */
+.ephemera-botanical-garden-card {
+  width: 100%;
+  height: 100%;
+  background: #f4f6ee;
+  color: #2b3d2b;
+  border: 2px dashed #6b8e23;
+  border-radius: 10px;
+  padding: 10px 14px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  font-family: 'Playfair Display', Georgia, serif;
+  box-shadow: 0 6px 18px rgba(107, 142, 35, 0.15);
+}
+
+/* Transatlantic Ocean Liner Steamship Pass */
+.ephemera-steamship-pass-card {
+  width: 100%;
+  height: 100%;
+  background: #fdfbf7;
+  color: #112233;
+  border: 2px solid #1d3557;
+  border-radius: 10px;
+  padding: 10px 14px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  font-family: 'Noto Serif', serif;
+  box-shadow: 0 6px 18px rgba(29, 53, 87, 0.2);
+}
+
+/* Old World European Museum Admission Slip */
+.ephemera-museum-admission-card {
+  width: 100%;
+  height: 100%;
+  background: #ebe3d5;
+  color: #2b2520;
+  border: 1.5px solid #baa894;
+  border-radius: 10px;
+  padding: 10px 14px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  font-family: 'JetBrains Mono', monospace;
+  box-shadow: 0 6px 16px rgba(92, 64, 31, 0.12);
+}
+
+/* 1950s Alpine Mountain Funicular Stub */
+.ephemera-alpine-funicular-card {
+  width: 100%;
+  height: 100%;
+  background: #f9f1d8;
+  color: #332a1e;
+  border: 2px solid #b8860b;
+  border-radius: 10px;
+  padding: 10px 14px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  font-family: 'Montserrat', sans-serif;
+  box-shadow: 0 6px 18px rgba(184, 134, 11, 0.18);
+}
+
+/* Italian Trattoria & Cafe Espresso Paper Receipt */
+.ephemera-trattoria-receipt-card {
+  width: 100%;
+  height: 100%;
+  background: #faf8f5;
+  color: #3a2e28;
+  border: 1px solid #e0d6ce;
+  border-top: 4px solid #7c2d12;
+  border-bottom: 2px dashed #bcaaa4;
+  border-radius: 4px;
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  font-family: 'JetBrains Mono', monospace;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+}
+
+/* Amalfi Cliffside Panoramic Drive Ribbon */
+.badge-amalfi-drive-card {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #fef08a 0%, #38bdf8 50%, #ea580c 100%);
+  color: #ffffff;
+  border: 2px solid #ffffff;
+  border-radius: 14px;
+  padding: 10px 14px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  font-family: 'Montserrat', sans-serif;
+  box-shadow: 0 8px 22px rgba(234, 88, 12, 0.35);
+}
+
+/* Kyoto Torii & Sakura Shrine Pilgrimage Trail */
+.badge-kyoto-trail-card {
+  width: 100%;
+  height: 100%;
+  background: #fff5f5;
+  color: #991b1b;
+  border: 2px solid #dc2626;
+  border-radius: 14px;
+  padding: 10px 14px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  font-family: 'Playfair Display', Georgia, serif;
+  box-shadow: 0 8px 22px rgba(220, 38, 38, 0.25);
+}
+
+/* Route 66 Retro Diner & Neon Shield */
+.badge-route66-strip-card {
+  width: 100%;
+  height: 100%;
+  background: #0f172a;
+  color: #38bdf8;
+  border: 2px solid #f97316;
+  border-radius: 14px;
+  padding: 10px 14px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  font-family: 'Montserrat', sans-serif;
+  box-shadow: 0 8px 22px rgba(249, 115, 22, 0.35);
+}
+
+/* Alpine Glacier & Wildflower High Pass Trek */
+.badge-alpine-pass-card {
+  width: 100%;
+  height: 100%;
+  background: #064e3b;
+  color: #ecfdf5;
+  border: 2px solid #a7f3d0;
+  border-radius: 14px;
+  padding: 10px 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-family: 'Noto Serif', serif;
+  box-shadow: 0 8px 24px rgba(6, 78, 59, 0.4);
+}
+
+/* Great Barrier Reef Catamaran Sail Route */
+.badge-tropical-sail-card {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #0284c7 0%, #06b6d4 100%);
+  color: #ffffff;
+  border: 2px solid #bae6fd;
+  border-radius: 14px;
+  padding: 10px 14px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  font-family: 'Montserrat', sans-serif;
+  box-shadow: 0 8px 22px rgba(2, 132, 199, 0.35);
+}
+
+
+/* ---- Subtle Paper Watermark Logo (Every Paper Option) ---- */
+.scrapbook-paper-watermark {
+  position: absolute;
+  bottom: 24px;
+  right: 28px;
+  width: 96px;
+  height: 96px;
+  pointer-events: none;
+  user-select: none;
+  z-index: 1;
+  opacity: 0.16;
+  mix-blend-mode: multiply;
+  filter: sepia(0.4) contrast(1.1) brightness(0.92);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.3s ease;
+}
+
+.scrapbook-paper-watermark img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.05));
+}
+
+.demo-showcase-cta-bar {
+  position: absolute;
+  bottom: 74px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(27, 28, 26, 0.96);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  color: #ffffff;
+  padding: 10px 22px;
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.18);
+  z-index: 70;
+  white-space: nowrap;
+}
+
+
+/* ---- Print Styles for Clean Scrapbook Book Export ---- */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  .scrapbook-artboard,
+  .scrapbook-artboard * {
+    visibility: visible;
+  }
+  .scrapbook-artboard {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100% !important;
+    height: 100% !important;
+    box-shadow: none !important;
+    border: none !important;
+  }
+  .canvas-selection-toolbar,
+  .canvas-resize-handle,
+  .canvas-rotate-handle,
+  .text-inspector-bar,
+  .scrapbook-floating-dock,
+  .scrapbook-floating-tray {
+    display: none !important;
+  }
+  .canvas-element {
+    outline: none !important;
+  }
+}
+
+/* ── Multi-Element Selection (Feature #5) ─────────────────────────── */
+.canvas-element.is-multi-selected {
+  outline: 2px dashed #944a1a !important;
+  outline-offset: 4px;
+  box-shadow: 0 0 0 1px rgba(148, 74, 26, 0.2), 0 8px 24px rgba(0, 0, 0, 0.12) !important;
+}
+
+.multi-select-toolbar {
+  position: absolute;
+  top: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.96);
+  border: 1.5px solid rgba(148, 74, 26, 0.25);
+  border-radius: 9999px;
+  padding: 6px 14px;
+  box-shadow: 0 6px 24px rgba(46, 68, 51, 0.18), 0 2px 6px rgba(0, 0, 0, 0.08);
+  backdrop-filter: blur(12px);
+  pointer-events: all;
+  animation: toolbarPopIn 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes toolbarPopIn {
+  from { transform: translate(-50%, -8px) scale(0.92); opacity: 0; }
+  to { transform: translate(-50%, 0) scale(1); opacity: 1; }
+}
+
+.multi-select-count {
+  font-size: 11px;
+  font-weight: 800;
+  color: #944a1a;
+  font-family: monospace;
+  letter-spacing: 0.06em;
+}
+
+.multi-select-action {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border: none;
+  background: transparent;
+  border-radius: 8px;
+  cursor: pointer;
+  color: #4b5563;
+  transition: all 0.15s ease;
+}
+
+.multi-select-action:hover {
+  background: #f3f4f6;
+  color: #111827;
+  transform: scale(1.08);
+}
+
+/* ── Native Drag-Over Artboard State (Feature #4) ─────────────────── */
+#scrapbookArtboard.is-drag-over {
+  outline: 3px dashed #2e4433 !important;
+  outline-offset: -6px;
+  background-color: rgba(46, 68, 51, 0.04) !important;
+  transition: outline 0.15s ease, background-color 0.15s ease;
+}
+
+/* ── Mobile Touch Long-Press Context Menu (Feature #8) ────────────── */
+.canvas-long-press-menu {
+  position: absolute;
+  z-index: 2500;
+  min-width: 175px;
+  background: rgba(255, 255, 255, 0.98);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 16px;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.22), 0 2px 8px rgba(0, 0, 0, 0.06);
+  backdrop-filter: blur(16px);
+  padding: 5px;
+  overflow: hidden;
+  animation: menuScaleIn 0.18s cubic-bezier(0.34, 1.56, 0.64, 1);
+  pointer-events: all;
+}
+
+@keyframes menuScaleIn {
+  from { transform: scale(0.85); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.lp-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  width: 100%;
+  padding: 9px 12px;
+  border: none;
+  background: transparent;
+  border-radius: 10px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #1f2937;
+  cursor: pointer;
+  transition: background 0.12s ease, transform 0.1s ease;
+  text-align: left;
+}
+
+.lp-menu-item:hover,
+.lp-menu-item:active {
+  background: #f3f4f6;
+  color: #111827;
+}
+
+.lp-menu-item .material-symbols-outlined {
+  font-size: 17px;
+  color: #6b7280;
+}
+
+.lp-menu-item--danger {
+  color: #dc2626;
+  border-top: 1px solid #f3f4f6;
+  margin-top: 3px;
+}
+
+.lp-menu-item--danger:hover,
+.lp-menu-item--danger:active {
+  background: #fef2f2;
+  color: #b91c1c;
+}
+
+.lp-menu-item--danger .material-symbols-outlined {
+  color: #dc2626;
+}
+
+/* ── Sticker Favorites Toggle Heart Button (Feature #12) ─────────── */
+.embellishment-card-wrapper {
+  position: relative;
+}
+
+.sticker-fav-btn {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 22px;
+  height: 22px;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.15s ease, transform 0.15s ease, background 0.15s ease;
+  z-index: 20;
+  color: #9ca3af;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  padding: 0;
+}
+
+.embellishment-card-wrapper:hover .sticker-fav-btn,
+.sticker-fav-btn.is-active {
+  opacity: 1;
+}
+
+.sticker-fav-btn:hover {
+  transform: scale(1.15);
+  background: #ffffff;
+}
+
+.sticker-fav-btn.is-active {
+  color: #e11d48;
+  background: #fff1f2;
+  border-color: #fecdd3;
+}
+
+/* ── Animated Page Transitions (Feature #11) ──────────────────────── */
+.scrapbook-artboard.page-flip-forward {
+  animation: pageFlipForward 0.28s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+  transform-origin: left center;
+}
+
+.scrapbook-artboard.page-flip-backward {
+  animation: pageFlipBackward 0.28s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+  transform-origin: right center;
+}
+
+@keyframes pageFlipForward {
+  0% {
+    opacity: 0.4;
+    transform: scale(var(--artboard-zoom, 1)) translateX(30px) rotateY(-8deg);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(var(--artboard-zoom, 1)) translateX(0) rotateY(0deg);
+  }
+}
+
+@keyframes pageFlipBackward {
+  0% {
+    opacity: 0.4;
+    transform: scale(var(--artboard-zoom, 1)) translateX(-30px) rotateY(8deg);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(var(--artboard-zoom, 1)) translateX(0) rotateY(0deg);
+  }
+}
+
+/* ── Chunked Sticker Grid Sentinel (Feature #14) ──────────────────── */
+.sticker-grid-sentinel {
+  grid-column: 1 / -1;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+

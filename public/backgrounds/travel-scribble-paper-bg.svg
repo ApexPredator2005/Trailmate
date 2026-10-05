@@ -1,0 +1,199 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="800" viewBox="0 0 800 800">
+  <defs>
+    <pattern id="grainPattern" width="200" height="200" patternUnits="userSpaceOnUse">
+      <rect width="200" height="200" fill="#F4EFE6"/>
+      <circle cx="24" cy="45" r="0.8" fill="#c4b8a5" opacity="0.4"/>
+      <circle cx="140" cy="85" r="1.2" fill="#b8aa95" opacity="0.3"/>
+      <circle cx="85" cy="160" r="0.9" fill="#c9bea9" opacity="0.4"/>
+      <circle cx="180" cy="18" r="0.7" fill="#b0a08b" opacity="0.35"/>
+      <circle cx="50" cy="120" r="1.1" fill="#c0b29c" opacity="0.3"/>
+      <path d="M70 30 Q75 32 80 29" stroke="#b5a590" stroke-width="0.5" fill="none" opacity="0.35"/>
+      <path d="M160 140 Q164 144 170 142" stroke="#baa994" stroke-width="0.6" fill="none" opacity="0.3"/>
+      <path d="M15 175 Q22 178 28 174" stroke="#c0b09a" stroke-width="0.5" fill="none" opacity="0.35"/>
+    </pattern>
+  </defs>
+
+  <!-- Background Base -->
+  <rect width="800" height="800" fill="url(#grainPattern)"/>
+
+  <!-- Hand-Drawn Scribbles Group (Warm Graphite/Sepia Tint) -->
+  <g stroke="#766352" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="0.42">
+
+    <!-- 1. Mountain Peak & Sun (Adventure) -->
+    <g transform="translate(60, 50)">
+      <path d="M0 70 L45 15 L90 70 Z" stroke-width="1.8"/>
+      <path d="M45 15 L32 40 L45 35 L58 42 L45 15" stroke-width="1.2" fill="#766352" fill-opacity="0.08"/>
+      <path d="M60 70 L85 30 L115 70 Z" stroke-width="1.5"/>
+      <circle cx="95" cy="18" r="10" stroke-width="1.5" stroke-dasharray="3 2"/>
+      <path d="M95 4 L95 0 M95 32 L95 36 M81 18 L77 18 M109 18 L113 18 M85 8 L82 5 M105 28 L108 31 M85 28 L82 31 M105 8 L108 5" stroke-width="1.2"/>
+      <text x="10" y="88" font-family="'Caveat', cursive, sans-serif" font-size="16" font-weight="bold" fill="#766352" stroke="none">explore more</text>
+    </g>
+
+    <!-- 2. Retro Camper Van (Roadtrip) -->
+    <g transform="translate(480, 70)">
+      <rect x="0" y="10" width="85" height="42" rx="8" stroke-width="1.8"/>
+      <path d="M0 26 L85 26" stroke-width="1.2"/>
+      <rect x="8" y="15" width="20" height="9" rx="2" stroke-width="1.2"/>
+      <rect x="34" y="15" width="20" height="9" rx="2" stroke-width="1.2"/>
+      <rect x="60" y="15" width="18" height="9" rx="2" stroke-width="1.2"/>
+      <circle cx="18" cy="52" r="8" stroke-width="1.8" fill="#f4efe6"/>
+      <circle cx="18" cy="52" r="3" stroke-width="1.2"/>
+      <circle cx="68" cy="52" r="8" stroke-width="1.8" fill="#f4efe6"/>
+      <circle cx="68" cy="52" r="3" stroke-width="1.2"/>
+      <path d="M-5 7 Q42 -2 90 7" stroke-width="2"/>
+      <path d="M-6 48 Q-12 44 -16 48 Q-20 42 -25 46" stroke-width="1.2" stroke-dasharray="2 2"/>
+      <text x="14" y="76" font-family="'Caveat', cursive, sans-serif" font-size="16" font-weight="bold" fill="#766352" stroke="none">roadtrip vibes</text>
+    </g>
+
+    <!-- 3. Paper Airplane & Looping Trail (Travel & Freedom) -->
+    <g transform="translate(270, 90)">
+      <path d="M0 20 L35 0 L15 35 L12 22 L0 20 Z M35 0 L12 22" stroke-width="1.8"/>
+      <path d="M0 22 C-30 40 -50 10 -30 -10 C-10 -30 20 -20 10 10 C5 25 -20 35 -60 30" stroke-width="1.3" stroke-dasharray="3 3"/>
+    </g>
+
+    <!-- 4. Polaroid Frame & Smiling Friends (Friends & Family) -->
+    <g transform="translate(680, 190) rotate(8)">
+      <rect x="0" y="0" width="70" height="85" rx="3" stroke-width="1.8" fill="#fcfaf6" fill-opacity="0.6"/>
+      <rect x="6" y="6" width="58" height="52" rx="2" stroke-width="1.2"/>
+      <circle cx="35" cy="30" r="14" stroke-width="1.4"/>
+      <circle cx="30" cy="26" r="1.5" fill="#766352"/>
+      <circle cx="40" cy="26" r="1.5" fill="#766352"/>
+      <path d="M29 34 Q35 40 41 34" stroke-width="1.4"/>
+      <text x="12" y="74" font-family="'Caveat', cursive, sans-serif" font-size="15" font-weight="bold" fill="#766352" stroke="none">happy days</text>
+    </g>
+
+    <!-- 5. Entwined Love Hearts & Sparkles (Love & Happiness) -->
+    <g transform="translate(80, 240)">
+      <path d="M20 30 C20 30 5 18 5 9 C5 4 9 0 14 0 C17 0 19 2 20 4 C21 2 23 0 26 0 C31 0 35 4 35 9 C35 18 20 30 20 30 Z" stroke-width="1.8"/>
+      <path d="M38 38 C38 38 27 28 27 21 C27 17 30 14 34 14 C36 14 38 15 39 17 C40 15 42 14 44 14 C48 14 51 17 51 21 C51 28 38 38 38 38 Z" stroke-width="1.5"/>
+      <path d="M5 45 L5 55 M0 50 L10 50" stroke-width="1.2"/>
+      <path d="M50 5 L50 11 M47 8 L53 8" stroke-width="1.2"/>
+      <text x="0" y="58" font-family="'Caveat', cursive, sans-serif" font-size="18" font-weight="bold" fill="#766352" stroke="none">love &amp; joy</text>
+    </g>
+
+    <!-- 6. Vintage Rangefinder Camera (Memories) -->
+    <g transform="translate(250, 230)">
+      <rect x="0" y="10" width="60" height="40" rx="5" stroke-width="1.8"/>
+      <rect x="18" y="4" width="24" height="6" rx="2" stroke-width="1.4"/>
+      <circle cx="30" cy="30" r="14" stroke-width="1.8"/>
+      <circle cx="30" cy="30" r="8" stroke-width="1.2"/>
+      <circle cx="48" cy="20" r="3" stroke-width="1.2"/>
+      <path d="M48 8 L48 2 M44 5 L52 5" stroke-width="1.2"/>
+      <text x="6" y="66" font-family="'Caveat', cursive, sans-serif" font-size="15" font-weight="bold" fill="#766352" stroke="none">make memories</text>
+    </g>
+
+    <!-- 7. Compass Windrose (Adventure) -->
+    <g transform="translate(460, 260)">
+      <circle cx="35" cy="35" r="30" stroke-width="1.6" stroke-dasharray="4 2"/>
+      <circle cx="35" cy="35" r="22" stroke-width="1"/>
+      <polygon points="35,8 40,30 35,35 30,30" fill="#766352" fill-opacity="0.3" stroke-width="1.2"/>
+      <polygon points="35,62 40,40 35,35 30,40" stroke-width="1.2"/>
+      <polygon points="62,35 40,40 35,35 40,30" stroke-width="1.2"/>
+      <polygon points="8,35 30,40 35,35 30,30" stroke-width="1.2"/>
+      <text x="31" y="6" font-family="'JetBrains Mono', monospace" font-size="10" font-weight="bold" fill="#766352" stroke="none">N</text>
+    </g>
+
+    <!-- 8. Steaming Coffee Cup (Happiness) -->
+    <g transform="translate(640, 360)">
+      <path d="M10 15 L14 42 C14 46 22 50 32 50 C42 50 50 46 50 42 L54 15 Z" stroke-width="1.8"/>
+      <path d="M52 20 C60 20 64 26 64 32 C64 38 58 40 50 40" stroke-width="1.6"/>
+      <path d="M4 52 L60 52" stroke-width="1.8"/>
+      <path d="M24 8 Q20 2 26 -4 Q30 -10 24 -14" stroke-width="1.3"/>
+      <path d="M38 8 Q34 2 40 -4 Q44 -10 38 -14" stroke-width="1.3"/>
+      <text x="14" y="68" font-family="'Caveat', cursive, sans-serif" font-size="16" font-weight="bold" fill="#766352" stroke="none">cozy moments</text>
+    </g>
+
+    <!-- 9. Campfire under Stars (Adventure) -->
+    <g transform="translate(60, 430)">
+      <line x1="5" y1="42" x2="55" y2="42" stroke-width="2"/>
+      <line x1="10" y1="46" x2="48" y2="36" stroke-width="2.5"/>
+      <line x1="12" y1="36" x2="50" y2="46" stroke-width="2.5"/>
+      <path d="M30 38 C20 30 22 18 28 10 C32 18 38 12 34 0 C44 10 46 26 30 38 Z" stroke-width="1.6" fill="#766352" fill-opacity="0.1"/>
+      <path d="M30 38 C26 32 26 24 30 20 C34 24 36 28 30 38 Z" stroke-width="1.2"/>
+      <path d="M60 10 L60 18 M56 14 L64 14" stroke-width="1.2"/>
+      <path d="M10 15 L10 21 M7 18 L13 18" stroke-width="1.2"/>
+      <text x="4" y="64" font-family="'Caveat', cursive, sans-serif" font-size="17" font-weight="bold" fill="#766352" stroke="none">starlit stories</text>
+    </g>
+
+    <!-- 10. Family & Friends (Togetherness) -->
+    <g transform="translate(240, 420)">
+      <circle cx="15" cy="12" r="6" stroke-width="1.5"/>
+      <path d="M15 18 L15 38 M15 38 L8 55 M15 38 L22 55 M5 26 L25 26" stroke-width="1.5"/>
+      <circle cx="35" cy="8" r="7" stroke-width="1.5"/>
+      <path d="M35 15 L35 38 M35 38 L28 55 M35 38 L42 55 M25 26 L45 26" stroke-width="1.5"/>
+      <circle cx="55" cy="18" r="5" stroke-width="1.5"/>
+      <path d="M55 23 L55 40 M55 40 L50 55 M55 40 L60 55 M45 28 L65 28" stroke-width="1.5"/>
+      <path d="M35 0 C35 0 30 -4 30 -7 C30 -9 32 -11 34 -11 C35 -11 35 -10 35 -9 C35 -10 36 -11 37 -11 C39 -11 41 -9 41 -7 C41 -4 35 0 35 0 Z" stroke-width="1.2" fill="#766352" fill-opacity="0.2"/>
+      <text x="8" y="72" font-family="'Caveat', cursive, sans-serif" font-size="17" font-weight="bold" fill="#766352" stroke="none">forever together</text>
+    </g>
+
+    <!-- 11. Winding Roadtrip Trail & Signpost -->
+    <g transform="translate(440, 440)">
+      <path d="M0 60 C30 40 40 50 70 30 C100 10 110 20 140 0" stroke-width="1.8" stroke-dasharray="6 3"/>
+      <line x1="25" y1="10" x2="25" y2="65" stroke-width="2"/>
+      <polygon points="10,12 50,12 58,20 50,28 10,28" stroke-width="1.5" fill="#f4efe6"/>
+      <text x="14" y="24" font-family="'JetBrains Mono', monospace" font-size="9" font-weight="bold" fill="#766352" stroke="none">ADVENTURE</text>
+    </g>
+
+    <!-- 12. Hot Air Balloon (Wanderlust) -->
+    <g transform="translate(710, 520)">
+      <path d="M25 0 C10 0 0 12 0 25 C0 35 15 45 18 50 L32 50 C35 45 50 35 50 25 C50 12 40 0 25 0 Z" stroke-width="1.8"/>
+      <path d="M16 50 L14 58 M34 50 L36 58" stroke-width="1.2"/>
+      <rect x="12" y="58" width="26" height="12" rx="2" stroke-width="1.4"/>
+      <path d="M25 0 C18 15 18 35 25 50 M25 0 C32 15 32 35 25 50" stroke-width="1.2"/>
+      <path d="M-15 40 C-20 40 -25 35 -22 30 C-22 24 -15 22 -10 26 C-5 20 5 22 5 28 C10 28 12 35 8 40 Z" stroke-width="1.2" fill="#f4efe6"/>
+      <text x="-5" y="84" font-family="'Caveat', cursive, sans-serif" font-size="16" font-weight="bold" fill="#766352" stroke="none">wanderlust</text>
+    </g>
+
+    <!-- 13. Map Pin & Location Flag -->
+    <g transform="translate(80, 620)">
+      <path d="M25 0 C12 0 2 10 2 22 C2 36 25 60 25 60 C25 60 48 36 48 22 C48 10 38 0 25 0 Z" stroke-width="1.8"/>
+      <circle cx="25" cy="22" r="8" stroke-width="1.4"/>
+      <text x="4" y="80" font-family="'Caveat', cursive, sans-serif" font-size="16" font-weight="bold" fill="#766352" stroke="none">our favorite place</text>
+    </g>
+
+    <!-- 14. Luggage Suitcase & Travel Stickers -->
+    <g transform="translate(260, 600)">
+      <rect x="0" y="12" width="65" height="45" rx="5" stroke-width="1.8"/>
+      <path d="M24 12 L24 4 C24 2 26 0 28 0 L37 0 C39 0 41 2 41 4 L41 12" stroke-width="1.5"/>
+      <line x1="16" y1="12" x2="16" y2="57" stroke-width="1.4"/>
+      <line x1="49" y1="12" x2="49" y2="57" stroke-width="1.4"/>
+      <path d="M32 36 C32 36 27 31 27 28 C27 26 29 24 31 24 C32 24 32 25 32 25 C32 25 33 24 34 24 C36 24 37 26 37 28 C37 31 32 36 32 36 Z" stroke-width="1" fill="#766352" fill-opacity="0.2"/>
+      <text x="10" y="74" font-family="'Caveat', cursive, sans-serif" font-size="16" font-weight="bold" fill="#766352" stroke="none">pack &amp; go</text>
+    </g>
+
+    <!-- 15. Ocean Waves & Sailboat (Happiness & Freedom) -->
+    <g transform="translate(480, 630)">
+      <path d="M0 45 C15 35 25 55 40 45 C55 35 65 55 80 45 C95 35 105 55 120 45" stroke-width="1.6"/>
+      <path d="M10 52 C25 42 35 62 50 52 C65 42 75 62 90 52 C105 42 115 62 130 52" stroke-width="1.3"/>
+      <polygon points="50,40 70,40 65,48 45,48" stroke-width="1.5"/>
+      <polygon points="58,15 58,38 72,38" stroke-width="1.4" fill="#766352" fill-opacity="0.1"/>
+      <polygon points="56,20 56,38 46,38" stroke-width="1.4"/>
+      <text x="35" y="70" font-family="'Caveat', cursive, sans-serif" font-size="16" font-weight="bold" fill="#766352" stroke="none">smooth sailing</text>
+    </g>
+
+    <!-- 16. Decorative Flight Arcs, Joy Sparkles & Accent Words -->
+    <g stroke-width="1.2">
+      <path d="M180 80 Q220 20 270 90" stroke-dasharray="3 3"/>
+      <path d="M370 120 Q440 180 480 90" stroke-dasharray="3 3"/>
+      <path d="M570 110 Q640 130 680 190" stroke-dasharray="3 3"/>
+      <path d="M150 300 Q190 380 250 250" stroke-dasharray="3 3"/>
+      <path d="M380 460 Q420 530 460 480" stroke-dasharray="3 3"/>
+      <path d="M580 480 Q640 550 710 540" stroke-dasharray="3 3"/>
+
+      <path d="M200 170 L200 182 M194 176 L206 176" stroke-width="1.3"/>
+      <path d="M420 200 L420 210 M415 205 L425 205" stroke-width="1.2"/>
+      <path d="M600 240 L600 252 M594 246 L606 246" stroke-width="1.3"/>
+      <path d="M180 520 L180 530 M175 525 L185 525" stroke-width="1.2"/>
+      <path d="M380 340 L380 350 M375 345 L385 345" stroke-width="1.2"/>
+      <path d="M410 700 L410 712 M404 706 L416 706" stroke-width="1.3"/>
+      <path d="M630 680 L630 690 M625 685 L635 685" stroke-width="1.2"/>
+
+      <text x="350" y="200" font-family="'Caveat', cursive, sans-serif" font-size="18" font-weight="bold" fill="#766352" stroke="none">adventure awaits</text>
+      <text x="160" y="370" font-family="'Caveat', cursive, sans-serif" font-size="18" font-weight="bold" fill="#766352" stroke="none">pure happiness</text>
+      <text x="540" y="400" font-family="'Caveat', cursive, sans-serif" font-size="18" font-weight="bold" fill="#766352" stroke="none">best friends</text>
+      <text x="360" y="560" font-family="'Caveat', cursive, sans-serif" font-size="18" font-weight="bold" fill="#766352" stroke="none">family roots</text>
+    </g>
+
+  </g>
+</svg>
