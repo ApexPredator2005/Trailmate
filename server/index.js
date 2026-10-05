@@ -114,9 +114,11 @@ app.use((err, req, res, next) => {
   });
 });
 
-// Start Server
-app.listen(PORT, () => {
-  console.log(`🌲 Trailmate Express server running on http://localhost:${PORT}`);
-});
+// Start Server (only when run directly as a standalone process, not as a serverless function)
+if (!process.env.VERCEL) {
+  app.listen(PORT, () => {
+    console.log(`🌲 Trailmate Express server running on http://localhost:${PORT}`);
+  });
+}
 
 export default app;
