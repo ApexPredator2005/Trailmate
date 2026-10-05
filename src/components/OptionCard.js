@@ -19,29 +19,27 @@ function getAirlineBrand(airlineName = '') {
       code: '6E',
       displayName: 'IndiGo',
       textColor: 'text-white',
-      subTextColor: 'text-blue-200/80',
+      subTextColor: 'text-blue-100/80',
       lineColor: 'bg-blue-300/40',
       planeColor: 'text-sky-300',
       timeColor: 'text-white',
-      logoHtml: `<div class="bg-white p-1 rounded-md shadow-xs flex items-center justify-center shrink-0">
-        <img src="/images/airlines/indigo.jpg" alt="IndiGo" class="h-6 w-6 object-contain" />
-      </div>`,
+      centerLogoHtml: `<img src="/images/airlines/indigo.jpg" alt="IndiGo" class="w-8 h-8 rounded-md border-2 border-white object-cover aspect-square shadow-sm shrink-0" />`,
     };
   }
   if (name.includes('air india express') || name.includes('air india')) {
     const isExpress = name.includes('express');
     return {
-      bg: 'bg-gradient-to-r from-[#FFF5F0] via-[#FFFFFF] to-[#FFF0E8] border-b border-[#EA580C]/20',
-      badgeColor: 'bg-[#EA580C]/10 text-[#C2410C] border-[#EA580C]/25',
-      accent: '#EA580C',
+      bg: 'bg-gradient-to-r from-[#C8102E] via-[#D92D20] to-[#B91C1C]',
+      badgeColor: 'bg-white/20 text-white border-white/25',
+      accent: '#F97316',
       code: isExpress ? 'IX' : 'AI',
       displayName: isExpress ? 'Air India Express' : 'Air India',
-      textColor: 'text-stone-900',
-      subTextColor: 'text-stone-500',
-      lineColor: 'bg-[#EA580C]/30',
-      planeColor: 'text-[#EA580C]',
-      timeColor: 'text-stone-900',
-      logoHtml: `<div class="bg-white px-2 py-0.5 rounded-md shadow-xs border border-stone-200 flex items-center shrink-0">
+      textColor: 'text-white',
+      subTextColor: 'text-rose-100/85',
+      lineColor: 'bg-rose-200/40',
+      planeColor: 'text-amber-300',
+      timeColor: 'text-white',
+      centerLogoHtml: `<div class="bg-white px-2.5 py-1 rounded-lg shadow-sm border border-white/30 flex items-center justify-center">
         <img src="/images/airlines/airindia.png" alt="Air India" class="h-6 w-auto max-w-[110px] object-contain" />
       </div>`,
     };
@@ -54,18 +52,18 @@ function getAirlineBrand(airlineName = '') {
       code: 'UK',
       displayName: 'Vistara',
       textColor: 'text-white',
-      subTextColor: 'text-pink-100/75',
+      subTextColor: 'text-pink-100/80',
       lineColor: 'bg-amber-300/30',
       planeColor: 'text-amber-300',
       timeColor: 'text-white',
-      logoHtml: `<div class="bg-white/10 p-1 rounded-md border border-amber-300/30 flex items-center justify-center shrink-0">
+      centerLogoHtml: `<div class="bg-white/15 px-2.5 py-1 rounded-lg border border-amber-300/30 flex items-center justify-center">
         <img src="/images/airlines/vistara.jpg" alt="Vistara" class="h-6 w-6 rounded object-cover" />
       </div>`,
     };
   }
   if (name.includes('akasa')) {
     return {
-      bg: 'bg-[#EA580C]',
+      bg: 'bg-gradient-to-r from-[#EA580C] via-[#F97316] to-[#EA580C]',
       badgeColor: 'bg-white/20 text-white border-white/25',
       accent: '#FED7AA',
       code: 'QP',
@@ -75,14 +73,14 @@ function getAirlineBrand(airlineName = '') {
       lineColor: 'bg-white/40',
       planeColor: 'text-amber-200',
       timeColor: 'text-white',
-      logoHtml: `<div class="bg-white p-1 rounded-md shadow-xs flex items-center justify-center shrink-0">
+      centerLogoHtml: `<div class="bg-white px-2.5 py-1 rounded-lg shadow-sm flex items-center justify-center">
         <svg class="w-6 h-6" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="14" fill="#EA580C"/><path d="M9 22L16 10L23 22M12 17L16 13L20 17" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </div>`,
     };
   }
   if (name.includes('spicejet')) {
     return {
-      bg: 'bg-[#DC2626]',
+      bg: 'bg-gradient-to-r from-[#DC2626] via-[#EF4444] to-[#DC2626]',
       badgeColor: 'bg-yellow-400/20 text-yellow-200 border-yellow-400/30',
       accent: '#FEF08A',
       code: 'SG',
@@ -92,13 +90,13 @@ function getAirlineBrand(airlineName = '') {
       lineColor: 'bg-white/40',
       planeColor: 'text-yellow-300',
       timeColor: 'text-white',
-      logoHtml: `<div class="bg-white p-1 rounded-md shadow-xs flex items-center justify-center shrink-0">
+      centerLogoHtml: `<div class="bg-white px-2.5 py-1 rounded-lg shadow-sm flex items-center justify-center">
         <svg class="w-6 h-6" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="14" fill="#DC2626"/><circle cx="16" cy="16" r="4" fill="#FBBF24"/><circle cx="23" cy="16" r="2" fill="#ffffff"/></svg>
       </div>`,
     };
   }
   return {
-    bg: 'bg-[#1E3A34]',
+    bg: 'bg-gradient-to-r from-[#1E3A34] via-[#2D5A50] to-[#1E3A34]',
     badgeColor: 'bg-white/15 text-emerald-100 border-white/20',
     accent: '#A7F3D0',
     code: 'FL',
@@ -108,7 +106,7 @@ function getAirlineBrand(airlineName = '') {
     lineColor: 'bg-emerald-300/30',
     planeColor: 'text-emerald-300',
     timeColor: 'text-white',
-    logoHtml: `<div class="bg-white/10 p-1 rounded-md border border-white/20 flex items-center justify-center shrink-0">
+    centerLogoHtml: `<div class="bg-white/15 px-2.5 py-1 rounded-lg border border-white/20 flex items-center justify-center">
       <svg class="w-6 h-6" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="14" fill="#1E3A34"/><path d="M16 8L20 16L24 18L16 20L8 18L12 16L16 8Z" fill="#ffffff"/></svg>
     </div>`,
   };
@@ -229,11 +227,10 @@ export class OptionCard {
     );
 
     // Stretch vs Normal
-    const cardWidth = isFlight ? 'w-[280px]' : 'w-64';
     if (data.isStretch) {
-      el.className = `option-card snap-start flex-shrink-0 ${cardWidth} bg-surface rounded-xl border border-dashed border-secondary overflow-hidden group hover:shadow-md transition-shadow cursor-pointer relative`;
+      el.className = 'option-card snap-start flex-shrink-0 w-64 bg-surface rounded-xl border border-dashed border-secondary overflow-hidden group hover:shadow-md transition-shadow cursor-pointer relative';
     } else {
-      el.className = `option-card snap-start flex-shrink-0 ${cardWidth} bg-surface rounded-xl border border-surface-variant overflow-hidden group hover:shadow-md transition-shadow cursor-pointer relative`;
+      el.className = 'option-card snap-start flex-shrink-0 w-64 bg-surface rounded-xl border border-surface-variant overflow-hidden group hover:shadow-md transition-shadow cursor-pointer relative';
     }
 
     el.setAttribute('role', 'listitem');
@@ -249,11 +246,11 @@ export class OptionCard {
       const arrTime = data._raw?.arrivalTime || data._raw?.arrival_time || '';
       const duration = data._raw?.duration || 'Non-stop';
       const badge = data.badge || data._raw?.badge || (data._raw?.stops === 0 ? 'Non-stop' : null);
-      // Clean up badge display text: if badge contains 'AeroDataBox Verified', shorten to 'Verified Live'
+      // Clean up badge display text: if badge contains 'AeroDataBox Verified', show Terminal full name or Verified
       let displayBadge = badge;
       if (displayBadge && displayBadge.includes('AeroDataBox Verified')) {
         const terminalMatch = displayBadge.match(/·\s*(Terminal\s*\d+)/i);
-        displayBadge = terminalMatch ? `Verified · ${terminalMatch[1]}` : 'Verified Live';
+        displayBadge = terminalMatch ? terminalMatch[1] : 'Verified';
       }
 
       el.innerHTML = `
@@ -263,43 +260,50 @@ export class OptionCard {
           </div>` : ''}
 
         <!-- Aviation Airline Logo Header with authentic branding -->
-        <div class="h-36 relative overflow-hidden ${brand.bg} p-3 flex flex-col justify-between ${brand.textColor || 'text-white'} select-none">
+        <div class="h-32 relative overflow-hidden ${brand.bg} p-2.5 flex flex-col justify-between ${brand.textColor || 'text-white'} select-none">
           <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#888_1px,transparent_1px)] [background-size:10px_10px] pointer-events-none"></div>
 
-          <!-- Top row: Airline logo & Flight Number / Badge -->
-          <div class="relative z-10 flex items-center justify-between gap-2 border-b border-black/5 pb-2">
-            <div class="flex items-center gap-2 min-w-0">
-              ${brand.logoHtml}
-              <div class="flex flex-col min-w-0">
-                <span class="text-[12px] font-bold tracking-tight truncate leading-tight">${esc(brand.displayName || airlineName)}</span>
-                <span class="text-[9.5px] font-mono ${brand.subTextColor || 'text-white/80'} font-semibold tracking-wide leading-tight mt-0.5">${esc(flightNum)}</span>
-              </div>
+          <!-- Top row: Left (Flight Num), Center (Airline Logo), Right (Badge) -->
+          <div class="relative z-10 flex items-center justify-between gap-1 border-b border-white/10 pb-1.5">
+            <!-- Left: Flight Num -->
+            <div class="flex flex-col min-w-[50px] text-left">
+              <span class="text-[10.5px] font-bold tracking-tight truncate leading-tight">${esc(brand.displayName || airlineName)}</span>
+              <span class="text-[8.5px] font-mono ${brand.subTextColor || 'text-white/80'} font-semibold tracking-wide leading-tight mt-0.5">${esc(flightNum)}</span>
             </div>
-            ${displayBadge ? `
-              <span class="${brand.badgeColor || 'bg-black/20 text-white'} text-[9px] font-mono font-medium px-2 py-0.5 rounded-full border shrink-0 whitespace-nowrap" title="${esc(badge)}">
-                ${esc(displayBadge)}
-              </span>` : ''}
+
+            <!-- Center: Prominent Centered Logo -->
+            <div class="flex items-center justify-center flex-1 px-1">
+              ${brand.centerLogoHtml}
+            </div>
+
+            <!-- Right: Badge -->
+            <div class="min-w-[50px] flex justify-end">
+              ${displayBadge ? `
+                <span class="${brand.badgeColor || 'bg-black/20 text-white'} text-[8.5px] font-mono font-medium px-1.5 py-0.5 rounded-full border shrink-0 whitespace-nowrap" title="${esc(badge)}">
+                  ${esc(displayBadge)}
+                </span>` : ''}
+            </div>
           </div>
 
           <!-- Route & Aviation Visual -->
-          <div class="relative z-10 flex items-center justify-between pt-1">
+          <div class="relative z-10 flex items-center justify-between pt-0.5">
             <div class="text-left">
-              <span class="text-base font-mono font-bold leading-none block ${brand.timeColor || 'text-white'}">${esc(origin)}</span>
-              <span class="text-[10px] ${brand.subTextColor || 'text-white/80'} font-medium block mt-1">${esc(depTime)}</span>
+              <span class="text-sm font-mono font-bold leading-none block ${brand.timeColor || 'text-white'}">${esc(origin)}</span>
+              <span class="text-[9.5px] ${brand.subTextColor || 'text-white/80'} font-medium block mt-0.5">${esc(depTime)}</span>
             </div>
             
-            <div class="flex flex-col items-center flex-1 px-3">
-              <span class="text-[9px] font-mono ${brand.subTextColor || 'text-white/80'} mb-1">${esc(duration)}</span>
+            <div class="flex flex-col items-center flex-1 px-2">
+              <span class="text-[8.5px] font-mono ${brand.subTextColor || 'text-white/80'} mb-0.5">${esc(duration)}</span>
               <div class="w-full flex items-center gap-1 opacity-80">
                 <div class="h-[1px] ${brand.lineColor || 'bg-white/50'} flex-1"></div>
-                <span class="material-symbols-outlined text-xs transform rotate-90 ${brand.planeColor || 'text-white'}">flight</span>
+                <span class="material-symbols-outlined text-[11px] transform rotate-90 ${brand.planeColor || 'text-white'}">flight</span>
                 <div class="h-[1px] ${brand.lineColor || 'bg-white/50'} flex-1"></div>
               </div>
             </div>
 
             <div class="text-right">
-              <span class="text-base font-mono font-bold leading-none block ${brand.timeColor || 'text-white'}">${esc(dest)}</span>
-              <span class="text-[10px] ${brand.subTextColor || 'text-white/80'} font-medium block mt-1">${esc(arrTime)}</span>
+              <span class="text-sm font-mono font-bold leading-none block ${brand.timeColor || 'text-white'}">${esc(dest)}</span>
+              <span class="text-[9.5px] ${brand.subTextColor || 'text-white/80'} font-medium block mt-0.5">${esc(arrTime)}</span>
             </div>
           </div>
         </div>
