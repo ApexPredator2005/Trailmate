@@ -136,9 +136,9 @@ export function renderMapView(container, { switchView, store }) {
         <div class="map-glass-card py-2 px-3">
           <div class="flex items-center justify-between mb-1">
             <span class="text-[10px] font-mono font-bold uppercase tracking-wider text-neutral-600">
-              EXPLORE ATTRACTIONS WITH HIGH-RES PHOTO GALLERIES
+              EXPLORE ATTRACTIONS WITH OUR PHOTO GALLERIES
             </span>
-            <span class="text-[10px] text-neutral-500 font-mono">Click a pin or card for photo gallery</span>
+            <span class="text-[10px] text-neutral-500 font-mono">Click a pin or card to view photos</span>
           </div>
           <div class="map-attraction-carousel" id="mapAttractionCarousel">
             <!-- Thumb cards injected dynamically -->
@@ -216,7 +216,26 @@ export function renderMapView(container, { switchView, store }) {
     const photos = place.photos && place.photos.length > 0 ? place.photos : [place.photo];
     let currentPhotoIdx = initialIdx;
 
-    function renderModalContent() {
+      function updateGallerySlide(newIdx) {
+        currentPhotoIdx = (newIdx + photos.length) % photos.length;
+        const mainImg = modalContainer.querySelector('#galleryMainImg');
+        const counterBadge = modalContainer.querySelector('#galleryPhotoCounterBadge');
+        if (mainImg) {
+          mainImg.src = photos[currentPhotoIdx];
+        }
+        if (counterBadge) {
+          counterBadge.textContent = `${currentPhotoIdx + 1} / ${photos.length} Photos`;
+        }
+        modalContainer.querySelectorAll('.gallery-thumb-btn').forEach(btn => {
+          const pIdx = parseInt(btn.dataset.pidx, 10);
+          if (pIdx === currentPhotoIdx) {
+            btn.classList.add('active');
+          } else {
+            btn.classList.remove('active');
+          }
+        });
+      }
+
       modalContainer.innerHTML = `
         <div class="gallery-modal-overlay" id="galleryOverlayBackdrop">
           <div class="gallery-modal-card" id="galleryCardContent">
@@ -224,9 +243,9 @@ export function renderMapView(container, { switchView, store }) {
               <span class="material-symbols-outlined text-base">close</span>
             </button>
 
-            <!-- Main High-Res Viewer -->
+            <!-- Main High-Res Viewer: rigid locked height & aspect ratio with overflow hidden -->
             <div class="gallery-hero-viewer">
-              <img id="galleryMainImg" src="${escapeHtml(photos[currentPhotoIdx])}" alt="${escapeHtml(place.name)}" />
+              <img id="galleryMainImg" class="w-full h-full object-cover select-none" src="${escapeHtml(photos[currentPhotoIdx])}" alt="${escapeHtml(place.name)}" />
               
               ${photos.length > 1 ? `
                 <button class="gallery-nav-btn gallery-nav-prev" id="btnGalleryPrev" aria-label="Previous photo">
@@ -238,12 +257,12 @@ export function renderMapView(container, { switchView, store }) {
               ` : ''}
 
               <!-- Image counter badge -->
-              <div class="absolute bottom-3 right-3 bg-black/60 backdrop-blur-md text-white text-[10px] font-mono font-bold px-2.5 py-1 rounded-full border border-white/20">
+              <div id="galleryPhotoCounterBadge" class="absolute bottom-3 right-3 bg-black/60 backdrop-blur-md text-white text-[10px] font-mono font-bold px-2.5 py-1 rounded-full border border-white/20 select-none">
                 ${currentPhotoIdx + 1} / ${photos.length} Photos
               </div>
 
               <!-- Category badge -->
-              <div class="absolute bottom-3 left-3 bg-[#C4703D] text-white text-[10px] font-mono font-bold px-2.5 py-1 rounded-full shadow-xs">
+              <div class="absolute bottom-3 left-3 bg-[#C4703D] text-white text-[10px] font-mono font-bold px-2.5 py-1 rounded-full shadow-xs select-none">
                 ${escapeHtml(place.category || 'Tourist Attraction')}
               </div>
             </div>
@@ -299,21 +318,22 @@ export function renderMapView(container, { switchView, store }) {
         }
       });
 
-      // Bind prev/next navigation
-      document.getElementById('btnGalleryPrev')?.addEventListener('click', () => {
-        currentPhotoIdx = (currentPhotoIdx - 1 + photos.length) % photos.length;
-        renderModalContent();
+      // Bind prev/next navigation in-place with zero layout shift
+      document.getElementById('btnGalleryPrev')?.addEventListener('click', (e) => {
+        e.stopPropagation();
+        updateGallerySlide(currentPhotoIdx - 1);
       });
-      document.getElementById('btnGalleryNext')?.addEventListener('click', () => {
-        currentPhotoIdx = (currentPhotoIdx + 1) % photos.length;
-        renderModalContent();
+      document.getElementById('btnGalleryNext')?.addEventListener('click', (e) => {
+        e.stopPropagation();
+        updateGallerySlide(currentPhotoIdx + 1);
       });
 
-      // Thumbnail clicks
+      // Thumbnail clicks in-place
       modalContainer.querySelectorAll('.gallery-thumb-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-          currentPhotoIdx = parseInt(btn.dataset.pidx, 10);
-          renderModalContent();
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const pidx = parseInt(btn.dataset.pidx, 10);
+          if (!isNaN(pidx)) updateGallerySlide(pidx);
         });
       });
 
@@ -322,9 +342,6 @@ export function renderMapView(container, { switchView, store }) {
         modalContainer.classList.add('hidden');
         map.flyTo([place.lat, place.lng], 16, { duration: 1.0 });
       });
-    }
-
-    renderModalContent();
   }
 
   // Load and plot attractions for a given destination
@@ -388,12 +405,19 @@ export function renderMapView(container, { switchView, store }) {
           const lat = parseFloat(card.dataset.lat);
           const lng = parseFloat(card.dataset.lng);
           const idx = parseInt(card.dataset.idx, 10);
+          const item = attractions[idx];
+
           map.flyTo([lat, lng], 15, { duration: 0.8 });
           const marker = markerMap.get(idx);
           if (marker) marker.openPopup();
 
           carousel.querySelectorAll('.map-attraction-thumb-card').forEach(c => c.classList.remove('active'));
           card.classList.add('active');
+
+          // Open full photo gallery modal immediately for this attraction
+          if (item) {
+            openPhotoGalleryModal(item, 0);
+          }
         });
       });
     }
@@ -471,11 +495,10 @@ export function renderMapView(container, { switchView, store }) {
         // Attach gallery triggers inside Leaflet popup DOM
         const popupEl = marker.getPopup()?.getElement();
         if (popupEl) {
-          // Whole popup card or hero or button click opens gallery modal
+          // Clicking anywhere on the popup card opens the photo gallery modal
           const popupCard = popupEl.querySelector('.attraction-popup-card');
           if (popupCard) {
             popupCard.addEventListener('click', (e) => {
-              // If user clicked specifically on "Zoom Closer", don't open modal
               if (e.target.closest('.popup-focus-btn')) {
                 return;
               }

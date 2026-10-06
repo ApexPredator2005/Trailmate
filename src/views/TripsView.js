@@ -91,12 +91,15 @@ export function renderTripsView(container, { switchView, store, chatThread, engi
       <h3 class="text-base font-bold text-neutral-900 font-headline-md">${escapeHtml(dest)} Expedition</h3>
       <p class="text-xs text-neutral-600 mt-0.5">${currentTrip.travelers || 2} Travelers · ${currentTrip.budgetTier || 'Moderate'} Tier</p>
       
-      <div class="flex gap-2 mt-3.5">
+      <div class="flex items-center gap-2 mt-3.5">
         <button id="btnResumeActiveTrip" class="flex-1 py-2 bg-secondary text-white rounded-xl text-xs font-bold hover:bg-secondary/90 transition-all cursor-pointer text-center shadow-2xs">
           Continue in Planner ➔
         </button>
-        <button id="btnSaveCurrentActive" class="py-2 px-3.5 bg-white hover:bg-neutral-50 text-neutral-800 rounded-xl text-xs font-bold border border-neutral-300 transition-all cursor-pointer shadow-2xs">
-          Archive Session
+        <button id="btnSaveCurrentActive" class="py-2 px-3 bg-white hover:bg-neutral-50 text-neutral-800 rounded-xl text-xs font-bold border border-neutral-300 transition-all cursor-pointer shadow-2xs whitespace-nowrap">
+          Archive
+        </button>
+        <button id="btnDeleteActiveSession" class="py-2 px-2.5 bg-white hover:bg-red-50 text-neutral-500 hover:text-red-600 rounded-xl text-xs font-bold border border-neutral-300 hover:border-red-200 transition-all cursor-pointer shadow-2xs flex items-center justify-center" title="Delete Active Session & Reset">
+          <span class="material-symbols-outlined text-sm">delete</span>
         </button>
       </div>
     </div>
@@ -143,6 +146,13 @@ export function renderTripsView(container, { switchView, store, chatThread, engi
     if (chatThread) chatThread.clear();
     if (engine) engine.sendWelcome();
     switchView('chat');
+  });
+
+  document.getElementById('btnDeleteActiveSession')?.addEventListener('click', () => {
+    store.reset();
+    if (chatThread) chatThread.clear();
+    if (engine) engine.sendWelcome();
+    renderTripsView(container, { switchView, store, chatThread, engine });
   });
 
   document.getElementById('btnSaveCurrentActive')?.addEventListener('click', () => {

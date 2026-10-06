@@ -1986,6 +1986,53 @@ export class ScrapbookWorkspace {
     `;
   }
 
+  // ── Page Management ──────────────────────────────────────────────────
+
+  addPage() {
+    const newPage = {
+      id: `page-${Date.now()}`,
+      title: `Expedition Journal — Page ${this.pages.length + 1}`,
+      background: 'bg-heritage-parchment',
+      edgeStyle: 'edge-torn',
+      format: this.canvasFormat,
+      elements: [],
+    };
+    this.pages.push(newPage);
+    this._savePages();
+    this.activePageIndex = this.pages.length - 1;
+    this.selectedElementId = null;
+    this.selectedElementIds.clear();
+    this._undoStack = [];
+    this._redoStack = [];
+    this.render();
+
+    const artboard = this.container.querySelector('#scrapbookArtboard');
+    if (artboard) {
+      artboard.classList.add('page-flip-forward');
+      setTimeout(() => artboard.classList.remove('page-flip-forward'), 290);
+    }
+  }
+
+  deletePage(pageIndex = this.activePageIndex) {
+    if (this.pages.length <= 1) return;
+    this.pages.splice(pageIndex, 1);
+    if (this.activePageIndex >= this.pages.length) {
+      this.activePageIndex = this.pages.length - 1;
+    }
+    this.selectedElementId = null;
+    this.selectedElementIds.clear();
+    this._undoStack = [];
+    this._redoStack = [];
+    this._savePages();
+    this.render();
+
+    const artboard = this.container.querySelector('#scrapbookArtboard');
+    if (artboard) {
+      artboard.classList.add('page-flip-backward');
+      setTimeout(() => artboard.classList.remove('page-flip-backward'), 290);
+    }
+  }
+
   // ── Animated Page Transitions (Feature #11) ─────────────────────────
 
   _switchPageWithAnimation(targetIndex, direction = 'forward') {
@@ -1995,6 +2042,8 @@ export class ScrapbookWorkspace {
     this.activePageIndex = targetIndex;
     this.selectedElementId = null;
     this.selectedElementIds.clear();
+    this._undoStack = [];
+    this._redoStack = [];
     this.render();
 
     const artboard = this.container.querySelector('#scrapbookArtboard');
@@ -2891,27 +2940,14 @@ export class ScrapbookWorkspace {
       }
     });
 
-    this.container.querySelector('#btnAddPage')?.addEventListener('click', () => {
-      const newPage = {
-        id: `page-${Date.now()}`,
-        title: `Expedition Journal — Page ${this.pages.length + 1}`,
-        background: 'bg-heritage-parchment',
-        edgeStyle: 'edge-torn',
-        format: this.canvasFormat,
-        elements: [],
-      };
-      this.pages.push(newPage);
-      this._savePages();
-      this._switchPageWithAnimation(this.pages.length - 1, 'forward');
+    this.container.querySelector('#btnAddPage')?.addEventListener('click', (e) => {
+      e.stopPropagation();
+      this.addPage();
     });
 
-    this.container.querySelector('#btnDeletePage')?.addEventListener('click', () => {
-      if (this.pages.length > 1) {
-        this.pages.splice(this.activePageIndex, 1);
-        const targetIdx = Math.max(0, this.activePageIndex - 1);
-        this._savePages();
-        this._switchPageWithAnimation(targetIdx, 'backward');
-      }
+    this.container.querySelector('#btnDeletePage')?.addEventListener('click', (e) => {
+      e.stopPropagation();
+      this.deletePage();
     });
 
     // DEMO Showcase Call-to-Action Event Listeners

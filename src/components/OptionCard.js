@@ -344,24 +344,24 @@ export class OptionCard {
             Worth a look
           </div>` : ''}
 
-        <div class="h-32 relative overflow-hidden bg-surface-container group/photo select-none">
+        <div class="relative w-full h-36 aspect-[16/10] overflow-hidden bg-surface-container group/photo select-none isolate">
           <div class="absolute inset-0 shadow-[inset_0_0_20px_rgba(0,0,0,0.1)] z-10 pointer-events-none"></div>
           <img class="option-card-main-img w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="${esc(photos[0])}" alt="${esc(data.name)}" loading="lazy" onerror="this.onerror=null;this.src='${resolvePlacePhoto(data.name, data.description, null)}';">
           
           ${photos.length > 1 ? `
-            <!-- Multi-photo Previous Button -->
-            <button type="button" class="option-card-prev-photo absolute left-1.5 top-1/2 -translate-y-1/2 z-30 w-6 h-6 rounded-full bg-black/55 hover:bg-black/85 text-white flex items-center justify-center opacity-0 group-hover/photo:opacity-100 transition-opacity cursor-pointer shadow-md" aria-label="Previous photo">
-              <span class="material-symbols-outlined text-[14px]">chevron_left</span>
+            <!-- Multi-photo Previous Button (rigid vertical centering) -->
+            <button type="button" class="option-card-prev-photo absolute left-2 top-1/2 -translate-y-1/2 z-30 w-7 h-7 rounded-full bg-black/60 hover:bg-black/85 text-white flex items-center justify-center opacity-0 group-hover/photo:opacity-100 transition-opacity cursor-pointer shadow-md border border-white/20" aria-label="Previous photo">
+              <span class="material-symbols-outlined text-[15px] pointer-events-none">chevron_left</span>
             </button>
 
-            <!-- Multi-photo Next Button -->
-            <button type="button" class="option-card-next-photo absolute right-1.5 top-1/2 -translate-y-1/2 z-30 w-6 h-6 rounded-full bg-black/55 hover:bg-black/85 text-white flex items-center justify-center opacity-0 group-hover/photo:opacity-100 transition-opacity cursor-pointer shadow-md" aria-label="Next photo">
-              <span class="material-symbols-outlined text-[14px]">chevron_right</span>
+            <!-- Multi-photo Next Button (rigid vertical centering) -->
+            <button type="button" class="option-card-next-photo absolute right-2 top-1/2 -translate-y-1/2 z-30 w-7 h-7 rounded-full bg-black/60 hover:bg-black/85 text-white flex items-center justify-center opacity-0 group-hover/photo:opacity-100 transition-opacity cursor-pointer shadow-md border border-white/20" aria-label="Next photo">
+              <span class="material-symbols-outlined text-[15px] pointer-events-none">chevron_right</span>
             </button>
 
             <!-- Multi-photo Dot Indicators -->
-            <div class="option-card-dots absolute bottom-2 left-1/2 -translate-x-1/2 flex items-center gap-1 z-30 px-1.5 py-0.5 rounded-full bg-black/40 backdrop-blur-xs pointer-events-auto">
-              ${photos.map((_, i) => `<span class="option-card-dot transition-all ${i === 0 ? 'w-2.5 h-1.5 rounded-full bg-white scale-110' : 'w-1.5 h-1.5 rounded-full bg-white/60 hover:bg-white cursor-pointer'}" data-photo-idx="${i}"></span>`).join('')}
+            <div class="option-card-dots absolute bottom-2 left-1/2 -translate-x-1/2 flex items-center gap-1.5 z-30 px-2 py-0.5 rounded-full bg-black/50 backdrop-blur-xs pointer-events-auto">
+              ${photos.map((_, i) => `<span class="option-card-dot transition-all ${i === 0 ? 'w-2.5 h-1.5 rounded-full bg-white ring-1 ring-white/50' : 'w-1.5 h-1.5 rounded-full bg-white/60 hover:bg-white cursor-pointer'}" data-photo-idx="${i}"></span>`).join('')}
             </div>
           ` : ''}
 
@@ -434,7 +434,7 @@ export class OptionCard {
           }
           dots.forEach((dot, idx) => {
             if (idx === activeIdx) {
-              dot.className = 'option-card-dot w-2.5 h-1.5 rounded-full bg-white scale-110 transition-all';
+              dot.className = 'option-card-dot w-2.5 h-1.5 rounded-full bg-white ring-1 ring-white/50 transition-all';
             } else {
               dot.className = 'option-card-dot w-1.5 h-1.5 rounded-full bg-white/60 hover:bg-white cursor-pointer transition-all';
             }
