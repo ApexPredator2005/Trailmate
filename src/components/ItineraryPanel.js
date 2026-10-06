@@ -4,7 +4,7 @@
 
 import { store } from '../store/state.js';
 import { ItineraryDay } from './ItineraryDay.js';
-import { downloadIcsCalendar } from '../views/ShareView.js';
+import { downloadIcsCalendar, getGoogleMapsDirectionsUrl, getGoogleCalendarWebUrl } from '../utils/exportUtils.js';
 import { getDestinationHeaderArt } from './HeaderDoodlesData.js';
 
 function esc(str) {
@@ -178,15 +178,26 @@ export class ItineraryPanel {
       this.body.appendChild(budgetCard);
 
       // ── 1c. Action Section: Export, Print & Download Itinerary ────────────
+      const mapsUrl = getGoogleMapsDirectionsUrl(trip, itinerary);
+      const gcalUrl = getGoogleCalendarWebUrl(trip, itinerary);
+
       const exportSection = document.createElement('div');
       exportSection.id = 'itineraryExportSection';
       exportSection.className = 'itinerary-panel-export mt-5 mb-8 space-y-2.5 animate-fadeIn';
       exportSection.innerHTML = `
         <div class="flex items-center justify-between text-[11px] font-mono font-bold text-on-surface-variant uppercase tracking-wider px-1">
-          <span>Export &amp; Download</span>
-          <span class="text-[10px] text-secondary">1-Click Save</span>
+          <span>Export &amp; Sync</span>
+          <span class="text-[10px] text-secondary">1-Click Live Actions</span>
         </div>
         <div class="grid grid-cols-2 gap-2">
+          <a href="${mapsUrl}" target="_blank" rel="noopener noreferrer" id="btnItineraryGoogleMaps" class="flex items-center justify-center gap-1.5 p-2.5 rounded-xl bg-surface-container-low hover:bg-surface-container border border-outline-variant/40 text-xs font-semibold text-primary transition-all active:scale-95 cursor-pointer shadow-2xs text-center no-underline">
+            <span class="material-symbols-outlined text-sm text-[#4285F4]">map</span>
+            <span>Google Maps</span>
+          </a>
+          <a href="${gcalUrl}" target="_blank" rel="noopener noreferrer" id="btnItineraryGoogleCalendar" class="flex items-center justify-center gap-1.5 p-2.5 rounded-xl bg-surface-container-low hover:bg-surface-container border border-outline-variant/40 text-xs font-semibold text-primary transition-all active:scale-95 cursor-pointer shadow-2xs text-center no-underline">
+            <span class="material-symbols-outlined text-sm text-[#0F9D58]">event</span>
+            <span>Google Cal</span>
+          </a>
           <button id="btnItineraryDownloadPdf" class="flex items-center justify-center gap-1.5 p-2.5 rounded-xl bg-surface-container-low hover:bg-surface-container border border-outline-variant/40 text-xs font-semibold text-primary transition-all active:scale-95 cursor-pointer shadow-2xs">
             <span class="material-symbols-outlined text-sm text-secondary">picture_as_pdf</span>
             <span>Download PDF</span>

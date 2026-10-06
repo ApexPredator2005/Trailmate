@@ -17,7 +17,7 @@
 //   - This service never invents destinations, hotels, flights, or facts.
 // ──────────────────────────────────────────────────────────────────────
 
-import { generateJSON, generateText } from './gemini.js';
+import { generateJSON, generateText, generateGroundedText } from './gemini.js';
 import {
   buildParseInputPrompt,
   PARSE_INPUT_SYSTEM_INSTRUCTION,
@@ -206,17 +206,22 @@ async function handleDoneFollowUp(message, tripState) {
   const systemInstruction =
     `You are Trailmate, an AI travel assistant. The traveler has already ` +
     `completed their trip plan for ${dest}. Answer their follow-up question ` +
-    `helpfully and concisely. Only reference places and facts that are in ` +
-    `their confirmed itinerary or stated trip data — never fabricate new ` +
-    `recommendations. If you don't have enough data to answer, say so honestly.`;
+    `helpfully, accurately, and concisely. Use Google Search grounding to verify real-time facts ` +
+    `(e.g., current weather, opening hours, local tips, entry tickets, transit options). ` +
+    `Keep replies conversational and helpful.`;
 
   const prompt =
     `TRIP SUMMARY:\n${JSON.stringify(tripState, null, 2)}\n\n` +
     `TRAVELER'S QUESTION:\n"${message}"`;
 
   try {
-    const reply = await generateText(prompt, systemInstruction);
-    return { reply: reply || "I'm here to help — ask me anything about your trip!", stage: 'DONE', timestamp: Date.now() };
+    const { text, sources } = await generateGroundedText(prompt, systemInstruction);
+    let reply = text || "I'm here to help — ask me anything about your trip!";
+    if (sources && sources.length > 0) {
+      const uniqueSources = sources.filter((s, i, arr) => arr.findIndex(x => x.uri === s.uri) === i).slice(0, 3);
+      reply += '\n\n**Sources:** ' + uniqueSources.map(s => `[${s.title}](${s.uri})`).join(' • ');
+    }
+    return { reply, sources: sources || [], stage: 'DONE', timestamp: Date.now() };
   } catch {
     return {
       reply: "I'm here to help! Try the swap or add buttons in the itinerary panel.",

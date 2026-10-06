@@ -11,17 +11,9 @@ import { Sidebar }            from './components/Sidebar.js';
 import { ItineraryPanel }     from './components/ItineraryPanel.js';
 import { EmbellishmentCanvas } from './components/EmbellishmentCanvas.js';
 import { ScrapbookStudio }    from './components/ScrapbookStudio.js';
-import { ScrapbookWorkspace } from './components/ScrapbookWorkspace.js';
 import { initSplitView }      from './engine/splitView.js';
 import { ConversationEngine } from './engine/conversation.js';
 import { api, syncDestinationCardWeather, formatWeatherString } from './services/api.js';
-import { renderSettingsView } from './views/SettingsView.js';
-import { renderTripsView }    from './views/TripsView.js';
-import { renderMapView }      from './views/MapView.js';
-import { renderCommunityView } from './views/CommunityView.js';
-import { renderGuideView }    from './views/GuideView.js';
-import { renderPrivacyView }  from './views/PrivacyView.js';
-import { renderShareView, downloadIcsCalendar } from './views/ShareView.js';
 import { communityService }   from './services/CommunityService.js';
 import { getDestinationHeaderArt } from './components/HeaderDoodlesData.js';
 
@@ -121,7 +113,7 @@ document.addEventListener('DOMContentLoaded', () => {
     return window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   }
 
-  function renderCardContent(viewName) {
+  async function renderCardContent(viewName) {
     updateFullViewBackground(viewName);
 
     const viewProps = {
@@ -132,27 +124,41 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     switch (viewName) {
-      case 'settings':
+      case 'settings': {
+        const { renderSettingsView } = await import('./views/SettingsView.js');
         renderSettingsView(fullViewBody, viewProps);
         break;
-      case 'trips':
+      }
+      case 'trips': {
+        const { renderTripsView } = await import('./views/TripsView.js');
         renderTripsView(fullViewBody, viewProps);
         break;
-      case 'map':
+      }
+      case 'map': {
+        const { renderMapView } = await import('./views/MapView.js');
         renderMapView(fullViewBody, viewProps);
         break;
-      case 'guide':
+      }
+      case 'guide': {
+        const { renderGuideView } = await import('./views/GuideView.js');
         renderGuideView(fullViewBody, viewProps);
         break;
-      case 'privacy':
+      }
+      case 'privacy': {
+        const { renderPrivacyView } = await import('./views/PrivacyView.js');
         renderPrivacyView(fullViewBody, viewProps);
         break;
-      case 'share':
+      }
+      case 'share': {
+        const { renderShareView } = await import('./views/ShareView.js');
         renderShareView(fullViewBody, viewProps);
         break;
-      default:
+      }
+      default: {
+        const { renderTripsView } = await import('./views/TripsView.js');
         renderTripsView(fullViewBody, viewProps);
         break;
+      }
     }
   }
 
@@ -171,7 +177,7 @@ document.addEventListener('DOMContentLoaded', () => {
     communityWorkspaceView?.classList.remove('view-section-enter', 'view-section-exit');
   }
 
-  function switchView(viewName) {
+  async function switchView(viewName) {
     if (viewName === currentActiveView) return;
 
     if (pendingTransitionTimer) {
@@ -195,6 +201,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (scrapbookView) scrapbookView.classList.remove('hidden');
 
       if (!scrapbookWorkspace) {
+        const { ScrapbookWorkspace } = await import('./components/ScrapbookWorkspace.js');
         scrapbookWorkspace = new ScrapbookWorkspace({ containerId: 'scrapbookWorkspaceView' });
       } else {
         scrapbookWorkspace.render();
@@ -222,6 +229,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (communityWorkspaceView) communityWorkspaceView.classList.add('hidden');
       if (mapWorkspaceView) {
         mapWorkspaceView.classList.remove('hidden');
+        const { renderMapView } = await import('./views/MapView.js');
         renderMapView(mapWorkspaceView, { switchView, store });
       }
 
@@ -247,6 +255,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (mapWorkspaceView) mapWorkspaceView.classList.add('hidden');
       if (communityWorkspaceView) {
         communityWorkspaceView.classList.remove('hidden');
+        const { renderCommunityView } = await import('./views/CommunityView.js');
         renderCommunityView(communityWorkspaceView, {
           switchView,
           store,

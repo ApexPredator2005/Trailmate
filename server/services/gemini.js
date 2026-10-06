@@ -334,6 +334,47 @@ export async function generateJSON(prompt, systemInstruction) {
 }
 
 /**
+ * Calls Gemini with Google Search Grounding for rich, grounded answers with citations.
+ * Gracefully falls back to plain text if search grounding is unavailable.
+ *
+ * @param {string} prompt
+ * @param {string} [systemInstruction]
+ * @returns {Promise<{ text: string, sources: Array<{ uri: string, title: string }> }>}
+ */
+export async function generateGroundedText(prompt, systemInstruction) {
+  let attempt = 0;
+  let lastError = null;
+
+  while (attempt <= MAX_RETRIES) {
+    try {
+      const { text, sources } = await callGeminiGrounded(prompt, systemInstruction);
+      if (typeof text !== "string" || text.trim() === "") {
+        throw new Error("Gemini returned an empty response for a grounded text request.");
+      }
+      return { text: text.trim(), sources: sources || [] };
+    } catch (err) {
+      lastError = err;
+      const canRetry = attempt < MAX_RETRIES && isTransientError(err);
+      if (!canRetry) {
+        break;
+      }
+      const delay = calculateBackoffWithJitter(attempt);
+      console.warn(`[gemini.js] Grounded text search retry attempt ${attempt + 1}/${MAX_RETRIES} in ${delay}ms...`);
+      attempt += 1;
+      await sleep(delay);
+    }
+  }
+
+  console.warn("[gemini.js] Grounded search fallback to plain text:", lastError?.message ?? lastError);
+  try {
+    const fallbackText = await generateText(prompt, systemInstruction);
+    return { text: fallbackText, sources: [] };
+  } catch (fallbackErr) {
+    throw lastError || fallbackErr;
+  }
+}
+
+/**
  * Calls Gemini and returns a plain text string.
  * @param {string} prompt
  * @param {string} [systemInstruction]
@@ -349,5 +390,5 @@ export async function generateText(prompt, systemInstruction) {
   }
 }
 
-export default { generateJSON, generateGroundedJSON, generateText };
+export default { generateJSON, generateGroundedJSON, generateGroundedText, generateText };
 

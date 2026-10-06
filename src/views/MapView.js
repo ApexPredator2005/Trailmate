@@ -131,6 +131,14 @@ export function renderMapView(container, { switchView, store }) {
         </div>
       </header>
 
+      <!-- Category Filter Chips Tray -->
+      <div class="map-filter-tray" id="mapCategoryFilterTray">
+        <!-- Rendered dynamically -->
+      </div>
+
+      <!-- Optional Active Itinerary Day-by-Day Route Legend -->
+      <div class="map-route-legend hidden" id="mapRouteLegend"></div>
+
       <!-- Bottom Attractions Drawer / Strip -->
       <div class="map-bottom-tray">
         <div class="map-glass-card py-2 px-3">
@@ -344,6 +352,19 @@ export function renderMapView(container, { switchView, store }) {
       });
   }
 
+  // Colors for day-by-day polylines
+  const DAY_ROUTE_COLORS = [
+    '#2563EB', // Day 1: Blue
+    '#EA580C', // Day 2: Orange
+    '#16A34A', // Day 3: Green
+    '#9333EA', // Day 4: Purple
+    '#E11D48', // Day 5: Crimson
+    '#0D9488', // Day 6: Teal
+  ];
+
+  let currentRouteGroup = L.layerGroup().addTo(map);
+  let activeCategoryFilter = 'All';
+
   // Load and plot attractions for a given destination
   async function loadDestinationAttractions(destName, destKey) {
     activeDestKey = destKey;
@@ -367,155 +388,241 @@ export function renderMapView(container, { switchView, store }) {
       easeLinearity: 0.25,
     });
 
-    // Clear existing markers
+    // Clear existing markers & polylines
     currentMarkersGroup.clearLayers();
+    currentRouteGroup.clearLayers();
 
-    // Use full curated set (14 verified sights per destination with multi-photos and accurate coordinates)
-    const attractions = CURATED_ATTRACTIONS[destKey] || CURATED_ATTRACTIONS.ooty;
+    // Use full curated set
+    const allAttractions = CURATED_ATTRACTIONS[destKey] || CURATED_ATTRACTIONS.ooty;
 
-    if (badgeEl) badgeEl.textContent = `${attractions.length} verified attractions`;
-
-    // Map of marker instances for carousel syncing
-    const markerMap = new Map();
-
-    // Render Bottom Carousel Cards
-    const carousel = document.getElementById('mapAttractionCarousel');
-    if (carousel) {
-      carousel.innerHTML = attractions.map((item, idx) => `
-        <div class="map-attraction-thumb-card" data-idx="${idx}" data-lat="${item.lat}" data-lng="${item.lng}">
-          <div class="h-20 w-full overflow-hidden bg-neutral-200 relative">
-            <img src="${escapeHtml(item.photo)}" alt="${escapeHtml(item.name)}" class="w-full h-full object-cover" loading="lazy" />
-            <span class="absolute top-1.5 right-1.5 bg-[#C4703D] text-white text-[9px] font-bold font-mono px-1.5 py-0.5 rounded-full shadow-xs">
-              ★ ${item.rating}
-            </span>
-            <span class="absolute bottom-1.5 left-1.5 bg-black/60 text-white text-[8.5px] font-mono px-1.5 py-0.5 rounded-md flex items-center gap-0.5">
-              <span class="material-symbols-outlined text-[10px]">photo_library</span>
-              <span>${(item.photos || []).length || 1}</span>
-            </span>
-          </div>
-          <div class="p-2">
-            <h4 class="text-xs font-bold text-neutral-900 truncate">${escapeHtml(item.name)}</h4>
-            <p class="text-[9.5px] text-neutral-500 font-mono capitalize truncate">${escapeHtml(item.category)}</p>
-          </div>
-        </div>
+    // Build unique categories list for interactive filter chips
+    const categories = ['All', ...new Set(allAttractions.map(a => a.category).filter(Boolean))];
+    const filterTray = document.getElementById('mapCategoryFilterTray');
+    if (filterTray) {
+      filterTray.innerHTML = categories.map(cat => `
+        <button type="button" class="map-filter-chip ${cat === activeCategoryFilter ? 'active' : ''}" data-cat="${escapeHtml(cat)}">
+          <span>${escapeHtml(cat)}</span>
+          <span class="text-[9px] opacity-75">(${cat === 'All' ? allAttractions.length : allAttractions.filter(a => a.category === cat).length})</span>
+        </button>
       `).join('');
 
-      carousel.querySelectorAll('.map-attraction-thumb-card').forEach(card => {
-        card.addEventListener('click', () => {
-          const lat = parseFloat(card.dataset.lat);
-          const lng = parseFloat(card.dataset.lng);
-          const idx = parseInt(card.dataset.idx, 10);
-          const item = attractions[idx];
-
-          map.flyTo([lat, lng], 15, { duration: 0.8 });
-          const marker = markerMap.get(idx);
-          if (marker) marker.openPopup();
-
-          carousel.querySelectorAll('.map-attraction-thumb-card').forEach(c => c.classList.remove('active'));
-          card.classList.add('active');
-
-          // Open full photo gallery modal immediately for this attraction
-          if (item) {
-            openPhotoGalleryModal(item, 0);
-          }
+      filterTray.querySelectorAll('.map-filter-chip').forEach(btn => {
+        btn.addEventListener('click', () => {
+          activeCategoryFilter = btn.dataset.cat;
+          filterTray.querySelectorAll('.map-filter-chip').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          renderFilteredAttractions();
         });
       });
     }
 
-    // Plot Photo Pins on the Map
-    attractions.forEach((item, idx) => {
-      const pinIconHtml = `
-        <div class="photo-pin-container" title="${escapeHtml(item.name)}">
-          <div class="photo-pin-bubble">
-            <img src="${escapeHtml(item.photo)}" alt="${escapeHtml(item.name)}" class="photo-pin-img" onerror="this.src='https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80'" />
-            <div class="photo-pin-badge">★${item.rating}</div>
-          </div>
-          <div class="photo-pin-pointer"></div>
-          <div class="photo-pin-label">${escapeHtml(item.name)}</div>
-        </div>
-      `;
+    function renderFilteredAttractions() {
+      currentMarkersGroup.clearLayers();
+      const filtered = activeCategoryFilter === 'All'
+        ? allAttractions
+        : allAttractions.filter(a => a.category === activeCategoryFilter);
 
-      const customIcon = L.divIcon({
-        className: 'custom-photo-pin-wrapper',
-        html: pinIconHtml,
-        iconSize: [52, 74],
-        iconAnchor: [26, 68],
-        popupAnchor: [0, -68],
-      });
+      if (badgeEl) badgeEl.textContent = `${filtered.length} of ${allAttractions.length} sights showing`;
 
-      const photoCount = (item.photos && item.photos.length > 0) ? item.photos.length : 1;
-
-      const popupHtml = `
-        <div class="attraction-popup-card cursor-pointer" data-card-idx="${idx}">
-          <div class="attraction-popup-hero group cursor-pointer" data-gallery-idx="${idx}">
-            <img src="${escapeHtml(item.photo)}" alt="${escapeHtml(item.name)}" />
-            <div class="absolute top-2 right-2 bg-black/60 backdrop-blur-md text-white text-[9.5px] font-mono font-bold px-2 py-0.5 rounded-full flex items-center gap-1 border border-white/20">
-              <span class="material-symbols-outlined text-xs">photo_library</span>
-              <span>${photoCount} Photos</span>
+      const markerMap = new Map();
+      const carousel = document.getElementById('mapAttractionCarousel');
+      if (carousel) {
+        carousel.innerHTML = filtered.map((item, idx) => `
+          <div class="map-attraction-thumb-card" data-idx="${idx}" data-lat="${item.lat}" data-lng="${item.lng}">
+            <div class="h-20 w-full overflow-hidden bg-neutral-200 relative">
+              <img src="${escapeHtml(item.photo)}" alt="${escapeHtml(item.name)}" class="w-full h-full object-cover" loading="lazy" />
+              <span class="absolute top-1.5 right-1.5 bg-[#C4703D] text-white text-[9px] font-bold font-mono px-1.5 py-0.5 rounded-full shadow-xs">
+                ★ ${item.rating}
+              </span>
+              <span class="absolute bottom-1.5 left-1.5 bg-black/60 text-white text-[8.5px] font-mono px-1.5 py-0.5 rounded-md flex items-center gap-0.5">
+                <span class="material-symbols-outlined text-[10px]">photo_library</span>
+                <span>${(item.photos || []).length || 1}</span>
+              </span>
             </div>
-            <div class="absolute inset-0 bg-black/25 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white text-xs font-bold gap-1">
-              <span class="material-symbols-outlined text-sm">fullscreen</span>
-              <span>View Gallery</span>
+            <div class="p-2">
+              <h4 class="text-xs font-bold text-neutral-900 truncate">${escapeHtml(item.name)}</h4>
+              <p class="text-[9.5px] text-neutral-500 font-mono capitalize truncate">${escapeHtml(item.category)}</p>
             </div>
           </div>
-          <div class="attraction-popup-body">
-            <div class="flex items-center justify-between mb-1">
-              <span class="text-[9px] font-mono font-bold uppercase tracking-wider text-[#C4703D]">${escapeHtml(item.category)}</span>
-              <span class="text-[10px] font-bold text-neutral-800">★ ${item.rating}</span>
-            </div>
-            <h3 class="text-xs font-bold text-neutral-900 mb-1 leading-snug">${escapeHtml(item.name)}</h3>
-            <p class="text-[10.5px] text-neutral-600 line-clamp-2 leading-relaxed mb-2">${escapeHtml(item.description)}</p>
-            <div class="pt-2 border-t border-[#BFA895]/20 flex items-center justify-between">
-              <button class="popup-gallery-trigger text-[10.5px] font-bold text-[#8b4513] hover:underline flex items-center gap-1 cursor-pointer" data-idx="${idx}">
-                <span class="material-symbols-outlined text-xs">photo_library</span>
-                <span>See More Images</span>
-              </button>
-              <button class="popup-focus-btn text-[10px] font-bold text-[#5B8C7B] hover:underline cursor-pointer" data-lat="${item.lat}" data-lng="${item.lng}">
-                Zoom Closer
-              </button>
-            </div>
-          </div>
-        </div>
-      `;
+        `).join('');
 
-      const marker = L.marker([item.lat, item.lng], { icon: customIcon })
-        .bindPopup(popupHtml, { maxWidth: 280, minWidth: 260 });
+        carousel.querySelectorAll('.map-attraction-thumb-card').forEach(card => {
+          card.addEventListener('click', () => {
+            const lat = parseFloat(card.dataset.lat);
+            const lng = parseFloat(card.dataset.lng);
+            const idx = parseInt(card.dataset.idx, 10);
+            const item = filtered[idx];
 
-      marker.on('click', () => {
-        // Highlight corresponding thumb card in bottom carousel
-        const card = carousel?.querySelector(`.map-attraction-thumb-card[data-idx="${idx}"]`);
-        if (card) {
-          carousel.querySelectorAll('.map-attraction-thumb-card').forEach(c => c.classList.remove('active'));
-          card.classList.add('active');
-          card.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-        }
-      });
+            map.flyTo([lat, lng], 15, { duration: 0.8 });
+            const marker = markerMap.get(idx);
+            if (marker) marker.openPopup();
 
-      marker.on('popupopen', () => {
-        // Attach gallery triggers inside Leaflet popup DOM
-        const popupEl = marker.getPopup()?.getElement();
-        if (popupEl) {
-          // Clicking anywhere on the popup card opens the photo gallery modal
-          const popupCard = popupEl.querySelector('.attraction-popup-card');
-          if (popupCard) {
-            popupCard.addEventListener('click', (e) => {
-              if (e.target.closest('.popup-focus-btn')) {
-                return;
-              }
+            carousel.querySelectorAll('.map-attraction-thumb-card').forEach(c => c.classList.remove('active'));
+            card.classList.add('active');
+
+            if (item) {
               openPhotoGalleryModal(item, 0);
+            }
+          });
+        });
+      }
+
+      // Plot markers for filtered items
+      filtered.forEach((item, idx) => {
+        const pinIconHtml = `
+          <div class="photo-pin-container" title="${escapeHtml(item.name)}">
+            <div class="photo-pin-bubble">
+              <img src="${escapeHtml(item.photo)}" alt="${escapeHtml(item.name)}" class="photo-pin-img" onerror="this.src='https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80'" />
+              <div class="photo-pin-badge">★${item.rating}</div>
+            </div>
+            <div class="photo-pin-pointer"></div>
+            <div class="photo-pin-label">${escapeHtml(item.name)}</div>
+          </div>
+        `;
+
+        const customIcon = L.divIcon({
+          className: 'custom-photo-pin-wrapper',
+          html: pinIconHtml,
+          iconSize: [52, 74],
+          iconAnchor: [26, 68],
+          popupAnchor: [0, -68],
+        });
+
+        const photoCount = (item.photos && item.photos.length > 0) ? item.photos.length : 1;
+
+        const popupHtml = `
+          <div class="attraction-popup-card cursor-pointer" data-card-idx="${idx}">
+            <div class="attraction-popup-hero group cursor-pointer" data-gallery-idx="${idx}">
+              <img src="${escapeHtml(item.photo)}" alt="${escapeHtml(item.name)}" />
+              <div class="absolute top-2 right-2 bg-black/60 backdrop-blur-md text-white text-[9.5px] font-mono font-bold px-2 py-0.5 rounded-full flex items-center gap-1 border border-white/20">
+                <span class="material-symbols-outlined text-xs">photo_library</span>
+                <span>${photoCount} Photos</span>
+              </div>
+              <div class="absolute inset-0 bg-black/25 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white text-xs font-bold gap-1">
+                <span class="material-symbols-outlined text-sm">fullscreen</span>
+                <span>View Gallery</span>
+              </div>
+            </div>
+            <div class="attraction-popup-body">
+              <div class="flex items-center justify-between mb-1">
+                <span class="text-[9px] font-mono font-bold uppercase tracking-wider text-[#C4703D]">${escapeHtml(item.category)}</span>
+                <span class="text-[10px] font-bold text-neutral-800">★ ${item.rating}</span>
+              </div>
+              <h3 class="text-xs font-bold text-neutral-900 mb-1 leading-snug">${escapeHtml(item.name)}</h3>
+              <p class="text-[10.5px] text-neutral-600 line-clamp-2 leading-relaxed mb-2">${escapeHtml(item.description)}</p>
+              <div class="pt-2 border-t border-[#BFA895]/20 flex items-center justify-between">
+                <button class="popup-gallery-trigger text-[10.5px] font-bold text-[#8b4513] hover:underline flex items-center gap-1 cursor-pointer" data-idx="${idx}">
+                  <span class="material-symbols-outlined text-xs">photo_library</span>
+                  <span>See More Images</span>
+                </button>
+                <button class="popup-focus-btn text-[10px] font-bold text-[#5B8C7B] hover:underline cursor-pointer" data-lat="${item.lat}" data-lng="${item.lng}">
+                  Zoom Closer
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+
+        const marker = L.marker([item.lat, item.lng], { icon: customIcon })
+          .bindPopup(popupHtml, { maxWidth: 280, minWidth: 260 });
+
+        marker.on('click', () => {
+          const card = carousel?.querySelector(`.map-attraction-thumb-card[data-idx="${idx}"]`);
+          if (card) {
+            carousel.querySelectorAll('.map-attraction-thumb-card').forEach(c => c.classList.remove('active'));
+            card.classList.add('active');
+            card.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+          }
+        });
+
+        marker.on('popupopen', () => {
+          const popupEl = marker.getPopup()?.getElement();
+          if (popupEl) {
+            const popupCard = popupEl.querySelector('.attraction-popup-card');
+            if (popupCard) {
+              popupCard.addEventListener('click', (e) => {
+                if (e.target.closest('.popup-focus-btn')) return;
+                openPhotoGalleryModal(item, 0);
+              });
+            }
+
+            popupEl.querySelector('.popup-focus-btn')?.addEventListener('click', (e) => {
+              e.stopPropagation();
+              map.flyTo([item.lat, item.lng], 16, { duration: 0.6 });
             });
           }
+        });
 
-          popupEl.querySelector('.popup-focus-btn')?.addEventListener('click', (e) => {
-            e.stopPropagation();
-            map.flyTo([item.lat, item.lng], 16, { duration: 0.6 });
+        marker.addTo(currentMarkersGroup);
+        markerMap.set(idx, marker);
+      });
+    }
+
+    renderFilteredAttractions();
+
+    // ── Day-by-Day Route Polyline on Map ──
+    const itinerary = store.getState().itinerary;
+    const isMatchingDest = (trip.destination || '').toLowerCase().includes(destKey);
+    const legendEl = document.getElementById('mapRouteLegend');
+
+    if (itinerary && Array.isArray(itinerary.days) && itinerary.days.length > 0 && isMatchingDest) {
+      currentRouteGroup.clearLayers();
+      const legendItems = [];
+
+      itinerary.days.forEach((day, dIdx) => {
+        const color = DAY_ROUTE_COLORS[dIdx % DAY_ROUTE_COLORS.length];
+        const dayCoords = [];
+
+        (day.stops || []).forEach(stop => {
+          let lat = stop.lat;
+          let lng = stop.lng;
+          if (!lat || !lng) {
+            // Find in curated attractions by name matching
+            const match = allAttractions.find(a =>
+              a.name.toLowerCase().includes((stop.name || '').toLowerCase()) ||
+              (stop.name || '').toLowerCase().includes(a.name.toLowerCase())
+            );
+            if (match) {
+              lat = match.lat;
+              lng = match.lng;
+            }
+          }
+          if (lat && lng) dayCoords.push([lat, lng]);
+        });
+
+        if (dayCoords.length > 1) {
+          const polyline = L.polyline(dayCoords, {
+            color,
+            weight: 4,
+            opacity: 0.85,
+            dashArray: '6, 8',
+            lineJoin: 'round',
+          }).addTo(currentRouteGroup);
+
+          polyline.bindTooltip(`Day ${day.dayNumber || dIdx + 1}: ${escapeHtml(day.title || day.theme || 'Route')}`, {
+            sticky: true,
           });
+
+          legendItems.push(`
+            <div class="map-route-day-pill">
+              <span class="map-route-dot" style="background-color: ${color}"></span>
+              <span>Day ${day.dayNumber || dIdx + 1} Route</span>
+            </div>
+          `);
         }
       });
 
-      marker.addTo(currentMarkersGroup);
-      markerMap.set(idx, marker);
-    });
+      if (legendEl) {
+        if (legendItems.length > 0) {
+          legendEl.innerHTML = legendItems.join('');
+          legendEl.classList.remove('hidden');
+        } else {
+          legendEl.classList.add('hidden');
+        }
+      }
+    } else if (legendEl) {
+      legendEl.classList.add('hidden');
+    }
 
     // Invalidate map size after DOM settling to ensure full container coverage
     setTimeout(() => {
@@ -528,6 +635,7 @@ export function renderMapView(container, { switchView, store }) {
     btn.addEventListener('click', () => {
       const destName = btn.dataset.dest;
       const destKey = btn.dataset.key;
+      activeCategoryFilter = 'All';
       loadDestinationAttractions(destName, destKey);
     });
   });

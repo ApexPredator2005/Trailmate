@@ -544,3 +544,88 @@
   overflow-y: auto;
 }
 
+/* ── Category Filter Chips Bar ── */
+.map-filter-tray {
+  position: absolute;
+  top: 76px;
+  left: 20px;
+  z-index: 9;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  overflow-x: auto;
+  max-width: calc(100vw - 340px);
+  padding: 2px 0;
+  scrollbar-width: none;
+}
+
+.map-filter-tray::-webkit-scrollbar {
+  display: none;
+}
+
+.map-filter-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 12px;
+  background: rgba(251, 248, 243, 0.92);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(191, 168, 149, 0.45);
+  border-radius: 9999px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #414846;
+  cursor: pointer;
+  white-space: nowrap;
+  box-shadow: 0 2px 6px rgba(45, 30, 20, 0.08);
+  transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.map-filter-chip:hover {
+  background: #FFFFFF;
+  color: #1E3A34;
+  border-color: #BFA895;
+  transform: translateY(-1px);
+}
+
+.map-filter-chip.active {
+  background: #C4703D;
+  color: #FFFFFF;
+  border-color: #C4703D;
+  box-shadow: 0 2px 10px rgba(196, 112, 61, 0.35);
+}
+
+.map-route-legend {
+  position: absolute;
+  top: 120px;
+  left: 20px;
+  z-index: 9;
+  background: rgba(251, 248, 243, 0.94);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(191, 168, 149, 0.45);
+  border-radius: 14px;
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 4px 14px rgba(45, 30, 20, 0.1);
+}
+
+.map-route-day-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10px;
+  font-mono: monospace;
+  font-weight: 700;
+  color: #2D1E14;
+}
+
+.map-route-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+

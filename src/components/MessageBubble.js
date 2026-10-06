@@ -26,10 +26,12 @@ function escapeHtml(str) {
 }
 
 function renderText(text) {
-  return escapeHtml(text)
-    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-    .replace(/_(.*?)_/g, '<em>$1</em>')
-    .replace(/\n/g, '<br/>');
+  let safe = escapeHtml(text);
+  safe = safe.replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer" class="text-secondary font-medium underline underline-offset-2 hover:opacity-80">$1</a>');
+  safe = safe.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+  safe = safe.replace(/_(.*?)_/g, '<em>$1</em>');
+  safe = safe.replace(/\n/g, '<br/>');
+  return safe;
 }
 
 export function buildMessageElement(message, callbacks = {}) {

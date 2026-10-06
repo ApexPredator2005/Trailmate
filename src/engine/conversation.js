@@ -21,7 +21,7 @@
 
 import { store } from '../store/state.js';
 import { api, syncDestinationCardWeather, formatWeatherString } from '../services/api.js';
-import { downloadIcsCalendar } from '../views/ShareView.js';
+import { downloadIcsCalendar } from '../utils/exportUtils.js';
 import { getRestaurantInsights } from '../data/RestaurantInsightsData.js';
 
 /* ── Constants ──────────────────────────────────────────────────────── */

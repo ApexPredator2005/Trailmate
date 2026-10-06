@@ -17,7 +17,11 @@ export const CURATED_ATTRACTIONS = {
       "photo": "/images/attractions/ooty/tea-museum-1.jpg",
       "photos": [
         "/images/attractions/ooty/tea-museum-1.jpg",
-        "/images/attractions/ooty/tea-museum-2.jpg"
+        "/images/attractions/ooty/tea-museum-2.jpg",
+        "/images/attractions/ooty/tea-museum-3.jpg",
+        "/images/attractions/ooty/tea-museum-4.jpg",
+        "/images/attractions/ooty/tea-museum-5.jpg",
+        "/images/attractions/ooty/tea-museum-6.jpg"
       ]
     },
     {
@@ -33,7 +37,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/ooty/avalanche-lake-1.jpg",
         "/images/attractions/ooty/avalanche-lake-2.jpg",
-        "/images/attractions/ooty/avalanche-lake-3.jpg"
+        "/images/attractions/ooty/avalanche-lake-3.jpg",
+        "/images/attractions/ooty/avalanche-lake-4.jpg",
+        "/images/attractions/ooty/avalanche-lake-5.jpg",
+        "/images/attractions/ooty/avalanche-lake-6.jpg"
       ]
     },
     {
@@ -49,7 +56,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/ooty/botanical-gardens-1.jpg",
         "/images/attractions/ooty/botanical-gardens-2.jpg",
-        "/images/attractions/ooty/botanical-gardens-3.jpg"
+        "/images/attractions/ooty/botanical-gardens-3.jpg",
+        "/images/attractions/ooty/botanical-gardens-4.jpg",
+        "/images/attractions/ooty/botanical-gardens-5.jpg",
+        "/images/attractions/ooty/botanical-gardens-6.jpg"
       ]
     },
     {
@@ -65,7 +75,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/ooty/doddabetta-peak-1.jpg",
         "/images/attractions/ooty/doddabetta-peak-2.jpg",
-        "/images/attractions/ooty/doddabetta-peak-3.jpg"
+        "/images/attractions/ooty/doddabetta-peak-3.jpg",
+        "/images/attractions/ooty/doddabetta-peak-4.jpg",
+        "/images/attractions/ooty/doddabetta-peak-5.jpg",
+        "/images/attractions/ooty/doddabetta-peak-6.jpg"
       ]
     },
     {
@@ -81,7 +94,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/ooty/toy-train-1.jpg",
         "/images/attractions/ooty/toy-train-2.jpg",
-        "/images/attractions/ooty/toy-train-3.jpg"
+        "/images/attractions/ooty/toy-train-3.jpg",
+        "/images/attractions/ooty/toy-train-4.jpg",
+        "/images/attractions/ooty/toy-train-5.jpg",
+        "/images/attractions/ooty/toy-train-6.jpg"
       ]
     },
     {
@@ -97,7 +113,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/ooty/pykara-falls-1.jpg",
         "/images/attractions/ooty/pykara-falls-2.jpg",
-        "/images/attractions/ooty/pykara-falls-3.jpg"
+        "/images/attractions/ooty/pykara-falls-3.jpg",
+        "/images/attractions/ooty/pykara-falls-4.jpg",
+        "/images/attractions/ooty/pykara-falls-5.jpg",
+        "/images/attractions/ooty/pykara-falls-6.jpg"
       ]
     },
     {
@@ -113,7 +132,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/ooty/ooty-lake-1.jpg",
         "/images/attractions/ooty/ooty-lake-2.jpg",
-        "/images/attractions/ooty/ooty-lake-3.jpg"
+        "/images/attractions/ooty/ooty-lake-3.jpg",
+        "/images/attractions/ooty/ooty-lake-4.jpg",
+        "/images/attractions/ooty/ooty-lake-5.jpg",
+        "/images/attractions/ooty/ooty-lake-6.jpg"
       ]
     },
     {
@@ -129,7 +151,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/ooty/rose-garden-1.jpg",
         "/images/attractions/ooty/rose-garden-2.jpg",
-        "/images/attractions/ooty/rose-garden-3.jpg"
+        "/images/attractions/ooty/rose-garden-3.jpg",
+        "/images/attractions/ooty/rose-garden-4.jpg",
+        "/images/attractions/ooty/rose-garden-5.jpg",
+        "/images/attractions/ooty/rose-garden-6.jpg"
       ]
     },
     {
@@ -145,7 +170,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/ooty/emerald-lake-1.jpg",
         "/images/attractions/ooty/emerald-lake-2.jpg",
-        "/images/attractions/ooty/emerald-lake-3.jpg"
+        "/images/attractions/ooty/emerald-lake-3.jpg",
+        "/images/attractions/ooty/emerald-lake-4.jpg",
+        "/images/attractions/ooty/emerald-lake-5.jpg",
+        "/images/attractions/ooty/emerald-lake-6.jpg"
       ]
     },
     {
@@ -161,7 +189,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/ooty/pine-forest-1.jpg",
         "/images/attractions/ooty/pine-forest-2.jpg",
-        "/images/attractions/ooty/pine-forest-3.jpg"
+        "/images/attractions/ooty/pine-forest-3.jpg",
+        "/images/attractions/ooty/pine-forest-4.jpg",
+        "/images/attractions/ooty/pine-forest-5.jpg",
+        "/images/attractions/ooty/pine-forest-6.jpg"
       ]
     },
     {
@@ -177,7 +208,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/ooty/wenlock-downs-1.jpg",
         "/images/attractions/ooty/wenlock-downs-2.jpg",
-        "/images/attractions/ooty/wenlock-downs-3.jpg"
+        "/images/attractions/ooty/wenlock-downs-3.jpg",
+        "/images/attractions/ooty/wenlock-downs-4.jpg",
+        "/images/attractions/ooty/wenlock-downs-5.jpg",
+        "/images/attractions/ooty/wenlock-downs-6.jpg"
       ]
     },
     {
@@ -193,7 +227,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/ooty/mudumalai-safari-1.jpg",
         "/images/attractions/ooty/mudumalai-safari-2.jpg",
-        "/images/attractions/ooty/mudumalai-safari-3.jpg"
+        "/images/attractions/ooty/mudumalai-safari-3.jpg",
+        "/images/attractions/ooty/mudumalai-safari-4.jpg",
+        "/images/attractions/ooty/mudumalai-safari-5.jpg",
+        "/images/attractions/ooty/mudumalai-safari-6.jpg"
       ]
     },
     {
@@ -209,7 +246,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/ooty/st-stephens-church-1.jpg",
         "/images/attractions/ooty/st-stephens-church-2.jpg",
-        "/images/attractions/ooty/st-stephens-church-3.jpg"
+        "/images/attractions/ooty/st-stephens-church-3.jpg",
+        "/images/attractions/ooty/st-stephens-church-4.jpg",
+        "/images/attractions/ooty/st-stephens-church-5.jpg",
+        "/images/attractions/ooty/st-stephens-church-6.jpg"
       ]
     },
     {
@@ -225,7 +265,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/ooty/needle-rock-1.jpg",
         "/images/attractions/ooty/needle-rock-2.jpg",
-        "/images/attractions/ooty/needle-rock-3.jpg"
+        "/images/attractions/ooty/needle-rock-3.jpg",
+        "/images/attractions/ooty/needle-rock-4.jpg",
+        "/images/attractions/ooty/needle-rock-5.jpg",
+        "/images/attractions/ooty/needle-rock-6.jpg"
       ]
     }
   ],
@@ -244,7 +287,9 @@ export const CURATED_ATTRACTIONS = {
         "/images/attractions/goa/sinquerim-fort-1.jpg",
         "/images/attractions/goa/sinquerim-fort-2.jpg",
         "/images/attractions/goa/sinquerim-fort-3.jpg",
-        "/images/attractions/goa/sinquerim-fort-4.jpg"
+        "/images/attractions/goa/sinquerim-fort-4.jpg",
+        "/images/attractions/goa/sinquerim-fort-5.jpg",
+        "/images/attractions/goa/sinquerim-fort-6.jpg"
       ]
     },
     {
@@ -260,7 +305,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/goa/aguada-fort-1.jpg",
         "/images/attractions/goa/aguada-fort-2.jpg",
-        "/images/attractions/goa/aguada-fort-3.jpg"
+        "/images/attractions/goa/aguada-fort-3.jpg",
+        "/images/attractions/goa/aguada-fort-4.jpg",
+        "/images/attractions/goa/aguada-fort-5.jpg",
+        "/images/attractions/goa/aguada-fort-6.jpg"
       ]
     },
     {
@@ -276,7 +324,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/goa/dudhsagar-waterfalls-1.jpg",
         "/images/attractions/goa/dudhsagar-waterfalls-2.jpg",
-        "/images/attractions/goa/dudhsagar-waterfalls-3.jpg"
+        "/images/attractions/goa/dudhsagar-waterfalls-3.jpg",
+        "/images/attractions/goa/dudhsagar-waterfalls-4.jpg",
+        "/images/attractions/goa/dudhsagar-waterfalls-5.jpg",
+        "/images/attractions/goa/dudhsagar-waterfalls-6.jpg"
       ]
     },
     {
@@ -292,7 +343,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/goa/basilica-bom-jesus-1.jpg",
         "/images/attractions/goa/basilica-bom-jesus-2.jpg",
-        "/images/attractions/goa/basilica-bom-jesus-3.jpg"
+        "/images/attractions/goa/basilica-bom-jesus-3.jpg",
+        "/images/attractions/goa/basilica-bom-jesus-4.jpg",
+        "/images/attractions/goa/basilica-bom-jesus-5.jpg",
+        "/images/attractions/goa/basilica-bom-jesus-6.jpg"
       ]
     },
     {
@@ -308,7 +362,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/goa/chapora-fort-1.jpg",
         "/images/attractions/goa/chapora-fort-2.jpg",
-        "/images/attractions/goa/chapora-fort-3.jpg"
+        "/images/attractions/goa/chapora-fort-3.jpg",
+        "/images/attractions/goa/chapora-fort-4.jpg",
+        "/images/attractions/goa/chapora-fort-5.jpg",
+        "/images/attractions/goa/chapora-fort-6.jpg"
       ]
     },
     {
@@ -324,7 +381,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/goa/anjuna-beach-1.jpg",
         "/images/attractions/goa/anjuna-beach-2.jpg",
-        "/images/attractions/goa/anjuna-beach-3.jpg"
+        "/images/attractions/goa/anjuna-beach-3.jpg",
+        "/images/attractions/goa/anjuna-beach-4.jpg",
+        "/images/attractions/goa/anjuna-beach-5.jpg",
+        "/images/attractions/goa/anjuna-beach-6.jpg"
       ]
     },
     {
@@ -340,7 +400,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/goa/palolem-beach-1.jpg",
         "/images/attractions/goa/palolem-beach-2.jpg",
-        "/images/attractions/goa/palolem-beach-3.jpg"
+        "/images/attractions/goa/palolem-beach-3.jpg",
+        "/images/attractions/goa/palolem-beach-4.jpg",
+        "/images/attractions/goa/palolem-beach-5.jpg",
+        "/images/attractions/goa/palolem-beach-6.jpg"
       ]
     },
     {
@@ -356,7 +419,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/goa/fontainhas-1.jpg",
         "/images/attractions/goa/fontainhas-2.jpg",
-        "/images/attractions/goa/fontainhas-3.jpg"
+        "/images/attractions/goa/fontainhas-3.jpg",
+        "/images/attractions/goa/fontainhas-4.jpg",
+        "/images/attractions/goa/fontainhas-5.jpg",
+        "/images/attractions/goa/fontainhas-6.jpg"
       ]
     },
     {
@@ -372,7 +438,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/goa/cabo-de-rama-1.jpg",
         "/images/attractions/goa/cabo-de-rama-2.jpg",
-        "/images/attractions/goa/cabo-de-rama-3.jpg"
+        "/images/attractions/goa/cabo-de-rama-3.jpg",
+        "/images/attractions/goa/cabo-de-rama-4.jpg",
+        "/images/attractions/goa/cabo-de-rama-5.jpg",
+        "/images/attractions/goa/cabo-de-rama-6.jpg"
       ]
     },
     {
@@ -388,7 +457,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/goa/se-cathedral-1.jpg",
         "/images/attractions/goa/se-cathedral-2.jpg",
-        "/images/attractions/goa/se-cathedral-3.jpg"
+        "/images/attractions/goa/se-cathedral-3.jpg",
+        "/images/attractions/goa/se-cathedral-4.jpg",
+        "/images/attractions/goa/se-cathedral-5.jpg",
+        "/images/attractions/goa/se-cathedral-6.jpg"
       ]
     },
     {
@@ -404,7 +476,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/goa/reis-magos-1.jpg",
         "/images/attractions/goa/reis-magos-2.jpg",
-        "/images/attractions/goa/reis-magos-3.jpg"
+        "/images/attractions/goa/reis-magos-3.jpg",
+        "/images/attractions/goa/reis-magos-4.jpg",
+        "/images/attractions/goa/reis-magos-5.jpg",
+        "/images/attractions/goa/reis-magos-6.jpg"
       ]
     },
     {
@@ -420,7 +495,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/goa/salim-ali-bird-sanctuary-1.jpg",
         "/images/attractions/goa/salim-ali-bird-sanctuary-2.jpg",
-        "/images/attractions/goa/salim-ali-bird-sanctuary-3.jpg"
+        "/images/attractions/goa/salim-ali-bird-sanctuary-3.jpg",
+        "/images/attractions/goa/salim-ali-bird-sanctuary-4.jpg",
+        "/images/attractions/goa/salim-ali-bird-sanctuary-5.jpg",
+        "/images/attractions/goa/salim-ali-bird-sanctuary-6.jpg"
       ]
     },
     {
@@ -436,7 +514,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/goa/baga-beach-1.jpg",
         "/images/attractions/goa/baga-beach-2.jpg",
-        "/images/attractions/goa/baga-beach-3.jpg"
+        "/images/attractions/goa/baga-beach-3.jpg",
+        "/images/attractions/goa/baga-beach-4.jpg",
+        "/images/attractions/goa/baga-beach-5.jpg",
+        "/images/attractions/goa/baga-beach-6.jpg"
       ]
     },
     {
@@ -448,11 +529,14 @@ export const CURATED_ATTRACTIONS = {
       "category": "Spice Plantation",
       "lat": 15.4055,
       "lng": 74.0267,
-      "photo": "/images/attractions/goa/dudhsagar-waterfalls-1.jpg",
+      "photo": "/images/attractions/goa/sahakari-spice-plantation-1.jpg",
       "photos": [
-        "/images/attractions/goa/dudhsagar-waterfalls-1.jpg",
-        "/images/attractions/goa/dudhsagar-waterfalls-2.jpg",
-        "/images/attractions/goa/dudhsagar-waterfalls-3.jpg"
+        "/images/attractions/goa/sahakari-spice-plantation-1.jpg",
+        "/images/attractions/goa/sahakari-spice-plantation-2.jpg",
+        "/images/attractions/goa/sahakari-spice-plantation-3.jpg",
+        "/images/attractions/goa/sahakari-spice-plantation-4.jpg",
+        "/images/attractions/goa/sahakari-spice-plantation-5.jpg",
+        "/images/attractions/goa/sahakari-spice-plantation-6.jpg"
       ]
     },
     {
@@ -468,7 +552,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/goa/arambol-beach-1.jpg",
         "/images/attractions/goa/arambol-beach-2.jpg",
-        "/images/attractions/goa/arambol-beach-3.jpg"
+        "/images/attractions/goa/arambol-beach-3.jpg",
+        "/images/attractions/goa/arambol-beach-4.jpg",
+        "/images/attractions/goa/arambol-beach-5.jpg",
+        "/images/attractions/goa/arambol-beach-6.jpg"
       ]
     }
   ],
@@ -486,7 +573,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/manali/hadimba-temple-1.jpg",
         "/images/attractions/manali/hadimba-temple-2.jpg",
-        "/images/attractions/manali/hadimba-temple-3.jpg"
+        "/images/attractions/manali/hadimba-temple-3.jpg",
+        "/images/attractions/manali/hadimba-temple-4.jpg",
+        "/images/attractions/manali/hadimba-temple-5.jpg",
+        "/images/attractions/manali/hadimba-temple-6.jpg"
       ]
     },
     {
@@ -502,7 +592,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/manali/solang-valley-1.jpg",
         "/images/attractions/manali/solang-valley-2.jpg",
-        "/images/attractions/manali/solang-valley-3.jpg"
+        "/images/attractions/manali/solang-valley-3.jpg",
+        "/images/attractions/manali/solang-valley-4.jpg",
+        "/images/attractions/manali/solang-valley-5.jpg",
+        "/images/attractions/manali/solang-valley-6.jpg"
       ]
     },
     {
@@ -518,7 +611,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/manali/jogini-waterfalls-1.jpg",
         "/images/attractions/manali/jogini-waterfalls-2.jpg",
-        "/images/attractions/manali/jogini-waterfalls-3.jpg"
+        "/images/attractions/manali/jogini-waterfalls-3.jpg",
+        "/images/attractions/manali/jogini-waterfalls-4.jpg",
+        "/images/attractions/manali/jogini-waterfalls-5.jpg",
+        "/images/attractions/manali/jogini-waterfalls-6.jpg"
       ]
     },
     {
@@ -534,7 +630,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/manali/vashisht-temple-1.jpg",
         "/images/attractions/manali/vashisht-temple-2.jpg",
-        "/images/attractions/manali/vashisht-temple-3.jpg"
+        "/images/attractions/manali/vashisht-temple-3.jpg",
+        "/images/attractions/manali/vashisht-temple-4.jpg",
+        "/images/attractions/manali/vashisht-temple-5.jpg",
+        "/images/attractions/manali/vashisht-temple-6.jpg"
       ]
     },
     {
@@ -550,7 +649,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/manali/manu-temple-1.jpg",
         "/images/attractions/manali/manu-temple-2.jpg",
-        "/images/attractions/manali/manu-temple-3.jpg"
+        "/images/attractions/manali/manu-temple-3.jpg",
+        "/images/attractions/manali/manu-temple-4.jpg",
+        "/images/attractions/manali/manu-temple-5.jpg",
+        "/images/attractions/manali/manu-temple-6.jpg"
       ]
     },
     {
@@ -566,7 +668,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/manali/himachal-museum-1.jpg",
         "/images/attractions/manali/himachal-museum-2.jpg",
-        "/images/attractions/manali/himachal-museum-3.jpg"
+        "/images/attractions/manali/himachal-museum-3.jpg",
+        "/images/attractions/manali/himachal-museum-4.jpg",
+        "/images/attractions/manali/himachal-museum-5.jpg",
+        "/images/attractions/manali/himachal-museum-6.jpg"
       ]
     },
     {
@@ -582,7 +687,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/manali/van-vihar-1.jpg",
         "/images/attractions/manali/van-vihar-2.jpg",
-        "/images/attractions/manali/van-vihar-3.jpg"
+        "/images/attractions/manali/van-vihar-3.jpg",
+        "/images/attractions/manali/van-vihar-4.jpg",
+        "/images/attractions/manali/van-vihar-5.jpg",
+        "/images/attractions/manali/van-vihar-6.jpg"
       ]
     },
     {
@@ -598,7 +706,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/manali/naggar-castle-1.jpg",
         "/images/attractions/manali/naggar-castle-2.jpg",
-        "/images/attractions/manali/naggar-castle-3.jpg"
+        "/images/attractions/manali/naggar-castle-3.jpg",
+        "/images/attractions/manali/naggar-castle-4.jpg",
+        "/images/attractions/manali/naggar-castle-5.jpg",
+        "/images/attractions/manali/naggar-castle-6.jpg"
       ]
     },
     {
@@ -614,7 +725,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/manali/atal-tunnel-1.jpg",
         "/images/attractions/manali/atal-tunnel-2.jpg",
-        "/images/attractions/manali/atal-tunnel-3.jpg"
+        "/images/attractions/manali/atal-tunnel-3.jpg",
+        "/images/attractions/manali/atal-tunnel-4.jpg",
+        "/images/attractions/manali/atal-tunnel-5.jpg",
+        "/images/attractions/manali/atal-tunnel-6.jpg"
       ]
     },
     {
@@ -630,7 +744,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/manali/bhrigu-lake-1.jpg",
         "/images/attractions/manali/bhrigu-lake-2.jpg",
-        "/images/attractions/manali/bhrigu-lake-3.jpg"
+        "/images/attractions/manali/bhrigu-lake-3.jpg",
+        "/images/attractions/manali/bhrigu-lake-4.jpg",
+        "/images/attractions/manali/bhrigu-lake-5.jpg",
+        "/images/attractions/manali/bhrigu-lake-6.jpg"
       ]
     },
     {
@@ -642,11 +759,14 @@ export const CURATED_ATTRACTIONS = {
       "category": "Tibetan Gompa",
       "lat": 32.2415,
       "lng": 77.1895,
-      "photo": "/images/attractions/manali/manu-temple-1.jpg",
+      "photo": "/images/attractions/manali/gadhan-thekchhokling-gompa-1.jpg",
       "photos": [
-        "/images/attractions/manali/manu-temple-1.jpg",
-        "/images/attractions/manali/manu-temple-2.jpg",
-        "/images/attractions/manali/manu-temple-3.jpg"
+        "/images/attractions/manali/gadhan-thekchhokling-gompa-1.jpg",
+        "/images/attractions/manali/gadhan-thekchhokling-gompa-2.jpg",
+        "/images/attractions/manali/gadhan-thekchhokling-gompa-3.jpg",
+        "/images/attractions/manali/gadhan-thekchhokling-gompa-4.jpg",
+        "/images/attractions/manali/gadhan-thekchhokling-gompa-5.jpg",
+        "/images/attractions/manali/gadhan-thekchhokling-gompa-6.jpg"
       ]
     },
     {
@@ -658,11 +778,14 @@ export const CURATED_ATTRACTIONS = {
       "category": "Forest Falls",
       "lat": 32.14,
       "lng": 77.21,
-      "photo": "/images/attractions/manali/jogini-waterfalls-1.jpg",
+      "photo": "/images/attractions/manali/jana-waterfall-1.jpg",
       "photos": [
-        "/images/attractions/manali/jogini-waterfalls-1.jpg",
-        "/images/attractions/manali/jogini-waterfalls-2.jpg",
-        "/images/attractions/manali/jogini-waterfalls-3.jpg"
+        "/images/attractions/manali/jana-waterfall-1.jpg",
+        "/images/attractions/manali/jana-waterfall-2.jpg",
+        "/images/attractions/manali/jana-waterfall-3.jpg",
+        "/images/attractions/manali/jana-waterfall-4.jpg",
+        "/images/attractions/manali/jana-waterfall-5.jpg",
+        "/images/attractions/manali/jana-waterfall-6.jpg"
       ]
     },
     {
@@ -678,7 +801,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/manali/hampta-pass-1.jpg",
         "/images/attractions/manali/hampta-pass-2.jpg",
-        "/images/attractions/manali/hampta-pass-3.jpg"
+        "/images/attractions/manali/hampta-pass-3.jpg",
+        "/images/attractions/manali/hampta-pass-4.jpg",
+        "/images/attractions/manali/hampta-pass-5.jpg",
+        "/images/attractions/manali/hampta-pass-6.jpg"
       ]
     },
     {
@@ -694,7 +820,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/manali/mall-road-1.jpg",
         "/images/attractions/manali/mall-road-2.jpg",
-        "/images/attractions/manali/mall-road-3.jpg"
+        "/images/attractions/manali/mall-road-3.jpg",
+        "/images/attractions/manali/mall-road-4.jpg",
+        "/images/attractions/manali/mall-road-5.jpg",
+        "/images/attractions/manali/mall-road-6.jpg"
       ]
     }
   ],
@@ -712,7 +841,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/jaipur/amber-palace-1.jpg",
         "/images/attractions/jaipur/amber-palace-2.jpg",
-        "/images/attractions/jaipur/amber-palace-3.jpg"
+        "/images/attractions/jaipur/amber-palace-3.jpg",
+        "/images/attractions/jaipur/amber-palace-4.jpg",
+        "/images/attractions/jaipur/amber-palace-5.jpg",
+        "/images/attractions/jaipur/amber-palace-6.jpg"
       ]
     },
     {
@@ -728,7 +860,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/jaipur/hawa-mahal-1.jpg",
         "/images/attractions/jaipur/hawa-mahal-2.jpg",
-        "/images/attractions/jaipur/hawa-mahal-3.jpg"
+        "/images/attractions/jaipur/hawa-mahal-3.jpg",
+        "/images/attractions/jaipur/hawa-mahal-4.jpg",
+        "/images/attractions/jaipur/hawa-mahal-5.jpg",
+        "/images/attractions/jaipur/hawa-mahal-6.jpg"
       ]
     },
     {
@@ -744,7 +879,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/jaipur/city-palace-1.jpg",
         "/images/attractions/jaipur/city-palace-2.jpg",
-        "/images/attractions/jaipur/city-palace-3.jpg"
+        "/images/attractions/jaipur/city-palace-3.jpg",
+        "/images/attractions/jaipur/city-palace-4.jpg",
+        "/images/attractions/jaipur/city-palace-5.jpg",
+        "/images/attractions/jaipur/city-palace-6.jpg"
       ]
     },
     {
@@ -760,7 +898,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/jaipur/jantar-mantar-1.jpg",
         "/images/attractions/jaipur/jantar-mantar-2.jpg",
-        "/images/attractions/jaipur/jantar-mantar-3.jpg"
+        "/images/attractions/jaipur/jantar-mantar-3.jpg",
+        "/images/attractions/jaipur/jantar-mantar-4.jpg",
+        "/images/attractions/jaipur/jantar-mantar-5.jpg",
+        "/images/attractions/jaipur/jantar-mantar-6.jpg"
       ]
     },
     {
@@ -776,7 +917,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/jaipur/nahargarh-fort-1.jpg",
         "/images/attractions/jaipur/nahargarh-fort-2.jpg",
-        "/images/attractions/jaipur/nahargarh-fort-3.jpg"
+        "/images/attractions/jaipur/nahargarh-fort-3.jpg",
+        "/images/attractions/jaipur/nahargarh-fort-4.jpg",
+        "/images/attractions/jaipur/nahargarh-fort-5.jpg",
+        "/images/attractions/jaipur/nahargarh-fort-6.jpg"
       ]
     },
     {
@@ -792,7 +936,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/jaipur/jaigarh-fort-1.jpg",
         "/images/attractions/jaipur/jaigarh-fort-2.jpg",
-        "/images/attractions/jaipur/jaigarh-fort-3.jpg"
+        "/images/attractions/jaipur/jaigarh-fort-3.jpg",
+        "/images/attractions/jaipur/jaigarh-fort-4.jpg",
+        "/images/attractions/jaipur/jaigarh-fort-5.jpg",
+        "/images/attractions/jaipur/jaigarh-fort-6.jpg"
       ]
     },
     {
@@ -808,7 +955,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/jaipur/jal-mahal-1.jpg",
         "/images/attractions/jaipur/jal-mahal-2.jpg",
-        "/images/attractions/jaipur/jal-mahal-3.jpg"
+        "/images/attractions/jaipur/jal-mahal-3.jpg",
+        "/images/attractions/jaipur/jal-mahal-4.jpg",
+        "/images/attractions/jaipur/jal-mahal-5.jpg",
+        "/images/attractions/jaipur/jal-mahal-6.jpg"
       ]
     },
     {
@@ -824,7 +974,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/jaipur/albert-hall-1.jpg",
         "/images/attractions/jaipur/albert-hall-2.jpg",
-        "/images/attractions/jaipur/albert-hall-3.jpg"
+        "/images/attractions/jaipur/albert-hall-3.jpg",
+        "/images/attractions/jaipur/albert-hall-4.jpg",
+        "/images/attractions/jaipur/albert-hall-5.jpg",
+        "/images/attractions/jaipur/albert-hall-6.jpg"
       ]
     },
     {
@@ -840,7 +993,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/jaipur/galtaji-temple-1.jpg",
         "/images/attractions/jaipur/galtaji-temple-2.jpg",
-        "/images/attractions/jaipur/galtaji-temple-3.jpg"
+        "/images/attractions/jaipur/galtaji-temple-3.jpg",
+        "/images/attractions/jaipur/galtaji-temple-4.jpg",
+        "/images/attractions/jaipur/galtaji-temple-5.jpg",
+        "/images/attractions/jaipur/galtaji-temple-6.jpg"
       ]
     },
     {
@@ -856,7 +1012,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/jaipur/panna-meena-kund-1.jpg",
         "/images/attractions/jaipur/panna-meena-kund-2.jpg",
-        "/images/attractions/jaipur/panna-meena-kund-3.jpg"
+        "/images/attractions/jaipur/panna-meena-kund-3.jpg",
+        "/images/attractions/jaipur/panna-meena-kund-4.jpg",
+        "/images/attractions/jaipur/panna-meena-kund-5.jpg",
+        "/images/attractions/jaipur/panna-meena-kund-6.jpg"
       ]
     },
     {
@@ -872,7 +1031,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/jaipur/birla-mandir-1.jpg",
         "/images/attractions/jaipur/birla-mandir-2.jpg",
-        "/images/attractions/jaipur/birla-mandir-3.jpg"
+        "/images/attractions/jaipur/birla-mandir-3.jpg",
+        "/images/attractions/jaipur/birla-mandir-4.jpg",
+        "/images/attractions/jaipur/birla-mandir-5.jpg",
+        "/images/attractions/jaipur/birla-mandir-6.jpg"
       ]
     },
     {
@@ -888,7 +1050,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/jaipur/sisodia-rani-garden-1.jpg",
         "/images/attractions/jaipur/sisodia-rani-garden-2.jpg",
-        "/images/attractions/jaipur/sisodia-rani-garden-3.jpg"
+        "/images/attractions/jaipur/sisodia-rani-garden-3.jpg",
+        "/images/attractions/jaipur/sisodia-rani-garden-4.jpg",
+        "/images/attractions/jaipur/sisodia-rani-garden-5.jpg",
+        "/images/attractions/jaipur/sisodia-rani-garden-6.jpg"
       ]
     },
     {
@@ -904,7 +1069,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/jaipur/johari-bazar-1.jpg",
         "/images/attractions/jaipur/johari-bazar-2.jpg",
-        "/images/attractions/jaipur/johari-bazar-3.jpg"
+        "/images/attractions/jaipur/johari-bazar-3.jpg",
+        "/images/attractions/jaipur/johari-bazar-4.jpg",
+        "/images/attractions/jaipur/johari-bazar-5.jpg",
+        "/images/attractions/jaipur/johari-bazar-6.jpg"
       ]
     },
     {
@@ -920,7 +1088,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/jaipur/patrika-gate-1.jpg",
         "/images/attractions/jaipur/patrika-gate-2.jpg",
-        "/images/attractions/jaipur/patrika-gate-3.jpg"
+        "/images/attractions/jaipur/patrika-gate-3.jpg",
+        "/images/attractions/jaipur/patrika-gate-4.jpg",
+        "/images/attractions/jaipur/patrika-gate-5.jpg",
+        "/images/attractions/jaipur/patrika-gate-6.jpg"
       ]
     }
   ],
@@ -938,7 +1109,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/udaipur/city-palace-1.jpg",
         "/images/attractions/udaipur/city-palace-2.jpg",
-        "/images/attractions/udaipur/city-palace-3.jpg"
+        "/images/attractions/udaipur/city-palace-3.jpg",
+        "/images/attractions/udaipur/city-palace-4.jpg",
+        "/images/attractions/udaipur/city-palace-5.jpg",
+        "/images/attractions/udaipur/city-palace-6.jpg"
       ]
     },
     {
@@ -954,7 +1128,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/udaipur/lake-pichola-1.jpg",
         "/images/attractions/udaipur/lake-pichola-2.jpg",
-        "/images/attractions/udaipur/lake-pichola-3.jpg"
+        "/images/attractions/udaipur/lake-pichola-3.jpg",
+        "/images/attractions/udaipur/lake-pichola-4.jpg",
+        "/images/attractions/udaipur/lake-pichola-5.jpg",
+        "/images/attractions/udaipur/lake-pichola-6.jpg"
       ]
     },
     {
@@ -970,7 +1147,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/udaipur/jag-mandir-1.jpg",
         "/images/attractions/udaipur/jag-mandir-2.jpg",
-        "/images/attractions/udaipur/jag-mandir-3.jpg"
+        "/images/attractions/udaipur/jag-mandir-3.jpg",
+        "/images/attractions/udaipur/jag-mandir-4.jpg",
+        "/images/attractions/udaipur/jag-mandir-5.jpg",
+        "/images/attractions/udaipur/jag-mandir-6.jpg"
       ]
     },
     {
@@ -986,7 +1166,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/udaipur/saheliyon-ki-bari-1.jpg",
         "/images/attractions/udaipur/saheliyon-ki-bari-2.jpg",
-        "/images/attractions/udaipur/saheliyon-ki-bari-3.jpg"
+        "/images/attractions/udaipur/saheliyon-ki-bari-3.jpg",
+        "/images/attractions/udaipur/saheliyon-ki-bari-4.jpg",
+        "/images/attractions/udaipur/saheliyon-ki-bari-5.jpg",
+        "/images/attractions/udaipur/saheliyon-ki-bari-6.jpg"
       ]
     },
     {
@@ -1002,7 +1185,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/udaipur/jagdish-temple-1.jpg",
         "/images/attractions/udaipur/jagdish-temple-2.jpg",
-        "/images/attractions/udaipur/jagdish-temple-3.jpg"
+        "/images/attractions/udaipur/jagdish-temple-3.jpg",
+        "/images/attractions/udaipur/jagdish-temple-4.jpg",
+        "/images/attractions/udaipur/jagdish-temple-5.jpg",
+        "/images/attractions/udaipur/jagdish-temple-6.jpg"
       ]
     },
     {
@@ -1018,7 +1204,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/udaipur/bagore-ki-haveli-1.jpg",
         "/images/attractions/udaipur/bagore-ki-haveli-2.jpg",
-        "/images/attractions/udaipur/bagore-ki-haveli-3.jpg"
+        "/images/attractions/udaipur/bagore-ki-haveli-3.jpg",
+        "/images/attractions/udaipur/bagore-ki-haveli-4.jpg",
+        "/images/attractions/udaipur/bagore-ki-haveli-5.jpg",
+        "/images/attractions/udaipur/bagore-ki-haveli-6.jpg"
       ]
     },
     {
@@ -1034,7 +1223,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/udaipur/monsoon-palace-1.jpg",
         "/images/attractions/udaipur/monsoon-palace-2.jpg",
-        "/images/attractions/udaipur/monsoon-palace-3.jpg"
+        "/images/attractions/udaipur/monsoon-palace-3.jpg",
+        "/images/attractions/udaipur/monsoon-palace-4.jpg",
+        "/images/attractions/udaipur/monsoon-palace-5.jpg",
+        "/images/attractions/udaipur/monsoon-palace-6.jpg"
       ]
     },
     {
@@ -1050,7 +1242,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/udaipur/fateh-sagar-lake-1.jpg",
         "/images/attractions/udaipur/fateh-sagar-lake-2.jpg",
-        "/images/attractions/udaipur/fateh-sagar-lake-3.jpg"
+        "/images/attractions/udaipur/fateh-sagar-lake-3.jpg",
+        "/images/attractions/udaipur/fateh-sagar-lake-4.jpg",
+        "/images/attractions/udaipur/fateh-sagar-lake-5.jpg",
+        "/images/attractions/udaipur/fateh-sagar-lake-6.jpg"
       ]
     },
     {
@@ -1066,7 +1261,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/udaipur/shilpgram-1.jpg",
         "/images/attractions/udaipur/shilpgram-2.jpg",
-        "/images/attractions/udaipur/shilpgram-3.jpg"
+        "/images/attractions/udaipur/shilpgram-3.jpg",
+        "/images/attractions/udaipur/shilpgram-4.jpg",
+        "/images/attractions/udaipur/shilpgram-5.jpg",
+        "/images/attractions/udaipur/shilpgram-6.jpg"
       ]
     },
     {
@@ -1082,7 +1280,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/udaipur/karni-mata-ropeway-1.jpg",
         "/images/attractions/udaipur/karni-mata-ropeway-2.jpg",
-        "/images/attractions/udaipur/karni-mata-ropeway-3.jpg"
+        "/images/attractions/udaipur/karni-mata-ropeway-3.jpg",
+        "/images/attractions/udaipur/karni-mata-ropeway-4.jpg",
+        "/images/attractions/udaipur/karni-mata-ropeway-5.jpg",
+        "/images/attractions/udaipur/karni-mata-ropeway-6.jpg"
       ]
     },
     {
@@ -1098,7 +1299,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/udaipur/ahar-cenotaphs-1.jpg",
         "/images/attractions/udaipur/ahar-cenotaphs-2.jpg",
-        "/images/attractions/udaipur/ahar-cenotaphs-3.jpg"
+        "/images/attractions/udaipur/ahar-cenotaphs-3.jpg",
+        "/images/attractions/udaipur/ahar-cenotaphs-4.jpg",
+        "/images/attractions/udaipur/ahar-cenotaphs-5.jpg",
+        "/images/attractions/udaipur/ahar-cenotaphs-6.jpg"
       ]
     },
     {
@@ -1114,7 +1318,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/udaipur/vintage-car-museum-1.jpg",
         "/images/attractions/udaipur/vintage-car-museum-2.jpg",
-        "/images/attractions/udaipur/vintage-car-museum-3.jpg"
+        "/images/attractions/udaipur/vintage-car-museum-3.jpg",
+        "/images/attractions/udaipur/vintage-car-museum-4.jpg",
+        "/images/attractions/udaipur/vintage-car-museum-5.jpg",
+        "/images/attractions/udaipur/vintage-car-museum-6.jpg"
       ]
     },
     {
@@ -1130,7 +1337,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/udaipur/ambrai-ghat-1.jpg",
         "/images/attractions/udaipur/ambrai-ghat-2.jpg",
-        "/images/attractions/udaipur/ambrai-ghat-3.jpg"
+        "/images/attractions/udaipur/ambrai-ghat-3.jpg",
+        "/images/attractions/udaipur/ambrai-ghat-4.jpg",
+        "/images/attractions/udaipur/ambrai-ghat-5.jpg",
+        "/images/attractions/udaipur/ambrai-ghat-6.jpg"
       ]
     },
     {
@@ -1146,7 +1356,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/udaipur/badi-lake-1.jpg",
         "/images/attractions/udaipur/badi-lake-2.jpg",
-        "/images/attractions/udaipur/badi-lake-3.jpg"
+        "/images/attractions/udaipur/badi-lake-3.jpg",
+        "/images/attractions/udaipur/badi-lake-4.jpg",
+        "/images/attractions/udaipur/badi-lake-5.jpg",
+        "/images/attractions/udaipur/badi-lake-6.jpg"
       ]
     }
   ],
@@ -1164,7 +1377,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/munnar/eravikulam-national-park-1.jpg",
         "/images/attractions/munnar/eravikulam-national-park-2.jpg",
-        "/images/attractions/munnar/eravikulam-national-park-3.jpg"
+        "/images/attractions/munnar/eravikulam-national-park-3.jpg",
+        "/images/attractions/munnar/eravikulam-national-park-4.jpg",
+        "/images/attractions/munnar/eravikulam-national-park-5.jpg",
+        "/images/attractions/munnar/eravikulam-national-park-6.jpg"
       ]
     },
     {
@@ -1180,7 +1396,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/munnar/tea-museum-1.jpg",
         "/images/attractions/munnar/tea-museum-2.jpg",
-        "/images/attractions/munnar/tea-museum-3.jpg"
+        "/images/attractions/munnar/tea-museum-3.jpg",
+        "/images/attractions/munnar/tea-museum-4.jpg",
+        "/images/attractions/munnar/tea-museum-5.jpg",
+        "/images/attractions/munnar/tea-museum-6.jpg"
       ]
     },
     {
@@ -1196,7 +1415,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/munnar/mattupetty-dam-1.jpg",
         "/images/attractions/munnar/mattupetty-dam-2.jpg",
-        "/images/attractions/munnar/mattupetty-dam-3.jpg"
+        "/images/attractions/munnar/mattupetty-dam-3.jpg",
+        "/images/attractions/munnar/mattupetty-dam-4.jpg",
+        "/images/attractions/munnar/mattupetty-dam-5.jpg",
+        "/images/attractions/munnar/mattupetty-dam-6.jpg"
       ]
     },
     {
@@ -1212,7 +1434,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/munnar/top-station-1.jpg",
         "/images/attractions/munnar/top-station-2.jpg",
-        "/images/attractions/munnar/top-station-3.jpg"
+        "/images/attractions/munnar/top-station-3.jpg",
+        "/images/attractions/munnar/top-station-4.jpg",
+        "/images/attractions/munnar/top-station-5.jpg",
+        "/images/attractions/munnar/top-station-6.jpg"
       ]
     },
     {
@@ -1227,7 +1452,11 @@ export const CURATED_ATTRACTIONS = {
       "photo": "/images/attractions/munnar/attukad-waterfalls-1.jpg",
       "photos": [
         "/images/attractions/munnar/attukad-waterfalls-1.jpg",
-        "/images/attractions/munnar/attukad-waterfalls-2.jpg"
+        "/images/attractions/munnar/attukad-waterfalls-2.jpg",
+        "/images/attractions/munnar/attukad-waterfalls-3.jpg",
+        "/images/attractions/munnar/attukad-waterfalls-4.jpg",
+        "/images/attractions/munnar/attukad-waterfalls-5.jpg",
+        "/images/attractions/munnar/attukad-waterfalls-6.jpg"
       ]
     },
     {
@@ -1243,7 +1472,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/munnar/kundala-dam-1.jpg",
         "/images/attractions/munnar/kundala-dam-2.jpg",
-        "/images/attractions/munnar/kundala-dam-3.jpg"
+        "/images/attractions/munnar/kundala-dam-3.jpg",
+        "/images/attractions/munnar/kundala-dam-4.jpg",
+        "/images/attractions/munnar/kundala-dam-5.jpg",
+        "/images/attractions/munnar/kundala-dam-6.jpg"
       ]
     },
     {
@@ -1259,7 +1491,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/munnar/anamudi-peak-1.jpg",
         "/images/attractions/munnar/anamudi-peak-2.jpg",
-        "/images/attractions/munnar/anamudi-peak-3.jpg"
+        "/images/attractions/munnar/anamudi-peak-3.jpg",
+        "/images/attractions/munnar/anamudi-peak-4.jpg",
+        "/images/attractions/munnar/anamudi-peak-5.jpg",
+        "/images/attractions/munnar/anamudi-peak-6.jpg"
       ]
     },
     {
@@ -1275,7 +1510,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/munnar/photo-point-1.jpg",
         "/images/attractions/munnar/photo-point-2.jpg",
-        "/images/attractions/munnar/photo-point-3.jpg"
+        "/images/attractions/munnar/photo-point-3.jpg",
+        "/images/attractions/munnar/photo-point-4.jpg",
+        "/images/attractions/munnar/photo-point-5.jpg",
+        "/images/attractions/munnar/photo-point-6.jpg"
       ]
     },
     {
@@ -1289,7 +1527,12 @@ export const CURATED_ATTRACTIONS = {
       "lng": 77.062,
       "photo": "/images/attractions/munnar/pothamedu-viewpoint-1.jpg",
       "photos": [
-        "/images/attractions/munnar/pothamedu-viewpoint-1.jpg"
+        "/images/attractions/munnar/pothamedu-viewpoint-1.jpg",
+        "/images/attractions/munnar/pothamedu-viewpoint-2.jpg",
+        "/images/attractions/munnar/pothamedu-viewpoint-3.jpg",
+        "/images/attractions/munnar/pothamedu-viewpoint-4.jpg",
+        "/images/attractions/munnar/pothamedu-viewpoint-5.jpg",
+        "/images/attractions/munnar/pothamedu-viewpoint-6.jpg"
       ]
     },
     {
@@ -1305,7 +1548,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/munnar/lakkam-waterfalls-1.jpg",
         "/images/attractions/munnar/lakkam-waterfalls-2.jpg",
-        "/images/attractions/munnar/lakkam-waterfalls-3.jpg"
+        "/images/attractions/munnar/lakkam-waterfalls-3.jpg",
+        "/images/attractions/munnar/lakkam-waterfalls-4.jpg",
+        "/images/attractions/munnar/lakkam-waterfalls-5.jpg",
+        "/images/attractions/munnar/lakkam-waterfalls-6.jpg"
       ]
     },
     {
@@ -1321,7 +1567,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/munnar/chinnar-sanctuary-1.jpg",
         "/images/attractions/munnar/chinnar-sanctuary-2.jpg",
-        "/images/attractions/munnar/chinnar-sanctuary-3.jpg"
+        "/images/attractions/munnar/chinnar-sanctuary-3.jpg",
+        "/images/attractions/munnar/chinnar-sanctuary-4.jpg",
+        "/images/attractions/munnar/chinnar-sanctuary-5.jpg",
+        "/images/attractions/munnar/chinnar-sanctuary-6.jpg"
       ]
     },
     {
@@ -1337,7 +1586,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/munnar/kolukkumalai-tea-1.jpg",
         "/images/attractions/munnar/kolukkumalai-tea-2.jpg",
-        "/images/attractions/munnar/kolukkumalai-tea-3.jpg"
+        "/images/attractions/munnar/kolukkumalai-tea-3.jpg",
+        "/images/attractions/munnar/kolukkumalai-tea-4.jpg",
+        "/images/attractions/munnar/kolukkumalai-tea-5.jpg",
+        "/images/attractions/munnar/kolukkumalai-tea-6.jpg"
       ]
     },
     {
@@ -1349,11 +1601,14 @@ export const CURATED_ATTRACTIONS = {
       "category": "Hydel Flora Park",
       "lat": 10.071,
       "lng": 77.061,
-      "photo": "/images/attractions/munnar/photo-point-1.jpg",
+      "photo": "/images/attractions/munnar/blossom-hydel-park-1.jpg",
       "photos": [
-        "/images/attractions/munnar/photo-point-1.jpg",
-        "/images/attractions/munnar/photo-point-2.jpg",
-        "/images/attractions/munnar/photo-point-3.jpg"
+        "/images/attractions/munnar/blossom-hydel-park-1.jpg",
+        "/images/attractions/munnar/blossom-hydel-park-2.jpg",
+        "/images/attractions/munnar/blossom-hydel-park-3.jpg",
+        "/images/attractions/munnar/blossom-hydel-park-4.jpg",
+        "/images/attractions/munnar/blossom-hydel-park-5.jpg",
+        "/images/attractions/munnar/blossom-hydel-park-6.jpg"
       ]
     },
     {
@@ -1369,7 +1624,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/munnar/marayoor-dolmens-1.jpg",
         "/images/attractions/munnar/marayoor-dolmens-2.jpg",
-        "/images/attractions/munnar/marayoor-dolmens-3.jpg"
+        "/images/attractions/munnar/marayoor-dolmens-3.jpg",
+        "/images/attractions/munnar/marayoor-dolmens-4.jpg",
+        "/images/attractions/munnar/marayoor-dolmens-5.jpg",
+        "/images/attractions/munnar/marayoor-dolmens-6.jpg"
       ]
     }
   ],
@@ -1387,7 +1645,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/shimla/the-ridge-1.jpg",
         "/images/attractions/shimla/the-ridge-2.jpg",
-        "/images/attractions/shimla/the-ridge-3.jpg"
+        "/images/attractions/shimla/the-ridge-3.jpg",
+        "/images/attractions/shimla/the-ridge-4.jpg",
+        "/images/attractions/shimla/the-ridge-5.jpg",
+        "/images/attractions/shimla/the-ridge-6.jpg"
       ]
     },
     {
@@ -1403,7 +1664,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/shimla/jakhu-temple-1.jpg",
         "/images/attractions/shimla/jakhu-temple-2.jpg",
-        "/images/attractions/shimla/jakhu-temple-3.jpg"
+        "/images/attractions/shimla/jakhu-temple-3.jpg",
+        "/images/attractions/shimla/jakhu-temple-4.jpg",
+        "/images/attractions/shimla/jakhu-temple-5.jpg",
+        "/images/attractions/shimla/jakhu-temple-6.jpg"
       ]
     },
     {
@@ -1419,7 +1683,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/shimla/mall-road-1.jpg",
         "/images/attractions/shimla/mall-road-2.jpg",
-        "/images/attractions/shimla/mall-road-3.jpg"
+        "/images/attractions/shimla/mall-road-3.jpg",
+        "/images/attractions/shimla/mall-road-4.jpg",
+        "/images/attractions/shimla/mall-road-5.jpg",
+        "/images/attractions/shimla/mall-road-6.jpg"
       ]
     },
     {
@@ -1435,7 +1702,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/shimla/kalka-shimla-train-1.jpg",
         "/images/attractions/shimla/kalka-shimla-train-2.jpg",
-        "/images/attractions/shimla/kalka-shimla-train-3.jpg"
+        "/images/attractions/shimla/kalka-shimla-train-3.jpg",
+        "/images/attractions/shimla/kalka-shimla-train-4.jpg",
+        "/images/attractions/shimla/kalka-shimla-train-5.jpg",
+        "/images/attractions/shimla/kalka-shimla-train-6.jpg"
       ]
     },
     {
@@ -1451,7 +1721,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/shimla/viceregal-lodge-1.jpg",
         "/images/attractions/shimla/viceregal-lodge-2.jpg",
-        "/images/attractions/shimla/viceregal-lodge-3.jpg"
+        "/images/attractions/shimla/viceregal-lodge-3.jpg",
+        "/images/attractions/shimla/viceregal-lodge-4.jpg",
+        "/images/attractions/shimla/viceregal-lodge-5.jpg",
+        "/images/attractions/shimla/viceregal-lodge-6.jpg"
       ]
     },
     {
@@ -1467,7 +1740,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/shimla/kufri-fun-world-1.jpg",
         "/images/attractions/shimla/kufri-fun-world-2.jpg",
-        "/images/attractions/shimla/kufri-fun-world-3.jpg"
+        "/images/attractions/shimla/kufri-fun-world-3.jpg",
+        "/images/attractions/shimla/kufri-fun-world-4.jpg",
+        "/images/attractions/shimla/kufri-fun-world-5.jpg",
+        "/images/attractions/shimla/kufri-fun-world-6.jpg"
       ]
     },
     {
@@ -1483,7 +1759,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/shimla/tara-devi-temple-1.jpg",
         "/images/attractions/shimla/tara-devi-temple-2.jpg",
-        "/images/attractions/shimla/tara-devi-temple-3.jpg"
+        "/images/attractions/shimla/tara-devi-temple-3.jpg",
+        "/images/attractions/shimla/tara-devi-temple-4.jpg",
+        "/images/attractions/shimla/tara-devi-temple-5.jpg",
+        "/images/attractions/shimla/tara-devi-temple-6.jpg"
       ]
     },
     {
@@ -1497,7 +1776,12 @@ export const CURATED_ATTRACTIONS = {
       "lng": 77.1438,
       "photo": "/images/attractions/shimla/chadwick-falls-1.jpg",
       "photos": [
-        "/images/attractions/shimla/chadwick-falls-1.jpg"
+        "/images/attractions/shimla/chadwick-falls-1.jpg",
+        "/images/attractions/shimla/chadwick-falls-2.jpg",
+        "/images/attractions/shimla/chadwick-falls-3.jpg",
+        "/images/attractions/shimla/chadwick-falls-4.jpg",
+        "/images/attractions/shimla/chadwick-falls-5.jpg",
+        "/images/attractions/shimla/chadwick-falls-6.jpg"
       ]
     },
     {
@@ -1513,7 +1797,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/shimla/annandale-ground-1.jpg",
         "/images/attractions/shimla/annandale-ground-2.jpg",
-        "/images/attractions/shimla/annandale-ground-3.jpg"
+        "/images/attractions/shimla/annandale-ground-3.jpg",
+        "/images/attractions/shimla/annandale-ground-4.jpg",
+        "/images/attractions/shimla/annandale-ground-5.jpg",
+        "/images/attractions/shimla/annandale-ground-6.jpg"
       ]
     },
     {
@@ -1529,7 +1816,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/shimla/summer-hill-1.jpg",
         "/images/attractions/shimla/summer-hill-2.jpg",
-        "/images/attractions/shimla/summer-hill-3.jpg"
+        "/images/attractions/shimla/summer-hill-3.jpg",
+        "/images/attractions/shimla/summer-hill-4.jpg",
+        "/images/attractions/shimla/summer-hill-5.jpg",
+        "/images/attractions/shimla/summer-hill-6.jpg"
       ]
     },
     {
@@ -1545,7 +1835,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/shimla/scandal-point-1.jpg",
         "/images/attractions/shimla/scandal-point-2.jpg",
-        "/images/attractions/shimla/scandal-point-3.jpg"
+        "/images/attractions/shimla/scandal-point-3.jpg",
+        "/images/attractions/shimla/scandal-point-4.jpg",
+        "/images/attractions/shimla/scandal-point-5.jpg",
+        "/images/attractions/shimla/scandal-point-6.jpg"
       ]
     },
     {
@@ -1561,7 +1854,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/shimla/mashobra-valley-1.jpg",
         "/images/attractions/shimla/mashobra-valley-2.jpg",
-        "/images/attractions/shimla/mashobra-valley-3.jpg"
+        "/images/attractions/shimla/mashobra-valley-3.jpg",
+        "/images/attractions/shimla/mashobra-valley-4.jpg",
+        "/images/attractions/shimla/mashobra-valley-5.jpg",
+        "/images/attractions/shimla/mashobra-valley-6.jpg"
       ]
     },
     {
@@ -1577,7 +1873,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/shimla/naldehra-golf-1.jpg",
         "/images/attractions/shimla/naldehra-golf-2.jpg",
-        "/images/attractions/shimla/naldehra-golf-3.jpg"
+        "/images/attractions/shimla/naldehra-golf-3.jpg",
+        "/images/attractions/shimla/naldehra-golf-4.jpg",
+        "/images/attractions/shimla/naldehra-golf-5.jpg",
+        "/images/attractions/shimla/naldehra-golf-6.jpg"
       ]
     },
     {
@@ -1593,7 +1892,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/shimla/himalayan-bird-park-1.jpg",
         "/images/attractions/shimla/himalayan-bird-park-2.jpg",
-        "/images/attractions/shimla/himalayan-bird-park-3.jpg"
+        "/images/attractions/shimla/himalayan-bird-park-3.jpg",
+        "/images/attractions/shimla/himalayan-bird-park-4.jpg",
+        "/images/attractions/shimla/himalayan-bird-park-5.jpg",
+        "/images/attractions/shimla/himalayan-bird-park-6.jpg"
       ]
     }
   ],
@@ -1611,7 +1913,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/andaman/cellular-jail-1.jpg",
         "/images/attractions/andaman/cellular-jail-2.jpg",
-        "/images/attractions/andaman/cellular-jail-3.jpg"
+        "/images/attractions/andaman/cellular-jail-3.jpg",
+        "/images/attractions/andaman/cellular-jail-4.jpg",
+        "/images/attractions/andaman/cellular-jail-5.jpg",
+        "/images/attractions/andaman/cellular-jail-6.jpg"
       ]
     },
     {
@@ -1627,7 +1932,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/andaman/radhanagar-beach-1.jpg",
         "/images/attractions/andaman/radhanagar-beach-2.jpg",
-        "/images/attractions/andaman/radhanagar-beach-3.jpg"
+        "/images/attractions/andaman/radhanagar-beach-3.jpg",
+        "/images/attractions/andaman/radhanagar-beach-4.jpg",
+        "/images/attractions/andaman/radhanagar-beach-5.jpg",
+        "/images/attractions/andaman/radhanagar-beach-6.jpg"
       ]
     },
     {
@@ -1643,7 +1951,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/andaman/elephant-beach-1.jpg",
         "/images/attractions/andaman/elephant-beach-2.jpg",
-        "/images/attractions/andaman/elephant-beach-3.jpg"
+        "/images/attractions/andaman/elephant-beach-3.jpg",
+        "/images/attractions/andaman/elephant-beach-4.jpg",
+        "/images/attractions/andaman/elephant-beach-5.jpg",
+        "/images/attractions/andaman/elephant-beach-6.jpg"
       ]
     },
     {
@@ -1659,7 +1970,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/andaman/ross-island-1.jpg",
         "/images/attractions/andaman/ross-island-2.jpg",
-        "/images/attractions/andaman/ross-island-3.jpg"
+        "/images/attractions/andaman/ross-island-3.jpg",
+        "/images/attractions/andaman/ross-island-4.jpg",
+        "/images/attractions/andaman/ross-island-5.jpg",
+        "/images/attractions/andaman/ross-island-6.jpg"
       ]
     },
     {
@@ -1675,7 +1989,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/andaman/bharatpur-beach-1.jpg",
         "/images/attractions/andaman/bharatpur-beach-2.jpg",
-        "/images/attractions/andaman/bharatpur-beach-3.jpg"
+        "/images/attractions/andaman/bharatpur-beach-3.jpg",
+        "/images/attractions/andaman/bharatpur-beach-4.jpg",
+        "/images/attractions/andaman/bharatpur-beach-5.jpg",
+        "/images/attractions/andaman/bharatpur-beach-6.jpg"
       ]
     },
     {
@@ -1689,7 +2006,12 @@ export const CURATED_ATTRACTIONS = {
       "lng": 93.018,
       "photo": "/images/attractions/andaman/laxmanpur-beach-1.jpg",
       "photos": [
-        "/images/attractions/andaman/laxmanpur-beach-1.jpg"
+        "/images/attractions/andaman/laxmanpur-beach-1.jpg",
+        "/images/attractions/andaman/laxmanpur-beach-2.jpg",
+        "/images/attractions/andaman/laxmanpur-beach-3.jpg",
+        "/images/attractions/andaman/laxmanpur-beach-4.jpg",
+        "/images/attractions/andaman/laxmanpur-beach-5.jpg",
+        "/images/attractions/andaman/laxmanpur-beach-6.jpg"
       ]
     },
     {
@@ -1705,7 +2027,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/andaman/kalapathar-beach-1.jpg",
         "/images/attractions/andaman/kalapathar-beach-2.jpg",
-        "/images/attractions/andaman/kalapathar-beach-3.jpg"
+        "/images/attractions/andaman/kalapathar-beach-3.jpg",
+        "/images/attractions/andaman/kalapathar-beach-4.jpg",
+        "/images/attractions/andaman/kalapathar-beach-5.jpg",
+        "/images/attractions/andaman/kalapathar-beach-6.jpg"
       ]
     },
     {
@@ -1721,7 +2046,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/andaman/north-bay-island-1.jpg",
         "/images/attractions/andaman/north-bay-island-2.jpg",
-        "/images/attractions/andaman/north-bay-island-3.jpg"
+        "/images/attractions/andaman/north-bay-island-3.jpg",
+        "/images/attractions/andaman/north-bay-island-4.jpg",
+        "/images/attractions/andaman/north-bay-island-5.jpg",
+        "/images/attractions/andaman/north-bay-island-6.jpg"
       ]
     },
     {
@@ -1737,7 +2065,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/andaman/baratang-caves-1.jpg",
         "/images/attractions/andaman/baratang-caves-2.jpg",
-        "/images/attractions/andaman/baratang-caves-3.jpg"
+        "/images/attractions/andaman/baratang-caves-3.jpg",
+        "/images/attractions/andaman/baratang-caves-4.jpg",
+        "/images/attractions/andaman/baratang-caves-5.jpg",
+        "/images/attractions/andaman/baratang-caves-6.jpg"
       ]
     },
     {
@@ -1753,7 +2084,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/andaman/jolly-buoy-island-1.jpg",
         "/images/attractions/andaman/jolly-buoy-island-2.jpg",
-        "/images/attractions/andaman/jolly-buoy-island-3.jpg"
+        "/images/attractions/andaman/jolly-buoy-island-3.jpg",
+        "/images/attractions/andaman/jolly-buoy-island-4.jpg",
+        "/images/attractions/andaman/jolly-buoy-island-5.jpg",
+        "/images/attractions/andaman/jolly-buoy-island-6.jpg"
       ]
     },
     {
@@ -1769,7 +2103,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/andaman/wandoor-beach-1.jpg",
         "/images/attractions/andaman/wandoor-beach-2.jpg",
-        "/images/attractions/andaman/wandoor-beach-3.jpg"
+        "/images/attractions/andaman/wandoor-beach-3.jpg",
+        "/images/attractions/andaman/wandoor-beach-4.jpg",
+        "/images/attractions/andaman/wandoor-beach-5.jpg",
+        "/images/attractions/andaman/wandoor-beach-6.jpg"
       ]
     },
     {
@@ -1785,7 +2122,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/andaman/corbyns-cove-1.jpg",
         "/images/attractions/andaman/corbyns-cove-2.jpg",
-        "/images/attractions/andaman/corbyns-cove-3.jpg"
+        "/images/attractions/andaman/corbyns-cove-3.jpg",
+        "/images/attractions/andaman/corbyns-cove-4.jpg",
+        "/images/attractions/andaman/corbyns-cove-5.jpg",
+        "/images/attractions/andaman/corbyns-cove-6.jpg"
       ]
     },
     {
@@ -1797,9 +2137,14 @@ export const CURATED_ATTRACTIONS = {
       "category": "Island Market",
       "lat": 11.6667,
       "lng": 92.7333,
-      "photo": "/images/destinations/andaman.jpg",
+      "photo": "/images/attractions/andaman/aberdeen-bazaar-1.jpg",
       "photos": [
-        "/images/destinations/andaman.jpg"
+        "/images/attractions/andaman/aberdeen-bazaar-1.jpg",
+        "/images/attractions/andaman/aberdeen-bazaar-2.jpg",
+        "/images/attractions/andaman/aberdeen-bazaar-3.jpg",
+        "/images/attractions/andaman/aberdeen-bazaar-4.jpg",
+        "/images/attractions/andaman/aberdeen-bazaar-5.jpg",
+        "/images/attractions/andaman/aberdeen-bazaar-6.jpg"
       ]
     },
     {
@@ -1811,9 +2156,14 @@ export const CURATED_ATTRACTIONS = {
       "category": "Highest Island Peak",
       "lat": 11.718,
       "lng": 92.735,
-      "photo": "/images/destinations/andaman.jpg",
+      "photo": "/images/attractions/andaman/mount-harriet-park-1.jpg",
       "photos": [
-        "/images/destinations/andaman.jpg"
+        "/images/attractions/andaman/mount-harriet-park-1.jpg",
+        "/images/attractions/andaman/mount-harriet-park-2.jpg",
+        "/images/attractions/andaman/mount-harriet-park-3.jpg",
+        "/images/attractions/andaman/mount-harriet-park-4.jpg",
+        "/images/attractions/andaman/mount-harriet-park-5.jpg",
+        "/images/attractions/andaman/mount-harriet-park-6.jpg"
       ]
     }
   ],
@@ -1831,7 +2181,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/coorg/abbey-falls-1.jpg",
         "/images/attractions/coorg/abbey-falls-2.jpg",
-        "/images/attractions/coorg/abbey-falls-3.jpg"
+        "/images/attractions/coorg/abbey-falls-3.jpg",
+        "/images/attractions/coorg/abbey-falls-4.jpg",
+        "/images/attractions/coorg/abbey-falls-5.jpg",
+        "/images/attractions/coorg/abbey-falls-6.jpg"
       ]
     },
     {
@@ -1847,7 +2200,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/coorg/rajas-seat-1.jpg",
         "/images/attractions/coorg/rajas-seat-2.jpg",
-        "/images/attractions/coorg/rajas-seat-3.jpg"
+        "/images/attractions/coorg/rajas-seat-3.jpg",
+        "/images/attractions/coorg/rajas-seat-4.jpg",
+        "/images/attractions/coorg/rajas-seat-5.jpg",
+        "/images/attractions/coorg/rajas-seat-6.jpg"
       ]
     },
     {
@@ -1863,7 +2219,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/coorg/namdroling-monastery-1.jpg",
         "/images/attractions/coorg/namdroling-monastery-2.jpg",
-        "/images/attractions/coorg/namdroling-monastery-3.jpg"
+        "/images/attractions/coorg/namdroling-monastery-3.jpg",
+        "/images/attractions/coorg/namdroling-monastery-4.jpg",
+        "/images/attractions/coorg/namdroling-monastery-5.jpg",
+        "/images/attractions/coorg/namdroling-monastery-6.jpg"
       ]
     },
     {
@@ -1879,7 +2238,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/coorg/dubare-elephant-camp-1.jpg",
         "/images/attractions/coorg/dubare-elephant-camp-2.jpg",
-        "/images/attractions/coorg/dubare-elephant-camp-3.jpg"
+        "/images/attractions/coorg/dubare-elephant-camp-3.jpg",
+        "/images/attractions/coorg/dubare-elephant-camp-4.jpg",
+        "/images/attractions/coorg/dubare-elephant-camp-5.jpg",
+        "/images/attractions/coorg/dubare-elephant-camp-6.jpg"
       ]
     },
     {
@@ -1893,7 +2255,12 @@ export const CURATED_ATTRACTIONS = {
       "lng": 75.492,
       "photo": "/images/attractions/coorg/talacauvery-1.jpg",
       "photos": [
-        "/images/attractions/coorg/talacauvery-1.jpg"
+        "/images/attractions/coorg/talacauvery-1.jpg",
+        "/images/attractions/coorg/talacauvery-2.jpg",
+        "/images/attractions/coorg/talacauvery-3.jpg",
+        "/images/attractions/coorg/talacauvery-4.jpg",
+        "/images/attractions/coorg/talacauvery-5.jpg",
+        "/images/attractions/coorg/talacauvery-6.jpg"
       ]
     },
     {
@@ -1909,7 +2276,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/coorg/madikeri-fort-1.jpg",
         "/images/attractions/coorg/madikeri-fort-2.jpg",
-        "/images/attractions/coorg/madikeri-fort-3.jpg"
+        "/images/attractions/coorg/madikeri-fort-3.jpg",
+        "/images/attractions/coorg/madikeri-fort-4.jpg",
+        "/images/attractions/coorg/madikeri-fort-5.jpg",
+        "/images/attractions/coorg/madikeri-fort-6.jpg"
       ]
     },
     {
@@ -1925,7 +2295,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/coorg/iruppu-falls-1.jpg",
         "/images/attractions/coorg/iruppu-falls-2.jpg",
-        "/images/attractions/coorg/iruppu-falls-3.jpg"
+        "/images/attractions/coorg/iruppu-falls-3.jpg",
+        "/images/attractions/coorg/iruppu-falls-4.jpg",
+        "/images/attractions/coorg/iruppu-falls-5.jpg",
+        "/images/attractions/coorg/iruppu-falls-6.jpg"
       ]
     },
     {
@@ -1941,7 +2314,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/coorg/tadiandamol-peak-1.jpg",
         "/images/attractions/coorg/tadiandamol-peak-2.jpg",
-        "/images/attractions/coorg/tadiandamol-peak-3.jpg"
+        "/images/attractions/coorg/tadiandamol-peak-3.jpg",
+        "/images/attractions/coorg/tadiandamol-peak-4.jpg",
+        "/images/attractions/coorg/tadiandamol-peak-5.jpg",
+        "/images/attractions/coorg/tadiandamol-peak-6.jpg"
       ]
     },
     {
@@ -1957,7 +2333,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/coorg/nagarhole-safari-1.jpg",
         "/images/attractions/coorg/nagarhole-safari-2.jpg",
-        "/images/attractions/coorg/nagarhole-safari-3.jpg"
+        "/images/attractions/coorg/nagarhole-safari-3.jpg",
+        "/images/attractions/coorg/nagarhole-safari-4.jpg",
+        "/images/attractions/coorg/nagarhole-safari-5.jpg",
+        "/images/attractions/coorg/nagarhole-safari-6.jpg"
       ]
     },
     {
@@ -1973,7 +2352,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/coorg/mandalpatti-peak-1.jpg",
         "/images/attractions/coorg/mandalpatti-peak-2.jpg",
-        "/images/attractions/coorg/mandalpatti-peak-3.jpg"
+        "/images/attractions/coorg/mandalpatti-peak-3.jpg",
+        "/images/attractions/coorg/mandalpatti-peak-4.jpg",
+        "/images/attractions/coorg/mandalpatti-peak-5.jpg",
+        "/images/attractions/coorg/mandalpatti-peak-6.jpg"
       ]
     },
     {
@@ -1989,7 +2371,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/coorg/omkareshwara-temple-1.jpg",
         "/images/attractions/coorg/omkareshwara-temple-2.jpg",
-        "/images/attractions/coorg/omkareshwara-temple-3.jpg"
+        "/images/attractions/coorg/omkareshwara-temple-3.jpg",
+        "/images/attractions/coorg/omkareshwara-temple-4.jpg",
+        "/images/attractions/coorg/omkareshwara-temple-5.jpg",
+        "/images/attractions/coorg/omkareshwara-temple-6.jpg"
       ]
     },
     {
@@ -2003,7 +2388,12 @@ export const CURATED_ATTRACTIONS = {
       "lng": 75.908,
       "photo": "/images/attractions/coorg/harangi-dam-1.jpg",
       "photos": [
-        "/images/attractions/coorg/harangi-dam-1.jpg"
+        "/images/attractions/coorg/harangi-dam-1.jpg",
+        "/images/attractions/coorg/harangi-dam-2.jpg",
+        "/images/attractions/coorg/harangi-dam-3.jpg",
+        "/images/attractions/coorg/harangi-dam-4.jpg",
+        "/images/attractions/coorg/harangi-dam-5.jpg",
+        "/images/attractions/coorg/harangi-dam-6.jpg"
       ]
     },
     {
@@ -2019,7 +2409,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/coorg/chelavara-falls-1.jpg",
         "/images/attractions/coorg/chelavara-falls-2.jpg",
-        "/images/attractions/coorg/chelavara-falls-3.jpg"
+        "/images/attractions/coorg/chelavara-falls-3.jpg",
+        "/images/attractions/coorg/chelavara-falls-4.jpg",
+        "/images/attractions/coorg/chelavara-falls-5.jpg",
+        "/images/attractions/coorg/chelavara-falls-6.jpg"
       ]
     },
     {
@@ -2031,9 +2424,14 @@ export const CURATED_ATTRACTIONS = {
       "category": "Royal Hideout",
       "lat": 12.24,
       "lng": 75.63,
-      "photo": "/images/destinations/coorg.jpg",
+      "photo": "/images/attractions/coorg/nalknad-palace-1.jpg",
       "photos": [
-        "/images/destinations/coorg.jpg"
+        "/images/attractions/coorg/nalknad-palace-1.jpg",
+        "/images/attractions/coorg/nalknad-palace-2.jpg",
+        "/images/attractions/coorg/nalknad-palace-3.jpg",
+        "/images/attractions/coorg/nalknad-palace-4.jpg",
+        "/images/attractions/coorg/nalknad-palace-5.jpg",
+        "/images/attractions/coorg/nalknad-palace-6.jpg"
       ]
     }
   ],
@@ -2051,7 +2449,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/mussoorie/kempty-falls-1.jpg",
         "/images/attractions/mussoorie/kempty-falls-2.jpg",
-        "/images/attractions/mussoorie/kempty-falls-3.jpg"
+        "/images/attractions/mussoorie/kempty-falls-3.jpg",
+        "/images/attractions/mussoorie/kempty-falls-4.jpg",
+        "/images/attractions/mussoorie/kempty-falls-5.jpg",
+        "/images/attractions/mussoorie/kempty-falls-6.jpg"
       ]
     },
     {
@@ -2067,7 +2468,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/mussoorie/gun-hill-1.jpg",
         "/images/attractions/mussoorie/gun-hill-2.jpg",
-        "/images/attractions/mussoorie/gun-hill-3.jpg"
+        "/images/attractions/mussoorie/gun-hill-3.jpg",
+        "/images/attractions/mussoorie/gun-hill-4.jpg",
+        "/images/attractions/mussoorie/gun-hill-5.jpg",
+        "/images/attractions/mussoorie/gun-hill-6.jpg"
       ]
     },
     {
@@ -2083,7 +2487,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/mussoorie/mall-road-1.jpg",
         "/images/attractions/mussoorie/mall-road-2.jpg",
-        "/images/attractions/mussoorie/mall-road-3.jpg"
+        "/images/attractions/mussoorie/mall-road-3.jpg",
+        "/images/attractions/mussoorie/mall-road-4.jpg",
+        "/images/attractions/mussoorie/mall-road-5.jpg",
+        "/images/attractions/mussoorie/mall-road-6.jpg"
       ]
     },
     {
@@ -2098,7 +2505,11 @@ export const CURATED_ATTRACTIONS = {
       "photo": "/images/attractions/mussoorie/lal-tibba-1.jpg",
       "photos": [
         "/images/attractions/mussoorie/lal-tibba-1.jpg",
-        "/images/attractions/mussoorie/lal-tibba-2.jpg"
+        "/images/attractions/mussoorie/lal-tibba-2.jpg",
+        "/images/attractions/mussoorie/lal-tibba-3.jpg",
+        "/images/attractions/mussoorie/lal-tibba-4.jpg",
+        "/images/attractions/mussoorie/lal-tibba-5.jpg",
+        "/images/attractions/mussoorie/lal-tibba-6.jpg"
       ]
     },
     {
@@ -2114,7 +2525,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/mussoorie/company-garden-1.jpg",
         "/images/attractions/mussoorie/company-garden-2.jpg",
-        "/images/attractions/mussoorie/company-garden-3.jpg"
+        "/images/attractions/mussoorie/company-garden-3.jpg",
+        "/images/attractions/mussoorie/company-garden-4.jpg",
+        "/images/attractions/mussoorie/company-garden-5.jpg",
+        "/images/attractions/mussoorie/company-garden-6.jpg"
       ]
     },
     {
@@ -2130,7 +2544,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/mussoorie/camels-back-road-1.jpg",
         "/images/attractions/mussoorie/camels-back-road-2.jpg",
-        "/images/attractions/mussoorie/camels-back-road-3.jpg"
+        "/images/attractions/mussoorie/camels-back-road-3.jpg",
+        "/images/attractions/mussoorie/camels-back-road-4.jpg",
+        "/images/attractions/mussoorie/camels-back-road-5.jpg",
+        "/images/attractions/mussoorie/camels-back-road-6.jpg"
       ]
     },
     {
@@ -2146,7 +2563,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/mussoorie/george-everest-1.jpg",
         "/images/attractions/mussoorie/george-everest-2.jpg",
-        "/images/attractions/mussoorie/george-everest-3.jpg"
+        "/images/attractions/mussoorie/george-everest-3.jpg",
+        "/images/attractions/mussoorie/george-everest-4.jpg",
+        "/images/attractions/mussoorie/george-everest-5.jpg",
+        "/images/attractions/mussoorie/george-everest-6.jpg"
       ]
     },
     {
@@ -2161,7 +2581,11 @@ export const CURATED_ATTRACTIONS = {
       "photo": "/images/attractions/mussoorie/bhatta-falls-1.jpg",
       "photos": [
         "/images/attractions/mussoorie/bhatta-falls-1.jpg",
-        "/images/attractions/mussoorie/bhatta-falls-2.jpg"
+        "/images/attractions/mussoorie/bhatta-falls-2.jpg",
+        "/images/attractions/mussoorie/bhatta-falls-3.jpg",
+        "/images/attractions/mussoorie/bhatta-falls-4.jpg",
+        "/images/attractions/mussoorie/bhatta-falls-5.jpg",
+        "/images/attractions/mussoorie/bhatta-falls-6.jpg"
       ]
     },
     {
@@ -2177,7 +2601,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/mussoorie/cloud-end-1.jpg",
         "/images/attractions/mussoorie/cloud-end-2.jpg",
-        "/images/attractions/mussoorie/cloud-end-3.jpg"
+        "/images/attractions/mussoorie/cloud-end-3.jpg",
+        "/images/attractions/mussoorie/cloud-end-4.jpg",
+        "/images/attractions/mussoorie/cloud-end-5.jpg",
+        "/images/attractions/mussoorie/cloud-end-6.jpg"
       ]
     },
     {
@@ -2191,7 +2618,12 @@ export const CURATED_ATTRACTIONS = {
       "lng": 78.086,
       "photo": "/images/attractions/mussoorie/jharipani-falls-1.jpg",
       "photos": [
-        "/images/attractions/mussoorie/jharipani-falls-1.jpg"
+        "/images/attractions/mussoorie/jharipani-falls-1.jpg",
+        "/images/attractions/mussoorie/jharipani-falls-2.jpg",
+        "/images/attractions/mussoorie/jharipani-falls-3.jpg",
+        "/images/attractions/mussoorie/jharipani-falls-4.jpg",
+        "/images/attractions/mussoorie/jharipani-falls-5.jpg",
+        "/images/attractions/mussoorie/jharipani-falls-6.jpg"
       ]
     },
     {
@@ -2207,7 +2639,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/mussoorie/mossy-falls-1.jpg",
         "/images/attractions/mussoorie/mossy-falls-2.jpg",
-        "/images/attractions/mussoorie/mossy-falls-3.jpg"
+        "/images/attractions/mussoorie/mossy-falls-3.jpg",
+        "/images/attractions/mussoorie/mossy-falls-4.jpg",
+        "/images/attractions/mussoorie/mossy-falls-5.jpg",
+        "/images/attractions/mussoorie/mossy-falls-6.jpg"
       ]
     },
     {
@@ -2223,7 +2658,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/mussoorie/shedup-choepelling-1.jpg",
         "/images/attractions/mussoorie/shedup-choepelling-2.jpg",
-        "/images/attractions/mussoorie/shedup-choepelling-3.jpg"
+        "/images/attractions/mussoorie/shedup-choepelling-3.jpg",
+        "/images/attractions/mussoorie/shedup-choepelling-4.jpg",
+        "/images/attractions/mussoorie/shedup-choepelling-5.jpg",
+        "/images/attractions/mussoorie/shedup-choepelling-6.jpg"
       ]
     },
     {
@@ -2238,7 +2676,11 @@ export const CURATED_ATTRACTIONS = {
       "photo": "/images/attractions/mussoorie/benog-wildlife-1.jpg",
       "photos": [
         "/images/attractions/mussoorie/benog-wildlife-1.jpg",
-        "/images/attractions/mussoorie/benog-wildlife-2.jpg"
+        "/images/attractions/mussoorie/benog-wildlife-2.jpg",
+        "/images/attractions/mussoorie/benog-wildlife-3.jpg",
+        "/images/attractions/mussoorie/benog-wildlife-4.jpg",
+        "/images/attractions/mussoorie/benog-wildlife-5.jpg",
+        "/images/attractions/mussoorie/benog-wildlife-6.jpg"
       ]
     },
     {
@@ -2250,9 +2692,14 @@ export const CURATED_ATTRACTIONS = {
       "category": "Colonial Forest Hamlet",
       "lat": 30.468,
       "lng": 78.102,
-      "photo": "/images/destinations/mussoorie.jpg",
+      "photo": "/images/attractions/mussoorie/sisters-bazaar-1.jpg",
       "photos": [
-        "/images/destinations/mussoorie.jpg"
+        "/images/attractions/mussoorie/sisters-bazaar-1.jpg",
+        "/images/attractions/mussoorie/sisters-bazaar-2.jpg",
+        "/images/attractions/mussoorie/sisters-bazaar-3.jpg",
+        "/images/attractions/mussoorie/sisters-bazaar-4.jpg",
+        "/images/attractions/mussoorie/sisters-bazaar-5.jpg",
+        "/images/attractions/mussoorie/sisters-bazaar-6.jpg"
       ]
     }
   ],
@@ -2270,7 +2717,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/nainital/naini-lake-1.jpg",
         "/images/attractions/nainital/naini-lake-2.jpg",
-        "/images/attractions/nainital/naini-lake-3.jpg"
+        "/images/attractions/nainital/naini-lake-3.jpg",
+        "/images/attractions/nainital/naini-lake-4.jpg",
+        "/images/attractions/nainital/naini-lake-5.jpg",
+        "/images/attractions/nainital/naini-lake-6.jpg"
       ]
     },
     {
@@ -2286,7 +2736,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/nainital/naina-devi-temple-1.jpg",
         "/images/attractions/nainital/naina-devi-temple-2.jpg",
-        "/images/attractions/nainital/naina-devi-temple-3.jpg"
+        "/images/attractions/nainital/naina-devi-temple-3.jpg",
+        "/images/attractions/nainital/naina-devi-temple-4.jpg",
+        "/images/attractions/nainital/naina-devi-temple-5.jpg",
+        "/images/attractions/nainital/naina-devi-temple-6.jpg"
       ]
     },
     {
@@ -2302,7 +2755,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/nainital/snow-view-point-1.jpg",
         "/images/attractions/nainital/snow-view-point-2.jpg",
-        "/images/attractions/nainital/snow-view-point-3.jpg"
+        "/images/attractions/nainital/snow-view-point-3.jpg",
+        "/images/attractions/nainital/snow-view-point-4.jpg",
+        "/images/attractions/nainital/snow-view-point-5.jpg",
+        "/images/attractions/nainital/snow-view-point-6.jpg"
       ]
     },
     {
@@ -2318,7 +2774,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/nainital/tiffin-top-1.jpg",
         "/images/attractions/nainital/tiffin-top-2.jpg",
-        "/images/attractions/nainital/tiffin-top-3.jpg"
+        "/images/attractions/nainital/tiffin-top-3.jpg",
+        "/images/attractions/nainital/tiffin-top-4.jpg",
+        "/images/attractions/nainital/tiffin-top-5.jpg",
+        "/images/attractions/nainital/tiffin-top-6.jpg"
       ]
     },
     {
@@ -2334,7 +2793,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/nainital/high-altitude-zoo-1.jpg",
         "/images/attractions/nainital/high-altitude-zoo-2.jpg",
-        "/images/attractions/nainital/high-altitude-zoo-3.jpg"
+        "/images/attractions/nainital/high-altitude-zoo-3.jpg",
+        "/images/attractions/nainital/high-altitude-zoo-4.jpg",
+        "/images/attractions/nainital/high-altitude-zoo-5.jpg",
+        "/images/attractions/nainital/high-altitude-zoo-6.jpg"
       ]
     },
     {
@@ -2350,7 +2812,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/nainital/eco-cave-gardens-1.jpg",
         "/images/attractions/nainital/eco-cave-gardens-2.jpg",
-        "/images/attractions/nainital/eco-cave-gardens-3.jpg"
+        "/images/attractions/nainital/eco-cave-gardens-3.jpg",
+        "/images/attractions/nainital/eco-cave-gardens-4.jpg",
+        "/images/attractions/nainital/eco-cave-gardens-5.jpg",
+        "/images/attractions/nainital/eco-cave-gardens-6.jpg"
       ]
     },
     {
@@ -2366,7 +2831,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/nainital/naina-peak-1.jpg",
         "/images/attractions/nainital/naina-peak-2.jpg",
-        "/images/attractions/nainital/naina-peak-3.jpg"
+        "/images/attractions/nainital/naina-peak-3.jpg",
+        "/images/attractions/nainital/naina-peak-4.jpg",
+        "/images/attractions/nainital/naina-peak-5.jpg",
+        "/images/attractions/nainital/naina-peak-6.jpg"
       ]
     },
     {
@@ -2382,7 +2850,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/nainital/mall-road-1.jpg",
         "/images/attractions/nainital/mall-road-2.jpg",
-        "/images/attractions/nainital/mall-road-3.jpg"
+        "/images/attractions/nainital/mall-road-3.jpg",
+        "/images/attractions/nainital/mall-road-4.jpg",
+        "/images/attractions/nainital/mall-road-5.jpg",
+        "/images/attractions/nainital/mall-road-6.jpg"
       ]
     },
     {
@@ -2398,7 +2869,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/nainital/raj-bhawan-1.jpg",
         "/images/attractions/nainital/raj-bhawan-2.jpg",
-        "/images/attractions/nainital/raj-bhawan-3.jpg"
+        "/images/attractions/nainital/raj-bhawan-3.jpg",
+        "/images/attractions/nainital/raj-bhawan-4.jpg",
+        "/images/attractions/nainital/raj-bhawan-5.jpg",
+        "/images/attractions/nainital/raj-bhawan-6.jpg"
       ]
     },
     {
@@ -2414,7 +2888,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/nainital/bhimtal-lake-1.jpg",
         "/images/attractions/nainital/bhimtal-lake-2.jpg",
-        "/images/attractions/nainital/bhimtal-lake-3.jpg"
+        "/images/attractions/nainital/bhimtal-lake-3.jpg",
+        "/images/attractions/nainital/bhimtal-lake-4.jpg",
+        "/images/attractions/nainital/bhimtal-lake-5.jpg",
+        "/images/attractions/nainital/bhimtal-lake-6.jpg"
       ]
     },
     {
@@ -2430,7 +2907,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/nainital/naukuchiatal-lake-1.jpg",
         "/images/attractions/nainital/naukuchiatal-lake-2.jpg",
-        "/images/attractions/nainital/naukuchiatal-lake-3.jpg"
+        "/images/attractions/nainital/naukuchiatal-lake-3.jpg",
+        "/images/attractions/nainital/naukuchiatal-lake-4.jpg",
+        "/images/attractions/nainital/naukuchiatal-lake-5.jpg",
+        "/images/attractions/nainital/naukuchiatal-lake-6.jpg"
       ]
     },
     {
@@ -2446,7 +2926,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/nainital/sattal-lakes-1.jpg",
         "/images/attractions/nainital/sattal-lakes-2.jpg",
-        "/images/attractions/nainital/sattal-lakes-3.jpg"
+        "/images/attractions/nainital/sattal-lakes-3.jpg",
+        "/images/attractions/nainital/sattal-lakes-4.jpg",
+        "/images/attractions/nainital/sattal-lakes-5.jpg",
+        "/images/attractions/nainital/sattal-lakes-6.jpg"
       ]
     },
     {
@@ -2462,7 +2945,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/nainital/kilbury-bird-sanctuary-1.jpg",
         "/images/attractions/nainital/kilbury-bird-sanctuary-2.jpg",
-        "/images/attractions/nainital/kilbury-bird-sanctuary-3.jpg"
+        "/images/attractions/nainital/kilbury-bird-sanctuary-3.jpg",
+        "/images/attractions/nainital/kilbury-bird-sanctuary-4.jpg",
+        "/images/attractions/nainital/kilbury-bird-sanctuary-5.jpg",
+        "/images/attractions/nainital/kilbury-bird-sanctuary-6.jpg"
       ]
     },
     {
@@ -2478,7 +2964,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/nainital/gurney-house-1.jpg",
         "/images/attractions/nainital/gurney-house-2.jpg",
-        "/images/attractions/nainital/gurney-house-3.jpg"
+        "/images/attractions/nainital/gurney-house-3.jpg",
+        "/images/attractions/nainital/gurney-house-4.jpg",
+        "/images/attractions/nainital/gurney-house-5.jpg",
+        "/images/attractions/nainital/gurney-house-6.jpg"
       ]
     }
   ],
@@ -2496,7 +2985,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/kodaikanal/kodai-lake-1.jpg",
         "/images/attractions/kodaikanal/kodai-lake-2.jpg",
-        "/images/attractions/kodaikanal/kodai-lake-3.jpg"
+        "/images/attractions/kodaikanal/kodai-lake-3.jpg",
+        "/images/attractions/kodaikanal/kodai-lake-4.jpg",
+        "/images/attractions/kodaikanal/kodai-lake-5.jpg",
+        "/images/attractions/kodaikanal/kodai-lake-6.jpg"
       ]
     },
     {
@@ -2512,7 +3004,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/kodaikanal/coakers-walk-1.jpg",
         "/images/attractions/kodaikanal/coakers-walk-2.jpg",
-        "/images/attractions/kodaikanal/coakers-walk-3.jpg"
+        "/images/attractions/kodaikanal/coakers-walk-3.jpg",
+        "/images/attractions/kodaikanal/coakers-walk-4.jpg",
+        "/images/attractions/kodaikanal/coakers-walk-5.jpg",
+        "/images/attractions/kodaikanal/coakers-walk-6.jpg"
       ]
     },
     {
@@ -2528,7 +3023,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/kodaikanal/pillar-rocks-1.jpg",
         "/images/attractions/kodaikanal/pillar-rocks-2.jpg",
-        "/images/attractions/kodaikanal/pillar-rocks-3.jpg"
+        "/images/attractions/kodaikanal/pillar-rocks-3.jpg",
+        "/images/attractions/kodaikanal/pillar-rocks-4.jpg",
+        "/images/attractions/kodaikanal/pillar-rocks-5.jpg",
+        "/images/attractions/kodaikanal/pillar-rocks-6.jpg"
       ]
     },
     {
@@ -2544,7 +3042,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/kodaikanal/bryant-park-1.jpg",
         "/images/attractions/kodaikanal/bryant-park-2.jpg",
-        "/images/attractions/kodaikanal/bryant-park-3.jpg"
+        "/images/attractions/kodaikanal/bryant-park-3.jpg",
+        "/images/attractions/kodaikanal/bryant-park-4.jpg",
+        "/images/attractions/kodaikanal/bryant-park-5.jpg",
+        "/images/attractions/kodaikanal/bryant-park-6.jpg"
       ]
     },
     {
@@ -2560,7 +3061,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/kodaikanal/silver-cascade-1.jpg",
         "/images/attractions/kodaikanal/silver-cascade-2.jpg",
-        "/images/attractions/kodaikanal/silver-cascade-3.jpg"
+        "/images/attractions/kodaikanal/silver-cascade-3.jpg",
+        "/images/attractions/kodaikanal/silver-cascade-4.jpg",
+        "/images/attractions/kodaikanal/silver-cascade-5.jpg",
+        "/images/attractions/kodaikanal/silver-cascade-6.jpg"
       ]
     },
     {
@@ -2576,7 +3080,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/kodaikanal/green-valley-view-1.jpg",
         "/images/attractions/kodaikanal/green-valley-view-2.jpg",
-        "/images/attractions/kodaikanal/green-valley-view-3.jpg"
+        "/images/attractions/kodaikanal/green-valley-view-3.jpg",
+        "/images/attractions/kodaikanal/green-valley-view-4.jpg",
+        "/images/attractions/kodaikanal/green-valley-view-5.jpg",
+        "/images/attractions/kodaikanal/green-valley-view-6.jpg"
       ]
     },
     {
@@ -2592,7 +3099,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/kodaikanal/dolphin-nose-1.jpg",
         "/images/attractions/kodaikanal/dolphin-nose-2.jpg",
-        "/images/attractions/kodaikanal/dolphin-nose-3.jpg"
+        "/images/attractions/kodaikanal/dolphin-nose-3.jpg",
+        "/images/attractions/kodaikanal/dolphin-nose-4.jpg",
+        "/images/attractions/kodaikanal/dolphin-nose-5.jpg",
+        "/images/attractions/kodaikanal/dolphin-nose-6.jpg"
       ]
     },
     {
@@ -2608,7 +3118,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/kodaikanal/guna-caves-1.jpg",
         "/images/attractions/kodaikanal/guna-caves-2.jpg",
-        "/images/attractions/kodaikanal/guna-caves-3.jpg"
+        "/images/attractions/kodaikanal/guna-caves-3.jpg",
+        "/images/attractions/kodaikanal/guna-caves-4.jpg",
+        "/images/attractions/kodaikanal/guna-caves-5.jpg",
+        "/images/attractions/kodaikanal/guna-caves-6.jpg"
       ]
     },
     {
@@ -2624,7 +3137,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/kodaikanal/bear-shola-falls-1.jpg",
         "/images/attractions/kodaikanal/bear-shola-falls-2.jpg",
-        "/images/attractions/kodaikanal/bear-shola-falls-3.jpg"
+        "/images/attractions/kodaikanal/bear-shola-falls-3.jpg",
+        "/images/attractions/kodaikanal/bear-shola-falls-4.jpg",
+        "/images/attractions/kodaikanal/bear-shola-falls-5.jpg",
+        "/images/attractions/kodaikanal/bear-shola-falls-6.jpg"
       ]
     },
     {
@@ -2640,7 +3156,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/kodaikanal/pine-forest-1.jpg",
         "/images/attractions/kodaikanal/pine-forest-2.jpg",
-        "/images/attractions/kodaikanal/pine-forest-3.jpg"
+        "/images/attractions/kodaikanal/pine-forest-3.jpg",
+        "/images/attractions/kodaikanal/pine-forest-4.jpg",
+        "/images/attractions/kodaikanal/pine-forest-5.jpg",
+        "/images/attractions/kodaikanal/pine-forest-6.jpg"
       ]
     },
     {
@@ -2656,7 +3175,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/kodaikanal/berijam-lake-1.jpg",
         "/images/attractions/kodaikanal/berijam-lake-2.jpg",
-        "/images/attractions/kodaikanal/berijam-lake-3.jpg"
+        "/images/attractions/kodaikanal/berijam-lake-3.jpg",
+        "/images/attractions/kodaikanal/berijam-lake-4.jpg",
+        "/images/attractions/kodaikanal/berijam-lake-5.jpg",
+        "/images/attractions/kodaikanal/berijam-lake-6.jpg"
       ]
     },
     {
@@ -2672,7 +3194,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/kodaikanal/kurinji-andavar-temple-1.jpg",
         "/images/attractions/kodaikanal/kurinji-andavar-temple-2.jpg",
-        "/images/attractions/kodaikanal/kurinji-andavar-temple-3.jpg"
+        "/images/attractions/kodaikanal/kurinji-andavar-temple-3.jpg",
+        "/images/attractions/kodaikanal/kurinji-andavar-temple-4.jpg",
+        "/images/attractions/kodaikanal/kurinji-andavar-temple-5.jpg",
+        "/images/attractions/kodaikanal/kurinji-andavar-temple-6.jpg"
       ]
     },
     {
@@ -2688,7 +3213,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/kodaikanal/mannavanur-lake-1.jpg",
         "/images/attractions/kodaikanal/mannavanur-lake-2.jpg",
-        "/images/attractions/kodaikanal/mannavanur-lake-3.jpg"
+        "/images/attractions/kodaikanal/mannavanur-lake-3.jpg",
+        "/images/attractions/kodaikanal/mannavanur-lake-4.jpg",
+        "/images/attractions/kodaikanal/mannavanur-lake-5.jpg",
+        "/images/attractions/kodaikanal/mannavanur-lake-6.jpg"
       ]
     },
     {
@@ -2704,7 +3232,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/kodaikanal/solar-observatory-1.jpg",
         "/images/attractions/kodaikanal/solar-observatory-2.jpg",
-        "/images/attractions/kodaikanal/solar-observatory-3.jpg"
+        "/images/attractions/kodaikanal/solar-observatory-3.jpg",
+        "/images/attractions/kodaikanal/solar-observatory-4.jpg",
+        "/images/attractions/kodaikanal/solar-observatory-5.jpg",
+        "/images/attractions/kodaikanal/solar-observatory-6.jpg"
       ]
     }
   ],
@@ -2722,7 +3253,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/darjeeling/tiger-hill-1.jpg",
         "/images/attractions/darjeeling/tiger-hill-2.jpg",
-        "/images/attractions/darjeeling/tiger-hill-3.jpg"
+        "/images/attractions/darjeeling/tiger-hill-3.jpg",
+        "/images/attractions/darjeeling/tiger-hill-4.jpg",
+        "/images/attractions/darjeeling/tiger-hill-5.jpg",
+        "/images/attractions/darjeeling/tiger-hill-6.jpg"
       ]
     },
     {
@@ -2738,7 +3272,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/darjeeling/darjeeling-toy-train-1.jpg",
         "/images/attractions/darjeeling/darjeeling-toy-train-2.jpg",
-        "/images/attractions/darjeeling/darjeeling-toy-train-3.jpg"
+        "/images/attractions/darjeeling/darjeeling-toy-train-3.jpg",
+        "/images/attractions/darjeeling/darjeeling-toy-train-4.jpg",
+        "/images/attractions/darjeeling/darjeeling-toy-train-5.jpg",
+        "/images/attractions/darjeeling/darjeeling-toy-train-6.jpg"
       ]
     },
     {
@@ -2754,7 +3291,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/darjeeling/batasia-loop-1.jpg",
         "/images/attractions/darjeeling/batasia-loop-2.jpg",
-        "/images/attractions/darjeeling/batasia-loop-3.jpg"
+        "/images/attractions/darjeeling/batasia-loop-3.jpg",
+        "/images/attractions/darjeeling/batasia-loop-4.jpg",
+        "/images/attractions/darjeeling/batasia-loop-5.jpg",
+        "/images/attractions/darjeeling/batasia-loop-6.jpg"
       ]
     },
     {
@@ -2770,7 +3310,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/darjeeling/happy-valley-tea-1.jpg",
         "/images/attractions/darjeeling/happy-valley-tea-2.jpg",
-        "/images/attractions/darjeeling/happy-valley-tea-3.jpg"
+        "/images/attractions/darjeeling/happy-valley-tea-3.jpg",
+        "/images/attractions/darjeeling/happy-valley-tea-4.jpg",
+        "/images/attractions/darjeeling/happy-valley-tea-5.jpg",
+        "/images/attractions/darjeeling/happy-valley-tea-6.jpg"
       ]
     },
     {
@@ -2786,7 +3329,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/darjeeling/padmaja-naidu-zoo-1.jpg",
         "/images/attractions/darjeeling/padmaja-naidu-zoo-2.jpg",
-        "/images/attractions/darjeeling/padmaja-naidu-zoo-3.jpg"
+        "/images/attractions/darjeeling/padmaja-naidu-zoo-3.jpg",
+        "/images/attractions/darjeeling/padmaja-naidu-zoo-4.jpg",
+        "/images/attractions/darjeeling/padmaja-naidu-zoo-5.jpg",
+        "/images/attractions/darjeeling/padmaja-naidu-zoo-6.jpg"
       ]
     },
     {
@@ -2802,7 +3348,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/darjeeling/himalayan-mountaineering-institute-1.jpg",
         "/images/attractions/darjeeling/himalayan-mountaineering-institute-2.jpg",
-        "/images/attractions/darjeeling/himalayan-mountaineering-institute-3.jpg"
+        "/images/attractions/darjeeling/himalayan-mountaineering-institute-3.jpg",
+        "/images/attractions/darjeeling/himalayan-mountaineering-institute-4.jpg",
+        "/images/attractions/darjeeling/himalayan-mountaineering-institute-5.jpg",
+        "/images/attractions/darjeeling/himalayan-mountaineering-institute-6.jpg"
       ]
     },
     {
@@ -2818,7 +3367,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/darjeeling/japanese-peace-pagoda-1.jpg",
         "/images/attractions/darjeeling/japanese-peace-pagoda-2.jpg",
-        "/images/attractions/darjeeling/japanese-peace-pagoda-3.jpg"
+        "/images/attractions/darjeeling/japanese-peace-pagoda-3.jpg",
+        "/images/attractions/darjeeling/japanese-peace-pagoda-4.jpg",
+        "/images/attractions/darjeeling/japanese-peace-pagoda-5.jpg",
+        "/images/attractions/darjeeling/japanese-peace-pagoda-6.jpg"
       ]
     },
     {
@@ -2834,7 +3386,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/darjeeling/mall-chowrasta-1.jpg",
         "/images/attractions/darjeeling/mall-chowrasta-2.jpg",
-        "/images/attractions/darjeeling/mall-chowrasta-3.jpg"
+        "/images/attractions/darjeeling/mall-chowrasta-3.jpg",
+        "/images/attractions/darjeeling/mall-chowrasta-4.jpg",
+        "/images/attractions/darjeeling/mall-chowrasta-5.jpg",
+        "/images/attractions/darjeeling/mall-chowrasta-6.jpg"
       ]
     },
     {
@@ -2850,7 +3405,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/darjeeling/rock-garden-1.jpg",
         "/images/attractions/darjeeling/rock-garden-2.jpg",
-        "/images/attractions/darjeeling/rock-garden-3.jpg"
+        "/images/attractions/darjeeling/rock-garden-3.jpg",
+        "/images/attractions/darjeeling/rock-garden-4.jpg",
+        "/images/attractions/darjeeling/rock-garden-5.jpg",
+        "/images/attractions/darjeeling/rock-garden-6.jpg"
       ]
     },
     {
@@ -2866,7 +3424,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/darjeeling/ghoom-monastery-1.jpg",
         "/images/attractions/darjeeling/ghoom-monastery-2.jpg",
-        "/images/attractions/darjeeling/ghoom-monastery-3.jpg"
+        "/images/attractions/darjeeling/ghoom-monastery-3.jpg",
+        "/images/attractions/darjeeling/ghoom-monastery-4.jpg",
+        "/images/attractions/darjeeling/ghoom-monastery-5.jpg",
+        "/images/attractions/darjeeling/ghoom-monastery-6.jpg"
       ]
     },
     {
@@ -2882,7 +3443,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/darjeeling/observatory-hill-1.jpg",
         "/images/attractions/darjeeling/observatory-hill-2.jpg",
-        "/images/attractions/darjeeling/observatory-hill-3.jpg"
+        "/images/attractions/darjeeling/observatory-hill-3.jpg",
+        "/images/attractions/darjeeling/observatory-hill-4.jpg",
+        "/images/attractions/darjeeling/observatory-hill-5.jpg",
+        "/images/attractions/darjeeling/observatory-hill-6.jpg"
       ]
     },
     {
@@ -2898,7 +3462,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/darjeeling/ropeway-cable-car-1.jpg",
         "/images/attractions/darjeeling/ropeway-cable-car-2.jpg",
-        "/images/attractions/darjeeling/ropeway-cable-car-3.jpg"
+        "/images/attractions/darjeeling/ropeway-cable-car-3.jpg",
+        "/images/attractions/darjeeling/ropeway-cable-car-4.jpg",
+        "/images/attractions/darjeeling/ropeway-cable-car-5.jpg",
+        "/images/attractions/darjeeling/ropeway-cable-car-6.jpg"
       ]
     },
     {
@@ -2914,7 +3481,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/darjeeling/singalila-ridge-1.jpg",
         "/images/attractions/darjeeling/singalila-ridge-2.jpg",
-        "/images/attractions/darjeeling/singalila-ridge-3.jpg"
+        "/images/attractions/darjeeling/singalila-ridge-3.jpg",
+        "/images/attractions/darjeeling/singalila-ridge-4.jpg",
+        "/images/attractions/darjeeling/singalila-ridge-5.jpg",
+        "/images/attractions/darjeeling/singalila-ridge-6.jpg"
       ]
     },
     {
@@ -2930,7 +3500,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/darjeeling/st-andrews-church-1.jpg",
         "/images/attractions/darjeeling/st-andrews-church-2.jpg",
-        "/images/attractions/darjeeling/st-andrews-church-3.jpg"
+        "/images/attractions/darjeeling/st-andrews-church-3.jpg",
+        "/images/attractions/darjeeling/st-andrews-church-4.jpg",
+        "/images/attractions/darjeeling/st-andrews-church-5.jpg",
+        "/images/attractions/darjeeling/st-andrews-church-6.jpg"
       ]
     }
   ],
@@ -2948,7 +3521,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/wayanad/banasura-sagar-dam-1.jpg",
         "/images/attractions/wayanad/banasura-sagar-dam-2.jpg",
-        "/images/attractions/wayanad/banasura-sagar-dam-3.jpg"
+        "/images/attractions/wayanad/banasura-sagar-dam-3.jpg",
+        "/images/attractions/wayanad/banasura-sagar-dam-4.jpg",
+        "/images/attractions/wayanad/banasura-sagar-dam-5.jpg",
+        "/images/attractions/wayanad/banasura-sagar-dam-6.jpg"
       ]
     },
     {
@@ -2964,7 +3540,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/wayanad/edakkal-caves-1.jpg",
         "/images/attractions/wayanad/edakkal-caves-2.jpg",
-        "/images/attractions/wayanad/edakkal-caves-3.jpg"
+        "/images/attractions/wayanad/edakkal-caves-3.jpg",
+        "/images/attractions/wayanad/edakkal-caves-4.jpg",
+        "/images/attractions/wayanad/edakkal-caves-5.jpg",
+        "/images/attractions/wayanad/edakkal-caves-6.jpg"
       ]
     },
     {
@@ -2980,7 +3559,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/wayanad/chembra-peak-1.jpg",
         "/images/attractions/wayanad/chembra-peak-2.jpg",
-        "/images/attractions/wayanad/chembra-peak-3.jpg"
+        "/images/attractions/wayanad/chembra-peak-3.jpg",
+        "/images/attractions/wayanad/chembra-peak-4.jpg",
+        "/images/attractions/wayanad/chembra-peak-5.jpg",
+        "/images/attractions/wayanad/chembra-peak-6.jpg"
       ]
     },
     {
@@ -2996,7 +3578,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/wayanad/soochipara-falls-1.jpg",
         "/images/attractions/wayanad/soochipara-falls-2.jpg",
-        "/images/attractions/wayanad/soochipara-falls-3.jpg"
+        "/images/attractions/wayanad/soochipara-falls-3.jpg",
+        "/images/attractions/wayanad/soochipara-falls-4.jpg",
+        "/images/attractions/wayanad/soochipara-falls-5.jpg",
+        "/images/attractions/wayanad/soochipara-falls-6.jpg"
       ]
     },
     {
@@ -3012,7 +3597,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/wayanad/wayanad-wildlife-1.jpg",
         "/images/attractions/wayanad/wayanad-wildlife-2.jpg",
-        "/images/attractions/wayanad/wayanad-wildlife-3.jpg"
+        "/images/attractions/wayanad/wayanad-wildlife-3.jpg",
+        "/images/attractions/wayanad/wayanad-wildlife-4.jpg",
+        "/images/attractions/wayanad/wayanad-wildlife-5.jpg",
+        "/images/attractions/wayanad/wayanad-wildlife-6.jpg"
       ]
     },
     {
@@ -3028,7 +3616,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/wayanad/pookode-lake-1.jpg",
         "/images/attractions/wayanad/pookode-lake-2.jpg",
-        "/images/attractions/wayanad/pookode-lake-3.jpg"
+        "/images/attractions/wayanad/pookode-lake-3.jpg",
+        "/images/attractions/wayanad/pookode-lake-4.jpg",
+        "/images/attractions/wayanad/pookode-lake-5.jpg",
+        "/images/attractions/wayanad/pookode-lake-6.jpg"
       ]
     },
     {
@@ -3044,7 +3635,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/wayanad/meenmutty-falls-1.jpg",
         "/images/attractions/wayanad/meenmutty-falls-2.jpg",
-        "/images/attractions/wayanad/meenmutty-falls-3.jpg"
+        "/images/attractions/wayanad/meenmutty-falls-3.jpg",
+        "/images/attractions/wayanad/meenmutty-falls-4.jpg",
+        "/images/attractions/wayanad/meenmutty-falls-5.jpg",
+        "/images/attractions/wayanad/meenmutty-falls-6.jpg"
       ]
     },
     {
@@ -3060,7 +3654,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/wayanad/thirunelly-temple-1.jpg",
         "/images/attractions/wayanad/thirunelly-temple-2.jpg",
-        "/images/attractions/wayanad/thirunelly-temple-3.jpg"
+        "/images/attractions/wayanad/thirunelly-temple-3.jpg",
+        "/images/attractions/wayanad/thirunelly-temple-4.jpg",
+        "/images/attractions/wayanad/thirunelly-temple-5.jpg",
+        "/images/attractions/wayanad/thirunelly-temple-6.jpg"
       ]
     },
     {
@@ -3076,7 +3673,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/wayanad/kuruvadweep-1.jpg",
         "/images/attractions/wayanad/kuruvadweep-2.jpg",
-        "/images/attractions/wayanad/kuruvadweep-3.jpg"
+        "/images/attractions/wayanad/kuruvadweep-3.jpg",
+        "/images/attractions/wayanad/kuruvadweep-4.jpg",
+        "/images/attractions/wayanad/kuruvadweep-5.jpg",
+        "/images/attractions/wayanad/kuruvadweep-6.jpg"
       ]
     },
     {
@@ -3092,7 +3692,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/wayanad/karapuzha-dam-1.jpg",
         "/images/attractions/wayanad/karapuzha-dam-2.jpg",
-        "/images/attractions/wayanad/karapuzha-dam-3.jpg"
+        "/images/attractions/wayanad/karapuzha-dam-3.jpg",
+        "/images/attractions/wayanad/karapuzha-dam-4.jpg",
+        "/images/attractions/wayanad/karapuzha-dam-5.jpg",
+        "/images/attractions/wayanad/karapuzha-dam-6.jpg"
       ]
     },
     {
@@ -3108,7 +3711,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/wayanad/phantom-rock-1.jpg",
         "/images/attractions/wayanad/phantom-rock-2.jpg",
-        "/images/attractions/wayanad/phantom-rock-3.jpg"
+        "/images/attractions/wayanad/phantom-rock-3.jpg",
+        "/images/attractions/wayanad/phantom-rock-4.jpg",
+        "/images/attractions/wayanad/phantom-rock-5.jpg",
+        "/images/attractions/wayanad/phantom-rock-6.jpg"
       ]
     },
     {
@@ -3124,7 +3730,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/wayanad/chain-tree-1.jpg",
         "/images/attractions/wayanad/chain-tree-2.jpg",
-        "/images/attractions/wayanad/chain-tree-3.jpg"
+        "/images/attractions/wayanad/chain-tree-3.jpg",
+        "/images/attractions/wayanad/chain-tree-4.jpg",
+        "/images/attractions/wayanad/chain-tree-5.jpg",
+        "/images/attractions/wayanad/chain-tree-6.jpg"
       ]
     },
     {
@@ -3140,7 +3749,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/wayanad/lakkidi-view-point-1.jpg",
         "/images/attractions/wayanad/lakkidi-view-point-2.jpg",
-        "/images/attractions/wayanad/lakkidi-view-point-3.jpg"
+        "/images/attractions/wayanad/lakkidi-view-point-3.jpg",
+        "/images/attractions/wayanad/lakkidi-view-point-4.jpg",
+        "/images/attractions/wayanad/lakkidi-view-point-5.jpg",
+        "/images/attractions/wayanad/lakkidi-view-point-6.jpg"
       ]
     },
     {
@@ -3156,7 +3768,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/wayanad/kanthanpara-falls-1.jpg",
         "/images/attractions/wayanad/kanthanpara-falls-2.jpg",
-        "/images/attractions/wayanad/kanthanpara-falls-3.jpg"
+        "/images/attractions/wayanad/kanthanpara-falls-3.jpg",
+        "/images/attractions/wayanad/kanthanpara-falls-4.jpg",
+        "/images/attractions/wayanad/kanthanpara-falls-5.jpg",
+        "/images/attractions/wayanad/kanthanpara-falls-6.jpg"
       ]
     }
   ],
@@ -3174,7 +3789,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/gangtok/tsomgo-lake-1.jpg",
         "/images/attractions/gangtok/tsomgo-lake-2.jpg",
-        "/images/attractions/gangtok/tsomgo-lake-3.jpg"
+        "/images/attractions/gangtok/tsomgo-lake-3.jpg",
+        "/images/attractions/gangtok/tsomgo-lake-4.jpg",
+        "/images/attractions/gangtok/tsomgo-lake-5.jpg",
+        "/images/attractions/gangtok/tsomgo-lake-6.jpg"
       ]
     },
     {
@@ -3190,7 +3808,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/gangtok/nathula-pass-1.jpg",
         "/images/attractions/gangtok/nathula-pass-2.jpg",
-        "/images/attractions/gangtok/nathula-pass-3.jpg"
+        "/images/attractions/gangtok/nathula-pass-3.jpg",
+        "/images/attractions/gangtok/nathula-pass-4.jpg",
+        "/images/attractions/gangtok/nathula-pass-5.jpg",
+        "/images/attractions/gangtok/nathula-pass-6.jpg"
       ]
     },
     {
@@ -3206,7 +3827,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/gangtok/rumtek-monastery-1.jpg",
         "/images/attractions/gangtok/rumtek-monastery-2.jpg",
-        "/images/attractions/gangtok/rumtek-monastery-3.jpg"
+        "/images/attractions/gangtok/rumtek-monastery-3.jpg",
+        "/images/attractions/gangtok/rumtek-monastery-4.jpg",
+        "/images/attractions/gangtok/rumtek-monastery-5.jpg",
+        "/images/attractions/gangtok/rumtek-monastery-6.jpg"
       ]
     },
     {
@@ -3222,7 +3846,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/gangtok/baba-harbhajan-mandir-1.jpg",
         "/images/attractions/gangtok/baba-harbhajan-mandir-2.jpg",
-        "/images/attractions/gangtok/baba-harbhajan-mandir-3.jpg"
+        "/images/attractions/gangtok/baba-harbhajan-mandir-3.jpg",
+        "/images/attractions/gangtok/baba-harbhajan-mandir-4.jpg",
+        "/images/attractions/gangtok/baba-harbhajan-mandir-5.jpg",
+        "/images/attractions/gangtok/baba-harbhajan-mandir-6.jpg"
       ]
     },
     {
@@ -3238,7 +3865,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/gangtok/mg-marg-1.jpg",
         "/images/attractions/gangtok/mg-marg-2.jpg",
-        "/images/attractions/gangtok/mg-marg-3.jpg"
+        "/images/attractions/gangtok/mg-marg-3.jpg",
+        "/images/attractions/gangtok/mg-marg-4.jpg",
+        "/images/attractions/gangtok/mg-marg-5.jpg",
+        "/images/attractions/gangtok/mg-marg-6.jpg"
       ]
     },
     {
@@ -3254,7 +3884,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/gangtok/enchey-monastery-1.jpg",
         "/images/attractions/gangtok/enchey-monastery-2.jpg",
-        "/images/attractions/gangtok/enchey-monastery-3.jpg"
+        "/images/attractions/gangtok/enchey-monastery-3.jpg",
+        "/images/attractions/gangtok/enchey-monastery-4.jpg",
+        "/images/attractions/gangtok/enchey-monastery-5.jpg",
+        "/images/attractions/gangtok/enchey-monastery-6.jpg"
       ]
     },
     {
@@ -3270,7 +3903,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/gangtok/ban-jhakri-falls-1.jpg",
         "/images/attractions/gangtok/ban-jhakri-falls-2.jpg",
-        "/images/attractions/gangtok/ban-jhakri-falls-3.jpg"
+        "/images/attractions/gangtok/ban-jhakri-falls-3.jpg",
+        "/images/attractions/gangtok/ban-jhakri-falls-4.jpg",
+        "/images/attractions/gangtok/ban-jhakri-falls-5.jpg",
+        "/images/attractions/gangtok/ban-jhakri-falls-6.jpg"
       ]
     },
     {
@@ -3286,7 +3922,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/gangtok/tashi-viewpoint-1.jpg",
         "/images/attractions/gangtok/tashi-viewpoint-2.jpg",
-        "/images/attractions/gangtok/tashi-viewpoint-3.jpg"
+        "/images/attractions/gangtok/tashi-viewpoint-3.jpg",
+        "/images/attractions/gangtok/tashi-viewpoint-4.jpg",
+        "/images/attractions/gangtok/tashi-viewpoint-5.jpg",
+        "/images/attractions/gangtok/tashi-viewpoint-6.jpg"
       ]
     },
     {
@@ -3302,7 +3941,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/gangtok/namgyal-tibetology-1.jpg",
         "/images/attractions/gangtok/namgyal-tibetology-2.jpg",
-        "/images/attractions/gangtok/namgyal-tibetology-3.jpg"
+        "/images/attractions/gangtok/namgyal-tibetology-3.jpg",
+        "/images/attractions/gangtok/namgyal-tibetology-4.jpg",
+        "/images/attractions/gangtok/namgyal-tibetology-5.jpg",
+        "/images/attractions/gangtok/namgyal-tibetology-6.jpg"
       ]
     },
     {
@@ -3318,7 +3960,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/gangtok/do-drul-chorten-1.jpg",
         "/images/attractions/gangtok/do-drul-chorten-2.jpg",
-        "/images/attractions/gangtok/do-drul-chorten-3.jpg"
+        "/images/attractions/gangtok/do-drul-chorten-3.jpg",
+        "/images/attractions/gangtok/do-drul-chorten-4.jpg",
+        "/images/attractions/gangtok/do-drul-chorten-5.jpg",
+        "/images/attractions/gangtok/do-drul-chorten-6.jpg"
       ]
     },
     {
@@ -3334,7 +3979,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/gangtok/gangtok-ropeway-1.jpg",
         "/images/attractions/gangtok/gangtok-ropeway-2.jpg",
-        "/images/attractions/gangtok/gangtok-ropeway-3.jpg"
+        "/images/attractions/gangtok/gangtok-ropeway-3.jpg",
+        "/images/attractions/gangtok/gangtok-ropeway-4.jpg",
+        "/images/attractions/gangtok/gangtok-ropeway-5.jpg",
+        "/images/attractions/gangtok/gangtok-ropeway-6.jpg"
       ]
     },
     {
@@ -3350,7 +3998,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/gangtok/ganesh-tok-1.jpg",
         "/images/attractions/gangtok/ganesh-tok-2.jpg",
-        "/images/attractions/gangtok/ganesh-tok-3.jpg"
+        "/images/attractions/gangtok/ganesh-tok-3.jpg",
+        "/images/attractions/gangtok/ganesh-tok-4.jpg",
+        "/images/attractions/gangtok/ganesh-tok-5.jpg",
+        "/images/attractions/gangtok/ganesh-tok-6.jpg"
       ]
     },
     {
@@ -3366,7 +4017,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/gangtok/hanuman-tok-1.jpg",
         "/images/attractions/gangtok/hanuman-tok-2.jpg",
-        "/images/attractions/gangtok/hanuman-tok-3.jpg"
+        "/images/attractions/gangtok/hanuman-tok-3.jpg",
+        "/images/attractions/gangtok/hanuman-tok-4.jpg",
+        "/images/attractions/gangtok/hanuman-tok-5.jpg",
+        "/images/attractions/gangtok/hanuman-tok-6.jpg"
       ]
     },
     {
@@ -3382,7 +4036,10 @@ export const CURATED_ATTRACTIONS = {
       "photos": [
         "/images/attractions/gangtok/flower-exhibition-centre-1.jpg",
         "/images/attractions/gangtok/flower-exhibition-centre-2.jpg",
-        "/images/attractions/gangtok/flower-exhibition-centre-3.jpg"
+        "/images/attractions/gangtok/flower-exhibition-centre-3.jpg",
+        "/images/attractions/gangtok/flower-exhibition-centre-4.jpg",
+        "/images/attractions/gangtok/flower-exhibition-centre-5.jpg",
+        "/images/attractions/gangtok/flower-exhibition-centre-6.jpg"
       ]
     }
   ]
