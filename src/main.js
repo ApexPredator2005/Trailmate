@@ -16,6 +16,8 @@ import { ConversationEngine } from './engine/conversation.js';
 import { api, syncDestinationCardWeather, formatWeatherString } from './services/api.js';
 import { communityService }   from './services/CommunityService.js';
 import { getDestinationHeaderArt } from './components/HeaderDoodlesData.js';
+import { wallpaperManager }   from './services/WallpaperManager.js';
+import { renderLoginView }   from './views/LoginView.js';
 
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -70,6 +72,60 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // ── First-Time User Welcome & Authentication Controller ────────────
+  const loginViewContainer = document.getElementById('loginViewContainer');
+
+  function showLoginScreen({ isFirstTime = false, redirectView = 'chat' } = {}) {
+    if (!loginViewContainer) return;
+    loginViewContainer.classList.remove('hidden');
+    loginViewContainer.classList.remove('login-view-exit');
+    loginViewContainer.classList.add('login-view-enter');
+    loginViewContainer.scrollTop = 0;
+
+    renderLoginView(loginViewContainer, {
+      isFirstTime,
+      onClose: isFirstTime ? null : () => {
+        hideLoginScreen();
+        if (window.location.hash === '#login') {
+          window.location.hash = '#chat';
+        }
+      },
+      onSuccess: (userData) => {
+        updateSidebarUserProfile();
+        hideLoginScreen();
+        if (window.location.hash === '#login') {
+          window.location.hash = `#${redirectView}`;
+        }
+      },
+    });
+  }
+
+  function hideLoginScreen() {
+    if (!loginViewContainer) return;
+    loginViewContainer.classList.remove('login-view-enter');
+    loginViewContainer.classList.add('login-view-exit');
+    setTimeout(() => {
+      loginViewContainer.classList.add('hidden');
+      loginViewContainer.classList.remove('login-view-exit');
+    }, 240);
+  }
+
+  function updateSidebarUserProfile() {
+    const profile = communityService.getProfile();
+    const btn = document.getElementById('btnProfile');
+    if (!btn) return;
+    const img = btn.querySelector('img');
+    const nameEl = btn.querySelector('.font-label-sm.text-xs');
+    const subtitleEl = btn.querySelector('.font-label-sm.text-\\[10px\\]');
+    if (img && profile.avatar) img.src = profile.avatar;
+    if (nameEl && profile.name) nameEl.textContent = profile.name;
+    if (subtitleEl) {
+      subtitleEl.textContent = profile.isGuest ? 'Guest Explorer' : (profile.handle || 'Preferences');
+    }
+  }
+
+  window.__trailmate = { engine, store, showLoginScreen, hideLoginScreen, updateSidebarUserProfile, wallpaperManager };
+
   // ── 2. Full-View Swap Navigation Controller ────────────────────────
   const chatPane = document.getElementById('chatPane');
   const splitResizer = document.getElementById('splitResizer');
@@ -83,26 +139,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const fullViewBody = document.getElementById('fullViewBody');
   const btnFullViewClose = document.getElementById('btnFullViewClose');
 
-  const SECTION_BACKGROUNDS = {
-    settings: '/backgrounds/bg-settings-instruments.svg',
-    privacy: '/backgrounds/bg-settings-instruments.svg',
-    map: '/backgrounds/bg-map-mountains.svg',
-    trips: '/backgrounds/bg-trips-heritage.svg',
-    guide: '/backgrounds/bg-trips-heritage.svg',
-    share: '/backgrounds/bg-trips-heritage.svg',
-  };
+  if (fullViewBackground) {
+    wallpaperManager.mount(fullViewBackground);
+  }
 
-  function updateFullViewBackground(viewName) {
-    const bgImg = document.getElementById('fullViewBgImg');
-    if (!bgImg) return;
-    const targetSrc = SECTION_BACKGROUNDS[viewName] || SECTION_BACKGROUNDS.trips;
-    if (!bgImg.src.endsWith(targetSrc)) {
-      bgImg.style.opacity = '0';
-      setTimeout(() => {
-        bgImg.src = targetSrc;
-        bgImg.style.opacity = '1';
-      }, 120);
-    }
+  function updateFullViewBackground() {
+    wallpaperManager.resume();
   }
 
   let currentActiveView = 'chat';
@@ -114,7 +156,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   async function renderCardContent(viewName) {
-    updateFullViewBackground(viewName);
+    updateFullViewBackground();
 
     const viewProps = {
       switchView,
@@ -190,10 +232,17 @@ document.addEventListener('DOMContentLoaded', () => {
     currentActiveView = viewName;
     if (sidebarInstance) sidebarInstance.setActiveView(viewName);
 
+    try {
+      if (window.location.hash !== `#${viewName}`) {
+        history.replaceState(null, '', `#${viewName}`);
+      }
+    } catch {}
+
     const reduced = isReducedMotion();
 
     if (viewName === 'scrapbook') {
       // Show full-screen Canva-like Scrapbook Studio
+      wallpaperManager.pause();
       splitChatView?.classList.add('hidden');
       fullViewSection?.classList.add('hidden');
       if (mapWorkspaceView) mapWorkspaceView.classList.add('hidden');
@@ -223,6 +272,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (viewName === 'map') {
       // Show full-screen interactive MapView covering all space right of sidebar
+      wallpaperManager.pause();
       splitChatView?.classList.add('hidden');
       fullViewSection?.classList.add('hidden');
       if (scrapbookView) scrapbookView.classList.add('hidden');
@@ -249,6 +299,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (viewName === 'community') {
       // Show full-screen Community Hub, Quests & Badges
+      wallpaperManager.pause();
       splitChatView?.classList.add('hidden');
       fullViewSection?.classList.add('hidden');
       if (scrapbookView) scrapbookView.classList.add('hidden');
@@ -279,6 +330,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (viewName === 'chat') {
       // Switching back to Chat
+      wallpaperManager.pause();
       if (fullViewScrollContainer) fullViewScrollContainer.scrollTop = 0;
       if (splitChatView) splitChatView.classList.remove('hidden');
 
@@ -300,6 +352,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     } else {
       // Switching to a standard FullView section (settings, trips, guide, privacy, share)
+      wallpaperManager.resume();
       if (fullViewSection) fullViewSection.classList.remove('hidden');
       if (fullViewScrollContainer) fullViewScrollContainer.scrollTop = 0;
 
@@ -361,6 +414,23 @@ document.addEventListener('DOMContentLoaded', () => {
     onNavChange: (view) => {
       switchView(view);
     },
+  });
+
+  // Handle URL hash routing
+  const initialHash = (window.location.hash || '').replace('#', '');
+  if (initialHash === 'login') {
+    showLoginScreen({ isFirstTime: false });
+  } else if (initialHash && ['trips', 'settings', 'map', 'scrapbook', 'community', 'share', 'guide', 'privacy'].includes(initialHash)) {
+    switchView(initialHash);
+  }
+  window.addEventListener('hashchange', () => {
+    const hash = (window.location.hash || '').replace('#', '');
+    if (hash === 'login') {
+      showLoginScreen({ isFirstTime: false });
+    } else if (hash && ['chat', 'trips', 'settings', 'map', 'scrapbook', 'community', 'share', 'guide', 'privacy'].includes(hash)) {
+      hideLoginScreen();
+      switchView(hash);
+    }
   });
 
   // ── Traveler Passport & Profile Modal ───────────────────────────────
@@ -450,6 +520,9 @@ document.addEventListener('DOMContentLoaded', () => {
           <button id="btnGoToCommunityFromPassport" class="flex-1 py-2.5 bg-[#8b4513] text-white rounded-xl text-xs font-bold hover:bg-[#703810] cursor-pointer">
             Explore Community &amp; Quests
           </button>
+          <button id="btnSwitchAccountFromPassport" class="py-2.5 px-3 bg-[#FAF6EE] border border-[#BFA895] rounded-xl text-xs font-bold text-[#8b4513] hover:bg-[#F3ECE0] cursor-pointer">
+            Switch Account
+          </button>
           <button id="btnClosePassportModal" class="py-2.5 px-4 bg-white border border-neutral-300 rounded-xl text-xs font-bold text-neutral-700 hover:bg-neutral-50 cursor-pointer">
             Close
           </button>
@@ -462,6 +535,10 @@ document.addEventListener('DOMContentLoaded', () => {
       modal.classList.remove('hidden');
 
       document.getElementById('btnClosePassportModal')?.addEventListener('click', closeModal);
+      document.getElementById('btnSwitchAccountFromPassport')?.addEventListener('click', () => {
+        closeModal();
+        showLoginScreen({ isFirstTime: false });
+      });
       document.getElementById('btnGoToCommunityFromPassport')?.addEventListener('click', () => {
         closeModal();
         switchView('community');
@@ -1005,6 +1082,12 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // ── 8. Boot ─────────────────────────────────────────────────────────
+  const hasLoggedIn = localStorage.getItem('trailmate_has_logged_in');
+  if (!hasLoggedIn && initialHash !== 'login' && !['trips', 'settings', 'map', 'scrapbook', 'community', 'share', 'guide', 'privacy'].includes(initialHash)) {
+    // Automatically present the field journal login/welcome view for first-time visitors
+    showLoginScreen({ isFirstTime: true });
+  }
+
   if (store.getState().messages.length === 0) {
     engine.sendWelcome();
   } else {

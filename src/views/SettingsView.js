@@ -61,6 +61,16 @@ export function renderSettingsView(container, { switchView, store }) {
         </div>
         <input type="text" id="fullPrefHome" value="${storedHome}" class="text-xs font-semibold p-2 rounded-xl border border-neutral-300 bg-white w-32 focus:ring-1 focus:ring-secondary" placeholder="e.g. Delhi" />
       </div>
+
+      <div class="tactile-inset-panel flex items-center justify-between">
+        <div>
+          <label class="block text-xs font-bold text-neutral-900">Traveler Account</label>
+          <p class="text-[10px] text-neutral-600">Switch profile, sign in, or register as explorer</p>
+        </div>
+        <button type="button" id="btnOpenLoginFromSettings" class="text-xs font-bold px-3.5 py-1.5 rounded-xl bg-white border border-[#BFA895] text-[#944a1a] hover:bg-[#FAF6EE] transition cursor-pointer shadow-xs">
+          Switch Account
+        </button>
+      </div>
     </div>
 
     <button id="btnSaveFullSettings" class="w-full mt-6 py-3.5 bg-[#8b4513] text-white rounded-xl text-sm font-bold hover:bg-[#703810] transition-all shadow-md active:scale-[0.99] cursor-pointer">
@@ -92,5 +102,13 @@ export function renderSettingsView(container, { switchView, store }) {
       role: 'bot',
       text: `⚙️ **Preferences updated:** Currency set to ${c}, stay style **${selectedStay}**, home origin **${h}**.`,
     });
+  });
+
+  document.getElementById('btnOpenLoginFromSettings')?.addEventListener('click', () => {
+    if (window.__trailmate?.showLoginScreen) {
+      window.__trailmate.showLoginScreen({ isFirstTime: false });
+    } else {
+      window.location.hash = '#login';
+    }
   });
 }

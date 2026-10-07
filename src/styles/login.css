@@ -1,0 +1,81 @@
+/* ==========================================================================
+   login.css — Tactile Field Journal Welcome & Authentication Screen Styles
+   ========================================================================== */
+
+.bg-paper-texture {
+  background-color: #FCF9F4;
+  background-image: 
+    radial-gradient(circle at 15% 20%, rgba(201, 154, 69, 0.045) 0%, transparent 40%),
+    radial-gradient(circle at 85% 85%, rgba(30, 58, 52, 0.035) 0%, transparent 45%),
+    linear-gradient(to right, rgba(0, 0, 0, 0.02) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.02) 1px, transparent 1px);
+  background-size: 100% 100%, 100% 100%, 32px 32px, 32px 32px;
+}
+
+.login-modal-overlay {
+  background: rgba(14, 12, 10, 0.72);
+  backdrop-filter: blur(12px) saturate(140%);
+  -webkit-backdrop-filter: blur(12px) saturate(140%);
+}
+
+.corner-bracket {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border-color: #C99A45;
+  pointer-events: none;
+  opacity: 0.75;
+}
+.corner-tl { top: 14px; left: 14px; border-top: 2px solid; border-left: 2px solid; }
+.corner-tr { top: 14px; right: 14px; border-top: 2px solid; border-right: 2px solid; }
+.corner-bl { bottom: 14px; left: 14px; border-bottom: 2px solid; border-left: 2px solid; }
+.corner-br { bottom: 14px; right: 14px; border-bottom: 2px solid; border-right: 2px solid; }
+
+.washi-strip {
+  background: rgba(228, 219, 203, 0.85);
+  border-left: 2px dashed rgba(196, 112, 61, 0.35);
+  border-right: 2px dashed rgba(196, 112, 61, 0.35);
+  backdrop-filter: blur(4px);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.shadow-journal {
+  box-shadow:
+    0 25px 50px -12px rgba(18, 32, 28, 0.25),
+    0 10px 20px -6px rgba(196, 112, 61, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95);
+}
+
+.shadow-terracotta-glow {
+  box-shadow: 0 8px 24px -4px rgba(196, 112, 61, 0.40);
+}
+
+.login-view-enter {
+  animation: loginFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.login-view-exit {
+  animation: loginFadeOut 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes loginFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.98) translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes loginFadeOut {
+  from {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.98) translateY(-8px);
+  }
+}

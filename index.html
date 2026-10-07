@@ -10,17 +10,15 @@
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 
-  <!-- Google Fonts: JetBrains Mono, Noto Serif, Public Sans, Caveat, Playfair Display, Plus Jakarta Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=JetBrains+Mono:wght@400;500;600&family=Noto+Serif:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Public+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
-  <link rel="preload" href="/backgrounds/bg-settings-instruments.svg" as="image"/>
-  <link rel="preload" href="/backgrounds/bg-map-mountains.svg" as="image"/>
-  <link rel="preload" href="/backgrounds/bg-trips-heritage.svg" as="image"/>
+  <link rel="preload" href="/images/wallpapers/mountains-amba-ghat-4k.jpg" as="image" type="image/jpeg" fetchpriority="high"/>
   <link rel="stylesheet" href="/src/styles/variables.css"/>
   <link rel="stylesheet" href="/src/styles/base.css"/>
   <link rel="stylesheet" href="/src/styles/layout.css"/>
+  <link rel="stylesheet" href="/src/styles/wallpaper.css"/>
   <link rel="stylesheet" href="/src/styles/chat.css"/>
   <link rel="stylesheet" href="/src/styles/cards.css"/>
   <link rel="stylesheet" href="/src/styles/itinerary.css"/>
@@ -29,6 +27,7 @@
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
   <link rel="stylesheet" href="/src/styles/map.css"/>
   <link rel="stylesheet" href="/src/styles/community.css"/>
+  <link rel="stylesheet" href="/src/styles/login.css"/>
 
   <script id="tailwind-config">
     tailwind.config = {
@@ -638,9 +637,9 @@
     <!-- Full-Width View Section (Trips, Map, Settings) taking 100% of #appMain -->
     <section id="fullViewSection" class="hidden flex-1 flex flex-col h-full w-full absolute inset-0 overflow-hidden bg-[#FBF8F3]">
       
-      <!-- Full-Bleed Themed Background Illustration Layer -->
+      <!-- Full-Bleed 4K Scenic India Nature Wallpaper Layer -->
       <div id="fullViewBackground" class="fullview-bg-layer flex items-center justify-center">
-        <img id="fullViewBgImg" src="/backgrounds/bg-trips-heritage.svg" alt="Themed Travel Background" class="w-full h-full object-cover object-center select-none pointer-events-none transition-opacity duration-300" />
+        <!-- Dynamic rotating 4K wallpapers with smooth diffusing transitions mount here -->
       </div>
 
       <!-- Centered Content Floating Area (Scrollable) -->
@@ -692,6 +691,9 @@
       </div>
     </div>
   </div>
+
+  <!-- First-Time User Welcome & Authentication Overlay -->
+  <div id="loginViewContainer" class="hidden fixed inset-0 z-50 overflow-y-auto"></div>
 
   <script type="module" src="/src/main.js"></script>
 </body>
