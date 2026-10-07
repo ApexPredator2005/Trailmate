@@ -391,7 +391,7 @@
 }
 
 /* ==========================================================================
-   Rising Destination Header Artwork (Ease-Out Motion)
+   Rising Destination Header Artwork & Boomerang Motion Engine
    ========================================================================== */
 
 @keyframes headerDoodleRiseUp {
@@ -405,12 +405,273 @@
   }
 }
 
+.header-doodle-wrap {
+  animation: headerDoodleRiseUp 0.65s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  will-change: transform, opacity;
+}
+
 .header-doodle-rising {
   animation: headerDoodleRiseUp 0.65s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   height: 100%;
   width: auto;
   max-height: 50px;
   object-fit: contain;
+}
+
+/* Archival Depth & Interactive Hover */
+.header-doodle-interactive {
+  filter: drop-shadow(0 2px 5px rgba(20, 24, 23, 0.08)) drop-shadow(0 0 1px rgba(196, 112, 61, 0.12));
+  transition: filter 0.3s cubic-bezier(0.16, 1, 0.3, 1), transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+.header-doodle-interactive:hover {
+  animation-play-state: paused;
+  filter: drop-shadow(0 4px 10px rgba(20, 24, 23, 0.14)) drop-shadow(0 0 2px rgba(196, 112, 61, 0.25));
+}
+
+/* Base Boomerang (Organic 60fps alternate floating loop) */
+@keyframes doodleBoomerangFloat {
+  0% {
+    transform: translateY(0) rotate(0deg);
+  }
+  100% {
+    transform: translateY(-4px) rotate(0.8deg);
+  }
+}
+
+.doodle-boomerang {
+  animation: doodleBoomerangFloat 3s ease-in-out infinite alternate;
+  will-change: transform;
+  transform-origin: center bottom;
+  backface-visibility: hidden;
+  filter: drop-shadow(0 2px 5px rgba(20, 24, 23, 0.08)) drop-shadow(0 0 1px rgba(196, 112, 61, 0.12));
+}
+
+/* 1. Coastal Wave — 2.8s buoyant bobbing mimicking ocean swells */
+@keyframes doodleCoastalWave {
+  0% {
+    transform: translateY(0) rotate(0deg) skewX(0deg);
+  }
+  100% {
+    transform: translateY(-3.5px) rotate(-1.2deg) skewX(0.5deg);
+  }
+}
+
+.doodle-coastal-wave {
+  animation: doodleCoastalWave 2.8s ease-in-out infinite alternate;
+  will-change: transform;
+  transform-origin: center bottom;
+  backface-visibility: hidden;
+}
+
+/* 2. Alpine Breeze — 3.8s gentle high-altitude drift */
+@keyframes doodleAlpineBreeze {
+  0% {
+    transform: translateY(0) translateX(0) rotate(0deg);
+  }
+  100% {
+    transform: translateY(-5px) translateX(2px) rotate(0.6deg);
+  }
+}
+
+.doodle-alpine-breeze {
+  animation: doodleAlpineBreeze 3.8s ease-in-out infinite alternate;
+  will-change: transform;
+  transform-origin: center bottom;
+  backface-visibility: hidden;
+}
+
+/* 3. Tea Sway — 3.2s rolling hills sway */
+@keyframes doodleTeaSway {
+  0% {
+    transform: translateY(0) rotate(0deg);
+  }
+  100% {
+    transform: translateY(-3px) rotate(1.4deg);
+  }
+}
+
+.doodle-tea-sway {
+  animation: doodleTeaSway 3.2s ease-in-out infinite alternate;
+  will-change: transform;
+  transform-origin: center bottom;
+  backface-visibility: hidden;
+}
+
+/* 4. Monuments Reverence — 4.5s subtle stately pulse and float */
+@keyframes doodleMonumentsReverence {
+  0% {
+    transform: translateY(0) scale(1);
+  }
+  100% {
+    transform: translateY(-2.5px) scale(1.015);
+  }
+}
+
+.doodle-monuments-reverence {
+  animation: doodleMonumentsReverence 4.5s ease-in-out infinite alternate;
+  will-change: transform;
+  transform-origin: center bottom;
+  backface-visibility: hidden;
+}
+
+/* 5. Safari Stride — 2.6s rhythmic prowl step bounce */
+@keyframes doodleSafariStride {
+  0% {
+    transform: translateY(0) rotate(0deg);
+  }
+  100% {
+    transform: translateY(-3.5px) rotate(-0.8deg);
+  }
+}
+
+.doodle-safari-stride {
+  animation: doodleSafariStride 2.6s ease-in-out infinite alternate;
+  will-change: transform;
+  transform-origin: center bottom;
+  backface-visibility: hidden;
+}
+
+/* 6. Spiritual Drift — 4.2s serene floating lamp sway */
+@keyframes doodleSpiritualDrift {
+  0% {
+    transform: translateY(0) rotate(0deg);
+  }
+  100% {
+    transform: translateY(-4px) rotate(1deg);
+  }
+}
+
+.doodle-spiritual-drift {
+  animation: doodleSpiritualDrift 4.2s ease-in-out infinite alternate;
+  will-change: transform;
+  transform-origin: center bottom;
+  backface-visibility: hidden;
+}
+
+/* 7. Scuba Buoyancy — 3.4s underwater gentle current drift */
+@keyframes doodleScubaBuoyancy {
+  0% {
+    transform: translateY(0) translateX(0) rotate(0deg);
+  }
+  100% {
+    transform: translateY(-4.5px) translateX(-2px) rotate(-1deg);
+  }
+}
+
+.doodle-scuba-buoyancy {
+  animation: doodleScubaBuoyancy 3.4s ease-in-out infinite alternate;
+  will-change: transform;
+  transform-origin: center bottom;
+  backface-visibility: hidden;
+}
+
+/* 8. Lake Ripple — 3.0s peaceful rowboat gentle rock */
+@keyframes doodleLakeRipple {
+  0% {
+    transform: translateY(0) rotate(0deg);
+  }
+  100% {
+    transform: translateY(-3px) rotate(0.9deg);
+  }
+}
+
+.doodle-lake-ripple {
+  animation: doodleLakeRipple 3s ease-in-out infinite alternate;
+  will-change: transform;
+  transform-origin: center bottom;
+  backface-visibility: hidden;
+}
+
+/* 9. Desert Mirage — 4.0s desert heat haze shimmer drift */
+@keyframes doodleDesertMirage {
+  0% {
+    transform: translateY(0) skewX(0deg);
+  }
+  100% {
+    transform: translateY(-3px) skewX(-0.8deg);
+  }
+}
+
+.doodle-desert-mirage {
+  animation: doodleDesertMirage 4s ease-in-out infinite alternate;
+  will-change: transform;
+  transform-origin: center bottom;
+  backface-visibility: hidden;
+}
+
+/* 10. Coffee Rustle — 3.1s canopy breeze flutter */
+@keyframes doodleCoffeeRustle {
+  0% {
+    transform: translateY(0) rotate(0deg);
+  }
+  100% {
+    transform: translateY(-3.5px) rotate(1.1deg);
+  }
+}
+
+.doodle-coffee-rustle {
+  animation: doodleCoffeeRustle 3.1s ease-in-out infinite alternate;
+  will-change: transform;
+  transform-origin: center bottom;
+  backface-visibility: hidden;
+}
+
+/* 11. Monastery Flags — 3.6s prayer flags flutter */
+@keyframes doodleMonasteryFlags {
+  0% {
+    transform: translateY(0) rotate(0deg);
+  }
+  100% {
+    transform: translateY(-4px) rotate(-1.3deg);
+  }
+}
+
+.doodle-monastery-flags {
+  animation: doodleMonasteryFlags 3.6s ease-in-out infinite alternate;
+  will-change: transform;
+  transform-origin: center bottom;
+  backface-visibility: hidden;
+}
+
+/* 12. Ski Glade — 2.5s downhill slope glide */
+@keyframes doodleSkiGlade {
+  0% {
+    transform: translateY(0) translateX(0) rotate(0deg);
+  }
+  100% {
+    transform: translateY(-4px) translateX(3px) rotate(1.2deg);
+  }
+}
+
+.doodle-ski-glade {
+  animation: doodleSkiGlade 2.5s ease-in-out infinite alternate;
+  will-change: transform;
+  transform-origin: center bottom;
+  backface-visibility: hidden;
+}
+
+/* Accessibility: respect prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  .header-doodle-wrap,
+  .header-doodle-rising,
+  .doodle-boomerang,
+  .doodle-coastal-wave,
+  .doodle-alpine-breeze,
+  .doodle-tea-sway,
+  .doodle-monuments-reverence,
+  .doodle-safari-stride,
+  .doodle-spiritual-drift,
+  .doodle-scuba-buoyancy,
+  .doodle-lake-ripple,
+  .doodle-desert-mirage,
+  .doodle-coffee-rustle,
+  .doodle-monastery-flags,
+  .doodle-ski-glade {
+    animation: none !important;
+  }
 }
 
 

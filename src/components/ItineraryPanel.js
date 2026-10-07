@@ -96,8 +96,13 @@ export class ItineraryPanel {
 
           <!-- Destination Doodle Art Accent Strip -->
           ${doodleArt?.src ? `
-            <div class="itinerary-doodle-banner flex items-center justify-center py-1 opacity-70 hover:opacity-100 transition-opacity">
-              <img src="${esc(doodleArt.src)}" alt="${esc(doodleArt.title || 'Art')}" class="h-10 w-auto max-w-[280px] object-contain select-none pointer-events-none filter drop-shadow-xs" />
+            <div class="itinerary-doodle-banner flex items-center justify-center py-1 opacity-80 hover:opacity-100 transition-opacity">
+              <img 
+                src="${esc(doodleArt.src)}" 
+                alt="${esc(doodleArt.title || 'Art')}" 
+                title="${esc(doodleArt.title || 'Art')}"
+                class="h-10 w-auto max-w-[280px] object-contain select-none doodle-boomerang ${esc(doodleArt.animationClass || '')} header-doodle-interactive" 
+              />
             </div>
           ` : ''}
 

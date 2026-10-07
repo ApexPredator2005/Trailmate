@@ -740,15 +740,15 @@ document.addEventListener('DOMContentLoaded', () => {
       doodleContainer.innerHTML = '';
       return;
     }
-    const { src, title } = getDestinationHeaderArt(destination);
-    // Smooth rise-up animation starting from the bottom of the top bar (ease-out)
+    const { src, title, animationClass } = getDestinationHeaderArt(destination);
+    // Smooth rise-up animation starting from the bottom of the top bar (ease-out) with organic boomerang motion
     doodleContainer.innerHTML = `
-      <div class="relative w-full h-full flex items-center justify-center">
+      <div class="header-doodle-wrap relative w-full h-full flex items-center justify-center">
         <img 
           src="${src}" 
           alt="${title}" 
           title="${title}"
-          class="h-full w-auto max-h-[52px] object-contain header-doodle-rising" 
+          class="h-full w-auto max-h-[52px] object-contain header-doodle-rising doodle-boomerang ${animationClass || ''} header-doodle-interactive" 
         />
       </div>
     `;
