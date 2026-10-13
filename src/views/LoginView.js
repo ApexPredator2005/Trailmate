@@ -1,9 +1,9 @@
 /**
  * LoginView.js — Tactile Field Journal Welcome & Authentication View
- * Designed using Stitch MCP with authentic travel journal aesthetics,
+ * Designed using authentic travel journal aesthetics,
  * official Trailmate app logo integration, first-time user onboarding perks,
  * robust user registration (Name, Email, Password saved to persistent store),
- * and interactive Google Sign In & Sign Up flows.
+ * and streamlined direct email authentication & guest explorer sandbox.
  */
 
 import { communityService } from '../services/CommunityService.js';
@@ -72,9 +72,10 @@ export function renderLoginView(container, {
   isFirstTime = false,
 } = {}) {
   if (!container) return;
+  container.scrollTop = 0;
 
   container.innerHTML = `
-    <div class="login-modal-overlay min-h-screen w-full flex flex-col justify-start items-center py-5 px-4 sm:px-6 lg:px-8 relative z-50 selection:bg-[#C4703D] selection:text-white">
+    <div class="login-modal-overlay min-h-full w-full flex flex-col justify-start items-center py-3 sm:py-4 px-4 sm:px-6 lg:px-8 relative selection:bg-[#C4703D] selection:text-white">
       
       <!-- Top Decorative Vignette Border -->
       <div class="fixed top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-[#1E3A34] via-[#C4703D] to-[#C99A45] opacity-90 z-50"></div>
@@ -84,41 +85,41 @@ export function renderLoginView(container, {
       <div class="pointer-events-none fixed -bottom-24 -left-24 w-96 h-96 rounded-full bg-[#1E3A34]/15 blur-3xl"></div>
 
       <!-- Global Header Bar with App Logo -->
-      <header class="w-full max-w-6xl mx-auto flex items-center justify-between pb-3 z-10 shrink-0">
-        <div class="flex items-center gap-3.5 group cursor-pointer" id="loginHeaderBrand">
+      <header class="w-full max-w-6xl mx-auto flex items-center justify-between pb-2 z-10 shrink-0">
+        <div class="flex items-center gap-3 group cursor-pointer" id="loginHeaderBrand">
           <!-- Official Trailmate App Logo Badge -->
-          <div class="relative w-11 h-11 rounded-2xl bg-white flex items-center justify-center shadow-md border border-[#C99A45]/40 transition-transform duration-300 group-hover:scale-105 overflow-hidden p-1 shrink-0">
+          <div class="relative w-10 h-10 rounded-2xl bg-white flex items-center justify-center shadow-md border border-[#C99A45]/40 transition-transform duration-300 group-hover:scale-105 overflow-hidden p-1 shrink-0">
             <img src="/logo.png" alt="Trailmate App Logo" class="w-full h-full object-contain rounded-xl" />
             <span class="absolute -top-1 -right-1 w-2.5 h-2.5 bg-[#C4703D] rounded-full ring-2 ring-[#FCF9F4]"></span>
           </div>
 
           <div>
             <div class="flex items-center gap-2">
-              <span class="font-serif font-bold text-2xl tracking-tight text-white drop-shadow-sm">Trailmate</span>
-              <span class="text-[10px] uppercase font-mono tracking-widest px-2 py-0.5 rounded bg-[#C99A45]/20 text-[#F5E0B7] font-semibold border border-[#C99A45]/30">Field Journal</span>
+              <span class="font-serif font-bold text-xl sm:text-2xl tracking-tight text-white drop-shadow-sm">Trailmate</span>
+              <span class="text-[9.5px] uppercase font-mono tracking-widest px-2 py-0.5 rounded bg-[#C99A45]/20 text-[#F5E0B7] font-semibold border border-[#C99A45]/30">Field Journal</span>
             </div>
-            <p class="text-xs text-white/80 tracking-normal font-sans drop-shadow-sm">Your Intelligent Travel Journal &amp; Expedition Partner</p>
+            <p class="text-[11px] text-white/80 tracking-normal font-sans drop-shadow-sm">Your Intelligent Travel Journal &amp; Expedition Partner</p>
           </div>
         </div>
 
         <!-- Right Utilities & Optional Dismiss Button -->
         <div class="flex items-center gap-3">
-          <button id="btnQuickGuestHeader" type="button" class="text-xs font-mono uppercase tracking-wider text-white/90 hover:text-white font-medium transition-colors flex items-center gap-1.5 py-1.5 px-3 rounded-lg bg-white/10 hover:bg-white/20 border border-white/15 backdrop-blur-sm cursor-pointer">
-            <span class="material-symbols-outlined text-[16px] text-[#E2A77E]">explore</span>
+          <button id="btnQuickGuestHeader" type="button" class="text-xs font-mono uppercase tracking-wider text-white/90 hover:text-white font-medium transition-colors flex items-center gap-1.5 py-1 px-2.5 rounded-lg bg-white/10 hover:bg-white/20 border border-white/15 backdrop-blur-sm cursor-pointer">
+            <span class="material-symbols-outlined text-[15px] text-[#E2A77E]">explore</span>
             <span>Quick Preview</span>
           </button>
 
           ${onClose ? `
-            <button id="btnLoginClose" class="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center border border-white/15 transition-all cursor-pointer" title="Close" aria-label="Close login screen">
-              <span class="material-symbols-outlined text-lg">close</span>
+            <button id="btnLoginClose" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center border border-white/15 transition-all cursor-pointer" title="Close" aria-label="Close login screen">
+              <span class="material-symbols-outlined text-base">close</span>
             </button>
           ` : ''}
         </div>
       </header>
 
       <!-- Main Tactile Card Container -->
-      <main class="w-full max-w-6xl mx-auto z-10 py-1 mb-8">
-        <div class="relative bg-[#FAF6EE] rounded-[28px] border border-[#E8DFD1] shadow-journal overflow-hidden login-view-enter">
+      <main class="w-full max-w-6xl mx-auto z-10 py-0.5 mb-3">
+        <div class="relative bg-[#FAF6EE] rounded-[24px] border border-[#E8DFD1] shadow-journal overflow-hidden login-view-enter">
           
           <!-- Decorative Archival Corner Marks -->
           <div class="corner-bracket corner-tl"></div>
@@ -129,10 +130,10 @@ export function renderLoginView(container, {
           <!-- Top Washi Tape Accent -->
           <div class="washi-strip absolute top-0 left-1/2 -translate-x-1/2 w-48 h-3.5 rounded-b-sm z-20"></div>
 
-          <div class="grid grid-cols-1 lg:grid-cols-12 min-h-[560px]">
+          <div class="grid grid-cols-1 lg:grid-cols-12 min-h-[480px]">
 
             <!-- ================= LEFT HERO / VALUE VIGNETTES (7 COLS) ================= -->
-            <div class="lg:col-span-7 p-7 sm:p-9 lg:p-10 border-b lg:border-b-0 lg:border-r border-[#E8DFD1] bg-gradient-to-br from-[#FAF6EE] to-[#F5EFE4] flex flex-col justify-between relative overflow-hidden">
+            <div class="lg:col-span-7 p-5 sm:p-6 lg:p-7 border-b lg:border-b-0 lg:border-r border-[#E8DFD1] bg-gradient-to-br from-[#FAF6EE] to-[#F5EFE4] flex flex-col justify-between relative overflow-hidden">
               
               <!-- Subtle Topographic Contour Background SVG -->
               <div class="absolute right-0 bottom-0 w-80 h-80 opacity-[0.06] pointer-events-none transform translate-x-14 translate-y-14">
@@ -233,7 +234,7 @@ export function renderLoginView(container, {
 
 
             <!-- ================= RIGHT AUTH SECTION (5 COLS) ================= -->
-            <div class="lg:col-span-5 p-7 sm:p-9 lg:p-10 bg-white flex flex-col justify-between relative">
+            <div class="lg:col-span-5 p-5 sm:p-6 lg:p-7 bg-white flex flex-col justify-between relative">
               
               <div>
                 <!-- Brand Badge directly above Form -->
@@ -253,36 +254,6 @@ export function renderLoginView(container, {
                     <span class="material-symbols-outlined text-[15px]">person_add</span>
                     <span>Create Account</span>
                   </button>
-                </div>
-
-                <!-- 1-Click Social Sign-in -->
-                <div class="grid grid-cols-2 gap-2.5 mb-3.5">
-                  <!-- Google Button -->
-                  <button id="btnGoogleAuth" type="button" class="flex items-center justify-center gap-2 py-2 px-3 rounded-xl border border-[#E8DFD1] bg-[#FAF6EE]/60 hover:bg-[#FAF6EE] text-xs font-semibold text-[#1B1C1A] transition-all hover:border-[#4285F4]/40 shadow-xs cursor-pointer group">
-                    <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24">
-                      <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.8-2.4 3.65v3.03h3.88c2.27-2.09 3.665-5.17 3.665-9.12z"/>
-                      <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.03c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.24v3.13C3.26 21.36 7.33 24 12 24z"/>
-                      <path fill="#FBBC05" d="M5.28 14.29c-.25-.72-.38-1.49-.38-2.29s.13-1.57.38-2.29V6.58H1.24C.45 8.15 0 9.92 0 12s.45 3.85 1.24 5.42l4.04-3.13z"/>
-                      <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.64 1.24 6.58l4.04 3.13c.95-2.83 3.6-4.96 6.72-4.96z"/>
-                    </svg>
-                    <span>Google</span>
-                  </button>
-
-                  <!-- Apple Button -->
-                  <button id="btnAppleAuth" type="button" class="flex items-center justify-center gap-2 py-2 px-3 rounded-xl border border-[#E8DFD1] bg-[#FAF6EE]/60 hover:bg-[#FAF6EE] text-xs font-semibold text-[#1B1C1A] transition-all hover:border-[#1E3A34]/30 shadow-xs cursor-pointer group">
-                    <svg class="w-3.5 h-3.5 shrink-0 fill-current text-[#1B1C1A]" viewBox="0 0 24 24">
-                      <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.47c.64-.78 1.08-1.86.96-2.95-.93.04-2.06.62-2.73 1.4-.58.67-1.1 1.77-.96 2.83 1.04.08 2.09-.5 2.73-1.28z"/>
-                    </svg>
-                    <span>Apple</span>
-                  </button>
-                </div>
-
-                <!-- Divider -->
-                <div class="relative flex items-center justify-center my-3.5">
-                  <div class="border-t border-[#E8DFD1] w-full"></div>
-                  <span class="bg-white px-2.5 text-[10px] font-mono uppercase tracking-wider text-[#9E9C94] shrink-0">
-                    or with email
-                  </span>
                 </div>
 
                 <!-- Inline Feedback / Error Banner -->
@@ -311,7 +282,7 @@ export function renderLoginView(container, {
                     </label>
                     <div class="relative">
                       <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-[#9E9C94] text-[17px]">alternate_email</span>
-                      <input type="email" id="inputEmail" required placeholder="traveler@trailmate.app" value="traveler@trailmate.app"
+                      <input type="email" id="inputEmail" required placeholder="e.g. explorer@trailmate.app"
                         class="w-full pl-9 pr-3.5 py-2 bg-[#FAF6EE]/60 border border-[#E8DFD1] rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-[#C4703D]/40 focus:border-[#C4703D] text-[#1B1C1A] placeholder:text-[#9E9C94] transition-all font-sans">
                     </div>
                   </div>
@@ -328,7 +299,7 @@ export function renderLoginView(container, {
                     </div>
                     <div class="relative">
                       <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-[#9E9C94] text-[17px]">lock</span>
-                      <input type="password" id="inputPassword" required value="adventure2026" placeholder="Enter secure passphrase"
+                      <input type="password" id="inputPassword" required placeholder="Enter secure passphrase"
                         class="w-full pl-9 pr-9 py-2 bg-[#FAF6EE]/60 border border-[#E8DFD1] rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-[#C4703D]/40 focus:border-[#C4703D] text-[#1B1C1A] placeholder:text-[#9E9C94] transition-all font-sans">
                       <button type="button" id="btnTogglePassword" class="absolute right-3 top-1/2 -translate-y-1/2 text-[#9E9C94] hover:text-[#1E3A34] transition-colors cursor-pointer">
                         <span id="iconPasswordEye" class="material-symbols-outlined text-[17px]">visibility</span>
@@ -336,12 +307,15 @@ export function renderLoginView(container, {
                     </div>
                   </div>
 
-                  <!-- Remember Me & Security Badge -->
-                  <div class="flex items-center justify-between pt-0.5">
-                    <label class="flex items-center gap-2 cursor-pointer group select-none">
+                  <!-- Remember Me & Demo Quick Fill & Security Badge -->
+                  <div class="flex items-center justify-between pt-0.5 text-[11px]">
+                    <label class="flex items-center gap-1.5 cursor-pointer group select-none">
                       <input type="checkbox" id="chkRememberMe" checked class="w-3.5 h-3.5 rounded text-[#C4703D] focus:ring-[#C4703D] border-[#E8DFD1] accent-[#C4703D]">
-                      <span class="text-[11px] text-[#6D7068] group-hover:text-[#1E3A34] transition-colors">Remember device</span>
+                      <span class="text-[#6D7068] group-hover:text-[#1E3A34] transition-colors">Remember device</span>
                     </label>
+                    <button type="button" id="btnFillDemo" class="text-[10.5px] font-mono text-[#C4703D] hover:underline cursor-pointer">
+                      Fill demo explorer
+                    </button>
                     <span class="text-[10px] font-mono text-[#5B8C7B] font-medium bg-[#5B8C7B]/10 px-2 py-0.5 rounded">256-bit Safe</span>
                   </div>
 
@@ -359,18 +333,32 @@ export function renderLoginView(container, {
                     class="w-full inline-flex items-center justify-center gap-2 text-xs font-mono uppercase tracking-wider text-[#1E3A34] font-semibold hover:text-[#C4703D] py-2 px-3 rounded-xl hover:bg-[#1E3A34]/5 transition-colors border border-dashed border-[#1E3A34]/20 cursor-pointer">
                     <span class="material-symbols-outlined text-base text-[#C99A45]">compass_calibration</span>
                     <span>Continue as Guest / Explorer</span>
-                    <span class="text-[10px] lowercase text-[#6D7068] font-normal bg-[#E8DFD1]/50 px-1.5 py-0.5 rounded">(instant sandbox)</span>
                   </button>
                 </div>
+              </div>
 
+              <!-- Expedition Quotes Carousel (Fills ENTIRE remaining vertical space) -->
+              <div id="loginQuotesContainer" class="login-quote-section relative flex-1 w-full flex flex-col justify-between my-3">
+                <span class="absolute top-2 right-4 font-serif text-5xl sm:text-6xl text-[#C99A45]/20 select-none pointer-events-none">”</span>
+                <div id="loginQuoteCard" class="quote-card-inner my-auto">
+                  <div id="loginQuoteLine" class="quote-line-wrapper">
+                    <span id="loginQuoteFirstLetter" class="quote-first-letter quote-merge-left font-andasia">A</span>
+                    <span id="loginQuoteRestText" class="quote-rest-of-text quote-merge-right">dventure is out there.”</span>
+                  </div>
+                  <div id="loginQuoteAuthor" class="quote-author-line quote-merge-author">
+                    <span id="loginQuoteAuthorText">Charles Muntz (Up)</span>
+                  </div>
+                </div>
+                <!-- Interactive navigation dots -->
+                <div class="quote-dots-nav mt-3" id="loginQuoteDots"></div>
               </div>
 
               <!-- Legal / Terms Footer -->
-              <div class="pt-3 mt-3 text-center border-t border-[#E8DFD1]/60">
+              <div class="pt-2 text-center border-t border-[#E8DFD1]/60 flex-shrink-0">
                 <p class="text-[10.5px] text-[#6D7068] leading-tight">
                   By continuing, you agree to Trailmate’s 
-                  <a href="#terms" class="underline hover:text-[#1E3A34] transition-colors">Terms of Service</a> &amp; 
-                  <a href="#privacy" class="underline hover:text-[#1E3A34] transition-colors">Privacy Policy</a>.
+                  <a href="#terms" id="linkTerms" class="underline hover:text-[#1E3A34] transition-colors">Terms of Service</a> &amp; 
+                  <a href="#privacy" id="linkPrivacy" class="underline hover:text-[#1E3A34] transition-colors">Privacy Policy</a>.
                 </p>
               </div>
 
@@ -395,68 +383,6 @@ export function renderLoginView(container, {
         </div>
       </footer>
 
-      <!-- Google OAuth Account Picker Dialog -->
-      <div id="googleAuthDialog" class="hidden fixed inset-0 z-60 bg-black/65 backdrop-blur-sm flex items-center justify-center p-4">
-        <div class="bg-white rounded-2xl shadow-2xl border border-neutral-200 max-w-sm w-full p-6 text-left relative animate-in fade-in zoom-in duration-200">
-          
-          <button id="btnCloseGoogleDialog" type="button" class="absolute top-4 right-4 text-neutral-400 hover:text-neutral-700 cursor-pointer">
-            <span class="material-symbols-outlined text-lg">close</span>
-          </button>
-
-          <div class="flex items-center gap-3 mb-4">
-            <svg class="w-6 h-6 shrink-0" viewBox="0 0 24 24">
-              <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.8-2.4 3.65v3.03h3.88c2.27-2.09 3.665-5.17 3.665-9.12z"/>
-              <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.03c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.24v3.13C3.26 21.36 7.33 24 12 24z"/>
-              <path fill="#FBBC05" d="M5.28 14.29c-.25-.72-.38-1.49-.38-2.29s.13-1.57.38-2.29V6.58H1.24C.45 8.15 0 9.92 0 12s.45 3.85 1.24 5.42l4.04-3.13z"/>
-              <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.64 1.24 6.58l4.04 3.13c.95-2.83 3.6-4.96 6.72-4.96z"/>
-            </svg>
-            <div>
-              <h3 class="text-sm font-bold text-neutral-900">Sign in with Google</h3>
-              <p class="text-[11px] text-neutral-500">to continue to Trailmate Field Journal</p>
-            </div>
-          </div>
-
-          <p class="text-xs text-neutral-600 mb-3 font-medium">Choose an explorer account:</p>
-
-          <div class="space-y-2 mb-4">
-            <!-- Account 1 -->
-            <button type="button" id="btnPickGoogleAcc1" class="w-full flex items-center gap-3 p-3 rounded-xl border border-neutral-200 hover:border-[#4285F4] hover:bg-[#4285F4]/5 transition-all text-left cursor-pointer group">
-              <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=120&q=80" alt="Avatar" class="w-9 h-9 rounded-full object-cover border border-neutral-200" />
-              <div class="min-w-0 flex-1">
-                <p class="text-xs font-bold text-neutral-900 group-hover:text-[#4285F4] truncate">Pratyush Raj</p>
-                <p class="text-[11px] text-neutral-500 truncate">pratyush.raj@gmail.com</p>
-              </div>
-              <span class="material-symbols-outlined text-neutral-400 group-hover:text-[#4285F4] text-lg">chevron_right</span>
-            </button>
-
-            <!-- Account 2 -->
-            <button type="button" id="btnPickGoogleAcc2" class="w-full flex items-center gap-3 p-3 rounded-xl border border-neutral-200 hover:border-[#4285F4] hover:bg-[#4285F4]/5 transition-all text-left cursor-pointer group">
-              <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=120&q=80" alt="Avatar" class="w-9 h-9 rounded-full object-cover border border-neutral-200" />
-              <div class="min-w-0 flex-1">
-                <p class="text-xs font-bold text-neutral-900 group-hover:text-[#4285F4] truncate">Apex Predator</p>
-                <p class="text-[11px] text-neutral-500 truncate">apex.predator.expeditions@gmail.com</p>
-              </div>
-              <span class="material-symbols-outlined text-neutral-400 group-hover:text-[#4285F4] text-lg">chevron_right</span>
-            </button>
-          </div>
-
-          <!-- Custom Google Account input -->
-          <div class="pt-3 border-t border-neutral-100">
-            <div class="flex items-center gap-2">
-              <input type="email" id="inputCustomGoogleEmail" placeholder="Use another Google email..." class="flex-1 text-xs p-2 rounded-lg border border-neutral-200 focus:outline-none focus:ring-1 focus:ring-[#4285F4]" />
-              <button type="button" id="btnCustomGoogleSubmit" class="px-3 py-2 bg-[#4285F4] text-white text-xs font-bold rounded-lg hover:bg-blue-600 cursor-pointer">
-                Continue
-              </button>
-            </div>
-          </div>
-
-          <p class="text-[10px] text-neutral-400 mt-4 text-center">
-            To continue, Google will share your name, email address, and profile picture with Trailmate.
-          </p>
-
-        </div>
-      </div>
-
     </div>
   `;
 
@@ -477,20 +403,13 @@ export function renderLoginView(container, {
   const loginAuthForm = container.querySelector('#loginAuthForm');
   const btnGuestBypass = container.querySelector('#btnGuestBypass');
   const btnQuickGuestHeader = container.querySelector('#btnQuickGuestHeader');
-  const btnGoogleAuth = container.querySelector('#btnGoogleAuth');
-  const btnAppleAuth = container.querySelector('#btnAppleAuth');
   const btnForgotPwd = container.querySelector('#btnForgotPwd');
+  const btnFillDemo = container.querySelector('#btnFillDemo');
   const btnLoginClose = container.querySelector('#btnLoginClose');
   const loginFeedbackBanner = container.querySelector('#loginFeedbackBanner');
   const portalSubhead = container.querySelector('#portalSubhead');
-
-  // Google Dialog Elements
-  const googleAuthDialog = container.querySelector('#googleAuthDialog');
-  const btnCloseGoogleDialog = container.querySelector('#btnCloseGoogleDialog');
-  const btnPickGoogleAcc1 = container.querySelector('#btnPickGoogleAcc1');
-  const btnPickGoogleAcc2 = container.querySelector('#btnPickGoogleAcc2');
-  const inputCustomGoogleEmail = container.querySelector('#inputCustomGoogleEmail');
-  const btnCustomGoogleSubmit = container.querySelector('#btnCustomGoogleSubmit');
+  const linkTerms = container.querySelector('#linkTerms');
+  const linkPrivacy = container.querySelector('#linkPrivacy');
 
   // Display informative banner message
   function showFeedback(message, type = 'error') {
@@ -545,13 +464,7 @@ export function renderLoginView(container, {
       btnAuthSubmitText.textContent = 'Create Explorer Profile';
       btnAuthSubmitIcon.textContent = 'person_add';
       portalSubhead.textContent = 'Join the Explorer Guild';
-      
-      // If default demo values are present in input, clear or suggest for sign up
-      if (inputEmail.value === 'traveler@trailmate.app' && inputPassword.value === 'adventure2026') {
-        inputFullName.value = 'Pratyush Raj';
-        inputEmail.value = 'pratyush@trailmate.app';
-        inputPassword.value = '';
-      }
+      setTimeout(() => inputFullName?.focus({ preventScroll: true }), 60);
     } else {
       tabSignIn.className = 'flex-1 py-2 text-xs font-semibold rounded-xl transition-all duration-200 text-[#1E3A34] bg-white shadow-sm flex items-center justify-center gap-1.5 cursor-pointer';
       tabCreateAccount.className = 'flex-1 py-2 text-xs font-semibold rounded-xl transition-all duration-200 text-[#6D7068] hover:text-[#1E3A34] flex items-center justify-center gap-1.5 cursor-pointer';
@@ -560,11 +473,34 @@ export function renderLoginView(container, {
       btnAuthSubmitText.textContent = 'Start Exploring';
       btnAuthSubmitIcon.textContent = 'arrow_forward';
       portalSubhead.textContent = 'Sign In or Register';
+      setTimeout(() => inputEmail?.focus({ preventScroll: true }), 60);
     }
   }
 
   tabSignIn?.addEventListener('click', () => setMode('signin'));
   tabCreateAccount?.addEventListener('click', () => setMode('create'));
+
+  // Quick fill demo explorer
+  btnFillDemo?.addEventListener('click', () => {
+    clearFeedback();
+    if (authMode === 'create') {
+      setMode('signin');
+    }
+    inputEmail.value = 'traveler@trailmate.app';
+    inputPassword.value = 'adventure2026';
+    showFeedback('Demo explorer credentials filled! Click Start Exploring.', 'info');
+  });
+
+  // Terms and Privacy click handlers
+  linkTerms?.addEventListener('click', (e) => {
+    e.preventDefault();
+    showFeedback('Trailmate Protocol: Respect nature, honor heritage, and tread lightly on every trail.', 'info');
+  });
+
+  linkPrivacy?.addEventListener('click', (e) => {
+    e.preventDefault();
+    showFeedback('Privacy Promise: All your itinerary plans, photos, and journal stamps remain local on your device.', 'info');
+  });
 
   // Show/Hide password toggle
   btnTogglePassword?.addEventListener('click', () => {
@@ -579,13 +515,13 @@ export function renderLoginView(container, {
 
   // Forgot password
   btnForgotPwd?.addEventListener('click', () => {
-    const email = inputEmail.value.trim();
-    const user = findUserByEmail(email);
-    if (user && user.password) {
-      showFeedback(`Password hint for ${user.name}: Your password starts with "${user.password.charAt(0)}" (${user.password.length} characters).`, 'info');
-    } else {
-      showFeedback('A password reset dispatch has been queued for your explorer address.', 'info');
+    const email = (inputEmail?.value || '').trim();
+    if (!email) {
+      showFeedback('Please enter your email address to receive password recovery instructions.', 'info');
+      inputEmail?.focus();
+      return;
     }
+    showFeedback(`A secure password recovery dispatch has been sent to ${email}.`, 'success');
   });
 
   // Complete Login Flow & Profile Sync
@@ -757,127 +693,6 @@ export function renderLoginView(container, {
     }
   });
 
-  // ── GOOGLE AUTH INTEGRATION ──
-  function executeGoogleAuth(googleUser) {
-    googleAuthDialog.classList.add('hidden');
-    
-    // Save to registered accounts store
-    const registeredGoogleUser = {
-      id: `google-${Date.now()}`,
-      name: googleUser.name,
-      email: googleUser.email.toLowerCase(),
-      password: '', // Google SSO
-      avatar: googleUser.avatar,
-      handle: `@${googleUser.name.toLowerCase().replace(/[^a-z0-9]/g, '_')}`,
-      bioNote: 'Google-verified explorer discovering India with Trailmate.',
-      authProvider: 'google',
-      createdAt: Date.now(),
-    };
-
-    saveRegisteredUser(registeredGoogleUser);
-
-    btnGoogleAuth.innerHTML = `
-      <span class="material-symbols-outlined animate-spin text-sm text-[#4285F4]">progress_activity</span>
-      <span>Authenticating...</span>
-    `;
-
-    showFeedback(`Signed in as ${googleUser.name} (${googleUser.email}) via Google!`, 'success');
-
-    setTimeout(() => {
-      finishLogin({
-        name: registeredGoogleUser.name,
-        email: registeredGoogleUser.email,
-        avatar: registeredGoogleUser.avatar,
-        handle: registeredGoogleUser.handle,
-        isGuest: false,
-        loginMethod: 'google',
-        loggedInAt: Date.now(),
-      });
-    }, 450);
-  }
-
-  // Open Google Account Picker
-  btnGoogleAuth?.addEventListener('click', () => {
-    if (googleAuthDialog) {
-      googleAuthDialog.classList.remove('hidden');
-    } else {
-      executeGoogleAuth({
-        name: 'Pratyush Raj',
-        email: 'pratyush.raj@gmail.com',
-        avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=180&q=80',
-      });
-    }
-  });
-
-  btnCloseGoogleDialog?.addEventListener('click', () => {
-    googleAuthDialog.classList.add('hidden');
-  });
-
-  btnPickGoogleAcc1?.addEventListener('click', () => {
-    executeGoogleAuth({
-      name: 'Pratyush Raj',
-      email: 'pratyush.raj@gmail.com',
-      avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=180&q=80',
-    });
-  });
-
-  btnPickGoogleAcc2?.addEventListener('click', () => {
-    executeGoogleAuth({
-      name: 'Apex Predator',
-      email: 'apex.predator.expeditions@gmail.com',
-      avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=180&q=80',
-    });
-  });
-
-  btnCustomGoogleSubmit?.addEventListener('click', () => {
-    const customEmail = (inputCustomGoogleEmail?.value || '').trim();
-    if (!customEmail || !customEmail.includes('@')) {
-      alert('Please enter a valid Google email address.');
-      return;
-    }
-    const name = customEmail.split('@')[0].split('.').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
-    executeGoogleAuth({
-      name,
-      email: customEmail,
-      avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=180&q=80',
-    });
-  });
-
-  // ── APPLE AUTH INTEGRATION ──
-  btnAppleAuth?.addEventListener('click', () => {
-    btnAppleAuth.innerHTML = `
-      <span class="material-symbols-outlined animate-spin text-sm">progress_activity</span>
-      <span>Connecting Apple...</span>
-    `;
-
-    const appleUser = {
-      id: `apple-${Date.now()}`,
-      name: 'Elena Vance',
-      email: 'elena.vance@icloud.com',
-      password: '',
-      avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=180&q=80',
-      handle: '@elena_vance',
-      bioNote: 'Apple-verified alpine trekker and photographer.',
-      authProvider: 'apple',
-      createdAt: Date.now(),
-    };
-
-    saveRegisteredUser(appleUser);
-    showFeedback(`Signed in as ${appleUser.name} via Apple ID!`, 'success');
-
-    setTimeout(() => {
-      finishLogin({
-        name: appleUser.name,
-        email: appleUser.email,
-        avatar: appleUser.avatar,
-        handle: appleUser.handle,
-        isGuest: false,
-        loginMethod: 'apple',
-        loggedInAt: Date.now(),
-      });
-    }, 500);
-  });
-
   // ── GUEST / SANDBOX BYPASS ──
   function enterAsGuest() {
     finishLogin({
@@ -894,8 +709,129 @@ export function renderLoginView(container, {
   btnGuestBypass?.addEventListener('click', enterAsGuest);
   btnQuickGuestHeader?.addEventListener('click', enterAsGuest);
 
+  // ── INSPIRATIONAL EXPEDITION QUOTES (MERGE ANIMATION ONLY) ──
+  const TRAVEL_QUOTES = [
+    {
+      firstLetter: 'A',
+      restText: 'dventure is out there.”',
+      author: 'Charles Muntz (Up)',
+    },
+    {
+      firstLetter: 'T',
+      restText: 'o Travel is to Live.”',
+      author: 'Hans Christian Andersen',
+    },
+    {
+      firstLetter: 'N',
+      restText: 'ot all those who wander are lost.”',
+      author: 'J.R.R. Tolkien',
+    },
+    {
+      firstLetter: 'J',
+      restText: 'obs fill your pocket, but adventures fill your soul.”',
+      author: 'Jamie Lyn Beatty',
+    },
+    {
+      firstLetter: 'I',
+      restText: 'f it scares you, it might be a good thing to try.”',
+      author: 'Seth Godin',
+    },
+    {
+      firstLetter: 'L',
+      restText: 'eave the road, take the trails.”',
+      author: 'Pythagoras',
+    },
+  ];
+
+  let currentQuoteIndex = 0;
+  const quoteCard = container.querySelector('#loginQuoteCard');
+  const quoteFirstLetter = container.querySelector('#loginQuoteFirstLetter');
+  const quoteRestText = container.querySelector('#loginQuoteRestText');
+  const quoteAuthor = container.querySelector('#loginQuoteAuthor');
+  const quoteAuthorText = container.querySelector('#loginQuoteAuthorText');
+  const quoteDots = container.querySelector('#loginQuoteDots');
+  const quotesSection = container.querySelector('#loginQuotesContainer');
+
+  function renderQuoteDots() {
+    if (!quoteDots) return;
+    quoteDots.innerHTML = TRAVEL_QUOTES.map((_, i) => `
+      <button type="button" class="quote-dot ${i === currentQuoteIndex ? 'active' : ''}" data-idx="${i}" aria-label="Quote ${i + 1}"></button>
+    `).join('');
+  }
+
+  function setQuote(nextIndex) {
+    if (!quoteCard || !quoteFirstLetter || !quoteRestText || !quoteAuthorText) return;
+
+    quoteCard.classList.add('quote-merging-out');
+
+    setTimeout(() => {
+      currentQuoteIndex = nextIndex;
+      const q = TRAVEL_QUOTES[currentQuoteIndex];
+
+      quoteFirstLetter.textContent = q.firstLetter;
+      quoteRestText.textContent = q.restText;
+      quoteAuthorText.textContent = q.author;
+
+      if (quoteDots) {
+        quoteDots.querySelectorAll('.quote-dot').forEach((d, i) => {
+          d.classList.toggle('active', i === currentQuoteIndex);
+        });
+      }
+
+      quoteCard.classList.remove('quote-merging-out');
+
+      quoteFirstLetter.classList.remove('quote-merge-left');
+      quoteRestText.classList.remove('quote-merge-right');
+      quoteAuthor?.classList.remove('quote-merge-author');
+
+      void quoteFirstLetter.offsetWidth; // force reflow
+
+      quoteFirstLetter.classList.add('quote-merge-left');
+      quoteRestText.classList.add('quote-merge-right');
+      quoteAuthor?.classList.add('quote-merge-author');
+    }, 280);
+  }
+
+  renderQuoteDots();
+
+  quoteDots?.addEventListener('click', (e) => {
+    const btn = e.target.closest('.quote-dot');
+    if (!btn) return;
+    const idx = parseInt(btn.dataset.idx, 10);
+    if (!isNaN(idx) && idx !== currentQuoteIndex) {
+      setQuote(idx);
+    }
+  });
+
+  let quoteInterval = setInterval(() => {
+    if (!document.body.contains(container)) {
+      clearInterval(quoteInterval);
+      return;
+    }
+    const nextIdx = (currentQuoteIndex + 1) % TRAVEL_QUOTES.length;
+    setQuote(nextIdx);
+  }, 5500);
+
+  if (quotesSection) {
+    quotesSection.addEventListener('mouseenter', () => clearInterval(quoteInterval));
+    quotesSection.addEventListener('mouseleave', () => {
+      clearInterval(quoteInterval);
+      quoteInterval = setInterval(() => {
+        if (!document.body.contains(container)) {
+          clearInterval(quoteInterval);
+          return;
+        }
+        const nextIdx = (currentQuoteIndex + 1) % TRAVEL_QUOTES.length;
+        setQuote(nextIdx);
+      }, 5500);
+    });
+  }
+
   // Close handler if provided
   if (onClose && btnLoginClose) {
-    btnLoginClose.addEventListener('click', onClose);
+    btnLoginClose.addEventListener('click', () => {
+      clearInterval(quoteInterval);
+      onClose();
+    });
   }
 }

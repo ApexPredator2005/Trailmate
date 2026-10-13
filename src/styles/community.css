@@ -261,6 +261,24 @@
 .rim-terracotta {
   background: conic-gradient(from 145deg, #782E12, #D4693D, #FAD0BE, #9E431E, #501D0A, #E47F52, #782E12);
 }
+.rim-amethyst {
+  background: conic-gradient(from 145deg, #4A1E5C, #9B59B6, #F3E5F5, #6C3483, #2C0E38, #AF7AC5, #4A1E5C);
+}
+.rim-platinum {
+  background: conic-gradient(from 145deg, #7A8B99, #D4E1EB, #FFFFFF, #9DB4C4, #4D5E6D, #E8F1F7, #7A8B99);
+}
+.rim-copper {
+  background: conic-gradient(from 145deg, #873E23, #D97D54, #FCE2D4, #B25329, #56210E, #E39470, #873E23);
+}
+.rim-aquamarine {
+  background: conic-gradient(from 145deg, #0E4854, #20B2AA, #E0FFFF, #008B8B, #072D35, #48D1CC, #0E4854);
+}
+.rim-obsidian {
+  background: conic-gradient(from 145deg, #18181A, #454549, #C8A968, #28282C, #0D0D0E, #68686D, #18181A);
+}
+.rim-ruby {
+  background: conic-gradient(from 145deg, #6B1119, #C0392B, #FADBD8, #8E1B24, #3B060B, #E74C3C, #6B1119);
+}
 
 .coin-relief {
   box-shadow:
@@ -283,3 +301,482 @@
     0 8px 32px rgba(45, 30, 20, 0.16),
     0 32px 64px -12px rgba(45, 30, 20, 0.22);
 }
+
+/* ==========================================================================
+   3D Molded PVC Rubber Morale Patch Visual Engine
+   Authentic liquid injection molded silicone & rubber expedition morale patches
+   ========================================================================== */
+
+/* ── 1. Heavy Tactile Rubber Patch Card & 3D Flip Mechanics ── */
+.pvc-patch-card {
+  perspective: 1200px;
+  user-select: none;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  min-height: 530px;
+  position: relative;
+}
+
+.pvc-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 530px;
+  transition: transform 0.65s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transform-style: preserve-3d;
+}
+
+.pvc-patch-card.flipped .pvc-card-inner {
+  transform: rotateY(180deg);
+}
+
+.pvc-face-front,
+.pvc-face-back {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border-radius: 28px;
+  overflow: hidden;
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1.25rem;
+}
+
+.pvc-face-front {
+  border-radius: 28px;
+  border: 4px solid #16181b;
+  box-shadow:
+    0 16px 36px -6px rgba(0, 0, 0, 0.65),
+    0 6px 14px rgba(0, 0, 0, 0.45),
+    inset 0 2px 3px rgba(255, 255, 255, 0.18),
+    inset 0 -3px 5px rgba(0, 0, 0, 0.8);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+}
+
+.pvc-patch-card:hover .pvc-face-front {
+  transform: translateY(-4px) scale(1.015);
+  box-shadow:
+    0 22px 48px -8px rgba(0, 0, 0, 0.75),
+    0 10px 20px rgba(0, 0, 0, 0.5),
+    inset 0 2px 4px rgba(255, 255, 255, 0.22),
+    inset 0 -3px 6px rgba(0, 0, 0, 0.85);
+}
+
+.pvc-face-back {
+  transform: rotateY(180deg);
+  border-radius: 28px;
+  border: 4px solid #1e2024;
+  box-shadow:
+    0 16px 36px -6px rgba(0, 0, 0, 0.75),
+    0 6px 14px rgba(0, 0, 0, 0.55),
+    inset 0 2px 3px rgba(255, 255, 255, 0.12),
+    inset 0 -3px 5px rgba(0, 0, 0, 0.9);
+}
+
+/* Micro-stippled matte silicone texture overlay */
+.pvc-face-front::before,
+.pvc-face-back::before,
+.pvc-stippled {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px),
+    radial-gradient(rgba(0, 0, 0, 0.38) 1px, transparent 1px);
+  background-size: 3px 3px, 5px 5px;
+  background-position: 0 0, 2px 2px;
+  opacity: 0.85;
+  border-radius: inherit;
+  z-index: 1;
+}
+
+/* ── 2. Molded Rubber Rim & Bevels (Liquid Injection PVC Rounded Highlights) ── */
+.pvc-bevel {
+  box-shadow:
+    inset 1.5px 1.5px 2px rgba(255, 255, 255, 0.32),
+    inset -1.5px -2px 3px rgba(0, 0, 0, 0.7),
+    0 4px 10px rgba(0, 0, 0, 0.3);
+  border-radius: inherit;
+}
+
+.pvc-patch-disk {
+  position: relative;
+  width: 172px;
+  height: 172px;
+  border-radius: 50%;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow:
+    0 14px 28px -4px rgba(0, 0, 0, 0.65),
+    inset 0 2px 4px rgba(255, 255, 255, 0.22),
+    inset 0 -4px 6px rgba(0, 0, 0, 0.85);
+}
+
+/* ── 3. Realistic Recessed Trench & Simulated Stitching Groove ── */
+.pvc-stitching-groove {
+  position: relative;
+  border-radius: inherit;
+  border: 1.5px dashed rgba(240, 230, 215, 0.4);
+  box-shadow:
+    inset 0 2.5px 4px rgba(0, 0, 0, 0.85),
+    inset 0 -1px 2px rgba(255, 255, 255, 0.12),
+    0 1px 1.5px rgba(255, 255, 255, 0.1);
+  padding: 6px;
+}
+
+/* ── 4. Multi-Level 3D Rubber Elevations (Layered Drop Shadows) ── */
+.pvc-relief-layer-1 {
+  filter:
+    drop-shadow(0 2px 1.5px rgba(0, 0, 0, 0.55))
+    drop-shadow(0 1px 0 rgba(255, 255, 255, 0.12));
+}
+
+.pvc-relief-layer-2 {
+  filter:
+    drop-shadow(0 3px 2px rgba(0, 0, 0, 0.65))
+    drop-shadow(0 1px 0 rgba(255, 255, 255, 0.18));
+}
+
+.pvc-relief-layer-3 {
+  filter:
+    drop-shadow(0 5px 3.5px rgba(0, 0, 0, 0.75))
+    drop-shadow(0 1.5px 0.5px rgba(255, 255, 255, 0.22));
+}
+
+/* ── 5. Specific Color Themes from Reference Images ── */
+
+/* Theme A: Neon Off-Road (Charcoal base, Neon Lime accents, Dark 3D lettering) */
+.pvc-theme-neon-offroad {
+  --pvc-base: #181A1D;
+  --pvc-accent: #CCFF00;
+  --pvc-secondary: #FF6B00;
+  --pvc-text: #0D0E11;
+  --pvc-stitch: #CCFF00;
+  --pvc-border: #252930;
+  background: radial-gradient(circle at 50% 25%, #24282F 0%, #17191C 75%, #0F1012 100%);
+  border-color: #252930;
+}
+.pvc-theme-neon-offroad .pvc-stitching-groove {
+  border-color: rgba(204, 255, 0, 0.5);
+}
+
+/* Theme B: Sunset Crawler (Charcoal base, Cream 3D caps, Cyan/Crimson/Orange sandstone layers) */
+.pvc-theme-sunset-crawler {
+  --pvc-base: #1F2126;
+  --pvc-cream: #FFFBEB;
+  --pvc-cyan: #06B6D4;
+  --pvc-crimson: #E11D48;
+  --pvc-orange: #F97316;
+  --pvc-stitch: #F97316;
+  --pvc-border: #2C2F36;
+  background: radial-gradient(circle at 50% 25%, #2B2E36 0%, #1B1D22 75%, #111215 100%);
+  border-color: #2C2F36;
+}
+.pvc-theme-sunset-crawler .pvc-stitching-groove {
+  border-color: rgba(249, 115, 22, 0.5);
+}
+
+/* Theme C: Crescent Camp (Deep Indigo crescent silhouette, Orange expedition tent, Campfire flame, Pine relief) */
+.pvc-theme-crescent-camp {
+  --pvc-base: #131428;
+  --pvc-indigo: #1E1B4B;
+  --pvc-tent: #F97316;
+  --pvc-flame: #FBBF24;
+  --pvc-pine: #064E3B;
+  --pvc-stitch: #FBBF24;
+  --pvc-border: #232244;
+  background: radial-gradient(circle at 50% 25%, #1C1E3A 0%, #111226 75%, #090A15 100%);
+  border-color: #232244;
+}
+.pvc-theme-crescent-camp .pvc-stitching-groove {
+  border-color: rgba(251, 191, 36, 0.5);
+}
+
+/* Theme D: Alpine Ridge (Slate grey, Ice cyan, Snow white) */
+.pvc-theme-alpine-ridge {
+  --pvc-base: #2A3441;
+  --pvc-slate: #475569;
+  --pvc-ice: #38BDF8;
+  --pvc-snow: #FFFFFF;
+  --pvc-stitch: #38BDF8;
+  --pvc-border: #3A4758;
+  background: radial-gradient(circle at 50% 25%, #334152 0%, #222B37 75%, #151C24 100%);
+  border-color: #3A4758;
+}
+.pvc-theme-alpine-ridge .pvc-stitching-groove {
+  border-color: rgba(56, 189, 248, 0.45);
+}
+
+/* Theme E: Tea Monogram (Deep spruce green, Warm terracotta, Golden yellow) */
+.pvc-theme-tea-monogram {
+  --pvc-base: #064E3B;
+  --pvc-spruce: #043629;
+  --pvc-terracotta: #C2410C;
+  --pvc-gold: #F59E0B;
+  --pvc-stitch: #F59E0B;
+  --pvc-border: #0A523F;
+  background: radial-gradient(circle at 50% 25%, #0B4A39 0%, #063528 75%, #021F17 100%);
+  border-color: #0A523F;
+}
+.pvc-theme-tea-monogram .pvc-stitching-groove {
+  border-color: rgba(245, 158, 11, 0.5);
+}
+
+/* Theme F: Pioneer Topo (Charcoal base, Neon Lime contour & footprint) */
+.pvc-theme-pioneer-topo {
+  --pvc-base: #151719;
+  --pvc-accent: #CCFF00;
+  --pvc-stitch: #CCFF00;
+  --pvc-border: #262A30;
+  background: radial-gradient(circle at 50% 25%, #22262C 0%, #151719 75%, #0D0E10 100%);
+  border-color: #262A30;
+}
+.pvc-theme-pioneer-topo .pvc-stitching-groove {
+  border-color: rgba(204, 255, 0, 0.5);
+}
+
+/* Theme G: Wanderer Orange (Hazard orange relief & dark slate mountain base) */
+.pvc-theme-wanderer-orange {
+  --pvc-base: #1C1E22;
+  --pvc-accent: #FF6B00;
+  --pvc-stitch: #FF6B00;
+  --pvc-border: #2F241C;
+  background: radial-gradient(circle at 50% 25%, #2D251F 0%, #1C1814 75%, #100D0A 100%);
+  border-color: #2F241C;
+}
+.pvc-theme-wanderer-orange .pvc-stitching-groove {
+  border-color: rgba(255, 107, 0, 0.5);
+}
+
+/* Theme H: Cloud Sovereign (Glacial slate navy, Ice cyan & snow white) */
+.pvc-theme-cloud-sovereign {
+  --pvc-base: #141E28;
+  --pvc-accent: #38BDF8;
+  --pvc-stitch: #38BDF8;
+  --pvc-border: #1E2D3D;
+  background: radial-gradient(circle at 50% 25%, #1E2E40 0%, #131E2A 75%, #0B1118 100%);
+  border-color: #1E2D3D;
+}
+.pvc-theme-cloud-sovereign .pvc-stitching-groove {
+  border-color: rgba(56, 189, 248, 0.5);
+}
+
+/* Theme I: Maritime Navy (Deep oceanic navy, Seafoam cyan stitch, Gold anchor) */
+.pvc-theme-maritime-navy {
+  --pvc-base: #0B1B33;
+  --pvc-accent: #06B6D4;
+  --pvc-gold: #F59E0B;
+  --pvc-stitch: #06B6D4;
+  --pvc-border: #152847;
+  background: radial-gradient(circle at 50% 25%, #132A4F 0%, #0A1B35 75%, #050E1E 100%);
+  border-color: #152847;
+}
+.pvc-theme-maritime-navy .pvc-stitching-groove {
+  border-color: rgba(6, 182, 212, 0.55);
+}
+
+/* Theme J: Ancient Monolith (Terracotta clay & sandstone gold stitch) */
+.pvc-theme-ancient-monolith {
+  --pvc-base: #261611;
+  --pvc-accent: #C2410C;
+  --pvc-gold: #FBBF24;
+  --pvc-stitch: #FBBF24;
+  --pvc-border: #3D2319;
+  background: radial-gradient(circle at 50% 25%, #381E15 0%, #24130C 75%, #140A06 100%);
+  border-color: #3D2319;
+}
+.pvc-theme-ancient-monolith .pvc-stitching-groove {
+  border-color: rgba(251, 191, 36, 0.55);
+}
+
+/* Theme K: Flaming Guild Torch (Bedrock crimson base, Golden yellow stitch) */
+.pvc-theme-flaming-torch {
+  --pvc-base: #251010;
+  --pvc-accent: #EF4444;
+  --pvc-orange: #F97316;
+  --pvc-gold: #FDE047;
+  --pvc-stitch: #FDE047;
+  --pvc-border: #3B1616;
+  background: radial-gradient(circle at 50% 25%, #381414 0%, #230B0B 75%, #120404 100%);
+  border-color: #3B1616;
+}
+.pvc-theme-flaming-torch .pvc-stitching-groove {
+  border-color: rgba(253, 224, 71, 0.55);
+}
+
+/* Theme L: Reef Diver (Deep marine turquoise, Seafoam stitch) */
+.pvc-theme-reef-diver {
+  --pvc-base: #0A282E;
+  --pvc-accent: #14B8A6;
+  --pvc-cyan: #38BDF8;
+  --pvc-stitch: #2DD4BF;
+  --pvc-border: #123C45;
+  background: radial-gradient(circle at 50% 25%, #103C45 0%, #08262C 75%, #031418 100%);
+  border-color: #123C45;
+}
+.pvc-theme-reef-diver .pvc-stitching-groove {
+  border-color: rgba(45, 212, 191, 0.55);
+}
+
+/* Theme M: Archival Obsidian (Obsidian tactical base, Neon lime stitch) */
+.pvc-theme-archival-obsidian {
+  --pvc-base: #141518;
+  --pvc-accent: #CCFF00;
+  --pvc-gold: #F59E0B;
+  --pvc-stitch: #CCFF00;
+  --pvc-border: #24262B;
+  background: radial-gradient(circle at 50% 25%, #222428 0%, #131416 75%, #0A0A0C 100%);
+  border-color: #24262B;
+}
+.pvc-theme-archival-obsidian .pvc-stitching-groove {
+  border-color: rgba(204, 255, 0, 0.55);
+}
+
+/* ── Tactical Category Filter Pills ── */
+.pvc-category-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: 9999px;
+  font-family: var(--font-mono, monospace);
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(22, 24, 27, 0.85);
+  color: #9CA3AF;
+  box-shadow:
+    inset 0 1px 1px rgba(255, 255, 255, 0.08),
+    0 2px 4px rgba(0, 0, 0, 0.4);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  user-select: none;
+}
+
+.pvc-category-pill:hover {
+  color: #FFFFFF;
+  border-color: rgba(204, 255, 0, 0.35);
+  background: rgba(30, 33, 38, 0.95);
+  transform: translateY(-1px);
+}
+
+.pvc-category-pill.active {
+  background: #CCFF00;
+  color: #0E1012;
+  border-color: #CCFF00;
+  font-weight: 800;
+  box-shadow:
+    0 0 14px rgba(204, 255, 0, 0.45),
+    0 3px 6px rgba(0, 0, 0, 0.4);
+}
+
+/* ── Tactical Header Stats Banner & Telemetry ── */
+.pvc-header-banner {
+  background: linear-gradient(135deg, #181A1D 0%, #121316 100%);
+  border: 2px solid #282C34;
+  border-radius: 24px;
+  padding: 1.5rem;
+  box-shadow:
+    0 12px 32px -4px rgba(0, 0, 0, 0.6),
+    inset 0 1.5px 1px rgba(255, 255, 255, 0.12);
+  position: relative;
+  overflow: hidden;
+}
+
+.pvc-header-banner::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(rgba(204, 255, 0, 0.04) 1px, transparent 1px),
+    radial-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 8px 8px, 16px 16px;
+  pointer-events: none;
+}
+
+.pvc-telemetry-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 12px;
+  border-radius: 10px;
+  font-family: var(--font-mono, monospace);
+  font-size: 11px;
+  font-weight: 700;
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #E2E8F0;
+}
+
+/* ── 6. Presentation Style Toggle Pill ── */
+.badge-style-toggle-container {
+  display: inline-flex;
+  align-items: center;
+  background: rgba(228, 220, 206, 0.85);
+  border: 1px solid rgba(191, 168, 149, 0.5);
+  border-radius: 9999px;
+  padding: 4px;
+  gap: 4px;
+}
+
+.btn-badge-style-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 9999px;
+  font-size: 11.5px;
+  font-weight: 700;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  color: #555A57;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.btn-badge-style-toggle:hover {
+  color: #1A1C1B;
+}
+
+.btn-badge-style-toggle.active[data-style="medallions"] {
+  background: #FFFFFF;
+  color: #1A1C1B;
+  box-shadow: 0 2px 6px rgba(45, 30, 20, 0.12);
+}
+
+.btn-badge-style-toggle.active[data-style="pvc"] {
+  background: #16181B;
+  color: #CCFF00;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
+}
+
+/* ── 7. Tactical Hook-and-Loop Velcro Backing for 3D Patches ── */
+.pvc-velcro-back {
+  background-color: #121316;
+  background-image:
+    radial-gradient(#27292F 15%, transparent 16%),
+    radial-gradient(#27292F 15%, transparent 16%);
+  background-size: 6px 6px;
+  background-position: 0 0, 3px 3px;
+  border: 3px solid #1E2024;
+}
+
+.pvc-spec-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-family: var(--font-mono, monospace);
+  font-size: 9.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 2px 7px;
+  border-radius: 6px;
+}
+

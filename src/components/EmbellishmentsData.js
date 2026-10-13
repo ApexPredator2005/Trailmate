@@ -204,6 +204,167 @@ export const EMBELLISHMENTS = {
         <text x="50" y="93" font-size="7" font-family="'JetBrains Mono', monospace" font-weight="bold" fill="#8B5A2B" text-anchor="middle">EST. 1888</text>
       </svg>`,
     },
+    {
+      id: 'quest-sticker-andaman-astrolabe',
+      name: '🧭 Pearl & Coral Astrolabe',
+      category: 'quests',
+      width: 140,
+      height: 140,
+      svg: `<svg viewBox="0 0 100 100" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="50" cy="50" r="46" fill="#E0F7FA" stroke="#00838F" stroke-width="3.5"/>
+        <circle cx="50" cy="50" r="38" fill="none" stroke="#00ACC1" stroke-dasharray="3,2" stroke-width="1.5"/>
+        <circle cx="50" cy="50" r="26" fill="#B2EBF2" stroke="#006064" stroke-width="1"/>
+        <line x1="50" y1="12" x2="50" y2="88" stroke="#006064" stroke-width="2"/>
+        <line x1="12" y1="50" x2="88" y2="50" stroke="#006064" stroke-width="2"/>
+        <polygon points="50,22 54,46 50,42 46,46" fill="#D32F2F"/>
+        <polygon points="50,78 54,54 50,58 46,54" fill="#006064"/>
+        <circle cx="50" cy="50" r="5" fill="#FFFFFF" stroke="#00838F" stroke-width="2"/>
+      </svg>`,
+    },
+    {
+      id: 'quest-sticker-nainital-feather',
+      name: '🪶 Monarch Kingfisher Feather',
+      category: 'quests',
+      width: 130,
+      height: 130,
+      svg: `<svg viewBox="0 0 100 100" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="50" cy="50" r="46" fill="#F0F9F5" stroke="#2E7D32" stroke-width="3"/>
+        <path d="M50 15 Q65 45 42 85 Q40 50 50 15 Z" fill="#0288D1"/>
+        <path d="M48 30 Q58 55 43 75 Q42 50 48 30 Z" fill="#FB8C00"/>
+        <line x1="50" y1="15" x2="40" y2="88" stroke="#1B5E20" stroke-width="1.5"/>
+        <circle cx="50" cy="50" r="41" fill="none" stroke="#81C784" stroke-dasharray="2,3" stroke-width="1"/>
+      </svg>`,
+    },
+    {
+      id: 'quest-sticker-gangtok-knot',
+      name: '☸️ Endless Knot Golden Mandala',
+      category: 'quests',
+      width: 140,
+      height: 140,
+      svg: `<svg viewBox="0 0 100 100" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="50" cy="50" r="46" fill="#FFF8E1" stroke="#FF8F00" stroke-width="3.5"/>
+        <circle cx="50" cy="50" r="39" fill="none" stroke="#D84315" stroke-dasharray="2,2"/>
+        <rect x="32" y="32" width="36" height="36" rx="4" transform="rotate(45 50 50)" fill="none" stroke="#FF8F00" stroke-width="3"/>
+        <rect x="35" y="35" width="30" height="30" rx="3" fill="none" stroke="#D84315" stroke-width="2.5"/>
+        <circle cx="50" cy="50" r="8" fill="#FF8F00"/>
+        <circle cx="50" cy="50" r="4" fill="#FFFFFF"/>
+      </svg>`,
+    },
+    {
+      id: 'quest-sticker-darjeeling-steam',
+      name: '🚂 Steam & Rhododendron Crest',
+      category: 'quests',
+      width: 135,
+      height: 135,
+      svg: `<svg viewBox="0 0 100 100" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="50" cy="50" r="46" fill="#FBE9E7" stroke="#BF360C" stroke-width="3.5"/>
+        <path d="M28 65 L72 65 L68 45 L32 45 Z" fill="#37474F"/>
+        <rect x="38" y="30" width="8" height="15" fill="#BF360C"/>
+        <circle cx="38" cy="70" r="7" fill="#263238" stroke="#BF360C" stroke-width="2"/>
+        <circle cx="62" cy="70" r="7" fill="#263238" stroke="#BF360C" stroke-width="2"/>
+        <path d="M42 22 Q46 16 52 20 Q58 14 62 18" fill="none" stroke="#90A4AE" stroke-width="2.5" stroke-linecap="round"/>
+        <text x="50" y="88" font-size="6.5" font-family="'JetBrains Mono', monospace" font-weight="bold" fill="#BF360C" text-anchor="middle">UNESCO DHR</text>
+      </svg>`,
+    },
+    {
+      id: 'quest-sticker-wayanad-petroglyph',
+      name: '🗿 Ancient Ambukuthi Petroglyph Seal',
+      category: 'quests',
+      width: 135,
+      height: 135,
+      svg: `<svg viewBox="0 0 100 100" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+        <polygon points="50,6 90,26 90,74 50,94 10,74 10,26" fill="#EFEBE9" stroke="#4E342E" stroke-width="3.5"/>
+        <circle cx="50" cy="35" r="9" fill="none" stroke="#4E342E" stroke-width="3"/>
+        <line x1="50" y1="44" x2="50" y2="72" stroke="#4E342E" stroke-width="3"/>
+        <line x1="30" y1="52" x2="70" y2="52" stroke="#4E342E" stroke-width="3"/>
+        <line x1="50" y1="72" x2="35" y2="84" stroke="#4E342E" stroke-width="3"/>
+        <line x1="50" y1="72" x2="65" y2="84" stroke="#4E342E" stroke-width="3"/>
+      </svg>`,
+    },
+    {
+      id: 'quest-sticker-udaipur-elephant',
+      name: '🐘 Mewar Gilded Elephant Crest',
+      category: 'quests',
+      width: 140,
+      height: 140,
+      svg: `<svg viewBox="0 0 100 100" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="50" cy="50" r="46" fill="#FFF9C4" stroke="#F57F17" stroke-width="3.5"/>
+        <circle cx="50" cy="50" r="39" fill="none" stroke="#E65100" stroke-dasharray="3,2" stroke-width="1.5"/>
+        <path d="M30 65 L30 50 Q30 38 45 36 Q60 36 68 45 Q74 52 75 65 L66 65 Q65 54 60 52 Q55 50 50 54 L50 65 L44 65 L44 56 L36 56 L36 65 Z" fill="#E65100"/>
+        <circle cx="62" cy="44" r="2.5" fill="#FFFFFF"/>
+        <text x="50" y="84" font-size="7" font-family="'Playfair Display', serif" font-weight="bold" fill="#F57F17" text-anchor="middle">MEWAR</text>
+      </svg>`,
+    },
+    {
+      id: 'quest-sticker-shimla-sundial',
+      name: '🕰️ Gilded Victorian Sundial Crest',
+      category: 'quests',
+      width: 140,
+      height: 140,
+      svg: `<svg viewBox="0 0 100 100" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="50" cy="50" r="46" fill="#FDF8E2" stroke="#8D6E63" stroke-width="3.5"/>
+        <circle cx="50" cy="50" r="39" fill="none" stroke="#D7CCC8" stroke-dasharray="2,2" stroke-width="1.5"/>
+        <circle cx="50" cy="50" r="28" fill="#FFFDE7" stroke="#A1887F" stroke-width="1"/>
+        <line x1="50" y1="14" x2="50" y2="22" stroke="#4E342E" stroke-width="2"/>
+        <line x1="50" y1="78" x2="50" y2="86" stroke="#4E342E" stroke-width="2"/>
+        <line x1="14" y1="50" x2="22" y2="50" stroke="#4E342E" stroke-width="2"/>
+        <line x1="78" y1="50" x2="86" y2="50" stroke="#4E342E" stroke-width="2"/>
+        <path d="M50 50 L42 28 L50 35 Z" fill="#5D4037" opacity="0.8"/>
+        <circle cx="50" cy="50" r="4" fill="#8D6E63"/>
+        <text x="50" y="70" font-size="5.5" font-family="'JetBrains Mono', monospace" font-weight="bold" fill="#8D6E63" text-anchor="middle">SHIMLA 1888</text>
+      </svg>`,
+    },
+    {
+      id: 'quest-sticker-mussoorie-theodolite',
+      name: "🔭 Surveyor's Brass Theodolite Seal",
+      category: 'quests',
+      width: 140,
+      height: 140,
+      svg: `<svg viewBox="0 0 100 100" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="50" cy="50" r="46" fill="#E8F5E9" stroke="#2E7D32" stroke-width="3.5"/>
+        <circle cx="50" cy="50" r="38" fill="none" stroke="#81C784" stroke-dasharray="3,2" stroke-width="1.5"/>
+        <polygon points="50,22 62,34 56,38 44,26" fill="#F57F17" stroke="#33691E" stroke-width="1.5"/>
+        <circle cx="53" cy="30" r="6" fill="#FFF9C4" stroke="#F57F17" stroke-width="1.5"/>
+        <line x1="50" y1="42" x2="28" y2="78" stroke="#33691E" stroke-width="2.5" stroke-linecap="round"/>
+        <line x1="50" y1="42" x2="72" y2="78" stroke="#33691E" stroke-width="2.5" stroke-linecap="round"/>
+        <line x1="50" y1="42" x2="50" y2="82" stroke="#33691E" stroke-width="2" stroke-linecap="round"/>
+        <text x="50" y="93" font-size="5.5" font-family="'JetBrains Mono', monospace" font-weight="bold" fill="#2E7D32" text-anchor="middle">GREAT ARC • EVEREST</text>
+      </svg>`,
+    },
+    {
+      id: 'quest-sticker-kodaikanal-pillar',
+      name: '🪨 Palani Mist Granite Pillar Emblem',
+      category: 'quests',
+      width: 140,
+      height: 140,
+      svg: `<svg viewBox="0 0 100 100" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="50" cy="50" r="46" fill="#ECEFF1" stroke="#455A64" stroke-width="3.5"/>
+        <circle cx="50" cy="50" r="40" fill="none" stroke="#90A4AE" stroke-dasharray="2,2"/>
+        <rect x="28" y="24" width="11" height="52" rx="3" fill="#607D8B"/>
+        <rect x="44" y="18" width="12" height="58" rx="3" fill="#455A64"/>
+        <rect x="61" y="28" width="11" height="48" rx="3" fill="#78909C"/>
+        <path d="M18 64 Q35 55 55 62 Q75 69 86 60" fill="none" stroke="#FFFFFF" stroke-width="3.5" opacity="0.8" stroke-linecap="round"/>
+        <path d="M22 75 Q45 68 65 74 Q80 78 84 72" fill="none" stroke="#ECEFF1" stroke-width="2.5" opacity="0.9" stroke-linecap="round"/>
+        <text x="50" y="89" font-size="6" font-family="'Playfair Display', serif" font-weight="bold" fill="#37474F" text-anchor="middle">PILLAR ROCKS</text>
+      </svg>`,
+    },
+    {
+      id: 'quest-sticker-coorg-dagger',
+      name: '🗡️ Kodava Peeche Kathi Silver Crest',
+      category: 'quests',
+      width: 140,
+      height: 140,
+      svg: `<svg viewBox="0 0 100 100" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="50" cy="50" r="46" fill="#FBE9E7" stroke="#D84315" stroke-width="3.5"/>
+        <circle cx="50" cy="50" r="39" fill="none" stroke="#BF360C" stroke-dasharray="2,3" stroke-width="1.5"/>
+        <path d="M30 68 Q40 50 68 30 Q65 38 48 58 Q38 66 30 68 Z" fill="#CFD8DC" stroke="#37474F" stroke-width="1.5"/>
+        <path d="M26 74 L34 66 L28 60 L20 68 Z" fill="#B08D57" stroke="#5D4037" stroke-width="1.5"/>
+        <circle cx="23" cy="71" r="2" fill="#D84315"/>
+        <circle cx="70" cy="28" r="3" fill="#D84315"/>
+        <circle cx="76" cy="33" r="2.5" fill="#BF360C"/>
+        <text x="50" y="87" font-size="6" font-family="'Playfair Display', serif" font-weight="bold" fill="#BF360C" text-anchor="middle">KODAVA CLAN</text>
+      </svg>`,
+    },
   ],
   stamps: [
     { id: 'stamp-goa', name: 'Goa Coastal Portuguese Church Stamp', category: 'stamps', width: 130, height: 130, imgSrc: '/embellishments/stamps/stamp-goa.png', svg: '<img src="/embellishments/stamps/stamp-goa.png" alt="Goa Coastal Portuguese Church Stamp" class="w-full h-full object-contain pointer-events-none select-none drop-shadow-md" />' },

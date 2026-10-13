@@ -19,17 +19,6 @@ export const WALLPAPER_CATEGORIES = [
 export const WALLPAPERS = [
   // ── 1. Lush Green Mountains ──
   {
-    id: 'green-mountains-western-ghats',
-    title: 'Amba Ghat Western Ghats',
-    location: 'Western Ghats, Maharashtra',
-    category: 'Lush Green Mountains',
-    tag: 'Mountain Pass',
-    icon: 'landscape',
-    url: '/images/wallpapers/mountains-amba-ghat-4k.jpg',
-    fallback: '/images/attractions/munnar/eravikulam-national-park-1.jpg',
-    description: 'Emerald green mountain passes and rolling peaks of the Western Ghats range',
-  },
-  {
     id: 'green-mountains-mullayanagiri',
     title: 'Mullayanagiri Valley Ridge',
     location: 'Chikkamagaluru, Karnataka',

@@ -3,6 +3,7 @@
  */
 
 import { communityService, BADGES_CATALOG, LOCATION_QUESTS } from '../services/CommunityService.js';
+import { PVC_PATCHES_CATALOG, getPvcPatchesCatalog, getPvcPatchById } from '../data/PvcPatchesData.js';
 
 function escapeHtml(str) {
   return String(str ?? '')
@@ -13,6 +14,7 @@ function escapeHtml(str) {
 
 export function renderCommunityView(container, { switchView, store, openPassportModal }) {
   let activeTab = 'feed'; // 'feed' | 'quests' | 'badges'
+  let activePvcCategory = 'all'; // 'all' | 'summit' | 'coastal' | 'overland' | 'heritage'
 
   function render() {
     const profile = communityService.getProfile();
@@ -272,262 +274,301 @@ export function renderCommunityView(container, { switchView, store, openPassport
     `;
   }
 
-  // ── 3. Badges & Hall of Fame Tab (Built with Stitch 3D Medallions) ─────────
+  // ── 3. Tactile 3D Molded PVC Expedition Board (12 Patches) ──────────────────
+  const PATCH_PERKS = {
+    'pvc-pioneers-compass': '+5% Packing Optimizer speed • Unlocks Compass Heading Overlay',
+    'pvc-weekend-wanderer': '+10% Offline Route Accuracy • Topo Ridge Shading',
+    'pvc-cloud-sovereign': 'Unlocks High-Altitude Alpine Weather Pack & Barometric Sensor',
+    'pvc-maritime-mariner': 'Unlocks Satellite Marine Bathymetry & Coastal Tide Overlays',
+    'pvc-ancient-monolith': '+15% Local Secret Archaeological & Stepwell Recommendations',
+    'pvc-flaming-guild-torch': 'Featured in Global Explorer Dossier • Priority Community Pin',
+    'pvc-midnight-astrologer': '+15% Night Sky Stargazing clarity & Twilight pacing',
+    'pvc-high-altitude-nomad': 'Unlocks High-Altitude Overland 4x4 Trail Maps & GPS Telemetry',
+    'pvc-chai-connoisseur': 'Unlocks Heritage Plantation Monograms & Vintage Tea Stamps',
+    'pvc-sunken-reef-diver': 'Unlocks Tidal Chart Overlays & Marine Fauna Stickers',
+    'pvc-archival-chronicler': 'Unlocks 8 Animated Dynamic Wax Seals in Scrapbook Studio',
+    'pvc-phantom-trail-whisperer': 'Reveals Hidden Heritage Waypoints & Secret Scenic Overlooks',
+  };
+
   function renderBadgesTab(earnedBadgeIds, profile) {
-    const MEDALLION_DATA = [
-      {
-        id: 'card-first-step',
-        badgeId: 'badge-first-step',
-        name: 'First Step',
-        epigraph: '"Every thousand-league odyssey commences with unlacing the boots."',
-        points: 250,
-        metal: 'BRONZE • 1904',
-        rimClass: 'rim-bronze',
-        bgClass: 'from-[#8C4A21] via-[#5A2C11] to-[#361807]',
-        icon: 'explore',
-        iconColor: '#F7CCA7',
-        textColor: '#F9DFCD',
-        borderColor: 'border-brass/50',
-        rarity: 'Common (94.2% of scouts)',
-        unlockedAt: 'Nilgiri Highlands, Day 1',
-        bonus: '+5% Packing Optimizer speed',
-        cast: '#001-A',
-        lore: 'The Wayfarer\'s Initial Compass: Conferred upon launching your maiden AI itinerary with Trailmate. The bronze alloy symbolizes grounding, tactile parchment maps, and initial curiosity.',
-        milestone: '1/1 Itinerary Completed',
-        progress: '100%',
-        isEarned: earnedBadgeIds.has('badge-first-step'),
-      },
-      {
-        id: 'card-trail-pioneer',
-        badgeId: 'badge-trail-pioneer',
-        name: 'Trail Pioneer',
-        epigraph: '"Guiding expeditions across unchartered ridges under cold starlight."',
-        points: 600,
-        metal: 'SILVER • ASTRO',
-        rimClass: 'rim-silver',
-        bgClass: 'from-[#4A4E53] via-[#2F3235] to-[#1C1D1E]',
-        icon: 'timelapse',
-        iconColor: '#E2E8F0',
-        textColor: '#FFFFFF',
-        borderColor: 'border-sand/60',
-        rarity: 'Uncommon (38.7%)',
-        unlockedAt: 'Doddabetta Peak, Manali Pass',
-        bonus: '+10% Offline Route Accuracy',
-        cast: '#019-B',
-        lore: 'The Sterling Celestial Astrolabe: Conferred upon travelers who ventured beyond major tourist circuits into remote nature preserves and high mountain passes without losing itinerary sync.',
-        milestone: '5 Off-Grid Trails Navigated',
-        progress: '100%',
-        isEarned: earnedBadgeIds.has('badge-trail-pioneer'),
-      },
-      {
-        id: 'card-scrapbook-artisan',
-        badgeId: 'badge-scrapbook-artisan',
-        name: 'Scrapbook Artisan',
-        epigraph: '"Preserving the fragrance of pine and wet soil through ink, tape, and seals."',
-        points: 1200,
-        metal: 'GOLD • ARTISAN',
-        rimClass: 'rim-gold',
-        bgClass: 'from-[#694E15] via-[#483308] to-[#271B04]',
-        icon: 'history_edu',
-        iconColor: '#FCD34D',
-        textColor: '#FEF3C7',
-        borderColor: 'border-amber-200/60',
-        rarity: 'Rare (18.1%)',
-        unlockedAt: 'Willy\'s Coffee Pub, Ooty',
-        bonus: 'Unlocks 12 Heritage Washi Stamped Tapes',
-        cast: '#082-G',
-        lore: 'The Gilded Quill & Wax Seal: Awarded to chroniclers who turn basic trip logs into rich field scrapbooks using decorative washi tapes, botanical stickers, and handwritten margin quotes.',
-        milestone: '25 Journal Notes & Stickers',
-        progress: earnedBadgeIds.has('badge-scrapbook-artisan') ? '100%' : '60%',
-        isEarned: earnedBadgeIds.has('badge-scrapbook-artisan'),
-      },
-      {
-        id: 'card-treasure-hunter',
-        badgeId: 'badge-treasure-hunter',
-        name: 'Treasure Hunter',
-        epigraph: '"Unearthing covert stepwells, tucked-away bakeries, and silent coves."',
-        points: 1800,
-        metal: 'EMERALD • GPS',
-        rimClass: 'rim-emerald',
-        bgClass: 'from-[#165140] via-[#0D382B] to-[#062018]',
-        icon: 'diamond',
-        iconColor: '#6EE7B7',
-        textColor: '#D1FAE5',
-        borderColor: 'border-emerald-300/60',
-        rarity: 'Very Rare (9.4%)',
-        unlockedAt: 'Panna Meena ka Kund, Jaipur',
-        bonus: '+15% Local Secret recommendations',
-        cast: '#104-E',
-        lore: 'The Emerald Geocache Jewel: Conferred when discovering secret coordinate destinations indexed in local lore. Verified via real-world coordinate geocache check-ins.',
-        milestone: 'Secret Coordinates Claimed',
-        progress: earnedBadgeIds.has('badge-treasure-hunter') ? '100%' : '40%',
-        isEarned: earnedBadgeIds.has('badge-treasure-hunter'),
-      },
-      {
-        id: 'card-cartographer',
-        badgeId: 'badge-cartographer',
-        name: 'Grand Cartographer',
-        epigraph: '"Mapping three complete ecological biomes: Coast, Alpine, & Desert."',
-        points: 2500,
-        metal: 'SAPPHIRE • 80%',
-        rimClass: 'rim-sapphire',
-        bgClass: 'from-[#183965] via-[#102747] to-[#071324]',
-        icon: 'public',
-        iconColor: '#7DD3FC',
-        textColor: '#E0F2FE',
-        borderColor: 'border-sky-300/60',
-        rarity: 'Exotic (4.1%)',
-        unlockedAt: 'Survey Multi-Region Expedition',
-        bonus: 'Unlocks Satellite Terrain Contour Layers',
-        cast: '#220-S',
-        lore: 'The Sapphire Sextant: Requires surveying and logging multi-day expeditions spanning different geographical topographies: Coastal bays, Himalayan elevations, and desert sands.',
-        milestone: '3 Diverse Biomes Explored',
-        progress: earnedBadgeIds.has('badge-cartographer') ? '100%' : '75%',
-        isEarned: earnedBadgeIds.has('badge-cartographer'),
-      },
-      {
-        id: 'card-local-legend',
-        badgeId: 'badge-local-legend',
-        name: 'Local Legend',
-        epigraph: '"Beloved by local chai masters and mountain trail guides alike."',
-        points: 3500,
-        metal: 'TERRACOTTA • GUILD',
-        rimClass: 'rim-terracotta',
-        bgClass: 'from-[#692911] via-[#461907] to-[#250B02]',
-        icon: 'local_fire_department',
-        iconColor: '#FDBA74',
-        textColor: '#FFEDD5',
-        borderColor: 'border-orange-300/50',
-        rarity: 'Legendary (1.2%)',
-        unlockedAt: 'Top Community Expedition Hall',
-        bonus: 'Featured in Global Explorer Dossier',
-        cast: '#999-L',
-        lore: 'The Flaming Guild Torch: Reserved for master chroniclers whose expedition dispatches inspire travelers worldwide. Conferred upon active community contributions and quest completions.',
-        milestone: 'High Community Praise & Shares',
-        progress: earnedBadgeIds.has('badge-local-legend') ? '100%' : '50%',
-        isEarned: earnedBadgeIds.has('badge-local-legend'),
-      },
+    const patches = getPvcPatchesCatalog(earnedBadgeIds);
+    const deployedCount = patches.filter(p => p.isEarned).length;
+    const totalPatches = patches.length;
+    const progressPercent = Math.min(100, Math.max(10, Math.round(((profile.xp || 680) % 1000) / 10)));
+
+    const CATEGORIES = [
+      { key: 'all', label: 'All Modules', emoji: '⚡', count: patches.length },
+      { key: 'summit', label: 'Summit & Alpine', emoji: '🏔️', count: patches.filter(p => p.category === 'summit').length },
+      { key: 'coastal', label: 'Coastal & Marine', emoji: '🌊', count: patches.filter(p => p.category === 'coastal').length },
+      { key: 'overland', label: 'Overland & Trail', emoji: '🧭', count: patches.filter(p => p.category === 'overland').length },
+      { key: 'heritage', label: 'Heritage & Lore', emoji: '📜', count: patches.filter(p => p.category === 'heritage').length },
     ];
 
+    const filteredPatches = activePvcCategory === 'all'
+      ? patches
+      : patches.filter(p => p.category === activePvcCategory);
+
     return `
-      <!-- Deep-Grooved XP Master Gauge (from Stitch design) -->
-      <section class="mb-8 p-6 rounded-3xl bg-[#F6F1E8] border border-[#BFA895]/40 shadow-sm relative overflow-hidden">
-        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
+      <!-- Tactical Header Stats Banner & Telemetry -->
+      <section class="pvc-header-banner mb-6">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4 relative z-10">
           <div>
-            <span class="text-[10px] font-mono font-bold tracking-widest uppercase text-[#8B4513] bg-[#8B4513]/10 px-2.5 py-0.5 rounded-full">
-              EXPEDITIONARY DOSSIER
-            </span>
-            <h2 class="text-xl sm:text-2xl font-bold font-headline-md text-neutral-900 mt-1">
+            <div class="flex items-center gap-2">
+              <span class="text-[9.5px] font-mono font-bold tracking-widest uppercase text-[#CCFF00] bg-[#CCFF00]/10 border border-[#CCFF00]/25 px-2.5 py-0.5 rounded-full">
+                MIL-SPEC 810G // EXPEDITION BOARD
+              </span>
+              <span class="text-[10px] font-mono text-neutral-400">12 Patches Catalog</span>
+            </div>
+            <h2 class="text-xl sm:text-2xl font-bold font-headline-md text-white mt-1.5 tracking-wide">
               Level ${profile.level || 1} • Master Wayfarer
             </h2>
-            <p class="text-xs text-neutral-600 font-serif italic mt-0.5">
-              Accumulating field XP unlocks metallic medallion reliefs and vintage scrapbook embellishments.
+            <p class="text-xs text-neutral-400 font-mono mt-0.5">
+              Accumulating field XP deploys 3D molded fluororubber &amp; silicone morale patches.
             </p>
           </div>
-          <div class="flex items-center gap-2 self-start md:self-auto font-mono text-xs">
-            <span class="px-3 py-1.5 rounded-xl bg-white border border-[#BFA895]/40 font-bold text-[#8B4513]">
-              ⚡ ${profile.xp || 0} Total XP
+
+          <div class="flex flex-wrap items-center gap-2 self-start md:self-auto font-mono text-xs">
+            <span class="pvc-telemetry-chip">
+              <span class="text-[#CCFF00]">⚡</span>
+              <span class="text-white font-bold">${profile.xp || 0} Total XP</span>
             </span>
-            <span class="px-3 py-1.5 rounded-xl bg-[#5B8C7B]/15 border border-[#5B8C7B]/30 font-bold text-[#2E4433]">
-              🎖️ ${earnedBadgeIds.size} / ${MEDALLION_DATA.length} Medallions Cast
+            <span class="pvc-telemetry-chip border-[#CCFF00]/30 text-[#CCFF00] bg-[#CCFF00]/10 font-bold">
+              <span>🎖️</span>
+              <span>${deployedCount} / ${totalPatches} Patches Deployed</span>
+            </span>
+            <span class="pvc-telemetry-chip hidden sm:inline-flex">
+              <span class="text-neutral-400">DUROMETER:</span>
+              <span class="text-white">85A HIGH-TENSILE</span>
             </span>
           </div>
         </div>
 
         <!-- 3D Progress Bar Track -->
-        <div class="h-4 w-full bg-sand/60 rounded-full p-0.5 border border-[#BFA895]/50 relative overflow-hidden shadow-inner">
-          <div class="h-full rounded-full bg-gradient-to-r from-[#C4703D] via-[#C99A45] to-[#5B8C7B] relative transition-all duration-700" style="width: ${Math.min(100, Math.max(15, ((profile.xp || 680) % 1000) / 10))}%;">
-            <div class="absolute inset-0 bg-white/20 animate-pulse"></div>
+        <div class="relative z-10">
+          <div class="h-3 w-full bg-black/60 rounded-full p-0.5 border border-white/10 relative overflow-hidden shadow-inner">
+            <div class="h-full rounded-full bg-gradient-to-r from-[#CCFF00] via-[#FBBF24] to-[#FF6B00] relative transition-all duration-700" style="width: ${progressPercent}%;">
+              <div class="absolute inset-0 bg-white/20 animate-pulse"></div>
+            </div>
           </div>
-        </div>
-        <div class="flex justify-between items-center text-[10px] font-mono text-neutral-500 mt-2">
-          <span>Tier I: Scout</span>
-          <span class="text-[#8B4513] font-bold">Progressing toward Cartographer Sovereign</span>
-          <span>Tier V: Legend</span>
+          <div class="flex justify-between items-center text-[10px] font-mono text-neutral-400 mt-2">
+            <span>Tier I: Scout</span>
+            <span class="text-[#CCFF00] font-bold">${deployedCount === totalPatches ? 'All 12 Expedition Patches Deployed' : `${totalPatches - deployedCount} Modules Remaining to Deploy`}</span>
+            <span>Tier V: Vanguard Sovereign</span>
+          </div>
         </div>
       </section>
 
-      <!-- 6 Hand-Cast Relic Medallions Grid -->
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        ${MEDALLION_DATA.map(m => `
-          <div class="medallion-card medallion-perspective group" id="${m.id}">
-            <div class="medallion-inner relative w-full h-[470px]">
+      <!-- Tactical Category Filter Tabs -->
+      <div class="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none mb-6">
+        ${CATEGORIES.map(cat => `
+          <button type="button" class="pvc-category-pill ${activePvcCategory === cat.key ? 'active' : ''}" data-category="${cat.key}">
+            <span>${cat.emoji}</span>
+            <span>${cat.label} (${cat.count})</span>
+          </button>
+        `).join('')}
+      </div>
 
-              <!-- FRONT FACE -->
-              <div class="face-front absolute inset-0 bg-[#FAF6F0] rounded-3xl border border-[#BFA895]/50 p-5 flex flex-col justify-between shadow-md transition-all group-hover:border-[#C4703D]/60">
-                <div class="flex items-center justify-between">
-                  <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10.5px] font-mono font-bold ${m.isEarned ? 'bg-[#5B8C7B]/15 text-[#2E4433] border border-[#5B8C7B]/30' : 'bg-black/5 text-neutral-500 border border-black/10'}">
-                    <span class="material-symbols-outlined text-[13px]">${m.isEarned ? 'check_circle' : 'lock'}</span>
-                    <span>${m.isEarned ? 'UNLOCKED' : 'IN PROGRESS'}</span>
-                  </span>
-                  <span class="text-xs font-mono font-bold text-[#8B4513] bg-white px-2 py-0.5 rounded-md border border-[#BFA895]/40">
-                    +${m.points} XP
-                  </span>
+      <!-- 12 Tactile 3D Molded PVC Expedition Patches Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        ${filteredPatches.map(p => {
+          const perk = p.perk || PATCH_PERKS[p.id] || '+10% Expedition Capability';
+          const batchNo = p.sku && p.sku.includes('//') ? p.sku.split('//')[1].trim() : p.sku;
+          const skuCode = p.sku && p.sku.includes('//') ? p.sku.split('//')[0].trim() : p.sku;
+          return `
+            <div class="pvc-patch-card" id="${p.id}">
+              <div class="pvc-card-inner">
+
+                <!-- FRONT FACE: Tactile Molded Rubber Face -->
+                <div class="pvc-face-front ${p.themeClass} border-2 ${p.isEarned ? 'border-[#CCFF00]/40' : 'border-[#2A2E35]'}">
+                  <!-- Tactical Top Bar: SKU, Status, XP -->
+                  <div class="flex items-center justify-between z-10">
+                    <span class="text-[9px] font-mono font-bold text-neutral-400 tracking-wider">
+                      ${escapeHtml(skuCode)}
+                    </span>
+                    <div class="flex items-center gap-1.5">
+                      <span class="text-[9.5px] font-mono font-bold px-2 py-0.5 rounded-md ${p.isEarned ? 'bg-[#CCFF00]/20 text-[#CCFF00] border border-[#CCFF00]/40' : 'bg-white/5 text-neutral-400 border border-white/10'}">
+                        ${p.isEarned ? '✓ DEPLOYED' : 'IN PROGRESS'}
+                      </span>
+                      <span class="text-[9.5px] font-mono font-bold bg-black/60 text-[#CCFF00] px-2 py-0.5 rounded-md border border-white/10">
+                        +${p.points} XP
+                      </span>
+                    </div>
+                  </div>
+
+                  <!-- Centerpiece: Tactile Molded Rubber Disk & Stitch Trench -->
+                  <div class="my-auto py-2 relative z-10 flex flex-col items-center">
+                    <div class="pvc-patch-disk pvc-bevel relative">
+                      <div class="pvc-stitching-groove w-full h-full flex items-center justify-center">
+                        ${p.svg}
+                      </div>
+                    </div>
+                    <h3 class="text-sm font-bold font-headline-md text-white mt-3 text-center tracking-wide">${escapeHtml(p.title || p.name)}</h3>
+                    <p class="text-[11px] font-mono text-neutral-400 text-center mt-0.5 leading-snug">${escapeHtml(p.subtitle)}</p>
+                  </div>
+
+                  <!-- Bottom Hardware Specs & Telemetry -->
+                  <div class="pt-3 border-t border-white/10 z-10 space-y-2.5">
+                    <div class="flex items-center justify-between text-[9px] font-mono">
+                      <span class="pvc-spec-label bg-white/5 text-neutral-300 border border-white/10">${escapeHtml(p.durometer)}</span>
+                      <span class="pvc-spec-label bg-[#CCFF00]/10 text-[#CCFF00] border border-[#CCFF00]/20">${escapeHtml(p.rating)}</span>
+                    </div>
+                    
+                    <!-- Progress Indicator -->
+                    <div>
+                      <div class="flex justify-between text-[9.5px] font-mono text-neutral-400 mb-1">
+                        <span class="truncate max-w-[200px]">Milestone: ${escapeHtml(p.milestone)}</span>
+                        <span class="text-white font-bold">${p.progress}</span>
+                      </div>
+                      <div class="h-1.5 w-full bg-black/40 rounded-full overflow-hidden border border-white/5">
+                        <div class="h-full bg-gradient-to-r from-[#CCFF00] to-[#FF6B00] rounded-full transition-all duration-500" style="width: ${p.progress};"></div>
+                      </div>
+                    </div>
+
+                    <!-- Dual Action Triggers: Flip / Hook & Loop Specs & Inspect Material -->
+                    <div class="grid grid-cols-2 gap-2 pt-1">
+                      <button type="button" class="btn-flip-card py-2 px-2 rounded-xl bg-white/5 hover:bg-white/10 text-neutral-300 hover:text-white border border-white/10 text-[10px] font-mono font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer" data-id="${p.id}" title="Flip to inspect Hook & Loop backing specs">
+                        <span class="material-symbols-outlined text-xs text-[#CCFF00]">sync</span>
+                        <span>Flip / Specs</span>
+                      </button>
+                      <button type="button" class="btn-inspect-pvc py-2 px-2 rounded-xl bg-[#CCFF00]/10 hover:bg-[#CCFF00]/20 text-[#CCFF00] hover:text-[#d4ff33] border border-[#CCFF00]/30 text-[10px] font-mono font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer" data-id="${p.id}" title="Inspect Material & Durometer Telemetry HUD">
+                        <span class="material-symbols-outlined text-xs">tune</span>
+                        <span>Inspect HUD</span>
+                      </button>
+                    </div>
+                  </div>
                 </div>
 
-                <!-- 3D Beveled Coin Centerpiece -->
-                <div class="flex flex-col items-center justify-center my-auto py-2">
-                  <div class="relative w-32 h-32 rounded-full ${m.rimClass} p-2 coin-relief shadow-xl transform group-hover:scale-105 transition-transform duration-300">
-                    <div class="w-full h-full rounded-full bg-gradient-to-b ${m.bgClass} p-2 flex items-center justify-center border-2 ${m.borderColor} relative overflow-hidden">
-                      <svg class="absolute inset-0 w-full h-full opacity-35 text-white" viewBox="0 0 100 100" fill="none" stroke="currentColor">
-                        <circle cx="50" cy="50" r="44" stroke-dasharray="2 3" stroke-width="1.2"/>
-                        <circle cx="50" cy="50" r="39" stroke-width="0.8"/>
-                      </svg>
-                      <div class="relative z-10 text-center" style="color: ${m.textColor}">
-                        <span class="material-symbols-outlined text-4xl drop-shadow-md" style="color: ${m.iconColor}">${m.icon}</span>
-                        <div class="text-[8.5px] font-mono tracking-widest uppercase mt-0.5 font-bold opacity-90">${m.metal}</div>
+                <!-- BACK FACE: Hook-and-Loop Velcro Specification Face -->
+                <div class="pvc-face-back pvc-velcro-back text-white">
+                  <div class="z-10">
+                    <!-- Top Bar: Velcro Specification & Batch No -->
+                    <div class="flex items-center justify-between border-b border-white/15 pb-2.5">
+                      <span class="text-[9.5px] font-mono tracking-widest uppercase text-[#CCFF00] flex items-center gap-1">
+                        <span class="material-symbols-outlined text-xs">texture</span>
+                        <span>HOOK &amp; LOOP VELCRO</span>
+                      </span>
+                      <span class="text-[10px] font-mono text-neutral-400 font-bold">${escapeHtml(batchNo)}</span>
+                    </div>
+
+                    <!-- Title & Subtitle -->
+                    <div class="mt-3">
+                      <h4 class="font-bold text-sm text-white font-headline-md">${escapeHtml(p.title || p.name)}</h4>
+                      <p class="text-[10px] font-mono text-[#CCFF00] mt-0.5">${escapeHtml(p.subtitle)}</p>
+                    </div>
+
+                    <!-- Field Operational Lore -->
+                    <div class="mt-3 p-3 rounded-xl bg-black/60 border border-white/10">
+                      <span class="text-[9px] font-mono uppercase tracking-wider text-neutral-400 block mb-1">FIELD OPERATIONAL BRIEF:</span>
+                      <p class="text-[11px] text-neutral-300 leading-relaxed font-sans">${escapeHtml(p.lore)}</p>
+                    </div>
+
+                    <!-- Mil-Spec Hardware & Telemetry Details -->
+                    <div class="mt-3 p-2.5 rounded-xl bg-white/5 border border-white/10 space-y-1.5 text-[10px] font-mono">
+                      <div class="flex justify-between">
+                        <span class="text-neutral-400">Hardness:</span>
+                        <span class="text-[#CCFF00] font-bold">${escapeHtml(p.durometer)}</span>
+                      </div>
+                      <div class="flex justify-between">
+                        <span class="text-neutral-400">Material Spec:</span>
+                        <span class="text-white truncate max-w-[170px]">${escapeHtml(p.material)}</span>
+                      </div>
+                      <div class="flex justify-between">
+                        <span class="text-neutral-400">Thermal / Seal:</span>
+                        <span class="text-white">${escapeHtml(p.rating)}</span>
+                      </div>
+                      <div class="flex justify-between border-t border-white/10 pt-1">
+                        <span class="text-neutral-400">Unlocked Perk:</span>
+                        <span class="text-[#6EE7B7] font-bold text-right truncate max-w-[180px]">${escapeHtml(perk)}</span>
                       </div>
                     </div>
                   </div>
 
-                  <h3 class="font-serif font-bold text-base text-neutral-900 mt-3 text-center font-headline-md">${escapeHtml(m.name)}</h3>
-                  <p class="text-[11px] text-neutral-600 font-serif italic text-center px-2 mt-0.5 leading-snug">${m.epigraph}</p>
+                  <!-- Bottom Return and Inspect Buttons -->
+                  <div class="pt-2 z-10 flex gap-2">
+                    <button type="button" class="btn-flip-card flex-1 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-mono font-bold flex items-center justify-center gap-1.5 transition-colors cursor-pointer border border-white/15" data-id="${p.id}">
+                      <span class="material-symbols-outlined text-sm">arrow_back</span>
+                      <span>Return to Front</span>
+                    </button>
+                    <button type="button" class="btn-inspect-pvc py-2 px-3 rounded-xl bg-[#CCFF00] hover:bg-[#b8e600] text-black text-xs font-mono font-bold flex items-center justify-center gap-1 transition-colors cursor-pointer" data-id="${p.id}" title="Inspect Material & Durometer">
+                      <span class="material-symbols-outlined text-sm">tune</span>
+                    </button>
+                  </div>
                 </div>
 
-                <!-- Card Bottom: Progress & Flip Trigger -->
-                <div class="border-t border-[#BFA895]/30 pt-3 space-y-2">
-                  <div class="flex justify-between items-center text-[10.5px] font-mono text-neutral-600">
-                    <span class="truncate max-w-[180px]">${m.milestone}</span>
-                    <span class="font-bold text-[#5B8C7B]">${m.progress}</span>
-                  </div>
-                  <div class="h-2 w-full bg-neutral-200 rounded-full overflow-hidden">
-                    <div class="h-full bg-[#5B8C7B] rounded-full" style="width: ${m.progress}"></div>
-                  </div>
-                  <button type="button" class="btn-flip-medallion w-full mt-1 py-1.5 rounded-xl border border-[#BFA895]/40 bg-white hover:bg-neutral-50 text-neutral-800 text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors cursor-pointer" data-card="${m.id}">
-                    <span class="material-symbols-outlined text-sm text-[#C4703D]">sync</span>
-                    <span>Inspect Medallion Relief</span>
-                  </button>
-                </div>
               </div>
-
-              <!-- BACK FACE (Historical Inscription & Lore) -->
-              <div class="face-back absolute inset-0 bg-[#252826] text-white rounded-3xl p-5 flex flex-col justify-between shadow-xl border border-neutral-700">
-                <div>
-                  <div class="flex items-center justify-between border-b border-white/15 pb-2.5">
-                    <span class="text-[9.5px] font-mono tracking-widest uppercase text-[#D4AF37]">Historical Inscription</span>
-                    <span class="text-xs font-mono text-neutral-400">CAST: ${m.cast}</span>
-                  </div>
-                  <h4 class="font-serif font-bold text-sm text-[#F7CCA7] mt-3 font-headline-md">${escapeHtml(m.name)}</h4>
-                  <p class="text-[11px] text-neutral-300 font-serif leading-relaxed mt-1.5">${m.lore}</p>
-
-                  <div class="mt-3.5 p-2.5 rounded-xl bg-black/40 border border-white/10 space-y-1 text-[10px] font-mono">
-                    <div class="flex justify-between"><span class="text-neutral-400">Unlocked At:</span><span class="text-white">${m.unlockedAt}</span></div>
-                    <div class="flex justify-between"><span class="text-neutral-400">Rarity:</span><span class="text-[#D4AF37]">${m.rarity}</span></div>
-                    <div class="flex justify-between"><span class="text-neutral-400">Bonus Perk:</span><span class="text-[#6EE7B7]">${m.bonus}</span></div>
-                  </div>
-                </div>
-
-                <button type="button" class="btn-flip-medallion w-full py-2 rounded-xl bg-white text-neutral-900 text-xs font-bold flex items-center justify-center gap-1.5 hover:bg-neutral-100 transition-colors cursor-pointer" data-card="${m.id}">
-                  <span class="material-symbols-outlined text-sm">arrow_back</span>
-                  <span>Return to Showcase</span>
-                </button>
-              </div>
-
             </div>
-          </div>
-        `).join('')}
+          `;
+        }).join('')}
       </div>
     `;
+  }
+
+  // Tactical PVC Hardware Inspector Modal
+  function showPvcInspectorModal(patch) {
+    const perk = patch.perk || PATCH_PERKS[patch.id] || '+10% Expedition Capability';
+    const modalHtml = `
+      <div class="p-3 text-white">
+        <div class="flex items-center justify-between border-b border-white/10 pb-3 mb-4">
+          <div>
+            <span class="text-[9.5px] font-mono font-bold text-[#CCFF00] bg-[#CCFF00]/10 px-2 py-0.5 rounded uppercase tracking-wider">
+              MIL-SPEC 810G // TACTICAL INSPECTION
+            </span>
+            <h3 class="text-lg font-bold font-headline-md text-white mt-1">${escapeHtml(patch.title || patch.name)}</h3>
+            <p class="text-xs font-mono text-neutral-400">${escapeHtml(patch.sku)}</p>
+          </div>
+          <button id="btnClosePvcInspector" class="p-1.5 rounded-full hover:bg-white/10 text-neutral-400 hover:text-white transition-colors cursor-pointer">
+            <span class="material-symbols-outlined text-lg">close</span>
+          </button>
+        </div>
+
+        <div class="flex flex-col sm:flex-row items-center gap-6 my-4">
+          <!-- Tactile Patch Preview -->
+          <div class="w-40 h-40 rounded-full bg-[#16181B] border-4 border-[#252930] p-3 shadow-2xl flex-shrink-0 flex items-center justify-center relative">
+            <div class="w-full h-full rounded-full border-2 border-dashed border-[#CCFF00]/40 flex items-center justify-center">
+              ${patch.svg}
+            </div>
+          </div>
+
+          <!-- Physical Specs Table -->
+          <div class="flex-1 w-full space-y-2 text-xs font-mono">
+            <div class="p-2.5 rounded-xl bg-black/40 border border-white/10 space-y-1.5">
+              <div class="flex justify-between"><span class="text-neutral-400">Hardness:</span><span class="text-[#CCFF00] font-bold">${escapeHtml(patch.durometer)}</span></div>
+              <div class="flex justify-between"><span class="text-neutral-400">Material Chemistry:</span><span class="text-white">${escapeHtml(patch.material || 'Liquid Vulcanized PVC Silicone')}</span></div>
+              <div class="flex justify-between"><span class="text-neutral-400">Relief Elevation:</span><span class="text-white">3.5mm Multi-Tier Relief</span></div>
+              <div class="flex justify-between"><span class="text-neutral-400">Thermal Resistance:</span><span class="text-white">-40°C to +120°C</span></div>
+              <div class="flex justify-between"><span class="text-neutral-400">Backing System:</span><span class="text-white">Mil-Spec Hook-and-Loop Velcro</span></div>
+              <div class="flex justify-between"><span class="text-neutral-400">Perimeter Stitch:</span><span class="text-white">Recessed Trench / #69 Nylon</span></div>
+              <div class="flex justify-between border-t border-white/10 pt-1.5"><span class="text-neutral-400">Unlocked Perk:</span><span class="text-[#6EE7B7] font-bold">${escapeHtml(perk)}</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Lore & Deployment Notes -->
+        <div class="my-4 p-3 rounded-xl bg-white/5 border border-white/10 text-xs text-neutral-300 leading-relaxed font-sans">
+          <strong class="text-white font-mono uppercase block text-[10px] mb-1 tracking-wider text-[#CCFF00]">FIELD OPERATIONAL BRIEF:</strong>
+          ${escapeHtml(patch.lore)}
+        </div>
+
+        <button id="btnDismissPvcModal" class="w-full py-2.5 rounded-xl bg-[#CCFF00] hover:bg-[#b8e600] text-black font-bold text-xs font-mono tracking-wider transition-colors cursor-pointer">
+          DISMISS TELEMETRY HUD
+        </button>
+      </div>
+    `;
+
+    const appModal = document.getElementById('appModal');
+    const modalBody = document.getElementById('modalBody');
+    if (appModal && modalBody) {
+      modalBody.innerHTML = modalHtml;
+      modalBody.className = "bg-[#121316] rounded-3xl max-w-lg w-full p-4 border-2 border-[#252930] shadow-2xl relative";
+      appModal.classList.remove('hidden');
+
+      const closeModal = () => {
+        appModal.classList.add('hidden');
+      };
+
+      document.getElementById('btnClosePvcInspector')?.addEventListener('click', closeModal);
+      document.getElementById('btnDismissPvcModal')?.addEventListener('click', closeModal);
+    }
   }
 
   // ── Event Bindings ──────────────────────────────────────────────────────────
@@ -599,14 +640,35 @@ export function renderCommunityView(container, { switchView, store, openPassport
       });
     });
 
-    // 3D Medallion Flip Buttons
-    container.querySelectorAll('.btn-flip-medallion').forEach(btn => {
+    // Tactical PVC Category Filter Clicks
+    container.querySelectorAll('.pvc-category-pill').forEach(btn => {
+      btn.addEventListener('click', () => {
+        activePvcCategory = btn.dataset.category;
+        render();
+      });
+    });
+
+    // Tactile 3D PVC Card Flip Buttons (Both Front and Back faces)
+    container.querySelectorAll('.btn-flip-card').forEach(btn => {
       btn.addEventListener('click', (e) => {
         e.stopPropagation();
-        const cardId = btn.dataset.card;
-        const cardEl = document.getElementById(cardId);
+        const patchId = btn.dataset.id;
+        const cardEl = document.getElementById(patchId);
         if (cardEl) {
           cardEl.classList.toggle('flipped');
+        }
+      });
+    });
+
+    // Tactile 3D PVC Patch Inspect Buttons (Full-screen Telemetry HUD Modal)
+    container.querySelectorAll('.btn-inspect-pvc, .btn-flip-pvc').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const patchId = btn.dataset.id;
+        const earnedIds = new Set(communityService.getEarnedBadgeIds());
+        const patch = getPvcPatchById(patchId, earnedIds);
+        if (patch) {
+          showPvcInspectorModal(patch);
         }
       });
     });
