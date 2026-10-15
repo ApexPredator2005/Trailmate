@@ -87,26 +87,37 @@ function createCompassDialTexture() {
   const cy = size / 2;
   const radius = size * 0.47;
 
-  // 1. Aged Parchment Gradient Base with subtle vignette
+  // 1. Antique Spun Brass Gradient Base with subtle radial vignette
   const bgGrad = ctx.createRadialGradient(cx, cy, 20, cx, cy, radius);
-  bgGrad.addColorStop(0.00, '#FDFBF3');
-  bgGrad.addColorStop(0.55, '#F4ECD8');
-  bgGrad.addColorStop(0.82, '#E8DCBF');
-  bgGrad.addColorStop(0.96, '#DAC9A4');
-  bgGrad.addColorStop(1.00, '#C8B58D');
+  bgGrad.addColorStop(0.00, '#FCE8B2');
+  bgGrad.addColorStop(0.50, '#E8CA82');
+  bgGrad.addColorStop(0.80, '#D6B567');
+  bgGrad.addColorStop(0.96, '#B68D40');
+  bgGrad.addColorStop(1.00, '#8E6723');
 
   ctx.fillStyle = bgGrad;
   ctx.beginPath();
   ctx.arc(cx, cy, radius, 0, Math.PI * 2);
   ctx.fill();
 
+  // Spun-metal micro lathe concentric grooves
+  for (let r = 20; r < radius; r += 4) {
+    ctx.lineWidth = 0.8;
+    ctx.strokeStyle = r % 8 === 0 ? 'rgba(70, 48, 16, 0.12)' : 'rgba(255, 245, 200, 0.08)';
+    ctx.beginPath();
+    ctx.arc(cx, cy, r, 0, Math.PI * 2);
+    ctx.stroke();
+  }
+
   // Outer brass lip shadow
-  ctx.lineWidth = 4;
-  ctx.strokeStyle = '#5A421D';
+  ctx.lineWidth = 5;
+  ctx.strokeStyle = '#4A3414';
+  ctx.beginPath();
+  ctx.arc(cx, cy, radius, 0, Math.PI * 2);
   ctx.stroke();
 
-  ctx.lineWidth = 2;
-  ctx.strokeStyle = '#8E6F38';
+  ctx.lineWidth = 2.5;
+  ctx.strokeStyle = '#9E7832';
   ctx.beginPath();
   ctx.arc(cx, cy, radius - 4, 0, Math.PI * 2);
   ctx.stroke();
@@ -246,9 +257,9 @@ function createCompassDialTexture() {
     ctx.fill();
     ctx.stroke();
 
-    // Right half: Warm Vintage Aged Ivory / Antique Brass
-    ctx.fillStyle = '#F4EAD0';
-    ctx.strokeStyle = '#282015';
+    // Right half: Luminous Polished Brass Facet Highlight
+    ctx.fillStyle = '#FBF0CE';
+    ctx.strokeStyle = '#382A18';
     ctx.beginPath();
     ctx.moveTo(cx, cy);
     ctx.lineTo(tx, ty);
@@ -285,8 +296,8 @@ function createCompassDialTexture() {
     ctx.fill();
     ctx.stroke();
 
-    ctx.fillStyle = '#EBDCC0';
-    ctx.strokeStyle = '#282015';
+    ctx.fillStyle = '#F4E4B9';
+    ctx.strokeStyle = '#382A18';
     ctx.beginPath();
     ctx.moveTo(cx, cy);
     ctx.lineTo(tx, ty);
@@ -406,14 +417,14 @@ export class Compass3D {
 
   init() {
     const width = this.container.clientWidth || 180;
-    const height = this.container.clientHeight || 140;
+    const height = this.container.clientHeight || 160;
 
     // 1. Scene
     this.scene = new THREE.Scene();
 
     // 2. Camera (perspective with tight FOV for tactile tabletop look)
-    this.camera = new THREE.PerspectiveCamera(38, width / height, 0.1, 100);
-    this.camera.position.set(0, -0.4, 6.2);
+    this.camera = new THREE.PerspectiveCamera(36, width / height, 0.1, 100);
+    this.camera.position.set(0, 0.05, 8.0);
     this.camera.lookAt(0, 0, 0);
 
     // 3. Renderer
@@ -426,7 +437,7 @@ export class Compass3D {
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
     this.renderer.outputColorSpace = THREE.SRGBColorSpace;
     this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    this.renderer.toneMappingExposure = 1.02;
+    this.renderer.toneMappingExposure = 1.04;
     this.container.appendChild(this.renderer.domElement);
 
     // 4. Lighting
@@ -447,28 +458,31 @@ export class Compass3D {
   }
 
   setupLighting() {
-    // Balanced warm ambient light (preserves deep black ink on parchment)
-    const ambientLight = new THREE.AmbientLight(0xfff5e8, 1.35);
+    // Balanced warm ambient light (preserves deep black ink and golden reflections)
+    const ambientLight = new THREE.AmbientLight(0xfff6ea, 1.35);
     this.scene.add(ambientLight);
 
     // Key warm sunlight (creates rich brass glints and needle cast shadows)
-    const keyLight = new THREE.DirectionalLight(0xfff6e4, 1.95);
-    keyLight.position.set(3.2, 4.2, 4.8);
+    const keyLight = new THREE.DirectionalLight(0xfff2d4, 2.05);
+    keyLight.position.set(3.4, 4.4, 4.8);
     this.scene.add(keyLight);
 
     // Secondary cool sky reflection for contrast
-    const fillLight = new THREE.DirectionalLight(0xb8d4f0, 0.50);
+    const fillLight = new THREE.DirectionalLight(0xb4d0ee, 0.45);
     fillLight.position.set(-3.0, -2.0, 2.5);
     this.scene.add(fillLight);
 
     // Specular glint light (catches glass dome curvature and brass rim)
-    const rimLight = new THREE.PointLight(0xffe298, 0.95, 12);
-    rimLight.position.set(0.4, 2.6, 2.8);
+    const rimLight = new THREE.PointLight(0xffe6a4, 1.15, 12);
+    rimLight.position.set(0.4, 2.8, 3.0);
     this.scene.add(rimLight);
   }
 
   buildCompassModel() {
     this.compassGroup = new THREE.Group();
+    // Center and scale so the top suspension ring and case fit with generous framing
+    this.compassGroup.scale.set(0.80, 0.80, 0.80);
+    this.compassGroup.position.set(0, -0.24, 0);
 
     // PBR Antique Brass Materials (matching aged patina in reference photos)
     const brassCaseMaterial = new THREE.MeshStandardMaterial({
@@ -501,9 +515,9 @@ export class Compass3D {
     // Cylindrical inner wall creating 3D depth around the dial
     const rehautGeo = new THREE.CylinderGeometry(2.01, 2.01, 0.22, 64, 1, true);
     const rehautMat = new THREE.MeshStandardMaterial({
-      color: 0x7A5B27,
-      roughness: 0.38,
-      metalness: 0.85,
+      color: 0x7E5E2A,
+      roughness: 0.35,
+      metalness: 0.88,
       side: THREE.DoubleSide,
     });
     const rehautMesh = new THREE.Mesh(rehautGeo, rehautMat);
@@ -511,7 +525,18 @@ export class Compass3D {
     rehautMesh.position.z = 0.11;
     this.compassGroup.add(rehautMesh);
 
-    // 3. Stepped Knurled Top Rim (References 1 & 3)
+    // 3a. Fluted Coin-Edge Knurled Bezel Track (References 3 & 4)
+    const knurlGeo = new THREE.TorusGeometry(2.13, 0.042, 12, 72);
+    const knurlMat = new THREE.MeshStandardMaterial({
+      color: 0x8C6B2D,
+      roughness: 0.42,
+      metalness: 0.88,
+    });
+    const knurlMesh = new THREE.Mesh(knurlGeo, knurlMat);
+    knurlMesh.position.z = 0.21;
+    this.compassGroup.add(knurlMesh);
+
+    // 3b. Stepped Polished Top Rim (References 1 & 3)
     const outerRimGeo = new THREE.TorusGeometry(2.18, 0.08, 16, 64);
     const outerRimMesh = new THREE.Mesh(outerRimGeo, brassPolishedMaterial);
     outerRimMesh.position.z = 0.22;
@@ -522,22 +547,38 @@ export class Compass3D {
     innerRimMesh.position.z = 0.23;
     this.compassGroup.add(innerRimMesh);
 
-    // 4. Antique Pocket Watch Suspension Pendant (References 1, 2, 3)
+    // 4. Antique Pocket Watch Suspension Pendant (References 1, 2, 3, 4, 5)
     const ringGroup = new THREE.Group();
-    // Crown knob / neck
-    const mountGeo = new THREE.CylinderGeometry(0.14, 0.16, 0.26, 24);
+
+    // 4a. Neck mount collar attached to casing
+    const mountGeo = new THREE.CylinderGeometry(0.18, 0.22, 0.24, 24);
     const mountMesh = new THREE.Mesh(mountGeo, darkBrassMaterial);
-    mountMesh.position.y = 2.22;
-    mountMesh.position.z = 0.00;
+    mountMesh.position.y = 2.24;
+    mountMesh.position.z = 0.02;
     mountMesh.rotation.x = Math.PI / 2;
     ringGroup.add(mountMesh);
 
-    // Oval hinged suspension bow
-    const loopGeo = new THREE.TorusGeometry(0.48, 0.065, 16, 36);
+    // 4b. Spherical Swivel Knuckle Bead
+    const beadGeo = new THREE.SphereGeometry(0.20, 24, 24);
+    const beadMesh = new THREE.Mesh(beadGeo, brassPolishedMaterial);
+    beadMesh.position.y = 2.48;
+    beadMesh.position.z = 0.06;
+    ringGroup.add(beadMesh);
+
+    // 4c. Lateral Hinge Pin Studs
+    const pinGeo = new THREE.CylinderGeometry(0.045, 0.045, 0.46, 16);
+    const pinMesh = new THREE.Mesh(pinGeo, darkBrassMaterial);
+    pinMesh.position.y = 2.48;
+    pinMesh.position.z = 0.06;
+    pinMesh.rotation.z = Math.PI / 2;
+    ringGroup.add(pinMesh);
+
+    // 4d. Heavy Hinged Antique Brass Suspension Bow (Pocket Watch Ring)
+    const loopGeo = new THREE.TorusGeometry(0.50, 0.075, 20, 48);
     const loopMesh = new THREE.Mesh(loopGeo, brassPolishedMaterial);
-    loopMesh.position.y = 2.58;
-    loopMesh.position.z = 0.04;
-    loopMesh.rotation.x = 0.15; // Slight forward tilt for perspective
+    loopMesh.position.y = 2.86;
+    loopMesh.position.z = 0.14;
+    loopMesh.rotation.x = 0.22; // Tilted forward towards viewer
     ringGroup.add(loopMesh);
     this.compassGroup.add(ringGroup);
 
@@ -546,8 +587,8 @@ export class Compass3D {
     const fallbackTex = createCompassDialTexture();
     const dialMat = new THREE.MeshStandardMaterial({
       map: fallbackTex,
-      roughness: 0.65,
-      metalness: 0.05,
+      roughness: 0.48,
+      metalness: 0.08,
     });
 
     const textureLoader = new THREE.TextureLoader();
@@ -718,7 +759,7 @@ export class Compass3D {
     const resizeObserver = new ResizeObserver(() => {
       if (!this.container || !this.renderer || !this.camera) return;
       const w = this.container.clientWidth || 180;
-      const h = this.container.clientHeight || 140;
+      const h = this.container.clientHeight || 160;
       this.camera.aspect = w / h;
       this.camera.updateProjectionMatrix();
       this.renderer.setSize(w, h);

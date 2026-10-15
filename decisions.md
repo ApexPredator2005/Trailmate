@@ -420,9 +420,11 @@ To maintain this standard while offering a high-performance **Scrapbook Studio**
   * **Three.js WebGL Architecture & Museum-Grade Refinements:**
     * Built [`Compass3D.js`](file:///Users/pratyushraj/Desktop/Projects/travel%20app/src/components/Compass3D.js) utilizing Three.js PBR materials (`MeshStandardMaterial`, `MeshPhysicalMaterial`).
     * **Authentic Vintage Horology Details (Matching Museum Reference Artifacts):**
-      * **Deep Inner Chamber (Rehaut):** Engineered a recessed cylindrical brass chapter ring (`h = 0.22`) creating authentic 3D shadow depth between the upper bezel and the recessed dial plate.
-      * **16-Point Split-Facet Star:** Alternating deep ebony black and warm aged ivory/brass facets—the iconic visual signature of 19th-century maritime compasses.
-      * **360-Degree Graduation Tracks:** Dual concentric rings with degree ticks and numerals labeled every 10°.
+      * **Antique Spun-Brass Dial Plate:** Luminous golden brass base (`#FCE8B2` to `#8E6723`) with concentric micro-lathe grooves mimicking spun metal, aged patina, dual calibration tracks, 360 degree ticks, and serif numerals every 10°.
+      * **Deep Inner Chamber (Rehaut):** Recessed cylindrical brass chapter ring (`h = 0.22`) creating authentic 3D shadow depth between the upper bezel and the sunken dial plate.
+      * **16-Point Split-Facet Star:** Alternating deep ebony black and luminous polished golden brass facets—the iconic visual signature of 19th-century maritime & surveyor compasses.
+      * **Pocket Watch Suspension Pendant (Fob Bow):** Stepped brass mounting collar at 12 o'clock, spherical swivel bead knuckle, lateral hinge pin studs, and an antique brass suspension bow tilted forward ($0.22\text{ rad}$) to catch specular light.
+      * **Fluted Coin-Edge Knurled Bezel:** Knurled coin-edge ring with polished outer rim lip catching directional key-light glints.
       * **Surveyor's Magnetic Needle Assembly:** Faceted 3D vermilion north spearhead pointer with gold chamfer, blued-steel counterbalance tail, stepped knurled brass spindle nut, and a center ruby jewel bearing (`#881337`).
       * **Protective Glass Dome:** Arched specular crystal dome with subtle curved rim glints without obscuring the dial artwork.
     * Dynamic Great-Circle Azimuth tracking: Needle computes live great-circle bearing to the active selected destination:
