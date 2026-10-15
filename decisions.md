@@ -417,9 +417,14 @@ To maintain this standard while offering a high-performance **Scrapbook Studio**
     * *Iteration 1:* Generated photorealistic compass concept; review revealed dual suspension rings and oblique perspective.
     * *Iteration 2:* Refined via prompt specifying a single centered suspension bow, 90° orthogonal perspective, and knurled coin-edge rim.
     * *Iteration 3 (Needle-Free Dial):* Prompted Stitch specifically for an isolated 2D dial plate with parchment texture, wind-rose markings, and an open pivot eyelet. This eliminated needle ghosting and allowed the 3D needle to rotate dynamically.
-  * **Three.js WebGL Architecture:**
+  * **Three.js WebGL Architecture & Museum-Grade Refinements:**
     * Built [`Compass3D.js`](file:///Users/pratyushraj/Desktop/Projects/travel%20app/src/components/Compass3D.js) utilizing Three.js PBR materials (`MeshStandardMaterial`, `MeshPhysicalMaterial`).
-    * Modeled a multi-layered brass casing, knurled bezel, domed crystal glass with physical transmission, ruby pivot jewel, and a faceted dual-tone 3D needle (vermilion north / blued-steel south).
+    * **Authentic Vintage Horology Details (Matching Museum Reference Artifacts):**
+      * **Deep Inner Chamber (Rehaut):** Engineered a recessed cylindrical brass chapter ring (`h = 0.22`) creating authentic 3D shadow depth between the upper bezel and the recessed dial plate.
+      * **16-Point Split-Facet Star:** Alternating deep ebony black and warm aged ivory/brass facets—the iconic visual signature of 19th-century maritime compasses.
+      * **360-Degree Graduation Tracks:** Dual concentric rings with degree ticks and numerals labeled every 10°.
+      * **Surveyor's Magnetic Needle Assembly:** Faceted 3D vermilion north spearhead pointer with gold chamfer, blued-steel counterbalance tail, stepped knurled brass spindle nut, and a center ruby jewel bearing (`#881337`).
+      * **Protective Glass Dome:** Arched specular crystal dome with subtle curved rim glints without obscuring the dial artwork.
     * Dynamic Great-Circle Azimuth tracking: Needle computes live great-circle bearing to the active selected destination:
       $$\theta = \operatorname{atan2}(\sin\Delta\lambda\cos\phi_2, \cos\phi_1\sin\phi_2 - \sin\phi_1\cos\phi_2\cos\Delta\lambda)$$
     * Interactive Physics: Damped cursor parallax tilt (`lerp`) and click-to-flick harmonic damped spring needle oscillations.

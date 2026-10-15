@@ -68,7 +68,14 @@ function getCardinalDirection(deg) {
 }
 
 /**
- * Procedurally generates high-DPI antique astrolabe dial canvas texture.
+ * Procedurally generates museum-grade high-DPI antique astrolabe dial canvas texture.
+ * Replicates 19th-century maritime & surveyor compass artwork from authentic reference pieces:
+ * - Aged parchment disc with subtle radial warm vignette
+ * - Concentric degree graduation tracks (360 ticks)
+ * - Numerals every 10 degrees (10° to 360°)
+ * - Iconic 16-point split-facet star (alternating ebony black & aged ivory/brass)
+ * - Serif cardinal points (N in rich vermilion with heraldic fleur-de-lis, E/S/W in archival ink)
+ * - Central brass spindle collar with needle eyelet
  */
 function createCompassDialTexture() {
   const size = 1024;
@@ -78,171 +85,286 @@ function createCompassDialTexture() {
   const ctx = canvas.getContext('2d');
   const cx = size / 2;
   const cy = size / 2;
-  const radius = size * 0.46;
+  const radius = size * 0.47;
 
-  // 1. Aged Parchment Gradient Base
-  const bgGrad = ctx.createRadialGradient(cx, cy, 10, cx, cy, radius);
-  bgGrad.addColorStop(0.00, '#FCF8EE');
-  bgGrad.addColorStop(0.65, '#F5EDE0');
-  bgGrad.addColorStop(0.88, '#EAE0CF');
-  bgGrad.addColorStop(1.00, '#DACFBC');
+  // 1. Aged Parchment Gradient Base with subtle vignette
+  const bgGrad = ctx.createRadialGradient(cx, cy, 20, cx, cy, radius);
+  bgGrad.addColorStop(0.00, '#FDFBF3');
+  bgGrad.addColorStop(0.55, '#F4ECD8');
+  bgGrad.addColorStop(0.82, '#E8DCBF');
+  bgGrad.addColorStop(0.96, '#DAC9A4');
+  bgGrad.addColorStop(1.00, '#C8B58D');
 
   ctx.fillStyle = bgGrad;
   ctx.beginPath();
   ctx.arc(cx, cy, radius, 0, Math.PI * 2);
   ctx.fill();
 
-  // 2. Vintage Concentric Rings
+  // Outer brass lip shadow
   ctx.lineWidth = 4;
-  ctx.strokeStyle = '#8C6D37';
+  ctx.strokeStyle = '#5A421D';
   ctx.stroke();
 
   ctx.lineWidth = 2;
-  ctx.strokeStyle = '#A38146';
+  ctx.strokeStyle = '#8E6F38';
   ctx.beginPath();
-  ctx.arc(cx, cy, radius - 8, 0, Math.PI * 2);
+  ctx.arc(cx, cy, radius - 4, 0, Math.PI * 2);
   ctx.stroke();
 
-  ctx.lineWidth = 1.5;
-  ctx.strokeStyle = '#BBA06B';
+  // 2. Concentric Degree Calibration Tracks
+  const rOuterTrack = radius - 14;
+  const rInnerTrack = radius - 52;
+  const rDegreeNums = radius - 70;
+  const rSubTrack = radius - 88;
+
+  ctx.lineWidth = 3;
+  ctx.strokeStyle = '#141210';
   ctx.beginPath();
-  ctx.arc(cx, cy, radius - 38, 0, Math.PI * 2);
+  ctx.arc(cx, cy, rOuterTrack, 0, Math.PI * 2);
   ctx.stroke();
 
+  ctx.lineWidth = 2;
   ctx.beginPath();
-  ctx.arc(cx, cy, radius - 70, 0, Math.PI * 2);
+  ctx.arc(cx, cy, rInnerTrack, 0, Math.PI * 2);
   ctx.stroke();
 
-  // 3. 360 Degree Ticks
-  for (let i = 0; i < 360; i++) {
-    const angle = (i * Math.PI) / 180;
-    const isCardinal = i % 90 === 0;
-    const isMajor = i % 30 === 0;
-    const isMedium = i % 10 === 0;
-    const isFive = i % 5 === 0;
+  ctx.lineWidth = 1.8;
+  ctx.strokeStyle = '#28221A';
+  ctx.beginPath();
+  ctx.arc(cx, cy, rSubTrack, 0, Math.PI * 2);
+  ctx.stroke();
 
-    const rOuter = radius - 8;
-    let rInner = radius - 18;
+  // 3. 360 Degree Graduation Ticks
+  for (let deg = 0; deg < 360; deg++) {
+    const rad = ((deg - 90) * Math.PI) / 180;
+    const isCardinal = deg % 90 === 0;
+    const isTen = deg % 10 === 0;
+    const isFive = deg % 5 === 0;
+
+    let rStart = rOuterTrack - 14;
+    let tickWidth = 1.0;
+    let strokeColor = 'rgba(50, 40, 30, 0.75)';
 
     if (isCardinal) {
-      rInner = radius - 34;
-      ctx.lineWidth = 3.5;
-      ctx.strokeStyle = '#6E4E20';
-    } else if (isMajor) {
-      rInner = radius - 30;
-      ctx.lineWidth = 2.5;
-      ctx.strokeStyle = '#7D5A27';
-    } else if (isMedium) {
-      rInner = radius - 24;
-      ctx.lineWidth = 1.8;
-      ctx.strokeStyle = '#997339';
+      rStart = rInnerTrack - 12;
+      tickWidth = 3.5;
+      strokeColor = '#141210';
+    } else if (isTen) {
+      rStart = rInnerTrack;
+      tickWidth = 2.6;
+      strokeColor = '#1A1612';
     } else if (isFive) {
-      rInner = radius - 18;
-      ctx.lineWidth = 1.2;
-      ctx.strokeStyle = '#B39154';
-    } else {
-      rInner = radius - 13;
-      ctx.lineWidth = 0.8;
-      ctx.strokeStyle = '#C9AA72';
+      rStart = rOuterTrack - 22;
+      tickWidth = 1.8;
+      strokeColor = '#2D241A';
     }
 
-    const cos = Math.cos(angle);
-    const sin = Math.sin(angle);
+    const cos = Math.cos(rad);
+    const sin = Math.sin(rad);
 
+    ctx.lineWidth = tickWidth;
+    ctx.strokeStyle = strokeColor;
     ctx.beginPath();
-    ctx.moveTo(cx + cos * rInner, cy + sin * rInner);
-    ctx.lineTo(cx + cos * rOuter, cy + sin * rOuter);
+    ctx.moveTo(cx + cos * rStart, cy + sin * rStart);
+    ctx.lineTo(cx + cos * rOuterTrack, cy + sin * rOuterTrack);
     ctx.stroke();
 
-    // Degree numbers on major 30-deg marks
-    if (isMajor && !isCardinal) {
-      const textR = radius - 52;
-      const tx = cx + Math.cos(angle) * textR;
-      const ty = cy + Math.sin(angle) * textR;
+    // Degree numbers on every 10 degrees (excluding cardinals)
+    if (isTen && !isCardinal) {
+      const tx = cx + cos * (rDegreeNums - 2);
+      const ty = cy + sin * (rDegreeNums - 2);
 
       ctx.save();
       ctx.translate(tx, ty);
-      ctx.rotate(angle + Math.PI / 2);
-      ctx.font = 'bold 22px "JetBrains Mono", monospace';
-      ctx.fillStyle = '#6E4E20';
+      ctx.rotate(rad + Math.PI / 2);
+      ctx.font = 'bold 17px "Georgia", "Times New Roman", serif';
+      ctx.fillStyle = '#1C1814';
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
-      // Compass angles standard: 0 at top
-      const compassDeg = (i + 90) % 360;
-      ctx.fillText(`${compassDeg}°`, 0, 0);
+      ctx.fillText(`${deg}`, 0, 0);
       ctx.restore();
     }
   }
 
-  // 4. Astrolabe 8-Pointed Star in Center
-  const innerR = radius - 80;
-  const starPoints = 8;
-  ctx.save();
-  for (let s = 0; s < starPoints; s++) {
-    const starAngle = (s * Math.PI * 2) / starPoints - Math.PI / 2;
-    const nextAngle = ((s + 0.5) * Math.PI * 2) / starPoints - Math.PI / 2;
-
-    const tipX = cx + Math.cos(starAngle) * innerR;
-    const tipY = cy + Math.sin(starAngle) * innerR;
-    const midX = cx + Math.cos(nextAngle) * (innerR * 0.38);
-    const midY = cy + Math.sin(nextAngle) * (innerR * 0.38);
-
-    // Left half facet (dark)
+  // 4. Inner Hairline Sunburst Guide Rays
+  const rStarTip = rSubTrack - 18;
+  ctx.lineWidth = 0.8;
+  ctx.strokeStyle = 'rgba(90, 72, 48, 0.35)';
+  for (let i = 0; i < 32; i++) {
+    const rad = (i * 11.25 * Math.PI) / 180;
     ctx.beginPath();
     ctx.moveTo(cx, cy);
-    ctx.lineTo(tipX, tipY);
-    ctx.lineTo(midX, midY);
-    ctx.closePath();
-    ctx.fillStyle = s % 2 === 0 ? '#9E783B' : '#7A5B27';
-    ctx.fill();
-
-    // Right half facet (light)
-    const prevMidAngle = ((s - 0.5) * Math.PI * 2) / starPoints - Math.PI / 2;
-    const prevMidX = cx + Math.cos(prevMidAngle) * (innerR * 0.38);
-    const prevMidY = cy + Math.sin(prevMidAngle) * (innerR * 0.38);
-    ctx.beginPath();
-    ctx.moveTo(cx, cy);
-    ctx.lineTo(tipX, tipY);
-    ctx.lineTo(prevMidX, prevMidY);
-    ctx.closePath();
-    ctx.fillStyle = s % 2 === 0 ? '#CDB179' : '#B8995C';
-    ctx.fill();
+    ctx.lineTo(cx + Math.cos(rad) * rStarTip, cy + Math.sin(rad) * rStarTip);
+    ctx.stroke();
   }
-  ctx.restore();
 
-  // 5. Victorian Cardinal Lettering
-  ctx.font = 'bold 54px "Noto Serif", serif';
+  // Concentric accent rings
+  ctx.lineWidth = 1.6;
+  ctx.strokeStyle = 'rgba(40, 32, 22, 0.65)';
+  ctx.beginPath();
+  ctx.arc(cx, cy, 260, 0, Math.PI * 2);
+  ctx.stroke();
+
+  ctx.lineWidth = 1.0;
+  ctx.strokeStyle = 'rgba(70, 55, 35, 0.45)';
+  ctx.beginPath();
+  ctx.arc(cx, cy, 190, 0, Math.PI * 2);
+  ctx.stroke();
+
+  ctx.lineWidth = 1.8;
+  ctx.strokeStyle = 'rgba(35, 26, 16, 0.75)';
+  ctx.beginPath();
+  ctx.arc(cx, cy, 100, 0, Math.PI * 2);
+  ctx.stroke();
+
+  // 5. The Iconic 16-Point Split-Facet Wind-Rose Star (References 1, 2, 3, 4)
+  // 8 Primary Star Points
+  for (let p = 0; p < 8; p++) {
+    const tipRad = ((p * 45 - 90) * Math.PI) / 180;
+    const midRadNext = ((p * 45 - 90 + 22.5) * Math.PI) / 180;
+    const midRadPrev = ((p * 45 - 90 - 22.5) * Math.PI) / 180;
+
+    const rTip = p % 2 === 0 ? rStarTip : rStarTip * 0.78;
+    const rMid = rStarTip * 0.32;
+
+    const tx = cx + Math.cos(tipRad) * rTip;
+    const ty = cy + Math.sin(tipRad) * rTip;
+    const mxNext = cx + Math.cos(midRadNext) * rMid;
+    const myNext = cy + Math.sin(midRadNext) * rMid;
+    const mxPrev = cx + Math.cos(midRadPrev) * rMid;
+    const myPrev = cy + Math.sin(midRadPrev) * rMid;
+
+    // Left half: Deep Ebony Black / Charcoal Ink
+    ctx.fillStyle = '#12100E';
+    ctx.strokeStyle = '#080706';
+    ctx.lineWidth = 1.2;
+    ctx.beginPath();
+    ctx.moveTo(cx, cy);
+    ctx.lineTo(tx, ty);
+    ctx.lineTo(mxPrev, myPrev);
+    ctx.closePath();
+    ctx.fill();
+    ctx.stroke();
+
+    // Right half: Warm Vintage Aged Ivory / Antique Brass
+    ctx.fillStyle = '#F4EAD0';
+    ctx.strokeStyle = '#282015';
+    ctx.beginPath();
+    ctx.moveTo(cx, cy);
+    ctx.lineTo(tx, ty);
+    ctx.lineTo(mxNext, myNext);
+    ctx.closePath();
+    ctx.fill();
+    ctx.stroke();
+  }
+
+  // 8 Secondary Intermediate Star Points
+  for (let s = 0; s < 8; s++) {
+    const tipRad = ((s * 45 - 90 + 22.5) * Math.PI) / 180;
+    const midRadNext = ((s * 45 - 90 + 22.5 + 11.25) * Math.PI) / 180;
+    const midRadPrev = ((s * 45 - 90 + 22.5 - 11.25) * Math.PI) / 180;
+
+    const rTip = rStarTip * 0.58;
+    const rMid = rStarTip * 0.22;
+
+    const tx = cx + Math.cos(tipRad) * rTip;
+    const ty = cy + Math.sin(tipRad) * rTip;
+    const mxNext = cx + Math.cos(midRadNext) * rMid;
+    const myNext = cy + Math.sin(midRadNext) * rMid;
+    const mxPrev = cx + Math.cos(midRadPrev) * rMid;
+    const myPrev = cy + Math.sin(midRadPrev) * rMid;
+
+    ctx.fillStyle = '#1C1814';
+    ctx.strokeStyle = '#080706';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(cx, cy);
+    ctx.lineTo(tx, ty);
+    ctx.lineTo(mxPrev, myPrev);
+    ctx.closePath();
+    ctx.fill();
+    ctx.stroke();
+
+    ctx.fillStyle = '#EBDCC0';
+    ctx.strokeStyle = '#282015';
+    ctx.beginPath();
+    ctx.moveTo(cx, cy);
+    ctx.lineTo(tx, ty);
+    ctx.lineTo(mxNext, myNext);
+    ctx.closePath();
+    ctx.fill();
+    ctx.stroke();
+  }
+
+  // 6. Cardinal Serif Typography ('N', 'E', 'S', 'W')
+  const rCardinal = rSubTrack + 26;
+  ctx.font = 'bold 58px "Georgia", "Times New Roman", serif';
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
 
-  // North (Vermilion with Fleur-de-lis accent)
-  ctx.fillStyle = '#C2410C';
-  ctx.fillText('N', cx, cy - radius + 55);
+  // North (Rich Vermilion with heraldic fleur-de-lis)
+  ctx.fillStyle = '#B91C1C';
+  ctx.fillText('N', cx, cy - rCardinal);
 
-  // South, East, West (Rich antique ink)
-  ctx.fillStyle = '#1C1C19';
-  ctx.fillText('S', cx, cy + radius - 55);
-  ctx.fillText('E', cx + radius - 55, cy);
-  ctx.fillText('W', cx - radius + 55, cy);
-
-  // Subtle inter-cardinals (NE, SE, SW, NW)
-  ctx.font = 'bold 26px "Noto Serif", serif';
-  ctx.fillStyle = '#6E532D';
-  const icDist = radius - 58;
-  const sqrt2 = Math.SQRT1_2;
-  ctx.fillText('NE', cx + icDist * sqrt2, cy - icDist * sqrt2);
-  ctx.fillText('SE', cx + icDist * sqrt2, cy + icDist * sqrt2);
-  ctx.fillText('SW', cx - icDist * sqrt2, cy + icDist * sqrt2);
-  ctx.fillText('NW', cx - icDist * sqrt2, cy - icDist * sqrt2);
-
-  // 6. Fleur-de-lis arrow at North
-  ctx.fillStyle = '#C2410C';
+  // Fleur-de-lis accent at North tip
+  const flY = cy - rOuterTrack + 8;
   ctx.beginPath();
-  ctx.moveTo(cx, cy - radius + 14);
-  ctx.lineTo(cx - 9, cy - radius + 28);
-  ctx.lineTo(cx, cy - radius + 24);
-  ctx.lineTo(cx + 9, cy - radius + 28);
+  ctx.moveTo(cx, flY - 16);
+  ctx.lineTo(cx - 10, flY + 8);
+  ctx.lineTo(cx, flY + 3);
+  ctx.lineTo(cx + 10, flY + 8);
   ctx.closePath();
+  ctx.fill();
+
+  ctx.beginPath();
+  ctx.arc(cx, flY + 8, 4, 0, Math.PI * 2);
+  ctx.fill();
+
+  // East, South, West in deep ebony archival ink
+  ctx.fillStyle = '#120F0C';
+  ctx.fillText('E', cx + rCardinal, cy);
+  ctx.fillText('S', cx, cy + rCardinal);
+  ctx.fillText('W', cx - rCardinal, cy);
+
+  // Intercardinals (NE, SE, SW, NW)
+  ctx.font = 'bold 26px "Georgia", "Times New Roman", serif';
+  ctx.fillStyle = '#372A1C';
+  const rInter = rSubTrack + 22;
+  const sqrt2 = Math.SQRT1_2;
+  ctx.fillText('NE', cx + rInter * sqrt2, cy - rInter * sqrt2);
+  ctx.fillText('SE', cx + rInter * sqrt2, cy + rInter * sqrt2);
+  ctx.fillText('SW', cx - rInter * sqrt2, cy + rInter * sqrt2);
+  ctx.fillText('NW', cx - rInter * sqrt2, cy - rInter * sqrt2);
+
+  // 7. Central Brass Spindle Ring (with open center for 3D needle boss)
+  ctx.fillStyle = '#B48E46';
+  ctx.strokeStyle = '#463416';
+  ctx.lineWidth = 4;
+  ctx.beginPath();
+  ctx.arc(cx, cy, 52, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.stroke();
+
+  ctx.fillStyle = '#D7AF5F';
+  ctx.strokeStyle = '#826228';
+  ctx.lineWidth = 3;
+  ctx.beginPath();
+  ctx.arc(cx, cy, 42, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.stroke();
+
+  ctx.fillStyle = '#EEC47A';
+  ctx.strokeStyle = '#5A441C';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.arc(cx, cy, 30, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.stroke();
+
+  // Center socket hole
+  ctx.fillStyle = '#23180C';
+  ctx.beginPath();
+  ctx.arc(cx, cy, 16, 0, Math.PI * 2);
   ctx.fill();
 
   const texture = new THREE.CanvasTexture(canvas);
@@ -304,7 +426,7 @@ export class Compass3D {
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
     this.renderer.outputColorSpace = THREE.SRGBColorSpace;
     this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    this.renderer.toneMappingExposure = 1.15;
+    this.renderer.toneMappingExposure = 1.02;
     this.container.appendChild(this.renderer.domElement);
 
     // 4. Lighting
@@ -325,112 +447,140 @@ export class Compass3D {
   }
 
   setupLighting() {
-    // Warm ambient light
-    const ambientLight = new THREE.AmbientLight(0xfff8ee, 1.6);
+    // Balanced warm ambient light (preserves deep black ink on parchment)
+    const ambientLight = new THREE.AmbientLight(0xfff5e8, 1.35);
     this.scene.add(ambientLight);
 
-    // Primary warm sunlight (catches brass bevels)
-    const keyLight = new THREE.DirectionalLight(0xfffaea, 2.8);
-    keyLight.position.set(3, 4, 5);
+    // Key warm sunlight (creates rich brass glints and needle cast shadows)
+    const keyLight = new THREE.DirectionalLight(0xfff6e4, 1.95);
+    keyLight.position.set(3.2, 4.2, 4.8);
     this.scene.add(keyLight);
 
-    // Secondary cool sky reflection
-    const fillLight = new THREE.DirectionalLight(0x90b0d8, 0.9);
-    fillLight.position.set(-3, -2, 2.5);
+    // Secondary cool sky reflection for contrast
+    const fillLight = new THREE.DirectionalLight(0xb8d4f0, 0.50);
+    fillLight.position.set(-3.0, -2.0, 2.5);
     this.scene.add(fillLight);
 
-    // Specular rim light (catches glass dome curvature)
-    const rimLight = new THREE.PointLight(0xffd17a, 1.4, 10);
-    rimLight.position.set(0, 3, 2);
+    // Specular glint light (catches glass dome curvature and brass rim)
+    const rimLight = new THREE.PointLight(0xffe298, 0.95, 12);
+    rimLight.position.set(0.4, 2.6, 2.8);
     this.scene.add(rimLight);
   }
 
   buildCompassModel() {
     this.compassGroup = new THREE.Group();
 
-    // PBR Antique Brass Materials
+    // PBR Antique Brass Materials (matching aged patina in reference photos)
     const brassCaseMaterial = new THREE.MeshStandardMaterial({
-      color: 0xC5A059,
+      color: 0x9B7A38, // Warm aged antique brass
       roughness: 0.32,
       metalness: 0.88,
     });
 
     const brassPolishedMaterial = new THREE.MeshStandardMaterial({
-      color: 0xE6C163,
+      color: 0xD4AA48, // Lustrous polished brass highlights
       roughness: 0.22,
       metalness: 0.92,
     });
 
     const darkBrassMaterial = new THREE.MeshStandardMaterial({
-      color: 0x7A5B27,
-      roughness: 0.45,
-      metalness: 0.80,
+      color: 0x58401C, // Deep burnished bronze patina
+      roughness: 0.42,
+      metalness: 0.82,
     });
 
-    // 1. Heavy Base Casing
-    const baseGeo = new THREE.CylinderGeometry(2.10, 1.96, 0.38, 48);
+    // 1. Heavy Outer Base Casing (Hollowed Chamber)
+    // Positioned so its top face sits at z = 0.00, forming the solid floor
+    const baseGeo = new THREE.CylinderGeometry(2.20, 2.08, 0.44, 64);
     const baseMesh = new THREE.Mesh(baseGeo, brassCaseMaterial);
     baseMesh.rotation.x = Math.PI / 2;
+    baseMesh.position.z = -0.22;
     this.compassGroup.add(baseMesh);
 
-    // 2. Beveled Knurled Rim
-    const rimGeo = new THREE.TorusGeometry(2.12, 0.09, 16, 56);
-    const rimMesh = new THREE.Mesh(rimGeo, brassPolishedMaterial);
-    rimMesh.position.z = 0.16;
-    this.compassGroup.add(rimMesh);
+    // 2. Deep Inner Brass Chamber (Rehaut / Chapter Ring Wall - References 2 & 4)
+    // Cylindrical inner wall creating 3D depth around the dial
+    const rehautGeo = new THREE.CylinderGeometry(2.01, 2.01, 0.22, 64, 1, true);
+    const rehautMat = new THREE.MeshStandardMaterial({
+      color: 0x7A5B27,
+      roughness: 0.38,
+      metalness: 0.85,
+      side: THREE.DoubleSide,
+    });
+    const rehautMesh = new THREE.Mesh(rehautGeo, rehautMat);
+    rehautMesh.rotation.x = Math.PI / 2;
+    rehautMesh.position.z = 0.11;
+    this.compassGroup.add(rehautMesh);
 
-    // 3. Antique Pocket Watch Suspension Loop (at top/North)
+    // 3. Stepped Knurled Top Rim (References 1 & 3)
+    const outerRimGeo = new THREE.TorusGeometry(2.18, 0.08, 16, 64);
+    const outerRimMesh = new THREE.Mesh(outerRimGeo, brassPolishedMaterial);
+    outerRimMesh.position.z = 0.22;
+    this.compassGroup.add(outerRimMesh);
+
+    const innerRimGeo = new THREE.TorusGeometry(2.02, 0.045, 16, 64);
+    const innerRimMesh = new THREE.Mesh(innerRimGeo, darkBrassMaterial);
+    innerRimMesh.position.z = 0.23;
+    this.compassGroup.add(innerRimMesh);
+
+    // 4. Antique Pocket Watch Suspension Pendant (References 1, 2, 3)
     const ringGroup = new THREE.Group();
-    const loopGeo = new THREE.TorusGeometry(0.42, 0.065, 16, 32);
-    const loopMesh = new THREE.Mesh(loopGeo, brassPolishedMaterial);
-    loopMesh.position.y = 2.45;
-    ringGroup.add(loopMesh);
-
-    const mountGeo = new THREE.CylinderGeometry(0.12, 0.12, 0.25, 16);
+    // Crown knob / neck
+    const mountGeo = new THREE.CylinderGeometry(0.14, 0.16, 0.26, 24);
     const mountMesh = new THREE.Mesh(mountGeo, darkBrassMaterial);
-    mountMesh.position.y = 2.15;
+    mountMesh.position.y = 2.22;
+    mountMesh.position.z = 0.00;
     mountMesh.rotation.x = Math.PI / 2;
     ringGroup.add(mountMesh);
+
+    // Oval hinged suspension bow
+    const loopGeo = new THREE.TorusGeometry(0.48, 0.065, 16, 36);
+    const loopMesh = new THREE.Mesh(loopGeo, brassPolishedMaterial);
+    loopMesh.position.y = 2.58;
+    loopMesh.position.z = 0.04;
+    loopMesh.rotation.x = 0.15; // Slight forward tilt for perspective
+    ringGroup.add(loopMesh);
     this.compassGroup.add(ringGroup);
 
-    // 4. Dial Face with Texture (Stitch-generated authentic horology dial with procedural fallback)
-    const dialGeo = new THREE.CircleGeometry(1.98, 48);
+    // 5. Dial Face with Texture (Museum-grade HD vintage dial with procedural fallback)
+    const dialGeo = new THREE.CircleGeometry(2.0, 64);
     const fallbackTex = createCompassDialTexture();
     const dialMat = new THREE.MeshStandardMaterial({
       map: fallbackTex,
-      roughness: 0.55,
-      metalness: 0.10,
+      roughness: 0.65,
+      metalness: 0.05,
     });
 
     const textureLoader = new THREE.TextureLoader();
     textureLoader.load(
-      '/images/compass_dial_texture.png',
-      (stitchTex) => {
-        stitchTex.colorSpace = THREE.SRGBColorSpace;
-        stitchTex.anisotropy = 4;
-        dialMat.map = stitchTex;
+      '/images/compass_dial_vintage_hd.png',
+      (hdTex) => {
+        hdTex.colorSpace = THREE.SRGBColorSpace;
+        hdTex.anisotropy = 4;
+        dialMat.map = hdTex;
         dialMat.needsUpdate = true;
       },
       undefined,
       (err) => {
-        console.warn('[Compass3D] Using procedural dial texture:', err);
+        console.warn('[Compass3D] Using procedural dial texture fallback:', err);
       }
     );
 
     const dialMesh = new THREE.Mesh(dialGeo, dialMat);
-    dialMesh.position.z = 0.12;
+    dialMesh.position.z = 0.01; // Sits on top of the base floor, recessed inside the chamber
     this.compassGroup.add(dialMesh);
 
-    // 5. 3D Magnetic Needle Assembly
+    // 6. 3D Antique Magnetic Needle Assembly (References 2 & 4)
     this.needleGroup = new THREE.Group();
-    this.needleGroup.position.z = 0.18;
+    this.needleGroup.position.z = 0.14;
 
-    // 5a. North Pointer (Vermilion Faceted Diamond)
+    // 6a. North Pointer: Faceted Surveyor's Spearhead in Rich Vermilion
     const northShape = new THREE.Shape();
     northShape.moveTo(0, 0);
-    northShape.lineTo(-0.16, 0.10);
-    northShape.lineTo(0, 1.55);
-    northShape.lineTo(0.16, 0.10);
+    northShape.lineTo(-0.16, 0.12);
+    northShape.lineTo(-0.06, 0.95);
+    northShape.lineTo(0, 1.62);
+    northShape.lineTo(0.06, 0.95);
+    northShape.lineTo(0.16, 0.12);
     northShape.closePath();
 
     const northExtrudeSettings = {
@@ -443,19 +593,23 @@ export class Compass3D {
     };
     const northGeo = new THREE.ExtrudeGeometry(northShape, northExtrudeSettings);
     const northMat = new THREE.MeshStandardMaterial({
-      color: 0xC2410C,
-      roughness: 0.28,
-      metalness: 0.40,
+      color: 0xB91C1C, // Deep vermilion enamel
+      roughness: 0.24,
+      metalness: 0.35,
     });
     const northMesh = new THREE.Mesh(northGeo, northMat);
     this.needleGroup.add(northMesh);
 
-    // 5b. South Pointer (Blued Steel Faceted Diamond)
+    // 6b. South Pointer: Blued Steel Tapered Counterbalance Arrow
     const southShape = new THREE.Shape();
     southShape.moveTo(0, 0);
-    southShape.lineTo(-0.16, -0.10);
-    southShape.lineTo(0, -1.45);
-    southShape.lineTo(0.16, -0.10);
+    southShape.lineTo(-0.15, -0.12);
+    southShape.lineTo(-0.05, -0.85);
+    southShape.lineTo(-0.18, -1.35);
+    southShape.lineTo(0, -1.52);
+    southShape.lineTo(0.18, -1.35);
+    southShape.lineTo(0.05, -0.85);
+    southShape.lineTo(0.15, -0.12);
     southShape.closePath();
 
     const southExtrudeSettings = {
@@ -468,60 +622,65 @@ export class Compass3D {
     };
     const southGeo = new THREE.ExtrudeGeometry(southShape, southExtrudeSettings);
     const southMat = new THREE.MeshStandardMaterial({
-      color: 0x1E3A5F,
-      roughness: 0.22,
-      metalness: 0.85,
+      color: 0x1B2E42, // Authentic blued-steel
+      roughness: 0.20,
+      metalness: 0.88,
     });
     const southMesh = new THREE.Mesh(southGeo, southMat);
     this.needleGroup.add(southMesh);
 
-    // 5c. Brass Pivot Boss & Gem Bearing
-    const pivotGeo = new THREE.CylinderGeometry(0.24, 0.28, 0.12, 24);
-    const pivotMat = brassPolishedMaterial;
-    const pivotMesh = new THREE.Mesh(pivotGeo, pivotMat);
-    pivotMesh.rotation.x = Math.PI / 2;
-    pivotMesh.position.z = 0.04;
-    this.needleGroup.add(pivotMesh);
+    // 6c. Brass Pivot Boss & Knurled Spindle Nut (References 3 & 4)
+    const pivotCollarGeo = new THREE.CylinderGeometry(0.24, 0.28, 0.10, 32);
+    const pivotCollarMesh = new THREE.Mesh(pivotCollarGeo, brassPolishedMaterial);
+    pivotCollarMesh.rotation.x = Math.PI / 2;
+    pivotCollarMesh.position.z = 0.04;
+    this.needleGroup.add(pivotCollarMesh);
 
-    const rubyGeo = new THREE.SphereGeometry(0.09, 16, 16);
+    const spindleNutGeo = new THREE.CylinderGeometry(0.14, 0.14, 0.12, 24);
+    const spindleNutMesh = new THREE.Mesh(spindleNutGeo, darkBrassMaterial);
+    spindleNutMesh.rotation.x = Math.PI / 2;
+    spindleNutMesh.position.z = 0.09;
+    this.needleGroup.add(spindleNutMesh);
+
+    // Center Ruby Bearing Jewel
+    const rubyGeo = new THREE.SphereGeometry(0.08, 16, 16);
     const rubyMat = new THREE.MeshStandardMaterial({
-      color: 0x991B1B,
-      roughness: 0.15,
+      color: 0x881337,
+      roughness: 0.12,
       metalness: 0.10,
     });
     const rubyMesh = new THREE.Mesh(rubyGeo, rubyMat);
-    rubyMesh.position.z = 0.11;
+    rubyMesh.position.z = 0.14;
     this.needleGroup.add(rubyMesh);
 
-    // 5d. Needle Subtle Drop Shadow on Dial
-    const shadowGeo = new THREE.PlaneGeometry(0.24, 2.8);
+    // 6d. Realistic Needle Drop Shadow Cast onto Recessed Dial Bed
+    const shadowGeo = new THREE.PlaneGeometry(0.30, 2.9);
     const shadowMat = new THREE.MeshBasicMaterial({
-      color: 0x000000,
+      color: 0x140E08,
       transparent: true,
-      opacity: 0.18,
+      opacity: 0.22,
     });
     const shadowMesh = new THREE.Mesh(shadowGeo, shadowMat);
-    shadowMesh.position.z = -0.04;
+    shadowMesh.position.set(-0.06, -0.06, -0.11);
     this.needleGroup.add(shadowMesh);
 
     this.compassGroup.add(this.needleGroup);
 
-    // 6. Protective Domed Glass Crystal
-    const glassGeo = new THREE.SphereGeometry(2.02, 32, 16, 0, Math.PI * 2, 0, Math.PI * 0.26);
+    // 7. Protective Domed Glass Crystal (References 2 & 4)
+    const glassGeo = new THREE.SphereGeometry(2.02, 36, 18, 0, Math.PI * 2, 0, Math.PI * 0.25);
     const glassMat = new THREE.MeshPhysicalMaterial({
       color: 0xffffff,
-      transmission: 0.92,
-      opacity: 1,
       transparent: true,
+      opacity: 0.14,
       roughness: 0.04,
-      ior: 1.52,
-      reflectivity: 0.75,
+      metalness: 0.05,
       clearcoat: 1.0,
-      clearcoatRoughness: 0.05,
+      clearcoatRoughness: 0.04,
+      reflectivity: 0.88,
     });
     const glassMesh = new THREE.Mesh(glassGeo, glassMat);
     glassMesh.rotation.x = Math.PI / 2;
-    glassMesh.position.z = 0.14;
+    glassMesh.position.z = 0.22;
     this.compassGroup.add(glassMesh);
 
     this.scene.add(this.compassGroup);
