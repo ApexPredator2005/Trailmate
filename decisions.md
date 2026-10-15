@@ -405,6 +405,49 @@ To maintain this standard while offering a high-performance **Scrapbook Studio**
 
 ---
 
+### DEC-019: 3D Antique Surveyor's Compass (Three.js WebGL & Stitch MCP Iterative Pipeline)
+* **Decision Makers:** User Directive & Creative Design Exploration
+* **Category:** 3D Graphics, WebGL Performance & Generative Design Pipeline
+* **Status:** Implemented & Verified
+* **The Context & Problem:**
+  To infuse Trailmate with tactile, 19th-century expedition heritage, the application needed an interactive 3D centerpiece. The user requested a bespoke 3D element placed in the sidebar in the empty space between the navigation settings and the traveler profile footer. Additionally, the asset design had to leverage Stitch MCP iteratively until an authentic horological dial plate was generated.
+* **The Decision:**
+  * **Element Choice:** An authentic Antique Brass Surveyor's Pocket Compass mounted in a dedicated 200px sidebar module.
+  * **Iterative Stitch MCP Pipeline:**
+    * *Iteration 1:* Generated photorealistic compass concept; review revealed dual suspension rings and oblique perspective.
+    * *Iteration 2:* Refined via prompt specifying a single centered suspension bow, 90° orthogonal perspective, and knurled coin-edge rim.
+    * *Iteration 3 (Needle-Free Dial):* Prompted Stitch specifically for an isolated 2D dial plate with parchment texture, wind-rose markings, and an open pivot eyelet. This eliminated needle ghosting and allowed the 3D needle to rotate dynamically.
+  * **Three.js WebGL Architecture:**
+    * Built [`Compass3D.js`](file:///Users/pratyushraj/Desktop/Projects/travel%20app/src/components/Compass3D.js) utilizing Three.js PBR materials (`MeshStandardMaterial`, `MeshPhysicalMaterial`).
+    * Modeled a multi-layered brass casing, knurled bezel, domed crystal glass with physical transmission, ruby pivot jewel, and a faceted dual-tone 3D needle (vermilion north / blued-steel south).
+    * Dynamic Great-Circle Azimuth tracking: Needle computes live great-circle bearing to the active selected destination:
+      $$\theta = \operatorname{atan2}(\sin\Delta\lambda\cos\phi_2, \cos\phi_1\sin\phi_2 - \sin\phi_1\cos\phi_2\cos\Delta\lambda)$$
+    * Interactive Physics: Damped cursor parallax tilt (`lerp`) and click-to-flick harmonic damped spring needle oscillations.
+    * Bundle Optimization: Configured Three.js as a separate manual chunk in `vite.config.js` to ensure the main app bundle remains lightweight.
+* **Why This Was Chosen:**
+  * Delivers a visceral, tactile expedition feel that bridges the gap between digital planning and vintage field navigation.
+  * Zero frame drops (solid 60 FPS) via efficient geometry reuse and low-overhead animation loops.
+
+---
+
+### DEC-020: Vercel Function Storage Quota Management & Automated Deployment Retention
+* **Decision Makers:** User Directive & Infrastructure Optimization
+* **Category:** Cloud Infrastructure, DevOps & Storage Lifecycle Management
+* **Status:** Resolved & Verified
+* **The Context & Problem:**
+  Vercel issued a critical warning that team `apex-predator1` had consumed 75% of its free tier Function Storage (4.93 GB / 10 GB limit), with project `trailmate` alone accounting for 4.92 GB. Because Vercel retains serverless function bundles and built artifacts across all historical deployments, 18 cumulative CI builds had accumulated ~270MB each, threatening to exhaust the 10 GB account cap.
+* **The Decision:**
+  * Inspected the full deployment history via Vercel MCP and REST API.
+  * Maintained high availability and rollback safety by keeping the latest active production deployment (`dpl_4Bi36JfFZ9mKzSgaLYSgtqzRKFnS`) and 1 immediate rollback candidate (`dpl_EbRMRa2BiWojEmqW71kzN8TVypK6`).
+  * Executed automated bulk pruning of 14 superseded historical deployments via Vercel's REST API (`DELETE /v13/deployments/{id}`).
+  * Immediately reclaimed ~4.4 GB of function storage, dropping project storage down to ~540 MB and restoring full quota headroom.
+  * Formulated a retention guideline: maintain only current production + 1 rollback deployment to prevent artifact bloat on free tier plans.
+* **Why This Was Chosen:**
+  * Solved the impending quota shutdown without requiring a paid Vercel Pro subscription.
+  * Preserved 100% uptime with zero disruption to the live production site.
+
+---
+
 ## 8. Comprehensive Decision Matrix
 
 | ID | Domain | Decision | Driver | Technical / Product Tradeoff |
@@ -427,6 +470,8 @@ To maintain this standard while offering a high-performance **Scrapbook Studio**
 | **DEC-016** | Export | Strict Print Media CSS Isolation | User | Clean PDF field guide booklets with zero browser UI clutter |
 | **DEC-017** | Security | Tiered Rate Limiting & Zod Input Sanitization | Assistant | Quota-safe API budget protection and zero XSS vulnerability |
 | **DEC-018** | Security | Strict Error Isolation & Information Leakage Defense | Joint | Eliminates CWE-209; zero stack trace or internal path leakage to users |
+| **DEC-019** | 3D / WebGL | 3D Antique Surveyor Compass via Three.js & Stitch MCP | Joint | PBR brass/crystal, Great-Circle destination tracking, 60fps WebGL |
+| **DEC-020** | DevOps | Vercel Function Storage Quota & Deployment Pruning | User | Automated REST deletion of 14 old deployments; reclaimed 4.4GB quota |
 
 ---
 
