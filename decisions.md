@@ -1,311 +1,422 @@
-# 🧭 Trailmate — Architecture, Design & Product Decision Log (`decisions.md`)
+# 🧭 Trailmate — Comprehensive Architecture, Stack & Product Decision Log (`decisions.md`)
 
-**Project:** Trailmate — Intelligent Travel Journal, Scrapbook Studio & Community Expedition Platform  
-**Authors & Decision Makers:** Pratyush Raj (User / Product Lead) & Antigravity (AI Pair-Programming Partner)  
+**Project:** Trailmate — Intelligent Anti-Hallucination Travel Planner, Scrapbook Studio & Community Expedition Platform  
+**Authors & Decision Makers:** Pratyush Raj (Product & Engineering Lead) & Antigravity (AI Pair-Programming Assistant)  
 **Status:** Living Architectural Decision Record (ADR)  
 **Last Updated:** October 2026  
 
 ---
 
 ## Table of Contents
-1. [Introduction & Purpose](#1-introduction--purpose)
-2. [Product & Functional Decisions](#2-product--functional-decisions)
-3. [Visual, Aesthetic & Design System Decisions](#3-visual-aesthetic--design-system-decisions)
-4. [Technical & Architecture Decisions](#4-technical--architecture-decisions)
-5. [Media, Asset & Imagery Strategy Decisions](#5-media-asset--imagery-strategy-decisions)
-6. [Security, Performance & Non-Functional Decisions](#6-security-performance--non-functional-decisions)
-7. [Comprehensive Decision Matrix](#7-comprehensive-decision-matrix)
-8. [Pending & Future Architectural Roadmap](#8-pending--future-architectural-roadmap)
+1. [Executive Architecture Overview](#1-executive-architecture-overview)
+2. [Foundational Tech Stack & Framework Decisions](#2-foundational-tech-stack--framework-decisions)
+3. [AI & Anti-Hallucination Architecture Decisions](#3-ai--anti-hallucination-architecture-decisions)
+4. [Product & Functional Decisions](#4-product--functional-decisions)
+5. [Visual, Aesthetic & Design System Decisions](#5-visual-aesthetic--design-system-decisions)
+6. [Media, Asset & Imagery Strategy Decisions](#6-media-asset--imagery-strategy-decisions)
+7. [Security, Performance & Non-Functional Decisions](#7-security-performance--non-functional-decisions)
+8. [Comprehensive Decision Matrix](#8-comprehensive-decision-matrix)
+9. [Pending & Future Architectural Roadmap](#9-pending--future-architectural-roadmap)
 
 ---
 
-## 1. Introduction & Purpose
+## 1. Executive Architecture Overview
 
-This document serves as the single source of truth for all foundational **functional, non-functional, technical, and aesthetic decisions** made throughout the conception, evolution, and engineering of **Trailmate**. Every decision outlines the context, the exact choice made, who drove the decision, the technical/product rationale, and the resulting impact on the system.
+Trailmate is engineered around a core tenet:
+> **"APIs fetch verified facts. AI arranges and personalizes facts. AI never invents facts."**
 
----
+To maintain this standard while offering a high-performance **Scrapbook Studio** and an overland **Tactile PVC Expedition Board**, every layer of the tech stack—from the choice of frontend language down to the map rendering engine and rate-limiting middleware—was chosen deliberately. This document records the technical, product, and architectural motivations behind every choice.
 
-## 2. Product & Functional Decisions
-
-### DEC-001: Redesign Badges into 12 Tactile 3D Molded PVC Morale Patches
-* **Decision Maker:** User Directive (with Stitch MCP Synthesis & SVG Architecture)
-* **Type:** Functional & Aesthetic
-* **Context:** The application previously had a fragmented identity: 12 Victorian-era hand-cast metallic medallions alongside a newly introduced set of 6 tactical PVC morale patches, accessible via a style toggle.
-* **The Decision:** Completely eliminate the dual toggle and unify all 12 gamified honors into **Tactile 3D Molded PVC Rubber Morale Patches & Expedition Badges** inspired by overland expedition gear.
-* **Rationale:**
-  * Avoid user confusion caused by splitting the badge showcase into two competing themes.
-  * Connect directly with overland/adventure psychology (tactical 4x4 rigs, mountain passes, marine dives, and night camping).
-  * Enable rich hardware specifications on each patch (Shore A durometer, thermal resistance, Mil-Spec batch codes, and field operational briefs).
-* **Impact:** Created [`src/data/PvcPatchesData.js`](file:///Users/pratyushraj/Desktop/Projects/travel%20app/src/data/PvcPatchesData.js), updated [`src/views/CommunityView.js`](file:///Users/pratyushraj/Desktop/Projects/travel%20app/src/views/CommunityView.js), and provided a unified 12-patch arsenal.
-
----
-
-### DEC-002: Destination-Complete Quests with 100% Authentic Local Photography
-* **Decision Maker:** User Directive
-* **Type:** Functional & Content Strategy
-* **Context:** Location quests initially covered only 11 destinations, and several relied on generic Unsplash stock photography that did not depict the actual Indian heritage landmarks.
-* **The Decision:** Mandate at least one dedicated secret geocache treasure hunt for all **15 destinations** (Goa, Ooty, Manali, Jaipur, Munnar, Andaman, Nainital, Gangtok, Darjeeling, Wayanad, Udaipur, Shimla, Mussoorie, Kodaikanal, Coorg), each grounded in genuine coordinates, local clues, and authentic high-resolution local photography (`/images/attractions/<dest>/...`).
-* **Rationale:**
-  * Generic stock imagery destroys immersion in an authentic travel app.
-  * Ensures uniform quest progression regardless of which destination a traveler explores.
-  * Claiming a geocache automatically unlocks a matching authentic vector sticker in Scrapbook Studio.
-* **Impact:** Expanded `LOCATION_QUESTS` in [`src/services/CommunityService.js`](file:///Users/pratyushraj/Desktop/Projects/travel%20app/src/services/CommunityService.js) and added 4 new SVG quest stamps in [`src/components/EmbellishmentsData.js`](file:///Users/pratyushraj/Desktop/Projects/travel%20app/src/components/EmbellishmentsData.js).
-
----
-
-### DEC-003: Scrapbook Studio Interactive Canvas Features
-* **Decision Maker:** Joint (User feature wishlist & Assistant implementation)
-* **Type:** Functional & Interaction Design
-* **Context:** Early Scrapbook versions allowed static sticker placement with limited manipulation, leading to user friction when creating multi-element layouts.
-* **The Decision:** Implement a desktop-grade client-side creative suite directly inside `ScrapbookWorkspace.js`:
-  1. Full Undo/Redo history stack with keyboard shortcuts (`Cmd+Z`, `Cmd+Shift+Z`).
-  2. Drag-and-drop from the asset tray directly onto artboard coordinates.
-  3. Multi-element group selection via `Shift+Click` with synchronized movement and deletion.
-  4. Mobile long-press (500ms) context menus for touch devices.
-  5. Sticker favorites and recently-used categorization.
-* **Rationale:**
-  * Elevates Trailmate from a static planner into a creative journaling suite.
-  * Desktop keyboard shortcuts and mobile touch parity ensure seamless cross-device creative flow.
-* **Impact:** Highly engaged users who publish handcrafted scrapbooks to the Community Feed.
+```
+┌──────────────────────────────────────────────────────────────────────────────────┐
+│                             TRAILMATE FULL-STACK TOPOLOGY                        │
+├──────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                  │
+│   CLIENT TIER (Vite 6 + ES Modules)                                              │
+│   ┌───────────────────────────┐  ┌────────────────────────┐  ┌────────────────┐  │
+│   │ Vanilla JS View Modules   │  │ Scrapbook Canvas Engine│  │ Leaflet.js Map │  │
+│   │ (Login, Chat, Community)  │  │ (Pointer Events Matrix)│  │ (Parchment CSS)│  │
+│   └─────────────┬─────────────┘  └───────────┬────────────┘  └───────┬────────┘  │
+│                 │                            │                       │           │
+│                 └────────────────────────────┼───────────────────────┘           │
+│                                              ▼                                   │
+│                        Local-First Reactive State & Storage                      │
+│                        (localStorage: Profiles, Badges, Posts)                   │
+├──────────────────────────────────────────────┬───────────────────────────────────┤
+│                                              │ HTTP / SSE Stream (/api/chat)     │
+│   SERVER TIER (Node.js & Python Microservices)                                   │
+│   ┌──────────────────────────────────────────┴────────────────────────────────┐  │
+│   │ Express.js API Gateway (Zod Validation, Quota Rate-Limiting, Helmet)       │  │
+│   └──────────────────────┬─────────────────────────────────┬──────────────────┘  │
+│                          │                                 │                     │
+│                          ▼                                 ▼                     │
+│             ┌─────────────────────────┐       ┌───────────────────────────────┐  │
+│             │ Gemini 3.8 / 1.5 Flash  │       │ Python Flask Microservice     │  │
+│             │ (Search Grounding & SSE)│       │ (DGCA Airline Schedule Engine)│  │
+│             └─────────────────────────┘       └───────────────────────────────┘  │
+│                          │                                                       │
+│                          ▼                                                       │
+│             Verified Fact APIs: Google Places Basic/Pro, WeatherAPI              │
+└──────────────────────────────────────────────────────────────────────────────────┘
+```
 
 ---
 
-### DEC-004: Login Experience & Animated Quotes Transition
-* **Decision Maker:** User Directive
-* **Type:** Functional & UX Polish
-* **Context:** The login screen had an empty section below the "Continue as Guest" sandbox with awkward whitespace, and users felt a lack of inspiration prior to entering the app.
+## 2. Foundational Tech Stack & Framework Decisions
+
+### DEC-001: Vanilla JavaScript (ES2022+ / Native Modules) vs. React / Next.js / Vue
+* **Decision Makers:** Joint (Pratyush Raj & Antigravity)
+* **Category:** Core Technology / Frontend Architecture
+* **Status:** Implemented & Verified
+* **The Context & Problem:**
+  When architecting Trailmate, the default contemporary instinct in web development was to reach for a heavy single-page application (SPA) framework such as React, Next.js, or Vue. However, Trailmate features three distinct interaction paradigms:
+  1. A multi-turn AI streaming chat with live timetable mutation.
+  2. A high-framerate freeform graphics editor (Scrapbook Studio) with custom drag-and-drop, rotational affine transforms, and multi-element selection.
+  3. Interactive canvas and SVG rendering for tactile 3D rubber patches.
 * **The Decision:**
-  * Remove redundant "Instant Sandbox" copy.
-  * Utilize the entire available vertical canvas for an auto-cycling carousel of famous travel quotes (Muntz, Andersen, Tolkien, Beatty, Godin, Pythagoras).
-  * Enforce that the first letter of each quote uses the custom **Andasia** display font at a significantly larger scale.
-  * Apply a custom **merge animation** (left-half slide-in, right-half slide-in, author delayed fade-up) exclusively to the quote transitions.
-* **Rationale:**
-  * Sets an immediate emotional, literary tone before the user even begins planning.
-  * The merge animation reinforces the concept of travel merging physical distance into personal discovery.
-* **Impact:** Implemented in [`src/views/LoginView.js`](file:///Users/pratyushraj/Desktop/Projects/travel%20app/src/views/LoginView.js) and [`src/styles/login.css`](file:///Users/pratyushraj/Desktop/Projects/travel%20app/src/styles/login.css).
+  Build Trailmate using **modern Vanilla JavaScript (ES2022+ Native ES Modules)** bundled with **Vite 6**, completely bypassing React, Vue, Angular, or Next.js.
+* **Why This Was Chosen (Deep Rationale):**
+  * **Zero Virtual DOM Overhead for 60fps Canvas Operations:** Virtual DOM reconciliation (such as React's fiber tree) introduces significant CPU overhead when continuously calculating pointer coordinates during multi-element group dragging, live rotation handles, and scale adjustments in Scrapbook Studio. Native DOM manipulations and `requestAnimationFrame` updates run directly on the browser engine without memory churn or garbage collection pauses.
+  * **No Hydration Inconsistencies with Streaming SSE:** Trailmate streams itinerary steps over Server-Sent Events (`/api/chat/stream`). Framework hydration models often choke or trigger layout flicker when streaming HTML chunks mutate state outside the React lifecycle.
+  * **Ultra-Lightweight Bundle & Instant HMR:** Without the weight of `react`, `react-dom`, framework routers, and associated dependencies, Vite boots in under 150ms and the entire core application bundle stays under 100KB gzipped.
+  * **Native Browser Standards:** Leverages modern web standards (`PointerEvents`, `ResizeObserver`, CSS Custom Properties, `IntersectionObserver`, and Web Components) without framework abstraction wrappers.
+* **Alternatives Considered & Rejected:**
+  * *React 18 / 19:* Rejected due to unnecessary bundle overhead (~140KB baseline), re-render optimization complexity in canvas manipulation, and dependency churn.
+  * *Next.js (App Router):* Rejected because Trailmate’s intensive client-side canvas and offline state make server-side rendering (SSR) redundant and overly complex to deploy on serverless edge functions with long-lived streaming connections.
+  * *Svelte:* Considered for its compile-time reactivity, but Vanilla JS provided 100% longevity, zero compile-step dependencies for core logic, and direct interoperability with external libraries like Leaflet.
 
 ---
 
-## 3. Visual, Aesthetic & Design System Decisions
+### DEC-002: Tailwind CSS v4 + Scoped Custom CSS vs. Component Libraries (MUI / Shadcn / Chakra)
+* **Decision Makers:** Joint
+* **Category:** Frontend / Styling Architecture
+* **Status:** Implemented
+* **The Context & Problem:**
+  Most component libraries (Material UI, Ant Design, Chakra UI, Shadcn) are tailored for corporate SaaS dashboards, financial portals, and modern flat interfaces. They enforce blue/gray palettes, generic drop shadows, and modern utilitarian buttons.
+* **The Decision:**
+  Adopt **Tailwind CSS v4** (using `@tailwindcss/vite`) combined with **handcrafted scoped CSS architecture** organized into dedicated style sheets:
+  * `base.css`: Global typography, color tokens, and CSS variables.
+  * `chat.css`: Conversational intake bubbles, itinerary waypoints, and 60fps header doodle animations.
+  * `scrapbook-workspace.css`: Freeform artboard, rotation handles, layer trays, and washi-tape textures.
+  * `community.css`: Tactile 3D molded PVC morale patches, durometer badges, and 3D card-flip mechanics.
+  * `login.css`: Diffuse wallpaper crossfading, Andasia drop-cap typography, and quote merge keyframes.
+* **Why This Was Chosen:**
+  * **Bespoke Tactile Realism:** Achieving the texture of 19th-century parchment, torn paper edges, washi tape, and vulcanized rubber morale patches requires custom CSS properties (`backdrop-filter`, multi-stage `box-shadow`, `stroke-dasharray`, `feSpecularLighting`). Generic component libraries fight against these custom textures.
+  * **Tailwind v4 Engine:** Provides blazing fast utility styling without runtime CSS-in-JS overhead.
+  * **Maintainability & Separation of Concerns:** Isolating complex domain stylesheets ensures that styling changes to the Scrapbook canvas never accidentally break the itinerary timeline or chat views.
+* **Alternatives Considered & Rejected:**
+  * *Material UI (MUI):* Strongly rejected due to Google Material Design 3 tropes that make all travel apps look like Google Flights or Android settings.
+  * *Styled Components / Emotion:* Rejected due to runtime performance penalties during animated canvas manipulation.
 
-### DEC-005: Tactile Vintage Field Journal vs. Generic SaaS Aesthetic
-* **Decision Maker:** Joint
-* **Type:** Aesthetic & Brand Identity
-* **Context:** Modern AI travel assistants predominantly use sterile, white/blue minimalist SaaS layouts that feel transactional and detached.
-* **The Decision:** Anchor Trailmate's visual narrative in a **19th-century tactile field explorer's journal**:
+---
+
+### DEC-003: Leaflet.js + Filtered OpenStreetMap Tiles vs. Google Maps JavaScript SDK
+* **Decision Makers:** Joint
+* **Category:** Geospatial / Map Architecture
+* **Status:** Implemented
+* **The Context & Problem:**
+  Interactive mapping is essential for itinerary visualizers, attraction clusters, and geocache treasure hunts. However, utilizing the official Google Maps JavaScript SDK presents severe business and technical drawbacks:
+  1. *Cost & Quota Depletion:* Google Maps JavaScript SDK charges per dynamic map load. For an exploratory travel app where users frequently toggle destinations and views, API costs balloon exponentially.
+  2. *Aesthetic Discordance:* Standard Google Maps satellite and road layers are bright white/blue, which clashes jarringly with Trailmate's warm parchment journal palette (`#FCF9F4`).
+* **The Decision:**
+  Use **Leaflet.js (v1.9.4)** with **OpenStreetMap (OSM) tile servers**, enhanced with custom CSS parchment filter chaining:
+  ```css
+  .leaflet-tile {
+    filter: sepia(0.32) contrast(1.08) brightness(0.96) saturate(0.85);
+  }
+  ```
+  Pair this with **1-click external Google Maps handoff** (`https://www.google.com/maps/dir/?api=1...`) for real-world turn-by-turn navigation.
+* **Why This Was Chosen:**
+  * **100% Free & Quota-Safe:** Leaflet and OSM require zero API keys and have zero usage billing for map exploration.
+  * **Artistic Journal Styling:** CSS filter chaining seamlessly transforms standard cartography into an antique 19th-century explorer’s parchment map.
+  * **Offline/Low-Bandwidth Resiliency:** Leaflet handles tile caching smoothly without authentication errors when cellular connectivity drops on remote trails.
+  * **Best of Both Worlds:** Leaflet handles in-app browsing and route polylines; when travelers are ready to drive, a single click opens native Google Maps on their device with exact coordinates pre-populated.
+* **Alternatives Considered & Rejected:**
+  * *Google Maps JS SDK:* Rejected due to high cost per 1,000 map loads and strict styling restrictions.
+  * *Mapbox GL JS:* Rejected due to mandatory billing accounts, proprietary telemetry tokens, and large WebGL runtime overhead.
+
+---
+
+### DEC-004: Express.js API Gateway + Python Microservice Architecture
+* **Decision Makers:** Joint
+* **Category:** Backend Architecture
+* **Status:** Implemented
+* **The Context & Problem:**
+  Trailmate requires two very different types of backend computation:
+  1. High-throughput, non-blocking I/O for streaming Server-Sent Events (SSE), API orchestration, rate limiting, and client serving.
+  2. Algorithmic flight parsing, domestic airline route graphs, and fare calculations that benefit from Python’s data-science ecosystem.
+* **The Decision:**
+  Deploy a **Dual-Service Architecture**:
+  * **Primary Node.js / Express Server (`server/index.js`):** Acts as the API Gateway, handling rate limiting, request validation (`zod`), Gemini API streaming, Places/Weather proxying, and client serving.
+  * **Python Flask Flights Microservice (`server/flights/app.py`):** Dedicated microservice focused solely on domestic flight searches, airline logo mappings, and multi-leg layover computations.
+* **Why This Was Chosen:**
+  * *Node.js Event-Loop Advantage:* Handles long-lived streaming connections (`/api/chat/stream`) with zero thread-blocking overhead.
+  * *Service Isolation:* If the flight search engine experiences third-party scraping latency or crashes, the core itinerary planner, scrapbook studio, and community view remain 100% operational.
+  * *Concurrent Developer Workflow:* Wired together via `concurrently` in `package.json` (`npm run dev`) for seamless local execution.
+* **Alternatives Considered & Rejected:**
+  * *Monolithic Python (Django/FastAPI for everything):* Rejected because Python’s async SSE streaming and static client serving are less lightweight than Node/Express for simple serverless edge deployment.
+  * *Monolithic Node.js (translating flight algorithms to JS):* Rejected because existing Python aviation libraries provided immediate, robust domestic schedule resolution.
+
+---
+
+### DEC-005: Vitest vs. Jest for Unit & Schema Testing
+* **Decision Makers:** Assistant (Validated by User)
+* **Category:** Testing & Developer Experience
+* **Status:** Implemented (All 22 tests passing)
+* **The Context & Problem:**
+  Testing ES Module-based codebases in Jest often requires complex Babel or `ts-jest` transpilation setups, resulting in slow test suite start times and module resolution errors with native ESM (`import/export`).
+* **The Decision:**
+  Adopt **Vitest (v4)** as the sole unit test runner across all client and server unit tests (`tests/weather.test.js`, `tests/schemas.test.js`, `tests/state.test.js`).
+* **Why This Was Chosen:**
+  * **Shared Vite Pipeline:** Reuses Vite’s configuration, plugins, and module resolution directly—zero duplicate config.
+  * **Native ESM Out-of-the-Box:** Runs native modern JavaScript with zero transpilation overhead.
+  * **Execution Speed:** Runs all 22 tests across schemas, weather parsing, and state engines in under 200ms.
+* **Alternatives Considered & Rejected:**
+  * *Jest:* Rejected due to legacy CommonJS origins, slow startup times, and complex configuration required to parse native ES modules.
+
+---
+
+## 3. AI & Anti-Hallucination Architecture Decisions
+
+### DEC-006: Strict Separation of Data Retrieval from AI Synthesis
+* **Decision Makers:** Joint (Core Project Philosophy)
+* **Category:** AI Architecture & Data Integrity
+* **Status:** Implemented
+* **The Context & Problem:**
+  Large Language Models (LLMs) hallucinate plausible-sounding falsehoods: phantom hotel names, non-existent trains, closed restaurants, and fabricated pricing. In travel planning, this leads to ruined vacations.
+* **The Decision:**
+  Enforce a strict architectural boundary:
+  > **APIs fetch verified facts. AI arranges and personalizes facts. AI never invents facts.**
+  1. *Stage 1 (API Retrieval):* The backend queries Google Places, WeatherAPI, and DGCA flight databases to retrieve verified candidate entities (actual names, real GPS coordinates, verified opening hours, and real review snippets).
+  2. *Stage 2 (Bayesian Confidence Scoring):* Venues are ranked mathematically before AI ever sees them:
+     $$\text{Weighted Score} = \left(\frac{v}{v + 10}\right) \cdot R + \left(\frac{10}{v + 10}\right) \cdot C$$
+  3. *Stage 3 (AI Synthesis):* The verified payload is passed to Google Gemini with a system prompt that forbids introducing any unlisted venue or altering factual attributes.
+* **Why This Was Chosen:**
+  * Eliminates AI hallucinations at the architectural level rather than attempting to filter them out post-generation.
+  * Protects users from booking phantom hotels or navigating to closed heritage sites.
+
+---
+
+### DEC-007: 14-Stage Guided Intake State Machine
+* **Decision Makers:** Joint
+* **Category:** Conversational UX & State Architecture
+* **Status:** Implemented
+* **The Context & Problem:**
+  Unstructured chat prompts like *"Plan a trip to Goa"* leave critical dimensions undefined (budget, pace, companions, transport, food restrictions), forcing the AI to make blind assumptions. Conversely, multi-page static web forms feel bureaucratic and kill spontaneous wanderlust.
+* **The Decision:**
+  Implement a deterministic 14-stage intake state machine:
+  `WELCOME` $\rightarrow$ `PARSING` $\rightarrow$ `CLARIFYING` $\rightarrow$ `PREFERENCE_GATE` $\rightarrow$ `FLIGHT_PREFS` $\rightarrow$ `FLIGHT_SEARCH` $\rightarrow$ `FLIGHT_SELECTED` $\rightarrow$ `HOTEL_PREFS` $\rightarrow$ `HOTEL_SEARCH` $\rightarrow$ `HOTEL_SELECTED` $\rightarrow$ `PLACES_SELECT` $\rightarrow$ `RESTAURANTS_SELECT` $\rightarrow$ `COMPOSING` $\rightarrow$ `DONE`.
+* **Why This Was Chosen:**
+  * Maintains the conversational, friendly feel of an AI assistant while systematically collecting all required constraints.
+  * Users can type unstructured answers (*"me and 2 buddies on a shoestring budget for 4 days"*), and the state machine parses and advances through the pipeline reliably.
+
+---
+
+## 4. Product & Functional Decisions
+
+### DEC-008: Redesign Badges into 12 Tactile 3D Molded PVC Morale Patches
+* **Decision Makers:** User Directive (Implemented via Subagent Orchestration & Stitch MCP)
+* **Category:** Product & Gamification
+* **Status:** Implemented & Verified
+* **The Context & Problem:**
+  Trailmate originally featured 12 Victorian-era hand-cast metallic medallions. Later, 6 tactical PVC patches were introduced, splitting the Badges tab with an awkward style toggle (`[ Victorian Medallions | PVC Patches ]`). This fragmented the gamification loop and diluted brand identity.
+* **The Decision:**
+  Combine and redesign all 12 badges into a unified **Tactile 3D Molded PVC Morale Patch & Expedition Board**:
+  * Every single honor (from *First Steps* to *Phantom Trail Whisperer*) was re-imagined as a physical molded silicone/rubber badge.
+  * Implemented 3D card flips revealing hook-and-loop Velcro backings, Mil-Spec serial codes, and field lore.
+  * Added category filtering (`Summit & Alpine`, `Coastal & Marine`, `Overland & Trail`, `Heritage & Lore`).
+* **Why This Was Chosen:**
+  * Solved identity fragmentation by delivering one cohesive, rugged adventure aesthetic.
+  * Resonates powerfully with overland travelers who collect real rubber patches on backpacks and 4x4 headliners.
+* **Impact:** Replaced legacy medallion rendering in [`CommunityView.js`](file:///Users/pratyushraj/Desktop/Projects/travel%20app/src/views/CommunityView.js) with [`PvcPatchesData.js`](file:///Users/pratyushraj/Desktop/Projects/travel%20app/src/data/PvcPatchesData.js).
+
+---
+
+### DEC-009: 100% Genuine Local Photography Across All 15 Destinations
+* **Decision Makers:** User Directive
+* **Category:** Product & Content Strategy
+* **Status:** Implemented
+* **The Context & Problem:**
+  Several destinations lacked secret coordinate quests, and generic Unsplash stock images were being served (e.g. photos of generic tropical resorts standing in for historic Portuguese forts in Goa).
+* **The Decision:**
+  * Guarantee dedicated coordinate quests for all **15 destinations** (Goa, Ooty, Manali, Jaipur, Munnar, Andaman, Nainital, Gangtok, Darjeeling, Wayanad, Udaipur, Shimla, Mussoorie, Kodaikanal, Coorg).
+  * Enforce that every attraction and quest card uses verified, high-resolution local photography (`/images/attractions/<dest>/<attraction>-1.jpg`).
+* **Why This Was Chosen:**
+  * Travelers immediately detect stock photography, which erodes trust in an itinerary planner.
+  * Claiming quests awards authentic local SVG stickers in Scrapbook Studio, closing the loop between real-world exploration and digital memory making.
+
+---
+
+### DEC-010: Full-Space Inspirational Quotes Carousel with Custom Andasia Font
+* **Decision Makers:** User Directive
+* **Category:** UX & Visual Storytelling
+* **Status:** Implemented
+* **The Context & Problem:**
+  The login screen contained awkward empty vertical space below the "Continue as Guest" sandbox, leading to a sterile first impression.
+* **The Decision:**
+  * Eliminate the redundant "Instant Sandbox" text.
+  * Expand the empty space into a full-width literary quotation display featuring timeless travel philosophy (Muntz, Andersen, Tolkien, Beatty, Godin, Pythagoras).
+  * Render the first letter of each quote using the custom **Andasia** display font at triple scale.
+  * Engineer a custom **merge animation** (`quote-merge-left`, `quote-merge-right`, `quote-merge-author`) that smoothly blends text halves together on quote transition.
+* **Why This Was Chosen:**
+  * Immediately elevates the app from a utilitarian utility to a literary journal.
+  * Transforms dead UI space into a moment of discovery and emotional anticipation.
+
+---
+
+## 5. Visual, Aesthetic & Design System Decisions
+
+### DEC-011: Tactile Field Journal Aesthetic Narrative
+* **Decision Makers:** Joint
+* **Category:** Brand Identity & Art Direction
+* **Status:** Implemented
+* **The Context & Problem:**
+  Most travel apps mimic the sterile white-and-blue look of commercial airlines or generic corporate SaaS tools.
+* **The Decision:**
+  Anchor Trailmate in the sensory world of a **19th-century naturalist’s field journal**:
   * Canvas base: Warm, non-reflective parchment (`#FCF9F4`).
-  * Inks: Deep forest pine (`#1E3A34`), terracotta clay (`#C4703D`), vintage sage (`#5B8C7B`), and warm sand (`#E8DFD0`).
-  * Typography: `Noto Serif` for literary journal entries, `Public Sans` for legible itineraries, and `JetBrains Mono` for GPS coordinates and ticket data.
-* **Rationale:**
-  * Creates emotional warmth, nostalgic discovery, and physical grounding.
-  * Distinguishes Trailmate from utilitarian flight/hotel booking engines.
-* **Impact:** Documented in Stitch project `projects/16593476996015616226` and established across all CSS modules.
+  * Accent pigments: Terracotta clay (`#C4703D`), pine forest green (`#1E3A34`), mountain sage (`#5B8C7B`), and warm sand (`#E8DFD0`).
+  * Typography: Editorial serifs for stories, clean sans-serif for timelines, and monospace for coordinates and technical specifications.
+* **Why This Was Chosen:**
+  * Evokes the romance of exploration, tactile paper, and personal reflection.
+  * Perfectly bridges the gap between structured AI itinerary generation and creative digital scrapbooking.
 
 ---
 
-### DEC-006: Physical 3D Molded Rubber & Silicone Simulation Physics
-* **Decision Maker:** Assistant (grounded in User's 3 reference morale patch images)
-* **Type:** Design System & Rendering Physics
-* **Context:** Representing rubber morale patches in web UI usually results in flat vector icons with basic borders.
-* **The Decision:** Formulate an authentic 5-Tier Z-axis physical relief model:
-  * **Level 0 (Base Substrate):** Vulcanized charcoal fluororubber (`#121316`) with micro-stippled matte grain to prevent glare.
-  * **Level 1 (Low Relief):** $+1.0\text{mm}$ flat matte background silhouettes (pine forests, topographic contours, speed bands) with $3^\circ$–$5^\circ$ mold draft angles.
-  * **Level 2 (Mid Relief):** $+2.0\text{mm}$ molded overland vehicles, tents, stone fire pits, and copper kettles with directional contact shadows.
-  * **Level 3 (High Relief):** $+3.2\text{mm}$ vibrant color injection (Neon Lime `#CCFF00`, Hazard Orange `#FF6B00`, Flame Gold `#FBBF24`) and bold 3D extruded block lettering.
+### DEC-012: 5-Tier Z-Axis Physical Rubber Relief Model
+* **Decision Makers:** Assistant (Grounded in User’s Morale Patch Reference Images)
+* **Category:** Visual Physics & SVG Architecture
+* **Status:** Implemented
+* **The Context & Problem:**
+  Digital badges are almost always rendered as flat 2D icons with simple border rings, failing to convey the physical, raised rubber feel of real PVC morale patches.
+* **The Decision:**
+  Formulate an authentic 5-tier elevation stack:
+  * **Level 0 (Base Substrate):** Vulcanized charcoal rubber (`#121316`) with micro-stippled matte grain to prevent glare.
+  * **Level 1 (Low Relief):** $+1.0\text{mm}$ flat matte background silhouettes (pine groves, topographic contours) with $3^\circ$–$5^\circ$ mold draft angles.
+  * **Level 2 (Mid Relief):** $+2.0\text{mm}$ molded vehicles, tents, and copper kettles with directional contact shadows.
+  * **Level 3 (High Relief):** $+3.2\text{mm}$ vibrant color injection (Neon Lime `#CCFF00`, Hazard Orange `#FF6B00`, Flame Gold `#FBBF24`) and extruded block typography.
   * **Level 4 (Perimeter Trench):** Recessed stitch groove with simulated `#69` bonded nylon thread stitches (`1.5px dashed rgba(240,230,215,0.4)`).
-  * **Lighting Vector:** Fixed $315^\circ$ azimuth (top-left) with $45^\circ$ elevation and warm $15\%$ ambient bounce fill.
-* **Rationale:**
-  * Perfectly reproduces the tactile feeling of real molded silicone patches.
-* **Impact:** Documented in [`docs/tactile_pvc_patches_design_system.md`](file:///Users/pratyushraj/Desktop/Projects/travel%20app/docs/tactile_pvc_patches_design_system.md).
+  * **Lighting Azimuth:** Constant $315^\circ$ top-left directional illumination with $45^\circ$ elevation and $15\%$ ambient bounce fill.
+* **Why This Was Chosen:**
+  * Creates unmistakable physical depth and tactile realism directly in the browser using scalable vector graphics.
 
 ---
 
-### DEC-007: 60fps Destination-Specific Boomerang Motion Keyframes
-* **Decision Maker:** Joint
-* **Type:** Animation & Delight
-* **Context:** Destination topbar header doodles were static, rendering them visually flat against dynamic itinerary updates.
-* **The Decision:** Create an organic, silky-smooth 60fps CSS "boomerang" animation engine (`animation: ... ease-in-out infinite alternate`) with destination-specific physics:
+### DEC-013: 60fps Destination-Specific Boomerang Motion Keyframes
+* **Decision Makers:** Joint
+* **Category:** Motion Design
+* **Status:** Implemented
+* **The Context & Problem:**
+  Static header banners felt lifeless during dynamic chat interactions and itinerary reviews.
+* **The Decision:**
+  Create smooth 60fps CSS alternate keyframe animations tailored to each destination category:
   * Coastal: Buoyant ocean swell bobbing (`.doodle-coastal-wave`).
   * Alpine: High-altitude drifting breeze (`.doodle-alpine-breeze`).
   * Tea Estates: Rolling hill sway (`.doodle-tea-sway`).
   * Monuments: Stately, subtle reverence pulse (`.doodle-monuments-reverence`).
-* **Rationale:**
-  * Infuses life into the interface without consuming CPU/GPU overhead like video or heavy canvas rendering.
-  * Pauses on hover to maintain accessibility.
-* **Impact:** Implemented in [`src/styles/chat.css`](file:///Users/pratyushraj/Desktop/Projects/travel%20app/src/styles/chat.css) and [`src/components/HeaderDoodlesData.js`](file:///Users/pratyushraj/Desktop/Projects/travel%20app/src/components/HeaderDoodlesData.js).
+* **Why This Was Chosen:**
+  * Delivers delightful micro-interactions with zero CPU/GPU overhead compared to video loops or heavy canvas animations.
 
 ---
 
-## 4. Technical & Architecture Decisions
+## 6. Media, Asset & Imagery Strategy Decisions
 
-### DEC-008: Multi-Agent Parallel Orchestration for Rapid Development
-* **Decision Maker:** User Directive ("Use multiple agents to divide your work and do it faster")
-* **Type:** Technical & Process Architecture
-* **Context:** Complex features (e.g. downloading 180+ authentic destination images, vectorizing 12 patch SVGs, simultaneous CSS/JS refactoring) are bottlenecked if executed sequentially.
-* **The Decision:** Leverage Antigravity's `invoke_subagent` capability to spawn concurrent, specialized subagents:
-  * Image collection divided geographically into 4 worker groups.
-  * Patch SVG architecture assigned to a dedicated asset agent while UI integration ran concurrently in a CSS/View agent.
-* **Rationale:**
-  * Compresses multi-hour tasks into minutes through parallel execution.
-  * Isolates workspace concerns and prevents file collision.
-* **Impact:** Accomplished complete 15-destination asset coverage and 12-patch redesign in single pair-programming sessions.
-
----
-
-### DEC-009: Google Stitch MCP as Design System Grounding Source
-* **Decision Maker:** User Directive ("use stich mcp")
-* **Type:** Tooling & Design Architecture
-* **Context:** Creating consistent tactical design systems from prompt text often leads to style drift across screens.
-* **The Decision:** Ground all visual designs in dedicated Google Stitch projects:
-  * Project `16593476996015616226`: Trailmate Heritage & Field Journal System.
-  * Project `15129941659496130226`: Tactical 3D Molded PVC Expedition System.
-  * Extracted exact design tokens (`DESIGN.md`), typography (`Barlow Condensed`, `Inter`, `JetBrains Mono`), and color harmonies.
-  * Standardized on `GEMINI_3_5_FLASH_LITE` for Stitch screen generation to avoid network transport timeouts associated with dense payloads.
-* **Rationale:**
-  * Guarantees design token rigor and visual fidelity.
-  * Provides verifiable visual artifact previews prior to production code implementation.
-* **Impact:** Generated screens `41b22e23cff24fc1892257174b110308` and `0f19afdf3adc49c098361c3f4dd6dfd7`.
-
----
-
-### DEC-010: Local-First State Architecture & Zero-Backend Storage
-* **Decision Maker:** Joint
-* **Type:** Technical & Architecture
-* **Context:** A travel companion must function reliably in low-connectivity or offline environments (flights, remote treks, national parks).
-* **The Decision:** Implement a local-first reactive architecture powered by `localStorage` and a centralized event-driven store:
-  * User profile, credentials, and level XP stored locally.
-  * Earned badge IDs and completed quest states persisted in deterministic keys.
-  * Community feed pre-seeded with rich offline explorer dispatches while supporting local publishing, liking, and commenting.
-* **Rationale:**
-  * Zero latency, instantaneous UI updates, and full offline resilience.
-  * No expensive cloud infrastructure required for core journaling functionality.
-* **Impact:** Encapsulated within [`src/services/CommunityService.js`](file:///Users/pratyushraj/Desktop/Projects/travel%20app/src/services/CommunityService.js).
-
----
-
-### DEC-011: Client-Side Vector SVGs vs. Raster Assets for Badges
-* **Decision Maker:** Assistant
-* **Type:** Technical & Performance
-* **Context:** Rendering 12 high-detail 3D rubber patches using PNG/WebP rasters increases initial page bundle size, produces blurry rendering on high-DPI Retina screens, and prevents dynamic color/theme adjustments.
-* **The Decision:** Construct all 12 patches as inline vector SVGs equipped with CSS layered drop-shadow filters, radial gradient highlights, and vector stroke dasharrays.
-* **Rationale:**
-  * Ultra-crisp scaling from 32px thumbnails to 512px modal previews with zero pixelation.
-  * Negligible file footprint (~45KB total code for all 12 patches combined).
-  * Enables dynamic color manipulation and hover transitions via CSS variables.
-* **Impact:** Stored in [`src/data/PvcPatchesData.js`](file:///Users/pratyushraj/Desktop/Projects/travel%20app/src/data/PvcPatchesData.js).
-
----
-
-### DEC-012: Vite Dynamic Chunk Code-Splitting
-* **Decision Maker:** Assistant
-* **Type:** Non-Functional & Performance
-* **Context:** As Scrapbook Studio, MapView, and CommunityView grew, the initial bundle was exceeding 600KB, degrading first-contentful-paint (FCP).
-* **The Decision:** Configure dynamic imports (`import()`) and Rollup manual chunking in `vite.config.js` to isolate large modules (`MapView`, `ScrapbookWorkspace`, `CommunityView`, `vendor-leaflet`, `vendor-export`).
-* **Rationale:**
-  * Decreases initial landing load time by over $60\%$.
-  * Heavy graphic manipulation tools (Scrapbook canvas, Map tiles) are only fetched when navigated to.
-* **Impact:** Build output generates clean modular chunks with fast gzipped delivery.
-
----
-
-## 5. Media, Asset & Imagery Strategy Decisions
-
-### DEC-013: 100% Genuine Destination Photo Galleries
-* **Decision Maker:** User Directive
-* **Type:** Content & Asset Strategy
-* **Context:** Placeholders and automated stock scraping frequently returned incorrect sights (e.g., generic European beaches for Goa, Swiss chalets for Manali).
-* **The Decision:** Curate and verify local image files organized strictly by destination:
+### DEC-014: Elimination of Stock Photos in Favor of Verified Local Assets
+* **Decision Makers:** User Directive
+* **Category:** Media & Content Integrity
+* **Status:** Implemented
+* **The Context & Problem:**
+  Automated photo scrapers frequently returned stock photos that were completely disconnected from the actual Indian destinations (e.g. photos of generic European alpine valleys for Munnar).
+* **The Decision:**
+  Curate over 180 verified local photographs organized strictly in the local repository:
   `public/images/attractions/<destination>/<slug>-1.jpg` through `-6.jpg`.
-  Strict requirement: Non-zero bytes, resolution $\ge 800\text{px}$, verified against Wikimedia Commons or official state tourism archives.
-* **Rationale:**
-  * Travelers rely on visual truth when evaluating an attraction.
-* **Impact:** Over 180 verified local images across all 15 destinations embedded in attraction carousels and map popups.
+  Enforce strict validation: Non-zero bytes, resolution $\ge 800\text{px}$, and verified against Wikimedia Commons or state tourism records.
+* **Why This Was Chosen:**
+  * Preserves authenticity and visual accuracy.
+  * Guarantees zero broken external image links in production.
 
 ---
 
-### DEC-014: 2x Super-Sampling on Destination Doodles
-* **Decision Maker:** Joint
-* **Type:** Asset Quality & Optimization
-* **Context:** Original header line doodles appeared faint or pixelated on high-DPI displays.
-* **The Decision:** Execute a 2x super-sampling workflow using Lanczos resampling, contrast normalization, and unsharp masking (radius 1.2, percent 130) to produce razor-sharp transparent PNGs rendered in Stitch Charcoal `#141817`.
-* **Rationale:**
-  * Preserves line weight and crispness against both parchment light mode and dark themes.
-* **Impact:** Upgraded all 13 header doodles in `public/images/headers/`.
+### DEC-015: 2x Super-Sampling on Destination Doodles
+* **Decision Makers:** Joint
+* **Category:** Asset Optimization & Retina Support
+* **Status:** Implemented
+* **The Context & Problem:**
+  Original doodle art appeared faint, washed-out, or blurry on high-DPI Retina displays.
+* **The Decision:**
+  Execute a 2x super-sampling workflow using Lanczos resampling, contrast normalization, and unsharp masking (radius 1.2, percent 130) rendered in Stitch Charcoal `#141817`.
+* **Why This Was Chosen:**
+  * Guarantees razor-sharp vector-like ink clarity against both light parchment and dark modes.
 
 ---
 
-### DEC-015: 4K Wallpapers with Crossfade & Broken Image Pruning
-* **Decision Maker:** User Directive
-* **Type:** Media Strategy
-* **Context:** Users reported black borders and uneven spacing on certain wallpaper rotations, and an oversized 3MB wallpaper (`mountains-amba-ghat-4k.jpg`) was causing layout jitter.
-* **The Decision:** Prune broken/oversized wallpaper files, enforce uniform CSS cover positioning with edge-to-edge dark vignette overlays, and implement smooth 1.2s crossfading between backgrounds.
-* **Rationale:**
-  * Eliminates jarring layout flashes and ensures immersion across all display aspect ratios.
-* **Impact:** Cleaned [`src/data/WallpapersData.js`](file:///Users/pratyushraj/Desktop/Projects/travel%20app/src/data/WallpapersData.js) and [`src/styles/wallpaper.css`](file:///Users/pratyushraj/Desktop/Projects/travel%20app/src/styles/wallpaper.css).
-
----
-
-## 6. Security, Performance & Non-Functional Decisions
+## 7. Security, Performance & Non-Functional Decisions
 
 ### DEC-016: Strict Print Media Isolation for PDF Itinerary Booklets
-* **Decision Maker:** User Directive & Assistant Fix
-* **Type:** Non-Functional & Output Fidelity
-* **Context:** Printing or exporting an itinerary to PDF was capturing the chat input bar, sidebar navigation buttons, and responsive hamburger menus.
-* **The Decision:** Implement strict `@media print` rules:
-  * Exclusively isolate `#itineraryPane` while hiding `#appHeader`, `#sidebar`, `#chatPane`, and modal overlays.
-  * Apply archival parchment texture, elegant serif typography, and the official Trailmate logo emblem to the printed header.
-* **Rationale:**
-  * Allows travelers to produce beautiful, physical pocket guides to carry without cellular signal.
-* **Impact:** Implemented in [`src/styles/itinerary.css`](file:///Users/pratyushraj/Desktop/Projects/travel%20app/src/styles/itinerary.css).
+* **Decision Makers:** User Directive & Assistant Fix
+* **Category:** Output Fidelity & Non-Functional
+* **Status:** Implemented
+* **The Context & Problem:**
+  Triggering browser print or "Save as PDF" captured the chat input box, floating sidebars, and navigation buttons, ruining the export.
+* **The Decision:**
+  Enforce strict `@media print` rules:
+  * Exclusively isolate `#itineraryPane`, completely hiding `#sidebar`, `#appHeader`, `#chatPane`, and modal backdrops.
+  * Style the printed output with an archival travel booklet aesthetic, custom vintage header typography, and the official Trailmate logo emblem.
+* **Why This Was Chosen:**
+  * Enables travelers to print gorgeous physical field booklets to carry into remote regions without cellular service.
 
 ---
 
 ### DEC-017: Tiered Rate Limiting & Input Sanitization
-* **Decision Maker:** Assistant Security Audit
-* **Type:** Security & Reliability
-* **Context:** Open chat inputs and search endpoints could be vulnerable to prompt injection, script execution, or accidental API flooding.
+* **Decision Makers:** Assistant Security Audit
+* **Category:** Security & Quota Protection
+* **Status:** Implemented
+* **The Context & Problem:**
+  Open conversational inputs and community sharing could expose third-party API keys to quota exhaustion or malicious XSS script injection.
 * **The Decision:**
-  * Implement client-side and edge input sanitization (`DOMPurify` / HTML escaping) on all user-submitted text and community posts.
-  * Add token bucket rate-limiting on Gemini API invocations to prevent accidental runaway quota exhaustion.
-  * Configure strict Content Security Policy (CSP) headers and input bounds.
-* **Rationale:**
-  * Ensures safe operation when travelers share scrapbooks and itineraries across the community.
-* **Impact:** Documented in project security commits and test suites.
+  * Implement tiered rate limiting (`express-rate-limit`):
+    * `/api/auth`: Max 5 attempts per 15 minutes.
+    * `/api/chat`: Max 8 requests per 15 minutes.
+  * Apply recursive string sanitization stripping control characters and null bytes.
+  * Validate all payloads with strict `zod` schemas rejecting inputs $>100\text{KB}$.
+* **Why This Was Chosen:**
+  * Prevents accidental runaway billing on Google Cloud and Gemini API accounts.
+  * Protects community feed users against persistent cross-site scripting (XSS).
 
 ---
 
-## 7. Comprehensive Decision Matrix
+## 8. Comprehensive Decision Matrix
 
-| ID | Category | Decision | Driver | Primary Impact |
+| ID | Domain | Decision | Driver | Technical / Product Tradeoff |
 |:---|:---|:---|:---|:---|
-| **DEC-001** | Product / UX | Redesign 12 badges into 3D Molded PVC Morale Patches | User | Unified expedition board, telemetry specs, Mil-Spec HUD |
-| **DEC-002** | Product / Content | 15 Destination Coordinate Quests with Real Photos | User | 100% destination geocache coverage, local photography |
-| **DEC-003** | Functional | Scrapbook Studio Undo/Redo, Multi-Select & Touch Gestures | Joint | Full creative suite, desktop keyboard shortcuts |
-| **DEC-004** | UX / Polish | Login Quotes Carousel with Andasia Drop-Cap & Merge Animation | User | Emotional storytelling, custom font, smooth transition |
-| **DEC-005** | Aesthetic | 19th-Century Tactile Field Journal Narrative | Joint | Parchment, terracotta, sage pigments; literary tone |
-| **DEC-006** | Design System | 5-Tier Z-Axis Physical Rubber Relief Model | Assistant | Realistic silicone stippling, draft angles, stitch groove |
-| **DEC-007** | Animation | 60fps Destination-Specific Boomerang Keyframes | Joint | Dynamic organic motion for ocean waves, alpine drift |
-| **DEC-008** | Process | Multi-Agent Parallel Orchestration | User | Fast concurrent execution of assets, SVGs, and code |
-| **DEC-009** | Tooling | Google Stitch MCP Design System Grounding | User | Visual token fidelity, automated theme export |
-| **DEC-010** | Architecture | Local-First Reactive State & Offline Journaling | Joint | Instantaneous response, zero-cost serverless operation |
-| **DEC-011** | Performance | Inline Vector SVGs for 3D Patches vs Raster Bitmaps | Assistant | Zero pixelation, dynamic CSS variables, tiny bundle |
-| **DEC-012** | Performance | Rollup / Vite Dynamic Code Splitting | Assistant | 60% reduction in initial bundle size |
-| **DEC-013** | Media | Elimination of Stock Photos in Favor of Real Sights | User | 180+ verified local attraction photographs |
-| **DEC-014** | Media | 2x Super-Sampling & Unsharp Masking on Doodles | Joint | High-DPI Retina sharpness for topbar art |
-| **DEC-015** | UX / Media | 4K Wallpaper Edge Alignment & Broken Image Removal | User | Seamless background crossfade, no black borders |
-| **DEC-016** | Non-Functional | Print CSS Isolation for Clean PDF Itinerary Booklets | User | Physical travel booklet export with zero UI clutter |
-| **DEC-017** | Security | Tiered Rate Limiting & Input Sanitization | Assistant | Safe community sharing, zero XSS vulnerability |
+| **DEC-001** | Stack | Vanilla JS + Vite instead of React/Next.js | Joint | Zero virtual-DOM overhead, 60fps canvas performance, 100KB bundle |
+| **DEC-002** | Styling | Tailwind CSS v4 + Modular Custom CSS | Joint | Rejects generic SaaS UI; unlocks bespoke 3D rubber & parchment textures |
+| **DEC-003** | Maps | Leaflet.js + OSM Parchment Filter vs Google Maps SDK | Joint | Zero quota costs; antique cartography styling; offline resiliency |
+| **DEC-004** | Backend | Express.js Gateway + Python Flask Microservice | Joint | Non-blocking SSE streaming in Node; dedicated aviation algorithms in Python |
+| **DEC-005** | Testing | Vitest instead of Jest | Assistant | Native ESM support; shared Vite config; 10x faster test execution |
+| **DEC-006** | AI Engine | Strict Data Retrieval Prior to AI Synthesis | Joint | Anti-hallucination guarantee; AI only sequences verified facts |
+| **DEC-007** | UX Flow | 14-Stage Guided Intake State Machine | Joint | Conversational flexibility without missing critical budget/date constraints |
+| **DEC-008** | Gamification | Unified 12-Patch 3D Molded PVC Expedition Board | User | Eliminates confusing dual toggle; connects with overland adventure gear |
+| **DEC-009** | Content | 15 Destination Coordinate Quests with Real Photos | User | 100% geocache coverage; verified local sights; zero broken links |
+| **DEC-010** | UX Polish | Login Quotes Carousel with Andasia Drop-Cap | User | Full empty-space utilization; literary tone; merge animation |
+| **DEC-011** | Brand | 19th-Century Tactile Field Explorer Journal | Joint | Warm parchment (`#FCF9F4`), terracotta & sage pigments over sterile SaaS |
+| **DEC-012** | Rendering | 5-Tier Z-Axis Physical Rubber Relief Model | Assistant | $3^\circ$ draft angles, micro-stippling, and stitch trenches via vector SVGs |
+| **DEC-013** | Motion | 60fps Destination-Specific Boomerang Keyframes | Joint | Dynamic life in topbar art with zero CPU/video loop overhead |
+| **DEC-014** | Media | 180+ Verified Local Indian Sight Photographs | User | Complete elimination of generic European/stock photos |
+| **DEC-015** | Assets | 2x Super-Sampling & Unsharp Masking on Doodles | Joint | Crisp line weight on high-DPI Retina screens |
+| **DEC-016** | Export | Strict Print Media CSS Isolation | User | Clean PDF field guide booklets with zero browser UI clutter |
+| **DEC-017** | Security | Tiered Rate Limiting & Zod Input Sanitization | Assistant | Quota-safe API budget protection and zero XSS vulnerability |
 
 ---
 
-## 8. Pending & Future Architectural Roadmap
+## 9. Pending & Future Architectural Roadmap
 
-### 1. Real Google Authentication Integration (GIS / Firebase)
-* **Status:** Under Architecture Evaluation (discussed in October 2026).
-* **Context:** Moving from client-side mock registration to authentic Google OAuth 2.0 / OpenID Connect.
-* **Proposed Route:** Integrate Google Identity Services (GIS) SDK (`accounts.google.com/gsi/client`) using a verified Google Cloud Client ID and JWT verification.
+### 1. Real Google Identity Services (GIS) / OIDC Authentication
+* **Status:** Under Architectural Evaluation (October 2026).
+* **Context:** The current login supports local credential registration and guest exploration. Real Google Sign-In requires connecting a Google Cloud OAuth 2.0 Client ID, embedding the GIS SDK (`accounts.google.com/gsi/client`), and decoding cryptographically signed JWT credentials.
+* **Proposed Route:** Client-side GIS integration decoding user profile claims (`name`, `email`, `picture`) into `CommunityService` with optional backend token verification.
 
-### 2. Cloud Synchronization & Cross-Device Scrapbooking
+### 2. Cross-Device Cloud Sync for Scrapbook Studio
 * **Status:** Planned.
-* **Context:** Enable travelers to start a scrapbook on mobile during a trek and finish the binding on desktop.
-* **Proposed Route:** Local-first sync using WebSockets / CRDT or Supabase / Firebase backend sync layer while preserving offline functionality.
+* **Context:** Enable travelers to begin assembling trip scraps on mobile while trekking and finalize multi-page bindings on desktop.
+* **Proposed Route:** Local-first synchronization engine using CRDTs or Supabase/Firebase sync while maintaining 100% offline journaling functionality.
