@@ -54,10 +54,14 @@ app.use((req, res, next) => {
   next();
 });
 
-// Middleware with payload size limit (rejects oversized request bodies > 100kb)
+// Middleware with payload size limit (rejects oversized request bodies > 100kb in prod, relaxed to 50mb in dev)
+const isDev = process.env.NODE_ENV !== 'production' || process.env.DISABLE_RATE_LIMITS === 'true';
+const jsonPayloadLimit = isDev ? '50mb' : '100kb';
+const urlencodedPayloadLimit = isDev ? '50mb' : '50kb';
+
 app.use(cors());
-app.use(express.json({ limit: '100kb' }));
-app.use(express.urlencoded({ extended: false, limit: '50kb' }));
+app.use(express.json({ limit: jsonPayloadLimit }));
+app.use(express.urlencoded({ extended: false, limit: urlencodedPayloadLimit }));
 
 // Serve embellishments with permanent 1-year immutable cache
 app.use('/embellishments', express.static('public/embellishments', {

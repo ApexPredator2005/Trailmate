@@ -375,12 +375,14 @@ To maintain this standard while offering a high-performance **Scrapbook Studio**
   Open conversational inputs and community sharing could expose third-party API keys to quota exhaustion or malicious XSS script injection.
 * **The Decision:**
   * Implement tiered rate limiting (`express-rate-limit`):
-    * `/api/auth`: Max 5 attempts per 15 minutes.
-    * `/api/chat`: Max 8 requests per 15 minutes.
+    * `/api/auth`: Max 5 attempts per 15 minutes (enforced in production).
+    * `/api/chat`: Max 8 requests per 15 minutes (enforced in production).
+    * **Development Bypass:** Automatically bypassed when `NODE_ENV !== 'production'` or `DISABLE_RATE_LIMITS='true'` so developer testing and prototyping remain unthrottled.
   * Apply recursive string sanitization stripping control characters and null bytes.
-  * Validate all payloads with strict `zod` schemas rejecting inputs $>100\text{KB}$.
+  * Validate all payloads with strict `zod` schemas, allowing up to 50MB in development and enforcing 100KB payload limits in production.
 * **Why This Was Chosen:**
-  * Prevents accidental runaway billing on Google Cloud and Gemini API accounts.
+  * Prevents accidental runaway billing on Google Cloud and Gemini API accounts in production.
+  * Eliminates developer friction by ensuring rate limits and tight payload limits never block local test suites, multi-turn AI prototyping, or mock account creation.
   * Protects community feed users against persistent cross-site scripting (XSS).
 
 ---

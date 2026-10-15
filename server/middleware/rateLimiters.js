@@ -7,9 +7,15 @@
 
 import rateLimit from 'express-rate-limit';
 
+const isDev = process.env.NODE_ENV !== 'production' || process.env.DISABLE_RATE_LIMITS === 'true';
+
+if (isDev) {
+  console.log('🔓 [Security] Full security audit rate limiters bypassed for local development.');
+}
+
 /**
  * 1. Auth & Login Limiter
- * Rule: Maximum 5 attempts per 15 minutes per IP.
+ * Rule: Maximum 5 attempts per 15 minutes per IP (enforced in production).
  * Used for login, registration, and credential verification routes.
  */
 export const authLimiter = rateLimit({
@@ -17,6 +23,7 @@ export const authLimiter = rateLimit({
   max: 5,
   standardHeaders: true, // Return RateLimit-* headers
   legacyHeaders: false,
+  skip: () => isDev,
   message: {
     error: 'Too many login attempts from this IP. Please wait 15 minutes before trying again.',
     retryAfterMinutes: 15,
@@ -26,7 +33,7 @@ export const authLimiter = rateLimit({
 
 /**
  * 2. AI Chat & SSE Streaming Limiter (Gemini Token Protection)
- * Rule: Maximum 8 turns per 15 minutes per IP.
+ * Rule: Maximum 8 turns per 15 minutes per IP (enforced in production).
  * Typical user itinerary intake finishes in 3–5 turns.
  */
 export const chatLimiter = rateLimit({
@@ -34,6 +41,7 @@ export const chatLimiter = rateLimit({
   max: 8,
   standardHeaders: true,
   legacyHeaders: false,
+  skip: () => isDev,
   message: {
     error: 'AI itinerary generation limit reached (8 requests per 15 minutes). Please review your current plan or try again shortly.',
     retryAfterMinutes: 15,
@@ -42,13 +50,14 @@ export const chatLimiter = rateLimit({
 
 /**
  * 3. Flight Search Limiter (AeroDataBox / SerpApi Protection)
- * Rule: Maximum 10 live searches per 15 minutes per IP.
+ * Rule: Maximum 10 live searches per 15 minutes per IP (enforced in production).
  */
 export const flightLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 10,
   standardHeaders: true,
   legacyHeaders: false,
+  skip: () => isDev,
   message: {
     error: 'Flight search limit reached (10 searches per 15 minutes). Please try again shortly.',
   },
@@ -56,7 +65,7 @@ export const flightLimiter = rateLimit({
 
 /**
  * 4. Places & Attractions Limiter (Google Places Cloud Billing Protection)
- * Rule: Maximum 20 searches per 15 minutes per IP.
+ * Rule: Maximum 20 searches per 15 minutes per IP (enforced in production).
  * Results are also cached server-side for 30 minutes to minimize billable API calls.
  */
 export const placesLimiter = rateLimit({
@@ -64,6 +73,7 @@ export const placesLimiter = rateLimit({
   max: 20,
   standardHeaders: true,
   legacyHeaders: false,
+  skip: () => isDev,
   message: {
     error: 'Places lookup limit reached (20 requests per 15 minutes). Please try again shortly.',
   },
@@ -71,7 +81,7 @@ export const placesLimiter = rateLimit({
 
 /**
  * 5. Global API Envelope Limiter
- * Rule: Maximum 40 requests per 15 minutes across all /api routes per IP.
+ * Rule: Maximum 300 requests per 15 minutes across all /api routes per IP (enforced in production).
  * Prevents automated scraping and denial-of-service spam.
  */
 export const globalApiLimiter = rateLimit({
@@ -79,6 +89,7 @@ export const globalApiLimiter = rateLimit({
   max: 300,
   standardHeaders: true,
   legacyHeaders: false,
+  skip: () => isDev,
   message: {
     error: 'Too many API requests from this IP. Please slow down and try again in 15 minutes.',
   },
