@@ -630,7 +630,7 @@ export function renderLoginView(container, {
       // ── SIGN IN FLOW ──
       if (existingUser) {
         if (existingUser.password && existingUser.password !== password) {
-          showFeedback(`Incorrect password for ${existingUser.name}. Please enter your registered password.`, 'error');
+          showFeedback('Invalid email or password. Please verify your credentials and try again.', 'error');
           inputPassword.classList.add('border-red-400');
           inputPassword.focus();
           return;

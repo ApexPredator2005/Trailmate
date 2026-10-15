@@ -98,7 +98,7 @@ app.use(express.static(distDir));
 
 // 404 handler for unknown API routes
 app.use('/api/*', (req, res) => {
-  res.status(404).json({ error: `Endpoint not found: ${req.method} ${req.originalUrl}` });
+  res.status(404).json({ error: 'Endpoint not found.' });
 });
 
 // SPA catch-all fallback for client-side routing (non-API GET requests)
@@ -109,12 +109,32 @@ app.get('*', (req, res, next) => {
   });
 });
 
-// Global Async Error Handler
+// Global Async Error Handler — Defends against CWE-209 Information Leakage
 app.use((err, req, res, next) => {
-  console.error('[Server Error]', err);
-  const status = err.status || 500;
-  res.status(status).json({
-    error: err.message || 'Internal Server Error',
+  // Full stack trace and diagnostics logged server-side only for debugging
+  console.error(`[Server Error] ${req.method} ${req.originalUrl}:`, {
+    message: err.message,
+    stack: err.stack,
+    status: err.status || err.statusCode || 500,
+    timestamp: new Date().toISOString(),
+  });
+
+  const statusCode = Number(err.status || err.statusCode) || 500;
+
+  // Never leak internal stack traces, system paths, or raw database errors
+  if (statusCode >= 500) {
+    return res.status(statusCode).json({
+      error: 'An unexpected internal server error occurred. Please try again later.',
+    });
+  }
+
+  // Sanitize 4xx client errors so internal paths or symbols are never echoed
+  const rawMsg = typeof err.message === 'string' ? err.message : '';
+  const isSafe = rawMsg && !rawMsg.includes('/') && !rawMsg.includes('\\') && !rawMsg.includes('node_modules') && !rawMsg.includes('at ');
+  const safeMessage = isSafe ? rawMsg : 'Invalid request';
+
+  res.status(statusCode).json({
+    error: safeMessage,
   });
 });
 

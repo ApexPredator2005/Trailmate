@@ -387,6 +387,24 @@ To maintain this standard while offering a high-performance **Scrapbook Studio**
 
 ---
 
+### DEC-018: Strict Error Isolation & Information Leakage Defense (CWE-209)
+* **Decision Makers:** User Directive & Security Hardening
+* **Category:** Application Security & Information Protection
+* **Status:** Implemented & Verified
+* **The Context & Problem:**
+  Raw exception messages, unhandled rejections, and Python scraper exceptions can inadvertently leak internal system file paths (e.g. `/Users/...`), internal network hostnames, database errors, or stack traces directly to end users in HTTP responses and conversational chat bubbles.
+* **The Decision:**
+  * Implement strict separation between server-side diagnostic logging and client-facing error responses:
+    * Server-side: Log full `err.stack`, request context, and timestamps to console/loggers for rapid debugging.
+    * Client-side: All 500-level HTTP responses return safe, sanitized generic error messages (`An unexpected internal server error occurred. Please try again later.`).
+    * Python Flask microservice: Catch all exceptions, log the full Python traceback via `app.logger`, and return safe generic JSON errors.
+    * Conversation Engine & Login View: Replaced direct `${err.message}` string interpolations with friendly, generic UI failure notices and neutralized user enumeration vectors.
+* **Why This Was Chosen:**
+  * Eliminates CWE-209 (Information Exposure Through an Error Message) across the entire application stack.
+  * Keeps debugging frictionless for developers via detailed server terminal logs while protecting the production attack surface.
+
+---
+
 ## 8. Comprehensive Decision Matrix
 
 | ID | Domain | Decision | Driver | Technical / Product Tradeoff |
@@ -408,6 +426,7 @@ To maintain this standard while offering a high-performance **Scrapbook Studio**
 | **DEC-015** | Assets | 2x Super-Sampling & Unsharp Masking on Doodles | Joint | Crisp line weight on high-DPI Retina screens |
 | **DEC-016** | Export | Strict Print Media CSS Isolation | User | Clean PDF field guide booklets with zero browser UI clutter |
 | **DEC-017** | Security | Tiered Rate Limiting & Zod Input Sanitization | Assistant | Quota-safe API budget protection and zero XSS vulnerability |
+| **DEC-018** | Security | Strict Error Isolation & Information Leakage Defense | Joint | Eliminates CWE-209; zero stack trace or internal path leakage to users |
 
 ---
 

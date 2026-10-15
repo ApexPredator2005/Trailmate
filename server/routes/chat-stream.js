@@ -41,7 +41,7 @@ router.post('/', validateBody(chatTurnSchema), async (req, res) => {
     sendEvent('done', result);
   } catch (err) {
     console.error('[chat-stream] Stream error:', err);
-    sendEvent('error', { message: err.message || 'Composition error' });
+    sendEvent('error', { message: 'We encountered an unexpected issue while generating your itinerary. Please try again.' });
   } finally {
     res.end();
   }

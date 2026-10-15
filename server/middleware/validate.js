@@ -33,40 +33,54 @@ export function sanitizeValue(value) {
 
 export function validateBody(schema) {
   return (req, res, next) => {
-    // Sanitize incoming body before schema parse
-    const sanitizedBody = sanitizeValue(req.body);
-    const result = schema.safeParse(sanitizedBody);
-    if (!result.success) {
-      const formattedErrors = result.error.errors.map(err => ({
-        path: err.path.join('.'),
-        message: err.message,
-      }));
+    try {
+      // Sanitize incoming body before schema parse
+      const sanitizedBody = sanitizeValue(req.body);
+      const result = schema.safeParse(sanitizedBody);
+      if (!result.success) {
+        const formattedErrors = result.error.errors.map(err => ({
+          path: err.path.join('.'),
+          message: err.message,
+        }));
+        return res.status(400).json({
+          error: 'Validation failed: malformed or oversized input',
+          details: formattedErrors,
+        });
+      }
+      req.body = result.data;
+      next();
+    } catch (err) {
+      console.error('[validateBody error]', err);
       return res.status(400).json({
-        error: 'Validation failed: malformed or oversized input',
-        details: formattedErrors,
+        error: 'Invalid request payload format',
       });
     }
-    req.body = result.data;
-    next();
   };
 }
 
 export function validateQuery(schema) {
   return (req, res, next) => {
-    // Sanitize incoming query parameters
-    const sanitizedQuery = sanitizeValue(req.query);
-    const result = schema.safeParse(sanitizedQuery);
-    if (!result.success) {
-      const formattedErrors = result.error.errors.map(err => ({
-        path: err.path.join('.'),
-        message: err.message,
-      }));
+    try {
+      // Sanitize incoming query parameters
+      const sanitizedQuery = sanitizeValue(req.query);
+      const result = schema.safeParse(sanitizedQuery);
+      if (!result.success) {
+        const formattedErrors = result.error.errors.map(err => ({
+          path: err.path.join('.'),
+          message: err.message,
+        }));
+        return res.status(400).json({
+          error: 'Query parameter validation failed: malformed or invalid input',
+          details: formattedErrors,
+        });
+      }
+      req.query = result.data;
+      next();
+    } catch (err) {
+      console.error('[validateQuery error]', err);
       return res.status(400).json({
-        error: 'Query parameter validation failed: malformed or invalid input',
-        details: formattedErrors,
+        error: 'Invalid query parameters format',
       });
     }
-    req.query = result.data;
-    next();
   };
 }

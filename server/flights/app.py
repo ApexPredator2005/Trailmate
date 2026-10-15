@@ -67,9 +67,10 @@ def search():
         })
 
     except Exception as e:
-        app.logger.error(f"Flight search exception: {e}")
+        import traceback
+        app.logger.error(f"Flight search exception:\n{traceback.format_exc()}")
         return jsonify({
-            "error": str(e),
+            "error": "Flight search service encountered an unexpected error. Please try again later.",
             "flights": []
         }), 500
 

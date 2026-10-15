@@ -70,10 +70,10 @@ router.get('/search', validateQuery(flightSearchSchema), async (req, res, next) 
       params: { from, to, date, passengers: Number(passengers), cabin },
     });
   } catch (error) {
-    console.error('[Flight Route Error]', error.message);
+    console.error('[Flight Route Error]', error);
     res.status(500).json({
       flights: [],
-      error: error.message || 'Flight search service error',
+      error: 'Unable to retrieve flight options at this time. Please try again shortly.',
     });
   }
 });
@@ -110,9 +110,9 @@ router.get('/last-mile-fare', validateQuery(lastMileFareSchema), async (req, res
 
     res.json(result);
   } catch (err) {
-    console.error('[Last-Mile Route Error]', err.message);
+    console.error('[Last-Mile Route Error]', err);
     res.status(500).json({
-      error: err.message || 'Failed to retrieve last-mile ground transport fares.',
+      error: 'Failed to retrieve last-mile ground transport fares. Please try again shortly.',
       fallback: true,
     });
   }

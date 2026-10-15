@@ -355,9 +355,10 @@ export class ConversationEngine {
       });
       store.pushMessage({ role: 'cards', cards });
     } catch (e) {
+      console.error('[Swap Options Error]', e);
       store.pushMessage({
         role: 'bot',
-        text: `Could not fetch swap options: ${e.message}`,
+        text: 'Unable to fetch replacement options at this moment. Please try again shortly.',
       });
       this._pendingSwap = null;
     }
@@ -409,9 +410,10 @@ export class ConversationEngine {
       });
       store.pushMessage({ role: 'cards', cards });
     } catch (e) {
+      console.error('[Add Activity Error]', e);
       store.pushMessage({
         role: 'bot',
-        text: `Could not fetch activities: ${e.message}`,
+        text: 'Unable to load additional activities right now. Please try again.',
       });
       this._pendingAddDay = null;
     }
@@ -1402,12 +1404,13 @@ export class ConversationEngine {
         ],
       });
     } catch (err) {
+      console.error('[Flight Search Error]', err);
       store.setState({ isLoading: false });
 
       store.pushMessage({
         role: 'bot',
         text:
-          `Flight search ran into a problem: *${err.message}*. ` +
+          'Flight search is currently unavailable. ' +
           'We can try again or skip flights for now.',
       });
 
@@ -1748,11 +1751,12 @@ export class ConversationEngine {
         ],
       });
     } catch (err) {
+      console.error('[Hotel Search Error]', err);
       store.setState({ isLoading: false });
 
       store.pushMessage({
         role: 'bot',
-        text: `Hotel search hit an issue: *${err.message}*. Let's try again or skip for now.`,
+        text: "We encountered an issue looking up accommodations. Let's try again or skip for now.",
       });
 
       store.pushMessage({
@@ -2309,8 +2313,7 @@ export class ConversationEngine {
     store.pushMessage({
       role: 'bot',
       text:
-        `Something went wrong — *${err.message || 'please try again'}*. ` +
-        'If this keeps happening, try starting a new trip.',
+        'Something went wrong while processing your request. Please try again or start a new trip if the issue persists.',
     });
   }
 
