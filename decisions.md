@@ -437,6 +437,27 @@ To maintain this standard while offering a high-performance **Scrapbook Studio**
   * Solved the impending quota shutdown without requiring a paid Vercel Pro subscription.
   * Preserved 100% uptime with zero disruption to the live production site.
 
+### DEC-021: VengeanceUI-Inspired 3D Social Flip Button in Sidebar
+* **Decision Makers:** User Directive & UI Engineering
+* **Category:** UI Component Architecture, Micro-Interactions & Brand Presence
+* **Status:** Implemented (October 2026)
+* **The Context & Problem:**
+  The left navigation sidebar had clean functional links (Chat, Trips, Scrapbook, Map, Community, Settings) but lacked a cohesive social discovery / community connection anchor above the traveler profile footer. Furthermore, static social links consume excessive horizontal width in a compact `w-56` sidebar.
+* **The Decision:**
+  * Adopted the **VengeanceUI `social-flip-button`** interaction paradigm, re-engineered for Trailmate's Vanilla JS + Tailwind architecture (per DEC-001) without requiring React or Framer Motion.
+  * Embedded a 4-channel 3D flip button (`#sidebarSocialFlipWidget`) directly above the traveler profile divider using `mt-auto mb-3` flex positioning.
+  * Channels supported: **Instagram**, **Facebook**, **Gmail**, and **X**.
+  * **Resting State (Before Flip):** All 4 icons render in uniform, tasteful monochrome dark charcoal (`text-on-surface`) on subtle elevated grey tiles (`bg-surface-container-highest/80`), ensuring Gmail and the others remain visually cohesive without unstyled color imbalance or distracting glowing beam rings.
+  * **Hover State (After Flip):** Utilizing pure GPU-accelerated CSS 3D transforms (`perspective: 1000px`, `transform-style: preserve-3d`, `backface-visibility: hidden`), hovering triggers a staggered 3D spring flip (`cubic-bezier(0.34, 1.56, 0.64, 1)` with delays $0\text{s}, 0.07\text{s}, 0.14\text{s}, 0.21\text{s}$ across `nth-of-type(1..4)`) revealing authentic official app icons:
+    * Instagram: Official sunset radial gradient squircle with white camera line art.
+    * Facebook: Official Meta blue `#0866FF` circle app icon with white 'f'.
+    * Gmail: Clean white badge with official Google 4-color 'M'.
+    * X: Sleek jet-black badge with official white 𝕏.
+  * Removed native browser `title` attributes on child links to prevent redundant browser hover tooltips from clashing with the sleek custom floating tooltip badges.
+* **Why This Was Chosen:**
+  * Delivers 60 FPS fluid spring motion with zero JavaScript runtime overhead (0 KB added bundle weight).
+  * Conserves compact sidebar real estate ($162\text{px}$ footprint inside a $224\text{px}$ bar) while providing delightful tactile polish.
+
 ---
 
 ## 8. Comprehensive Decision Matrix
@@ -463,6 +484,7 @@ To maintain this standard while offering a high-performance **Scrapbook Studio**
 | **DEC-018** | Security | Strict Error Isolation & Information Leakage Defense | Joint | Eliminates CWE-209; zero stack trace or internal path leakage to users |
 | **DEC-019** | 3D / WebGL | 3D Surveyor Compass via Three.js (Retired) | User | Retired based on design feedback; uninstalled Three.js, reclaimed 534KB bundle |
 | **DEC-020** | DevOps | Vercel Function Storage Quota & Deployment Pruning | User | Automated REST deletion of 14 old deployments; reclaimed 4.4GB quota |
+| **DEC-021** | UI / Motion | VengeanceUI 3D Social Flip Button in Sidebar | User | Pure CSS 3D spring transforms; official Instagram, Facebook, Gmail, X brand badges; 0KB runtime |
 
 ---
 

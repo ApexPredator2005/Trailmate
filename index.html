@@ -444,9 +444,112 @@
       </li>
     </ul>
 
+    <!-- VengeanceUI 3D Social Flip Button -->
+    <div id="sidebarSocialFlipWidget" class="mt-auto mb-3 px-1 flex flex-col items-center justify-center relative select-none">
+      <div class="social-flip-container group relative flex items-center justify-center gap-1.5 rounded-2xl bg-surface-container-high/60 dark:bg-neutral-900/60 p-2 shadow-xs border border-outline-variant/30 hover:border-outline-variant/60 transition-all cursor-pointer">
 
+        <!-- Node 1: Instagram -->
+        <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="social-flip-node relative w-9 h-9 perspective-1000 group/node" aria-label="Instagram">
+          <div class="social-flip-node-inner relative w-full h-full transform-style-3d">
+            <!-- Front: Instagram Monochrome Glyph -->
+            <div class="absolute inset-0 flex items-center justify-center rounded-xl bg-surface-container-highest/80 dark:bg-neutral-800 text-on-surface shadow-xs border border-outline-variant/20 backface-hidden transition-colors">
+              <svg class="w-4 h-4 fill-none stroke-current" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+              </svg>
+            </div>
+            <!-- Back: Instagram Official Gradient App Icon -->
+            <div class="absolute inset-0 flex items-center justify-center rounded-xl text-white shadow-xs rotate-y-180 backface-hidden" style="background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);">
+              <svg class="w-4 h-4 fill-none stroke-white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+              </svg>
+            </div>
+          </div>
+          <!-- Tooltip -->
+          <div class="opacity-0 group-hover/node:opacity-100 transition-opacity pointer-events-none absolute -top-8 left-1/2 -translate-x-1/2 z-50 px-2 py-0.5 rounded-md bg-neutral-900 text-white text-[10px] font-medium tracking-wide shadow-lg whitespace-nowrap">
+            Instagram
+            <div class="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rotate-45 bg-neutral-900"></div>
+          </div>
+        </a>
 
-    <div class="mt-auto flex items-center justify-between px-2 pt-3 border-t border-outline-variant/20">
+        <!-- Node 2: Facebook -->
+        <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" class="social-flip-node relative w-9 h-9 perspective-1000 group/node" aria-label="Facebook">
+          <div class="social-flip-node-inner relative w-full h-full transform-style-3d">
+            <!-- Front: Facebook Monochrome Glyph -->
+            <div class="absolute inset-0 flex items-center justify-center rounded-xl bg-surface-container-highest/80 dark:bg-neutral-800 text-on-surface shadow-xs border border-outline-variant/20 backface-hidden transition-colors">
+              <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                <path d="M12 0C5.373 0 0 5.373 0 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+              </svg>
+            </div>
+            <!-- Back: Facebook Official Meta Blue App Icon -->
+            <div class="absolute inset-0 flex items-center justify-center rounded-xl bg-[#0866FF] text-white shadow-xs rotate-y-180 backface-hidden">
+              <svg class="w-4 h-4 fill-white" viewBox="0 0 24 24">
+                <path d="M12 2C6.477 2 2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.879V14.89h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.989C18.343 21.129 22 16.99 22 12c0-5.523-4.477-10-10-10z"/>
+              </svg>
+            </div>
+          </div>
+          <!-- Tooltip -->
+          <div class="opacity-0 group-hover/node:opacity-100 transition-opacity pointer-events-none absolute -top-8 left-1/2 -translate-x-1/2 z-50 px-2 py-0.5 rounded-md bg-neutral-900 text-white text-[10px] font-medium tracking-wide shadow-lg whitespace-nowrap">
+            Facebook
+            <div class="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rotate-45 bg-neutral-900"></div>
+          </div>
+        </a>
+
+        <!-- Node 3: Gmail -->
+        <a href="mailto:support@trailmate.travel" class="social-flip-node relative w-9 h-9 perspective-1000 group/node" aria-label="Gmail">
+          <div class="social-flip-node-inner relative w-full h-full transform-style-3d">
+            <!-- Front: Gmail Monochrome Glyph (Uncoloured before flip) -->
+            <div class="absolute inset-0 flex items-center justify-center rounded-xl bg-surface-container-highest/80 dark:bg-neutral-800 text-on-surface shadow-xs border border-outline-variant/20 backface-hidden transition-colors">
+              <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4.25l-8 5-8-5V6l8 5 8-5v2.25z"/>
+              </svg>
+            </div>
+            <!-- Back: Gmail Official Google 4-Color App Icon -->
+            <div class="absolute inset-0 flex items-center justify-center rounded-xl bg-white dark:bg-neutral-900 shadow-xs border border-black/10 dark:border-white/10 rotate-y-180 backface-hidden">
+              <svg class="w-4 h-4" viewBox="0 0 24 24">
+                <path fill="#4285F4" d="M22.5 5.5v13a2 2 0 01-2 2h-2.5V10.2L12 14.5 6 10.2v10.3H3.5a2 2 0 01-2-2v-13a2 2 0 013.2-1.6L12 9.5l7.3-5.6a2 2 0 013.2 1.6z"/>
+                <path fill="#34A853" d="M18 20.5h2.5a2 2 0 002-2v-13l-4.5 3.5v11.5z"/>
+                <path fill="#EA4335" d="M1.5 5.5v13a2 2 0 002 2H6V9L1.5 5.5z"/>
+                <path fill="#FBBC05" d="M6 9l6 4.5 6-4.5V4.6a2 2 0 00-3.2-1.6L12 5.5 9.2 3A2 2 0 006 4.6V9z"/>
+              </svg>
+            </div>
+          </div>
+          <!-- Tooltip -->
+          <div class="opacity-0 group-hover/node:opacity-100 transition-opacity pointer-events-none absolute -top-8 left-1/2 -translate-x-1/2 z-50 px-2 py-0.5 rounded-md bg-neutral-900 text-white text-[10px] font-medium tracking-wide shadow-lg whitespace-nowrap">
+            Gmail
+            <div class="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rotate-45 bg-neutral-900"></div>
+          </div>
+        </a>
+
+        <!-- Node 4: X -->
+        <a href="https://x.com" target="_blank" rel="noopener noreferrer" class="social-flip-node relative w-9 h-9 perspective-1000 group/node" aria-label="X">
+          <div class="social-flip-node-inner relative w-full h-full transform-style-3d">
+            <!-- Front: X Monochrome Glyph -->
+            <div class="absolute inset-0 flex items-center justify-center rounded-xl bg-surface-container-highest/80 dark:bg-neutral-800 text-on-surface shadow-xs border border-outline-variant/20 backface-hidden transition-colors">
+              <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
+                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+              </svg>
+            </div>
+            <!-- Back: X Official Jet Black App Icon -->
+            <div class="absolute inset-0 flex items-center justify-center rounded-xl bg-black text-white shadow-xs rotate-y-180 backface-hidden border border-white/10">
+              <svg class="w-3.5 h-3.5 fill-white" viewBox="0 0 24 24">
+                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+              </svg>
+            </div>
+          </div>
+          <!-- Tooltip -->
+          <div class="opacity-0 group-hover/node:opacity-100 transition-opacity pointer-events-none absolute -top-8 left-1/2 -translate-x-1/2 z-50 px-2 py-0.5 rounded-md bg-neutral-900 text-white text-[10px] font-medium tracking-wide shadow-lg whitespace-nowrap">
+            X
+            <div class="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rotate-45 bg-neutral-900"></div>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <div class="flex items-center justify-between px-2 pt-3 border-t border-outline-variant/20">
       <button id="btnProfile" class="flex items-center gap-2 text-left hover:opacity-80 transition-opacity" title="Traveler Profile" aria-label="Open traveler profile">
         <img alt="User Profile Picture" class="w-8 h-8 rounded-full object-cover border border-surface-variant shadow-sm" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&q=80"/>
         <div class="hidden lg:block">
