@@ -120,12 +120,3 @@ img {
   color: var(--forest);
 }
 
-/* ---- 3D Antique Surveyor's Compass Canvas ---- */
-#sidebarCompassCanvasContainer canvas {
-  display: block;
-  width: 100% !important;
-  height: 100% !important;
-  outline: none;
-  touch-action: none;
-  filter: drop-shadow(0 4px 12px rgba(44, 30, 15, 0.12));
-}

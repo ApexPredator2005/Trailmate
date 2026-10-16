@@ -17,7 +17,6 @@ export default defineConfig({
       output: {
         manualChunks: {
           vendor: ['leaflet', 'marked', 'zod'],
-          three: ['three'],
         },
       },
     },

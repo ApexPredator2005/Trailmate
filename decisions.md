@@ -408,32 +408,15 @@ To maintain this standard while offering a high-performance **Scrapbook Studio**
 ### DEC-019: 3D Antique Surveyor's Compass (Three.js WebGL & Stitch MCP Iterative Pipeline)
 * **Decision Makers:** User Directive & Creative Design Exploration
 * **Category:** 3D Graphics, WebGL Performance & Generative Design Pipeline
-* **Status:** Implemented & Verified
+* **Status:** Retired & Removed (October 2026)
 * **The Context & Problem:**
-  To infuse Trailmate with tactile, 19th-century expedition heritage, the application needed an interactive 3D centerpiece. The user requested a bespoke 3D element placed in the sidebar in the empty space between the navigation settings and the traveler profile footer. Additionally, the asset design had to leverage Stitch MCP iteratively until an authentic horological dial plate was generated.
-* **The Decision:**
-  * **Element Choice:** An authentic Antique Brass Surveyor's Pocket Compass mounted in a dedicated 200px sidebar module.
-  * **Iterative Stitch MCP Pipeline:**
-    * *Iteration 1:* Generated photorealistic compass concept; review revealed dual suspension rings and oblique perspective.
-    * *Iteration 2:* Refined via prompt specifying a single centered suspension bow, 90° orthogonal perspective, and knurled coin-edge rim.
-    * *Iteration 3 (Needle-Free Dial):* Prompted Stitch specifically for an isolated 2D dial plate with parchment texture, wind-rose markings, and an open pivot eyelet. This eliminated needle ghosting and allowed the 3D needle to rotate dynamically.
-  * **Three.js WebGL Architecture & Museum-Grade Refinements:**
-    * Built [`Compass3D.js`](file:///Users/pratyushraj/Desktop/Projects/travel%20app/src/components/Compass3D.js) utilizing Three.js PBR materials (`MeshStandardMaterial`, `MeshPhysicalMaterial`).
-    * **Authentic Vintage Horology Details (Matching Museum Reference Artifacts):**
-      * **Antique Spun-Brass Dial Plate:** Luminous golden brass base (`#FCE8B2` to `#8E6723`) with concentric micro-lathe grooves mimicking spun metal, aged patina, dual calibration tracks, 360 degree ticks, and serif numerals every 10°.
-      * **Deep Inner Chamber (Rehaut):** Recessed cylindrical brass chapter ring (`h = 0.22`) creating authentic 3D shadow depth between the upper bezel and the sunken dial plate.
-      * **16-Point Split-Facet Star:** Alternating deep ebony black and luminous polished golden brass facets—the iconic visual signature of 19th-century maritime & surveyor compasses.
-      * **Pocket Watch Suspension Pendant (Fob Bow):** Stepped brass mounting collar at 12 o'clock, spherical swivel bead knuckle, lateral hinge pin studs, and an antique brass suspension bow tilted forward ($0.22\text{ rad}$) to catch specular light.
-      * **Fluted Coin-Edge Knurled Bezel:** Knurled coin-edge ring with polished outer rim lip catching directional key-light glints.
-      * **Surveyor's Magnetic Needle Assembly:** Faceted 3D vermilion north spearhead pointer with gold chamfer, blued-steel counterbalance tail, stepped knurled brass spindle nut, and a center ruby jewel bearing (`#881337`).
-      * **Protective Glass Dome:** Arched specular crystal dome with subtle curved rim glints without obscuring the dial artwork.
-    * Dynamic Great-Circle Azimuth tracking: Needle computes live great-circle bearing to the active selected destination:
-      $$\theta = \operatorname{atan2}(\sin\Delta\lambda\cos\phi_2, \cos\phi_1\sin\phi_2 - \sin\phi_1\cos\phi_2\cos\Delta\lambda)$$
-    * Interactive Physics: Damped cursor parallax tilt (`lerp`) and click-to-flick harmonic damped spring needle oscillations.
-    * Bundle Optimization: Configured Three.js as a separate manual chunk in `vite.config.js` to ensure the main app bundle remains lightweight.
-* **Why This Was Chosen:**
-  * Delivers a visceral, tactile expedition feel that bridges the gap between digital planning and vintage field navigation.
-  * Zero frame drops (solid 60 FPS) via efficient geometry reuse and low-overhead animation loops.
+  To infuse Trailmate with tactile, 19th-century expedition heritage, an interactive 3D surveyor's pocket compass was prototyped in the sidebar.
+* **The Retirement Decision:**
+  * Based on product direction and preference for a clean, distraction-free minimalist sidebar layout, the 3D compass element and Three.js runtime were completely removed from the application.
+  * **Architectural Payoff:**
+    * Completely uninstalled `three` from `package.json`.
+    * Removed the 534 KB Three.js vendor chunk from Vite build, dropping total client bundle size.
+    * Reclaimed sidebar whitespace, keeping the left navigation clean, focused, and responsive.
 
 ---
 
@@ -478,7 +461,7 @@ To maintain this standard while offering a high-performance **Scrapbook Studio**
 | **DEC-016** | Export | Strict Print Media CSS Isolation | User | Clean PDF field guide booklets with zero browser UI clutter |
 | **DEC-017** | Security | Tiered Rate Limiting & Zod Input Sanitization | Assistant | Quota-safe API budget protection and zero XSS vulnerability |
 | **DEC-018** | Security | Strict Error Isolation & Information Leakage Defense | Joint | Eliminates CWE-209; zero stack trace or internal path leakage to users |
-| **DEC-019** | 3D / WebGL | 3D Antique Surveyor Compass via Three.js & Stitch MCP | Joint | PBR brass/crystal, Great-Circle destination tracking, 60fps WebGL |
+| **DEC-019** | 3D / WebGL | 3D Surveyor Compass via Three.js (Retired) | User | Retired based on design feedback; uninstalled Three.js, reclaimed 534KB bundle |
 | **DEC-020** | DevOps | Vercel Function Storage Quota & Deployment Pruning | User | Automated REST deletion of 14 old deployments; reclaimed 4.4GB quota |
 
 ---

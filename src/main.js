@@ -18,20 +18,12 @@ import { communityService }   from './services/CommunityService.js';
 import { getDestinationHeaderArt } from './components/HeaderDoodlesData.js';
 import { wallpaperManager }   from './services/WallpaperManager.js';
 import { renderLoginView }   from './views/LoginView.js';
-import { Compass3D }          from './components/Compass3D.js';
 
 document.addEventListener('DOMContentLoaded', () => {
 
-  // ── 0. Conversation engine & 3D Surveyor's Compass ───────────────────
+  // ── 0. Conversation engine ──────────────────────────────────────────
   const engine = new ConversationEngine();
   window.__trailmate = { engine, store };
-
-  try {
-    const compass = new Compass3D('sidebarCompassCanvasContainer');
-    window.__compass3d = compass;
-  } catch (err) {
-    console.warn('[Compass3D] Initialization notice:', err);
-  }
 
   // ── 1. Resizable split-view ─────────────────────────────────────────
   initSplitView({
