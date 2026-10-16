@@ -63,11 +63,13 @@ app.use(cors());
 app.use(express.json({ limit: jsonPayloadLimit }));
 app.use(express.urlencoded({ extended: false, limit: urlencodedPayloadLimit }));
 
-// Serve embellishments with permanent 1-year immutable cache
-app.use('/embellishments', express.static('public/embellishments', {
-  maxAge: '1y',
-  immutable: true,
-}));
+// Serve embellishments with permanent 1-year immutable cache (local/standalone only; Vercel serves static assets directly)
+if (!process.env.VERCEL) {
+  app.use('/embellishments', express.static('public/embellishments', {
+    maxAge: '1y',
+    immutable: true,
+  }));
+}
 
 // Apply global rate limiter to all API endpoints
 app.use('/api', globalApiLimiter);
@@ -92,22 +94,24 @@ app.get('/api/health', (req, res) => {
   });
 });
 
-// Serve static assets from dist in production
-const distDir = path.join(rootDir, 'dist');
-app.use(express.static(distDir));
-
 // 404 handler for unknown API routes
 app.use('/api/*', (req, res) => {
   res.status(404).json({ error: 'Endpoint not found.' });
 });
 
-// SPA catch-all fallback for client-side routing (non-API GET requests)
-app.get('*', (req, res, next) => {
-  if (req.method !== 'GET') return next();
-  res.sendFile(path.join(distDir, 'index.html'), (err) => {
-    if (err) next();
+// Serve static assets from dist in production standalone (Vercel routes dist directly via outputDirectory)
+if (!process.env.VERCEL) {
+  const distDir = path.join(rootDir, 'dist');
+  app.use(express.static(distDir));
+
+  // SPA catch-all fallback for client-side routing (non-API GET requests)
+  app.get('*', (req, res, next) => {
+    if (req.method !== 'GET') return next();
+    res.sendFile(path.join(distDir, 'index.html'), (err) => {
+      if (err) next();
+    });
   });
-});
+}
 
 // Global Async Error Handler — Defends against CWE-209 Information Leakage
 app.use((err, req, res, next) => {

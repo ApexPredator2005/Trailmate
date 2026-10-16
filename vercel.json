@@ -2,6 +2,11 @@
   "version": 2,
   "buildCommand": "vite build",
   "outputDirectory": "dist",
+  "functions": {
+    "api/index.js": {
+      "excludeFiles": "{dist/**,public/**,tests/**,docs/**,scripts/**}"
+    }
+  },
   "rewrites": [
     {
       "source": "/api/(.*)",
