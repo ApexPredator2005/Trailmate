@@ -13,6 +13,7 @@
  */
 
 import * as THREE from 'three';
+import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js';
 import { store } from '../store/state.js';
 
 // Coordinates of destinations and default origin for bearing calculation
@@ -65,6 +66,158 @@ function getCardinalDirection(deg) {
   ];
   const idx = Math.round(((deg % 360) / 22.5));
   return cardinals[idx];
+}
+
+/**
+ * Procedurally generates a high-frequency linear bump texture for 96 coin-edge knurled bezel teeth.
+ */
+function createKnurlBumpTexture() {
+  const canvas = document.createElement('canvas');
+  canvas.width = 512;
+  canvas.height = 64;
+  const ctx = canvas.getContext('2d');
+  ctx.fillStyle = '#808080';
+  ctx.fillRect(0, 0, 512, 64);
+  const teeth = 96;
+  const toothWidth = 512 / teeth;
+  for (let i = 0; i < teeth; i++) {
+    const x = i * toothWidth;
+    const grad = ctx.createLinearGradient(x, 0, x + toothWidth, 0);
+    grad.addColorStop(0, '#ffffff');
+    grad.addColorStop(0.5, '#202020');
+    grad.addColorStop(1, '#ffffff');
+    ctx.fillStyle = grad;
+    ctx.fillRect(x, 0, toothWidth, 64);
+  }
+  const tex = new THREE.CanvasTexture(canvas);
+  tex.wrapS = THREE.RepeatWrapping;
+  tex.wrapT = THREE.ClampToEdgeWrapping;
+  tex.repeat.set(1, 1);
+  return tex;
+}
+
+/**
+ * Creates a soft radial contact shadow texture anchoring the compass to the sidebar table.
+ */
+function createContactShadowTexture() {
+  const canvas = document.createElement('canvas');
+  canvas.width = 256;
+  canvas.height = 256;
+  const ctx = canvas.getContext('2d');
+  const grad = ctx.createRadialGradient(128, 128, 20, 128, 128, 122);
+  grad.addColorStop(0.0, 'rgba(25, 18, 10, 0.60)');
+  grad.addColorStop(0.4, 'rgba(25, 18, 10, 0.32)');
+  grad.addColorStop(0.75, 'rgba(25, 18, 10, 0.09)');
+  grad.addColorStop(1.0, 'rgba(25, 18, 10, 0.0)');
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, 0, 256, 256);
+  return new THREE.CanvasTexture(canvas);
+}
+
+/**
+ * Constructs a 3D faceted surveyor's North spearhead pointer with a raised central diamond spine ridge.
+ */
+function createFacetedNorthGeo() {
+  const positions = [];
+  const v = {
+    c0: [0, 0, 0.03],
+    bL: [-0.14, 0.18, 0.00],
+    bR: [0.14, 0.18, 0.00],
+    bM: [0, 0.20, 0.06],
+    mL: [-0.08, 0.95, 0.00],
+    mR: [0.08, 0.95, 0.00],
+    mM: [0, 0.95, 0.07],
+    sL: [-0.14, 1.15, 0.00],
+    sR: [0.14, 1.15, 0.00],
+    sM: [0, 1.18, 0.075],
+    tip: [0, 1.70, 0.005],
+  };
+
+  function addTri(p1, p2, p3) {
+    positions.push(...p1, ...p2, ...p3);
+  }
+
+  // Left beveled facets (angled towards top-left)
+  addTri(v.c0, v.bL, v.bM);
+  addTri(v.bL, v.mL, v.bM);
+  addTri(v.bM, v.mL, v.mM);
+  addTri(v.mL, v.sL, v.mM);
+  addTri(v.mM, v.sL, v.sM);
+  addTri(v.sL, v.tip, v.sM);
+
+  // Right beveled facets (angled towards top-right)
+  addTri(v.c0, v.bM, v.bR);
+  addTri(v.bM, v.mR, v.bR);
+  addTri(v.bM, v.mM, v.mR);
+  addTri(v.mM, v.sM, v.sR);
+  addTri(v.mM, v.sR, v.mR);
+  addTri(v.sM, v.tip, v.sR);
+
+  // Flat underside plate (z = 0)
+  addTri(v.c0, v.bR, v.bL);
+  addTri(v.bL, v.bR, v.mL);
+  addTri(v.mL, v.bR, v.mR);
+  addTri(v.mL, v.mR, v.sL);
+  addTri(v.sL, v.mR, v.sR);
+  addTri(v.sL, v.sR, v.tip);
+
+  const geo = new THREE.BufferGeometry();
+  geo.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+  geo.computeVertexNormals();
+  return geo;
+}
+
+/**
+ * Constructs a 3D faceted surveyor's South counterbalance pointer with a raised central diamond spine ridge.
+ */
+function createFacetedSouthGeo() {
+  const positions = [];
+  const v = {
+    c0: [0, 0, 0.03],
+    bL: [-0.13, -0.16, 0.00],
+    bR: [0.13, -0.16, 0.00],
+    bM: [0, -0.18, 0.05],
+    mL: [-0.07, -0.80, 0.00],
+    mR: [0.07, -0.80, 0.00],
+    mM: [0, -0.80, 0.06],
+    tL: [-0.16, -1.25, 0.00],
+    tR: [0.16, -1.25, 0.00],
+    tM: [0, -1.25, 0.065],
+    tip: [0, -1.50, 0.005],
+  };
+
+  function addTri(p1, p2, p3) {
+    positions.push(...p1, ...p2, ...p3);
+  }
+
+  // Left beveled facets
+  addTri(v.c0, v.bL, v.bM);
+  addTri(v.bL, v.mL, v.bM);
+  addTri(v.bM, v.mL, v.mM);
+  addTri(v.mL, v.tL, v.mM);
+  addTri(v.mM, v.tL, v.tM);
+  addTri(v.tL, v.tip, v.tM);
+
+  // Right beveled facets
+  addTri(v.c0, v.bM, v.bR);
+  addTri(v.bM, v.mR, v.bR);
+  addTri(v.bM, v.mM, v.mR);
+  addTri(v.mM, v.tM, v.tR);
+  addTri(v.mM, v.tR, v.mR);
+  addTri(v.tM, v.tip, v.tR);
+
+  // Flat underside plate
+  addTri(v.c0, v.bR, v.bL);
+  addTri(v.bL, v.bR, v.mL);
+  addTri(v.mL, v.bR, v.mR);
+  addTri(v.mL, v.mR, v.tL);
+  addTri(v.tL, v.mR, v.tR);
+  addTri(v.tL, v.tR, v.tip);
+
+  const geo = new THREE.BufferGeometry();
+  geo.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+  geo.computeVertexNormals();
+  return geo;
 }
 
 /**
@@ -458,23 +611,29 @@ export class Compass3D {
   }
 
   setupLighting() {
-    // Balanced warm ambient light (preserves deep black ink and golden reflections)
-    const ambientLight = new THREE.AmbientLight(0xfff6ea, 1.35);
+    // 1. IBL RoomEnvironment for realistic PBR metal & glass reflections
+    const pmremGenerator = new THREE.PMREMGenerator(this.renderer);
+    pmremGenerator.compileEquirectangularShader();
+    const roomEnv = new RoomEnvironment();
+    this.scene.environment = pmremGenerator.fromScene(roomEnv, 0.04).texture;
+
+    // 2. Balanced warm ambient light
+    const ambientLight = new THREE.AmbientLight(0xfff5e6, 0.90);
     this.scene.add(ambientLight);
 
-    // Key warm sunlight (creates rich brass glints and needle cast shadows)
-    const keyLight = new THREE.DirectionalLight(0xfff2d4, 2.05);
-    keyLight.position.set(3.4, 4.4, 4.8);
+    // 3. Key directional sunlight (warm golden glints on brass and faceted needle)
+    const keyLight = new THREE.DirectionalLight(0xfff3d6, 2.4);
+    keyLight.position.set(3.6, 4.8, 5.0);
     this.scene.add(keyLight);
 
-    // Secondary cool sky reflection for contrast
-    const fillLight = new THREE.DirectionalLight(0xb4d0ee, 0.45);
-    fillLight.position.set(-3.0, -2.0, 2.5);
+    // 4. Cool sky fill light for shadow contrast
+    const fillLight = new THREE.DirectionalLight(0xb4d2ee, 0.50);
+    fillLight.position.set(-3.2, -2.4, 2.5);
     this.scene.add(fillLight);
 
-    // Specular glint light (catches glass dome curvature and brass rim)
-    const rimLight = new THREE.PointLight(0xffe6a4, 1.15, 12);
-    rimLight.position.set(0.4, 2.8, 3.0);
+    // 5. Specular rim glint catching the crystal dome and coin-edge bezel
+    const rimLight = new THREE.PointLight(0xffe49e, 1.3, 14);
+    rimLight.position.set(0.4, 3.0, 3.2);
     this.scene.add(rimLight);
   }
 
@@ -484,27 +643,38 @@ export class Compass3D {
     this.compassGroup.scale.set(0.80, 0.80, 0.80);
     this.compassGroup.position.set(0, -0.24, 0);
 
-    // PBR Antique Brass Materials (matching aged patina in reference photos)
-    const brassCaseMaterial = new THREE.MeshStandardMaterial({
-      color: 0x9B7A38, // Warm aged antique brass
-      roughness: 0.32,
-      metalness: 0.88,
+    // 0. Soft Tabletop Contact Shadow beneath compass
+    const groundShadowGeo = new THREE.PlaneGeometry(5.2, 5.2);
+    const groundShadowMat = new THREE.MeshBasicMaterial({
+      map: createContactShadowTexture(),
+      transparent: true,
+      opacity: 0.65,
+      depthWrite: false,
     });
+    const groundShadowMesh = new THREE.Mesh(groundShadowGeo, groundShadowMat);
+    groundShadowMesh.position.set(0, -0.28, -0.32);
+    this.compassGroup.add(groundShadowMesh);
 
-    const brassPolishedMaterial = new THREE.MeshStandardMaterial({
-      color: 0xD4AA48, // Lustrous polished brass highlights
-      roughness: 0.22,
+    // PBR Antique Brass Materials (with high metalness reflecting the room environment!)
+    const brassCaseMaterial = new THREE.MeshStandardMaterial({
+      color: 0xB8934A,
+      roughness: 0.28,
       metalness: 0.92,
     });
 
-    const darkBrassMaterial = new THREE.MeshStandardMaterial({
-      color: 0x58401C, // Deep burnished bronze patina
-      roughness: 0.42,
-      metalness: 0.82,
+    const brassPolishedMaterial = new THREE.MeshStandardMaterial({
+      color: 0xE2BA58,
+      roughness: 0.18,
+      metalness: 0.95,
     });
 
-    // 1. Heavy Outer Base Casing (Hollowed Chamber)
-    // Positioned so its top face sits at z = 0.00, forming the solid floor
+    const darkBrassMaterial = new THREE.MeshStandardMaterial({
+      color: 0x5C421E,
+      roughness: 0.38,
+      metalness: 0.86,
+    });
+
+    // 1. Heavy Outer Base Casing (Hollowed Chamber floor at z = 0.00)
     const baseGeo = new THREE.CylinderGeometry(2.20, 2.08, 0.44, 64);
     const baseMesh = new THREE.Mesh(baseGeo, brassCaseMaterial);
     baseMesh.rotation.x = Math.PI / 2;
@@ -512,12 +682,11 @@ export class Compass3D {
     this.compassGroup.add(baseMesh);
 
     // 2. Deep Inner Brass Chamber (Rehaut / Chapter Ring Wall - References 2 & 4)
-    // Cylindrical inner wall creating 3D depth around the dial
     const rehautGeo = new THREE.CylinderGeometry(2.01, 2.01, 0.22, 64, 1, true);
     const rehautMat = new THREE.MeshStandardMaterial({
-      color: 0x7E5E2A,
-      roughness: 0.35,
-      metalness: 0.88,
+      color: 0x947234,
+      roughness: 0.22,
+      metalness: 0.92,
       side: THREE.DoubleSide,
     });
     const rehautMesh = new THREE.Mesh(rehautGeo, rehautMat);
@@ -525,15 +694,18 @@ export class Compass3D {
     rehautMesh.position.z = 0.11;
     this.compassGroup.add(rehautMesh);
 
-    // 3a. Fluted Coin-Edge Knurled Bezel Track (References 3 & 4)
-    const knurlGeo = new THREE.TorusGeometry(2.13, 0.042, 12, 72);
+    // 3a. Fluted Coin-Edge Knurled Bezel Track with 96 Milled Teeth (References 3 & 4)
+    const knurlGeo = new THREE.CylinderGeometry(2.14, 2.14, 0.05, 96, 1, true);
     const knurlMat = new THREE.MeshStandardMaterial({
-      color: 0x8C6B2D,
-      roughness: 0.42,
-      metalness: 0.88,
+      color: 0xB8934A,
+      roughness: 0.35,
+      metalness: 0.92,
+      bumpMap: createKnurlBumpTexture(),
+      bumpScale: 0.045,
     });
     const knurlMesh = new THREE.Mesh(knurlGeo, knurlMat);
-    knurlMesh.position.z = 0.21;
+    knurlMesh.rotation.x = Math.PI / 2;
+    knurlMesh.position.z = 0.20;
     this.compassGroup.add(knurlMesh);
 
     // 3b. Stepped Polished Top Rim (References 1 & 3)
@@ -587,8 +759,8 @@ export class Compass3D {
     const fallbackTex = createCompassDialTexture();
     const dialMat = new THREE.MeshStandardMaterial({
       map: fallbackTex,
-      roughness: 0.48,
-      metalness: 0.08,
+      roughness: 0.32,
+      metalness: 0.70,
     });
 
     const textureLoader = new THREE.TextureLoader();
@@ -596,7 +768,7 @@ export class Compass3D {
       '/images/compass_dial_vintage_hd.png',
       (hdTex) => {
         hdTex.colorSpace = THREE.SRGBColorSpace;
-        hdTex.anisotropy = 4;
+        hdTex.anisotropy = 8;
         dialMat.map = hdTex;
         dialMat.needsUpdate = true;
       },
@@ -614,58 +786,22 @@ export class Compass3D {
     this.needleGroup = new THREE.Group();
     this.needleGroup.position.z = 0.14;
 
-    // 6a. North Pointer: Faceted Surveyor's Spearhead in Rich Vermilion
-    const northShape = new THREE.Shape();
-    northShape.moveTo(0, 0);
-    northShape.lineTo(-0.16, 0.12);
-    northShape.lineTo(-0.06, 0.95);
-    northShape.lineTo(0, 1.62);
-    northShape.lineTo(0.06, 0.95);
-    northShape.lineTo(0.16, 0.12);
-    northShape.closePath();
-
-    const northExtrudeSettings = {
-      depth: 0.04,
-      bevelEnabled: true,
-      bevelSegments: 2,
-      steps: 1,
-      bevelSize: 0.02,
-      bevelThickness: 0.03,
-    };
-    const northGeo = new THREE.ExtrudeGeometry(northShape, northExtrudeSettings);
+    // 6a. North Pointer: True 3D Faceted Diamond-Ridge Spearhead in Rich Vermilion
+    const northGeo = createFacetedNorthGeo();
     const northMat = new THREE.MeshStandardMaterial({
-      color: 0xB91C1C, // Deep vermilion enamel
-      roughness: 0.24,
-      metalness: 0.35,
+      color: 0xC5221F, // Deep vermilion enamel
+      roughness: 0.22,
+      metalness: 0.80,
     });
     const northMesh = new THREE.Mesh(northGeo, northMat);
     this.needleGroup.add(northMesh);
 
-    // 6b. South Pointer: Blued Steel Tapered Counterbalance Arrow
-    const southShape = new THREE.Shape();
-    southShape.moveTo(0, 0);
-    southShape.lineTo(-0.15, -0.12);
-    southShape.lineTo(-0.05, -0.85);
-    southShape.lineTo(-0.18, -1.35);
-    southShape.lineTo(0, -1.52);
-    southShape.lineTo(0.18, -1.35);
-    southShape.lineTo(0.05, -0.85);
-    southShape.lineTo(0.15, -0.12);
-    southShape.closePath();
-
-    const southExtrudeSettings = {
-      depth: 0.04,
-      bevelEnabled: true,
-      bevelSegments: 2,
-      steps: 1,
-      bevelSize: 0.02,
-      bevelThickness: 0.03,
-    };
-    const southGeo = new THREE.ExtrudeGeometry(southShape, southExtrudeSettings);
+    // 6b. South Pointer: True 3D Faceted Blued Steel Counterbalance Arrow
+    const southGeo = createFacetedSouthGeo();
     const southMat = new THREE.MeshStandardMaterial({
-      color: 0x1B2E42, // Authentic blued-steel
-      roughness: 0.20,
-      metalness: 0.88,
+      color: 0x1A2D44, // Authentic blued-steel
+      roughness: 0.16,
+      metalness: 0.92,
     });
     const southMesh = new THREE.Mesh(southGeo, southMat);
     this.needleGroup.add(southMesh);
@@ -684,22 +820,22 @@ export class Compass3D {
     this.needleGroup.add(spindleNutMesh);
 
     // Center Ruby Bearing Jewel
-    const rubyGeo = new THREE.SphereGeometry(0.08, 16, 16);
+    const rubyGeo = new THREE.SphereGeometry(0.08, 24, 24);
     const rubyMat = new THREE.MeshStandardMaterial({
-      color: 0x881337,
-      roughness: 0.12,
-      metalness: 0.10,
+      color: 0x991B1B,
+      roughness: 0.05,
+      metalness: 0.15,
     });
     const rubyMesh = new THREE.Mesh(rubyGeo, rubyMat);
     rubyMesh.position.z = 0.14;
     this.needleGroup.add(rubyMesh);
 
     // 6d. Realistic Needle Drop Shadow Cast onto Recessed Dial Bed
-    const shadowGeo = new THREE.PlaneGeometry(0.30, 2.9);
+    const shadowGeo = new THREE.PlaneGeometry(0.28, 3.1);
     const shadowMat = new THREE.MeshBasicMaterial({
-      color: 0x140E08,
+      color: 0x120D08,
       transparent: true,
-      opacity: 0.22,
+      opacity: 0.28,
     });
     const shadowMesh = new THREE.Mesh(shadowGeo, shadowMat);
     shadowMesh.position.set(-0.06, -0.06, -0.11);
@@ -708,16 +844,19 @@ export class Compass3D {
     this.compassGroup.add(this.needleGroup);
 
     // 7. Protective Domed Glass Crystal (References 2 & 4)
-    const glassGeo = new THREE.SphereGeometry(2.02, 36, 18, 0, Math.PI * 2, 0, Math.PI * 0.25);
+    const glassGeo = new THREE.SphereGeometry(2.02, 48, 24, 0, Math.PI * 2, 0, Math.PI * 0.24);
     const glassMat = new THREE.MeshPhysicalMaterial({
       color: 0xffffff,
       transparent: true,
-      opacity: 0.14,
-      roughness: 0.04,
+      opacity: 0.12,
+      roughness: 0.02,
       metalness: 0.05,
       clearcoat: 1.0,
-      clearcoatRoughness: 0.04,
-      reflectivity: 0.88,
+      clearcoatRoughness: 0.02,
+      transmission: 0.70,
+      ior: 1.52,
+      reflectivity: 0.95,
+      specularColor: 0xfff6ea,
     });
     const glassMesh = new THREE.Mesh(glassGeo, glassMat);
     glassMesh.rotation.x = Math.PI / 2;
