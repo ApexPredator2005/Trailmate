@@ -449,6 +449,7 @@ To maintain this standard while offering a high-performance **Scrapbook Studio**
   * Executed automated bulk pruning of 14 superseded historical deployments via Vercel's REST API (`DELETE /v13/deployments/{id}`).
   * Immediately reclaimed ~4.4 GB of function storage, dropping project storage down to ~540 MB and restoring full quota headroom.
   * Formulated a retention guideline: maintain only current production + 1 rollback deployment to prevent artifact bloat on free tier plans.
+  * **NFT Bundle Optimization (Root Cause Mitigation):** Identified that Vercel's Node File Tracer was packaging the entire `dist/` (749MB) and `public/` (450MB) directories into the `api/index.js` serverless function bundle due to static middleware paths in `server/index.js`. Guarded static asset serving with `if (!process.env.VERCEL)` and configured `functions["api/index.js"].excludeFiles` in `vercel.json`, shrinking future serverless function bundles from 270MB down to < 2MB.
 * **Why This Was Chosen:**
   * Solved the impending quota shutdown without requiring a paid Vercel Pro subscription.
   * Preserved 100% uptime with zero disruption to the live production site.
