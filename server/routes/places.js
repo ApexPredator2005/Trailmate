@@ -11,7 +11,7 @@ import { searchPlaces, getPlaceDetails, getPhotoUrl } from '../services/placesAp
 import { rankCandidates } from '../services/rankingService.js';
 import { getHotelLivePrice, getStayApiQuota } from '../services/stayApi.js';
 import { validateQuery } from '../middleware/validate.js';
-import { placesSearchSchema, hotelPriceSchema, placeDetailsSchema } from '../schemas/index.js';
+import { placesSearchSchema, hotelPriceSchema, placeDetailsSchema, placeDetailsQuerySchema } from '../schemas/index.js';
 import { CURATED_ATTRACTIONS } from '../../src/data/AttractionsData.js';
 
 const router = Router();
@@ -2479,7 +2479,7 @@ router.get('/stay-quota', (req, res) => {
 });
 
 // GET /api/places/details/:placeId
-router.get('/details/:placeId', async (req, res, next) => {
+router.get('/details/:placeId', validateQuery(placeDetailsQuerySchema), async (req, res, next) => {
   try {
     const placeId = String(req.params.placeId || '').trim();
     if (!placeId || placeId.length > 150 || !/^[\w\-\.]+$/.test(placeId)) {

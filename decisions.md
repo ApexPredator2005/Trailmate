@@ -458,6 +458,39 @@ To maintain this standard while offering a high-performance **Scrapbook Studio**
   * Delivers 60 FPS fluid spring motion with zero JavaScript runtime overhead (0 KB added bundle weight).
   * Conserves compact sidebar real estate ($162\text{px}$ footprint inside a $224\text{px}$ bar) while providing delightful tactile polish.
 
+### DEC-022: Defense-in-Depth Security Hardening (Input Validation, Magic-Byte File Safety & Error Isolation)
+* **Decision Makers:** User Security Directives & Engineering
+* **Category:** Application Security, Input Sanitization & Threat Modeling
+* **Status:** Implemented (October 2026)
+* **The Context & Problem:**
+  Comprehensive security hardening across four core pillars:
+  1. Dependency vulnerabilities across npm and Python ecosystems.
+  2. Error handling & information leakage (CWE-209: never leaking stack traces, file paths, or raw DB/API errors).
+  3. File upload safety (validating magic byte content beyond MIME/extension, isolated storage, zero executable code execution).
+  4. Strict input validation and rejection of malformed or oversized inputs (CWE-20).
+* **The Decision:**
+  * **Dependency Vulnerability Audit:** Completed an automated dependency audit across all 114 installed packages via `npm audit` (0 vulnerabilities reported, clean lockfile) and verified Python microservice dependencies.
+  * **Error Handling & Information Leakage Defense:**
+    * In `server/index.js`, strengthened the global async error middleware: all 5xx exceptions log detailed stacks server-side only with ISO timestamps and return a uniform, generic user message (`"An unexpected internal server error occurred. Please try again later."`). Client 4xx errors are sanitized to prevent echoing internal module names or filesystem paths.
+    * In `server/flights/app.py`, registered Flask error handlers (`@app.errorhandler` for 400, 404, 405, 500) ensuring Python exceptions return structured, generic JSON rather than Flask default HTML debug stack traces.
+    * In SSE endpoints (`server/routes/chat-stream.js`), streaming errors emit standardized safe notices to listeners before closing connections.
+  * **File Upload Safety & Storage Isolation:**
+    * **Isolated Client-Side Storage:** Trailmate does not expose binary file upload endpoints on Node or Python servers. Scrapbook user photos are processed entirely on the client, rendered through an offscreen HTML5 `<canvas>`, and re-encoded into clean JPEG DataURLs in browser `localStorage`. This architectural isolation completely guarantees uploaded files are never written to the server web root and can never execute as server-side code.
+    * **Binary Magic Byte Header Inspection:** Added `validateImageFile(file)` in `ScrapbookWorkspace.js` reading the raw first 16 bytes via `FileReader.readAsArrayBuffer`:
+      * JPEG: `0xFF, 0xD8, 0xFF`
+      * PNG: `0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A`
+      * WebP: `0x52, 0x49, 0x46, 0x46` (RIFF) + `0x57, 0x45, 0x42, 0x50` (WEBP)
+      * GIF: `0x47, 0x49, 0x46, 0x38, (0x37|0x39), 0x61` (GIF87a / GIF89a)
+    * Explicitly rejects SVGs, HTML, and executables (`.exe`, `.sh`, `.js`) to prevent XML entity / SVG-based XSS attacks.
+    * Enforces a 10MB per-file size ceiling, a maximum batch of 10 files per drag/drop event, and wraps canvas compression in a 10-second timeout with `img.onerror` rejection.
+  * **Strict Input Validation & Schema Rejection:**
+    * Added `.strict()` across all Zod schemas in `server/schemas/index.js` (`chatTurnSchema`, `flightSearchSchema`, `lastMileFareSchema`, `placesSearchSchema`, `placesQuerySchema`, `hotelPriceSchema`, `placeDetailsSchema`, `placeDetailsQuerySchema`, `weatherForecastSchema`, `weatherAlertsSchema`). Extraneous or injected keys immediately fail validation with HTTP 400.
+    * Constrained `chatTurnSchema.stage` to the 14-stage state machine enum (`VALID_STAGES`).
+    * In `server/flights/app.py`, added query argument whitelisting (`ALLOWED_SEARCH_ARGS`), strict IATA 3-letter regex (`^[A-Z]{3}$`), ISO date regex (`^\d{4}-\d{2}-\d{2}$`), cabin class whitelist, and safe passenger integer parsing (1–20).
+* **Why This Was Chosen:**
+  * Rejection over silent escaping ensures malicious or corrupted payloads are blocked at the perimeter before touching application state.
+  * Offscreen canvas rasterization strips metadata, EXIF geotags, and steganographic payloads before storage.
+
 ---
 
 ## 8. Comprehensive Decision Matrix
@@ -485,6 +518,7 @@ To maintain this standard while offering a high-performance **Scrapbook Studio**
 | **DEC-019** | 3D / WebGL | 3D Surveyor Compass via Three.js (Retired) | User | Retired based on design feedback; uninstalled Three.js, reclaimed 534KB bundle |
 | **DEC-020** | DevOps | Vercel Function Storage Quota & Deployment Pruning | User | Automated REST deletion of 14 old deployments; reclaimed 4.4GB quota |
 | **DEC-021** | UI / Motion | VengeanceUI 3D Social Flip Button in Sidebar | User | Pure CSS 3D spring transforms; official Instagram, Facebook, Gmail, X brand badges; 0KB runtime |
+| **DEC-022** | Security | Defense-in-Depth Hardening: Strict Schemas & Magic Bytes | User | .strict() schema rejection, magic byte raster validation, 10MB upload limits, error sanitization |
 
 ---
 

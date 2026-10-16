@@ -98,5 +98,59 @@ describe('Zod API Route Schemas', () => {
       });
       expect(result.success).toBe(false);
     });
+
+    it('strictly rejects unauthorized or injected keys in chatTurnSchema', () => {
+      const result = chatTurnSchema.safeParse({
+        message: 'Hello',
+        injected_field: 'malicious_payload',
+      });
+      expect(result.success).toBe(false);
+    });
+
+    it('rejects invalid state machine stages in chatTurnSchema', () => {
+      const result = chatTurnSchema.safeParse({
+        message: 'Hello',
+        stage: 'NON_EXISTENT_STAGE',
+      });
+      expect(result.success).toBe(false);
+    });
+
+    it('strictly rejects unrecognized query params in flightSearchSchema', () => {
+      const result = flightSearchSchema.safeParse({
+        from: 'DEL',
+        to: 'CJB',
+        date: '2026-09-15',
+        admin_override: 'true',
+      });
+      expect(result.success).toBe(false);
+    });
+
+    it('rejects out-of-bound passenger counts in flightSearchSchema', () => {
+      const resultZero = flightSearchSchema.safeParse({
+        from: 'DEL',
+        to: 'CJB',
+        date: '2026-09-15',
+        passengers: 0,
+      });
+      expect(resultZero.success).toBe(false);
+
+      const resultOver = flightSearchSchema.safeParse({
+        from: 'DEL',
+        to: 'CJB',
+        date: '2026-09-15',
+        passengers: 25,
+      });
+      expect(resultOver.success).toBe(false);
+    });
+
+    it('strictly rejects unrecognized parameters in weatherForecastSchema', () => {
+      const result = weatherForecastSchema.safeParse({
+        location: 'Goa',
+        days: 3,
+        extra_key: 'attack',
+      });
+      expect(result.success).toBe(false);
+    });
   });
 });
+

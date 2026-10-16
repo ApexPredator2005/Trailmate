@@ -654,7 +654,7 @@ export class ScrapbookWorkspace {
         <div>
           <!-- Direct Upload Photos Button / Dropzone -->
           <div class="photo-upload-dropzone mb-3" id="photoDropzone">
-            <input type="file" id="filePhotoInput" accept="image/*" multiple class="hidden" />
+            <input type="file" id="filePhotoInput" accept="image/jpeg,image/png,image/webp,image/gif" multiple class="hidden" />
             <span class="material-symbols-outlined text-secondary text-2xl mb-1">cloud_upload</span>
             <h4 class="text-xs font-bold text-neutral-900">Upload Photos</h4>
           </div>
@@ -2511,6 +2511,41 @@ export class ScrapbookWorkspace {
     }
   }
 
+  /**
+   * Transient user feedback toast notification inside scrapbook workspace.
+   * @param {string} message - Notification text
+   * @param {boolean} [isError=false] - If true, styles as high-visibility security/error alert
+   */
+  _showToast(message, isError = false) {
+    if (!this.container) return;
+    let toast = this.container.querySelector('.scrapbook-toast');
+    if (!toast) {
+      toast = document.createElement('div');
+      toast.className = 'scrapbook-toast fixed bottom-8 left-1/2 -translate-x-1/2 z-50 px-4 py-2.5 rounded-xl text-xs font-semibold shadow-2xl flex items-center gap-2 transition-all duration-300 pointer-events-none opacity-0 translate-y-3';
+      this.container.appendChild(toast);
+    }
+    toast.className = `scrapbook-toast fixed bottom-8 left-1/2 -translate-x-1/2 z-50 px-4 py-2.5 rounded-xl text-xs font-semibold shadow-2xl flex items-center gap-2 transition-all duration-300 pointer-events-none ${
+      isError ? 'bg-red-900/95 text-red-100 border border-red-700/60' : 'bg-neutral-900/95 text-neutral-100 border border-neutral-700/60'
+    }`;
+    toast.innerHTML = `
+      <span class="material-symbols-outlined text-sm ${isError ? 'text-red-400' : 'text-emerald-400'}">
+        ${isError ? 'warning' : 'check_circle'}
+      </span>
+      <span>${message}</span>
+    `;
+
+    requestAnimationFrame(() => {
+      toast.classList.remove('opacity-0', 'translate-y-3');
+      toast.classList.add('opacity-100', 'translate-y-0');
+    });
+
+    clearTimeout(this._toastTimer);
+    this._toastTimer = setTimeout(() => {
+      toast.classList.remove('opacity-100', 'translate-y-0');
+      toast.classList.add('opacity-0', 'translate-y-3');
+    }, 4000);
+  }
+
   // ── Event Handlers ───────────────────────────────────────────────────
 
   _bindEvents() {
@@ -3205,14 +3240,55 @@ export class ScrapbookWorkspace {
 
     dropzone?.addEventListener('click', () => fileInput?.click());
 
-    fileInput?.addEventListener('change', async (e) => {
-      const files = Array.from(e.target.files || []);
-      for (const file of files) {
-        const compressedSrc = await compressImage(file, 1200, 0.85);
-        this.uploadedPhotos.unshift(compressedSrc);
-        this._saveUploadedPhotos();
-        this.addPhotoElement(compressedSrc);
+    const MAX_BATCH_FILES = 10;
+
+    const handleUploadFiles = async (rawFiles) => {
+      const fileList = Array.from(rawFiles || []);
+      if (!fileList.length) return;
+
+      if (fileList.length > MAX_BATCH_FILES) {
+        this._showToast(`Batch limit: Only first ${MAX_BATCH_FILES} files processed.`, true);
       }
+
+      const filesToProcess = fileList.slice(0, MAX_BATCH_FILES);
+      let successCount = 0;
+
+      for (const file of filesToProcess) {
+        const validation = await validateImageFile(file);
+        if (!validation.valid) {
+          this._showToast(validation.error, true);
+          continue;
+        }
+
+        try {
+          const compressedSrc = await compressImage(file, 1200, 0.85);
+          this.uploadedPhotos.unshift(compressedSrc);
+          this._saveUploadedPhotos();
+          this.addPhotoElement(compressedSrc);
+          successCount++;
+        } catch (err) {
+          console.error('[Scrapbook Upload Error]', err);
+          this._showToast(`Could not process "${file.name}": ${err.message}`, true);
+        }
+      }
+
+      if (fileInput) {
+        fileInput.value = '';
+      }
+
+      if (successCount > 0) {
+        this._showToast(`Successfully added ${successCount} photo${successCount > 1 ? 's' : ''} to your scrapbook.`);
+        // Refresh the dock panel to show the new photos
+        const panelContent = this.container.querySelector('#scrapbookFloatingTray .tray-body');
+        if (panelContent && this.activeDockTab === 'photos') {
+          panelContent.innerHTML = this._renderDockPanelContent();
+          this._bindDynamicHandlers();
+        }
+      }
+    };
+
+    fileInput?.addEventListener('change', async (e) => {
+      await handleUploadFiles(e.target.files);
     });
 
     dropzone?.addEventListener('dragover', (e) => {
@@ -3227,13 +3303,7 @@ export class ScrapbookWorkspace {
     dropzone?.addEventListener('drop', async (e) => {
       e.preventDefault();
       dropzone.classList.remove('is-dragging');
-      const files = Array.from(e.dataTransfer.files || []).filter((f) => f.type.startsWith('image/'));
-      for (const file of files) {
-        const compressedSrc = await compressImage(file, 1200, 0.85);
-        this.uploadedPhotos.unshift(compressedSrc);
-        this._saveUploadedPhotos();
-        this.addPhotoElement(compressedSrc);
-      }
+      await handleUploadFiles(e.dataTransfer.files);
     });
 
     // Click photo in dock -> Add to canvas
@@ -3705,33 +3775,165 @@ export class ScrapbookWorkspace {
 }
 
 /**
+ * Binary magic byte header validation for raster image files.
+ * Validates JPEG, PNG, WebP, and GIF magic bytes from raw binary array buffer.
+ * Rejects SVG, executables, scripts, and corrupted image containers.
+ * Max size: 10MB (10 * 1024 * 1024 bytes).
+ *
+ * @param {File} file
+ * @returns {Promise<{ valid: boolean, error?: string }>}
+ */
+async function validateImageFile(file) {
+  const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
+  if (!file) {
+    return { valid: false, error: 'No file provided.' };
+  }
+
+  if (file.size > MAX_FILE_SIZE) {
+    return {
+      valid: false,
+      error: `File "${file.name}" exceeds the maximum allowed size of 10MB (${(file.size / (1024 * 1024)).toFixed(1)}MB).`,
+    };
+  }
+
+  if (file.size < 12) {
+    return { valid: false, error: `File "${file.name}" is corrupted or truncated.` };
+  }
+
+  // Reject explicit SVG, HTML, or executable formats
+  const lowerName = (file.name || '').toLowerCase();
+  if (
+    lowerName.endsWith('.svg') ||
+    lowerName.endsWith('.html') ||
+    lowerName.endsWith('.htm') ||
+    lowerName.endsWith('.js') ||
+    lowerName.endsWith('.sh') ||
+    lowerName.endsWith('.exe')
+  ) {
+    return { valid: false, error: `File format not supported. Only JPEG, PNG, WebP, and GIF images are permitted.` };
+  }
+
+  // Read the first 16 bytes to inspect binary magic header bytes
+  try {
+    const slice = file.slice(0, 16);
+    const buffer = await slice.arrayBuffer();
+    const bytes = new Uint8Array(buffer);
+
+    // JPEG: FF D8 FF
+    const isJpeg = bytes[0] === 0xff && bytes[1] === 0xd8 && bytes[2] === 0xff;
+
+    // PNG: 89 50 4E 47 0D 0A 1A 0A
+    const isPng =
+      bytes[0] === 0x89 &&
+      bytes[1] === 0x50 &&
+      bytes[2] === 0x4e &&
+      bytes[3] === 0x47 &&
+      bytes[4] === 0x0d &&
+      bytes[5] === 0x0a &&
+      bytes[6] === 0x1a &&
+      bytes[7] === 0x0a;
+
+    // WebP: RIFF (52 49 46 46) .... WEBP (57 45 42 50)
+    const isWebp =
+      bytes[0] === 0x52 &&
+      bytes[1] === 0x49 &&
+      bytes[2] === 0x46 &&
+      bytes[3] === 0x46 &&
+      bytes[8] === 0x57 &&
+      bytes[9] === 0x45 &&
+      bytes[10] === 0x42 &&
+      bytes[11] === 0x50;
+
+    // GIF: GIF87a (47 49 46 38 37 61) or GIF89a (47 49 46 38 39 61)
+    const isGif =
+      bytes[0] === 0x47 &&
+      bytes[1] === 0x49 &&
+      bytes[2] === 0x46 &&
+      bytes[3] === 0x38 &&
+      (bytes[4] === 0x37 || bytes[4] === 0x39) &&
+      bytes[5] === 0x61;
+
+    if (!isJpeg && !isPng && !isWebp && !isGif) {
+      return {
+        valid: false,
+        error: `File "${file.name}" has invalid image content or an unsupported format. Only authentic JPEG, PNG, WebP, and GIF files are allowed.`,
+      };
+    }
+
+    return { valid: true };
+  } catch (err) {
+    return {
+      valid: false,
+      error: `Failed to inspect file "${file.name}": corrupted header.`,
+    };
+  }
+}
+
+/**
  * Offscreen canvas client-side image compression helper to stay well within localStorage limits.
+ * Re-encodes raster data through HTML5 canvas to strip metadata and eliminate executable vectors.
  */
 function compressImage(file, maxDimension = 1200, quality = 0.85) {
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
+    const timeout = setTimeout(() => {
+      reject(new Error(`Image compression timed out for file "${file?.name || 'unknown'}"`));
+    }, 10000);
+
     const reader = new FileReader();
+
+    reader.onerror = () => {
+      clearTimeout(timeout);
+      reject(new Error(`Failed to read file "${file?.name || 'unknown'}"`));
+    };
+
+    reader.onabort = () => {
+      clearTimeout(timeout);
+      reject(new Error(`File read aborted for "${file?.name || 'unknown'}"`));
+    };
+
     reader.onload = (e) => {
       const img = new Image();
-      img.onload = () => {
-        let { width, height } = img;
-        if (width > maxDimension || height > maxDimension) {
-          if (width > height) {
-            height = Math.round((height * maxDimension) / width);
-            width = maxDimension;
-          } else {
-            width = Math.round((width * maxDimension) / height);
-            height = maxDimension;
-          }
-        }
-        const canvas = document.createElement('canvas');
-        canvas.width = width;
-        canvas.height = height;
-        const ctx = canvas.getContext('2d');
-        ctx.drawImage(img, 0, 0, width, height);
-        resolve(canvas.toDataURL('image/jpeg', quality));
+
+      img.onerror = () => {
+        clearTimeout(timeout);
+        reject(new Error(`Corrupted or unreadable image data in "${file?.name || 'unknown'}"`));
       };
+
+      img.onabort = () => {
+        clearTimeout(timeout);
+        reject(new Error(`Image load aborted for "${file?.name || 'unknown'}"`));
+      };
+
+      img.onload = () => {
+        clearTimeout(timeout);
+        try {
+          let { width, height } = img;
+          if (width > maxDimension || height > maxDimension) {
+            if (width > height) {
+              height = Math.round((height * maxDimension) / width);
+              width = maxDimension;
+            } else {
+              width = Math.round((width * maxDimension) / height);
+              height = maxDimension;
+            }
+          }
+          const canvas = document.createElement('canvas');
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, width, height);
+          resolve(canvas.toDataURL('image/jpeg', quality));
+        } catch (canvasErr) {
+          reject(new Error(`Canvas rasterization failed for "${file?.name || 'unknown'}"`));
+        }
+      };
+
       img.src = e.target.result;
     };
+
     reader.readAsDataURL(file);
   });
 }
+
+export { compressImage, validateImageFile };
+
