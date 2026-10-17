@@ -322,9 +322,6 @@ export function renderCommunityView(container, { switchView, store, openPassport
             <h2 class="text-xl sm:text-2xl font-bold font-headline-md text-white mt-1.5 tracking-wide">
               Level ${profile.level || 1} • Master Wayfarer
             </h2>
-            <p class="text-xs text-neutral-400 font-mono mt-0.5">
-              Accumulating field XP deploys 3D molded fluororubber &amp; silicone morale patches.
-            </p>
           </div>
 
           <div class="flex flex-wrap items-center gap-2 self-start md:self-auto font-mono text-xs">
@@ -352,7 +349,6 @@ export function renderCommunityView(container, { switchView, store, openPassport
           </div>
           <div class="flex justify-between items-center text-[10px] font-mono text-neutral-400 mt-2">
             <span>Tier I: Scout</span>
-            <span class="text-[#CCFF00] font-bold">${deployedCount === totalPatches ? 'All 12 Expedition Patches Deployed' : `${totalPatches - deployedCount} Modules Remaining to Deploy`}</span>
             <span>Tier V: Vanguard Sovereign</span>
           </div>
         </div>
