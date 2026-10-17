@@ -325,18 +325,6 @@
   will-change: transform, box-shadow !important;
 }
 
-.dest-card.dest-card-flying-morph {
-  position: fixed !important;
-  margin: 0 !important;
-  z-index: 9999 !important;
-  pointer-events: none !important;
-  transform-origin: top left !important;
-  will-change: transform, box-shadow !important;
-  border-radius: 1rem !important;
-  border: 2px solid var(--terracotta) !important;
-  box-shadow: 0 12px 32px -4px rgba(148, 74, 26, 0.35) !important;
-  overflow: hidden !important;
-}
 
 .dest-card.dest-card-confirmed {
   width: 100% !important;

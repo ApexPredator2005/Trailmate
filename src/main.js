@@ -592,30 +592,14 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // ── 3. Chat Thread ──────────────────────────────────────────────────
-  let isDestinationSelecting = false;
   chatThread = new ChatThread({
     threadId: 'chatThread',
 
     onDestinationSelect: (dest, rowEl) => {
       const destName = typeof dest === 'object' ? dest.name : dest;
-      if (!destName || isDestinationSelecting) return;
-      isDestinationSelecting = true;
-
-      const slug = destName.toLowerCase().replace(/[^a-z0-9]/g, '-');
-      const stableMsgId = `user-dest-${slug}`;
-
       store.setState({ trip: { ...store.getState().trip, destination: destName } });
-      store.pushMessage({
-        id: stableMsgId,
-        role: 'user',
-        text: `I'd love to visit ${destName}!`,
-      });
+      store.pushMessage({ role: 'user', text: `I'd love to visit ${destName}!` });
       engine.handleUserMessage(destName, destName);
-
-      // Reset transition lock once stage has settled
-      setTimeout(() => {
-        isDestinationSelecting = false;
-      }, 1500);
     },
 
     onChipSelect: (chip) => {
