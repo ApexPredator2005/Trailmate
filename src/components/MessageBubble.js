@@ -121,11 +121,14 @@ function _destinationsRow(message, onDestinationSelect) {
 
   let isSelectingDestination = false;
   function handleDestinationSelect(dest, selectedCard) {
-    if (isSelectingDestination || row.dataset.hasSelected) return;
+    if (isSelectingDestination || row.dataset.hasSelected || selectedCard.dataset.selected) return;
     isSelectingDestination = true;
     row.dataset.hasSelected = 'true';
+    selectedCard.dataset.selected = 'true';
 
-    // 0. Disable grid pointer events and all card buttons immediately upon first selection
+    // 0. Synchronously hide original card and disable pointer events IMMEDIATELY
+    // This ensures no ghost card remains visible at the source position when the flying clone mounts.
+    selectedCard.style.visibility = 'hidden';
     grid.style.pointerEvents = 'none';
     grid.querySelectorAll('.dest-card').forEach((c) => {
       c.disabled = true;

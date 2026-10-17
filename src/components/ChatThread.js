@@ -93,9 +93,12 @@ export class ChatThread {
       const lastRect = (last && typeof last.getBoundingClientRect === 'function') ? last.getBoundingClientRect() : null;
 
       // Anti-clipping safety check:
-      // If conversation is short (this.el.scrollHeight <= this.el.clientHeight * 1.8),
-      // ensure the top welcome greeting is NEVER pushed above the visible container top!
-      const isShortThread = this.el.scrollHeight <= this.el.clientHeight * 1.8;
+      // In early conversation stages or when the initial destination is confirmed,
+      // the welcome message and selected destination card should stay comfortably in view.
+      // NEVER allow scrollToBottom to push the welcome message offscreen or clip it behind the sticky header!
+      const hasDestCard = Boolean(this.el.querySelector('.dest-card-confirmed, [data-has-selected="true"]'));
+      const isShortThread = (this.el.scrollHeight <= this.el.clientHeight * 1.8) || (this._renderedIds.size <= 4) || hasDestCard;
+
       if (isShortThread) {
         const chatPane = document.getElementById('chatPane');
         const header = chatPane ? chatPane.querySelector('header') : document.querySelector('header');
@@ -104,8 +107,11 @@ export class ChatThread {
           : (threadRect ? threadRect.top : 0);
         const visibleTop = Math.max(threadRect ? threadRect.top : 0, headerBottom);
 
-        // Check if first message (welcome message) is or would be clipped behind sticky header
-        if (firstRect && hasLayout && firstRect.top < visibleTop) {
+        // If first message is already at or above visible top, or thread is short, clamp to top
+        if (firstRect && hasLayout && firstRect.top <= visibleTop + 4) {
+          if (this.el.scrollTop > 0) {
+            this.el.scrollTop = 0;
+          }
           return;
         }
 
@@ -114,8 +120,8 @@ export class ChatThread {
           : (this.el.scrollHeight - this.el.clientHeight - this.el.scrollTop);
 
         if (overflow > 0) {
-          // If the last element is below the visible container, scroll only the minimal safe amount
-          const maxAllowed = firstRect && hasLayout ? Math.max(0, firstRect.top - visibleTop - 8) : 0;
+          // Calculate strict max allowed scroll so that first message never gets clipped
+          const maxAllowed = (firstRect && hasLayout) ? Math.max(0, firstRect.top - visibleTop - 12) : 0;
           const scrollAmount = Math.min(overflow, maxAllowed);
 
           if (scrollAmount <= 1) return;
