@@ -491,6 +491,34 @@ To maintain this standard while offering a high-performance **Scrapbook Studio**
   * Rejection over silent escaping ensures malicious or corrupted payloads are blocked at the perimeter before touching application state.
   * Offscreen canvas rasterization strips metadata, EXIF geotags, and steganographic payloads before storage.
 
+### DEC-023: VengeanceUI 3D Flip Text Engine & Interactive Selection Highlighter
+* **Decision Makers:** User Design Directive & Engineering
+* **Category:** UI / Motion, Typography Engineering & Tactile Micro-Interactions
+* **Status:** Implemented (October 2026)
+* **The Context & Problem:**
+  The user requested the signature 3D Flip Text animation from VengeanceUI (`vengenceui.com/components/flip-text`) triggered when text is selected or highlighted across the interface ("add flip text animation to the text when i select a text /highlight it ,like in picture"). Standard browser `::selection` CSS only supports color/background tints and cannot decompose text nodes into 3D rotating character facets. Furthermore, naive DOM manipulation during mouse drag interrupts native selection, breaks text copying (`Cmd+C`), and risks DOM pollution.
+* **The Decision:**
+  * **Reverse-Engineered 3D Character Transform Stack:**
+    Implemented VengeanceUI's character 3D flip kinematics in `src/styles/base.css` without React or Framer Motion:
+    * Parent container `.flip-text-wrapper` sets `perspective: 1000px`.
+    * Word wrappers `.flip-word` maintain `transform-style: preserve-3d; white-space: nowrap`.
+    * Character facets `.flip-char` utilize `transform-style: preserve-3d`, `-webkit-text-fill-color: transparent`, and dual 3D pseudo-elements:
+      * `::after` (initial front face): `transform: translate(-50%, -50%) translateZ(0.6em)`.
+      * `::before` (incoming top face): `transform: translate(-50%, -50%) rotateX(-90deg) translateZ(0.6em); opacity: 0; --opacity: 1`.
+    * Keyframes `@keyframes flip` rotate the character container $0^\circ \to 90^\circ$ over 2.0s with sine-wave staggered delays (`sineValue * (duration * 0.25)`).
+  * **Non-Destructive Text Selection & Highlight Engine:**
+    Engineered `initSelectionFlipEngine` in `src/utils/textFlip.js`:
+    * Listens for `mouseup` and keyboard navigation (`keyup` on Shift/Arrow keys).
+    * Safely validates selection ranges, ignoring inputs, textareas, and buttons.
+    * Dynamically wraps the selected text in `.flip-text-wrapper.flip-selection-active` with Trailmate's archival terracotta glow (`rgba(196, 112, 61, 0.18)`), executing the 3D flip wave in place.
+    * Spawns a sleek floating HUD pill (`✨ Flip Text (3D) VENGEANCE UI`) with smart viewport edge detection (flipping below the selection when near the top window boundary, and clamping horizontal margins).
+    * On deselect (`mousedown` outside or `Escape`), cleanly unwraps the flip span back into a single text node, ensuring zero residual DOM bloat and 100% copy-paste compatibility.
+  * **Interactive Header Integration:**
+    Tagged `#chatTripTitle` ("AI Travel Planner") with `data-flip-interactive="true"`, allowing travelers to hover, click, or select topbar titles to trigger 3D character waves.
+* **Why This Was Chosen:**
+  * Delivers the exact tactile aesthetic of VengeanceUI within Trailmate's lightweight Vanilla JS architecture (DEC-001) with zero runtime bundle bloat.
+  * Preserves native browser clipboard interactions and document flow while providing a delightful micro-interaction on text selection.
+
 ---
 
 ## 8. Comprehensive Decision Matrix
@@ -519,6 +547,7 @@ To maintain this standard while offering a high-performance **Scrapbook Studio**
 | **DEC-020** | DevOps | Vercel Function Storage Quota & Deployment Pruning | User | Automated REST deletion of 14 old deployments; reclaimed 4.4GB quota |
 | **DEC-021** | UI / Motion | VengeanceUI 3D Social Flip Button in Sidebar | User | Pure CSS 3D spring transforms; official Instagram, Facebook, Gmail, X brand badges; 0KB runtime |
 | **DEC-022** | Security | Defense-in-Depth Hardening: Strict Schemas & Magic Bytes | User | .strict() schema rejection, magic byte raster validation, 10MB upload limits, error sanitization |
+| **DEC-023** | UI / Motion | VengeanceUI 3D Flip Text Engine & Selection Highlighter | User | 3D perspective character-by-character flipping on selection; sine-wave delay; floating HUD pill; 0KB runtime |
 
 ---
 

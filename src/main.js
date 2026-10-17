@@ -18,12 +18,14 @@ import { communityService }   from './services/CommunityService.js';
 import { getDestinationHeaderArt } from './components/HeaderDoodlesData.js';
 import { wallpaperManager }   from './services/WallpaperManager.js';
 import { renderLoginView }   from './views/LoginView.js';
+import { initSelectionFlipEngine } from './utils/textFlip.js';
 
 document.addEventListener('DOMContentLoaded', () => {
 
-  // ── 0. Conversation engine ──────────────────────────────────────────
+  // ── 0. Conversation engine & 3D Flip Text Selection Engine ───────────
   const engine = new ConversationEngine();
   window.__trailmate = { engine, store };
+  initSelectionFlipEngine();
 
   // ── 1. Resizable split-view ─────────────────────────────────────────
   initSplitView({
