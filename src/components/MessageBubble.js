@@ -140,28 +140,10 @@ function _destinationsRow(message, onDestinationSelect) {
       arrowIcon.className = 'dest-card-arrow material-symbols-outlined text-base opacity-100 text-terracotta transition-all';
     }
 
-    // Measure starting coordinates (First) relative to viewport
-    const firstRect = selectedCard.getBoundingClientRect();
-
-    // 2. Identify sibling cards and fade them out simultaneously
-    const allCards = Array.from(grid.querySelectorAll('.dest-card'));
-    const otherCards = allCards.filter((c) => c !== selectedCard);
-    otherCards.forEach((otherCard) => {
-      otherCard.style.pointerEvents = 'none';
-      otherCard.classList.add('dest-card-shrink-out');
-    });
-
-    // Fade out filter pills cleanly
-    const filterPillsContainer = header.querySelector('#destFilterPills');
-    if (filterPillsContainer) {
-      filterPillsContainer.style.opacity = '0';
-      filterPillsContainer.style.transition = 'opacity 200ms ease';
-      setTimeout(() => { filterPillsContainer.style.display = 'none'; }, 200);
-    }
-
     if (isReduced) {
       // Reduced motion: immediate settlement
-      otherCards.forEach((c) => c.remove());
+      const allCards = Array.from(grid.querySelectorAll('.dest-card'));
+      allCards.filter((c) => c !== selectedCard).forEach((c) => c.remove());
       grid.className = 'w-full max-w-md';
       selectedCard.classList.remove('dest-card-selected');
       selectedCard.classList.add('dest-card-confirmed');
@@ -169,73 +151,97 @@ function _destinationsRow(message, onDestinationSelect) {
       if (titleLabel) titleLabel.textContent = 'Selected Destination';
       const subtitleLabel = header.querySelector('.dest-header-subtitle');
       if (subtitleLabel) subtitleLabel.textContent = 'Confirmed';
+      const filterPillsContainer = header.querySelector('#destFilterPills');
+      if (filterPillsContainer) filterPillsContainer.remove();
       if (typeof onDestinationSelect === 'function') {
         onDestinationSelect(dest, row);
       }
       return;
     }
 
-    // 3. FRAME 1 INSTANT MORPH:
-    // Create an invisible placeholder with exact target hero dimensions in the grid
-    // so we can measure the final target coordinates (Last) right now!
-    const targetPlaceholder = document.createElement('div');
-    targetPlaceholder.style.width = '100%';
-    targetPlaceholder.style.maxWidth = '480px';
-    targetPlaceholder.style.height = '180px';
-    targetPlaceholder.style.visibility = 'hidden';
-    targetPlaceholder.style.pointerEvents = 'none';
-    grid.insertBefore(targetPlaceholder, grid.firstChild);
-
-    const lastRect = targetPlaceholder.getBoundingClientRect();
-    targetPlaceholder.remove();
-
-    // Take selectedCard out of grid flow IMMEDIATELY so sibling collapse does not alter its position
+    // ── TRUE SINGLE-ELEMENT FLIP TRANSITION ──────────────────────────
+    // 1. Lock container height before any DOM changes to prevent layout shifts
     const rowRect = row.getBoundingClientRect();
+    const initialRowHeight = row.offsetHeight;
+    const initialGridHeight = grid.offsetHeight;
+
     row.style.position = 'relative';
+    row.style.minHeight = `${initialRowHeight}px`;
+    grid.style.minHeight = `${initialGridHeight}px`;
 
-    // Measure relative starting and target offsets inside row
-    const startLeft = firstRect.left - rowRect.left;
-    const startTop = firstRect.top - rowRect.top;
-    const targetLeft = lastRect.left - rowRect.left;
-    const targetTop = lastRect.top - rowRect.top;
+    // 2. Measure starting coordinates ("First")
+    const firstCardRect = selectedCard.getBoundingClientRect();
 
-    // Fix the card at its exact starting position in absolute coordinates
-    selectedCard.classList.add('dest-card-morphing');
-    selectedCard.style.left = `${startLeft}px`;
-    selectedCard.style.top = `${startTop}px`;
-    selectedCard.style.width = `${firstRect.width}px`;
-    selectedCard.style.height = `${firstRect.height}px`;
+    // 3. Smoothly fade out filter pills without collapsing header height mid-animation
+    const filterPillsContainer = header.querySelector('#destFilterPills');
+    if (filterPillsContainer) {
+      filterPillsContainer.style.opacity = '0';
+      filterPillsContainer.style.pointerEvents = 'none';
+      filterPillsContainer.style.transition = 'opacity 220ms ease';
+    }
 
-    // Calculate invert delta
-    const deltaX = targetLeft - startLeft;
-    const deltaY = targetTop - startTop;
-    const scaleX = lastRect.width / Math.max(firstRect.width, 1);
-    const scaleY = lastRect.height / Math.max(firstRect.height, 1);
+    // 4. Move sibling cards out of document flow to absolute coordinates inside row
+    // so they shrink & fade where they are without altering grid flow
+    const allCards = Array.from(grid.querySelectorAll('.dest-card'));
+    const otherCards = allCards.filter((c) => c !== selectedCard);
+    otherCards.forEach((c) => {
+      const r = c.getBoundingClientRect();
+      c.style.position = 'absolute';
+      c.style.left = `${r.left - rowRect.left}px`;
+      c.style.top = `${r.top - rowRect.top}px`;
+      c.style.width = `${r.width}px`;
+      c.style.height = `${r.height}px`;
+      c.style.margin = '0';
+      c.style.zIndex = '10';
+      c.style.pointerEvents = 'none';
+      c.classList.add('dest-card-shrink-out');
+      row.appendChild(c);
+    });
 
-    // Update header labels concurrently
+    // 5. Disable CSS transitions on selectedCard & innerImg during FLIP
+    selectedCard.style.transition = 'none';
+    const innerImg = selectedCard.querySelector('img');
+    if (innerImg) innerImg.style.transition = 'none';
+
+    // 6. Pre-allocate target layout: switch grid to confirmed single-card layout
+    grid.className = 'w-full max-w-md';
+    selectedCard.classList.remove('dest-card-selected');
+    selectedCard.classList.add('dest-card-confirmed');
+
+    // Update header labels in sync
     const titleLabel = header.querySelector('.dest-header-title');
     if (titleLabel) titleLabel.textContent = 'Selected Destination';
     const subtitleLabel = header.querySelector('.dest-header-subtitle');
     if (subtitleLabel) subtitleLabel.textContent = 'Confirmed';
 
-    // Remove other cards after fade completes
-    setTimeout(() => {
-      otherCards.forEach((c) => c.remove());
-    }, 280);
+    // 7. Measure final resting coordinates ("Last")
+    const lastCardRect = selectedCard.getBoundingClientRect();
 
-    // PLAY on frame 1: Single, uninterrupted 360ms compositor tween
-    const DURATION = 360;
-    const EASING = 'cubic-bezier(0.2, 0, 0, 1)';
+    // 8. Calculate Invert Deltas (simultaneous translation + dimension scaling)
+    const deltaX = firstCardRect.left - lastCardRect.left;
+    const deltaY = firstCardRect.top - lastCardRect.top;
+    const scaleX = firstCardRect.width / Math.max(lastCardRect.width, 1);
+    const scaleY = firstCardRect.height / Math.max(lastCardRect.height, 1);
+
+    selectedCard.style.transformOrigin = '0 0';
+
+    // 9. Single continuous 380ms interpolation (WAAPI with Apple fluid curve)
+    const DURATION = 380;
+    const EASING = 'cubic-bezier(0.16, 1, 0.3, 1)';
 
     const cardAnim = selectedCard.animate(
       [
         {
-          transform: 'translate(0px, 0px) scale(1, 1)',
+          transform: `translate3d(${deltaX}px, ${deltaY}px, 0) scale(${scaleX}, ${scaleY})`,
+          borderRadius: `${16 / scaleX}px / ${16 / scaleY}px`,
           boxShadow: '0 4px 16px rgba(0, 0, 0, 0.25)',
+          borderColor: 'var(--terracotta)',
         },
         {
-          transform: `translate(${deltaX}px, ${deltaY}px) scale(${scaleX}, ${scaleY})`,
+          transform: 'translate3d(0, 0, 0) scale(1, 1)',
+          borderRadius: '16px / 16px',
           boxShadow: '0 0 0 2.5px var(--terracotta), 0 12px 36px -4px rgba(148, 74, 26, 0.32)',
+          borderColor: 'var(--terracotta)',
         },
       ],
       {
@@ -245,14 +251,15 @@ function _destinationsRow(message, onDestinationSelect) {
       }
     );
 
-    // Counter-scale inner image so aspect ratio does not distort while container expands
-    const innerImg = selectedCard.querySelector('img');
+    // Counter-scale inner image so aspect ratio stays natural without distorting
     let imgAnim = null;
     if (innerImg) {
+      innerImg.style.transformOrigin = 'center center';
+      const counterScaleX = scaleY / scaleX;
       imgAnim = innerImg.animate(
         [
+          { transform: `scale(${counterScaleX}, 1)` },
           { transform: 'scale(1, 1)' },
-          { transform: `scale(${1 / scaleX}, ${1 / scaleY})` },
         ],
         {
           duration: DURATION,
@@ -262,38 +269,41 @@ function _destinationsRow(message, onDestinationSelect) {
       );
     }
 
-    // When card expansion reaches >85% (around 310ms), trigger follow-up message creation
-    let callbackTriggered = false;
-    const triggerTimeout = setTimeout(() => {
-      if (!callbackTriggered) {
-        callbackTriggered = true;
-        if (typeof onDestinationSelect === 'function') {
-          onDestinationSelect(dest, row);
-        }
-      }
-    }, Math.round(DURATION * 0.88));
-
-    // When animation completes, settle DOM classes cleanly
+    // 10. When animation finishes: seamless settlement with zero snap
     cardAnim.onfinish = () => {
       cardAnim.cancel();
       if (imgAnim) imgAnim.cancel();
 
-      // Clean up inline styles and finalize resting layout
-      selectedCard.classList.remove('dest-card-selected', 'dest-card-morphing');
-      selectedCard.classList.add('dest-card-confirmed');
-      selectedCard.style.left = '';
-      selectedCard.style.top = '';
-      selectedCard.style.width = '';
-      selectedCard.style.height = '';
+      // Clean up inline animation styles — element is already in resting layout
       selectedCard.style.transform = '';
-      grid.className = 'w-full max-w-md';
+      selectedCard.style.transformOrigin = '';
+      selectedCard.style.transition = '';
+      if (innerImg) {
+        innerImg.style.transform = '';
+        innerImg.style.transformOrigin = '';
+        innerImg.style.transition = '';
+      }
 
-      if (!callbackTriggered) {
-        callbackTriggered = true;
-        clearTimeout(triggerTimeout);
-        if (typeof onDestinationSelect === 'function') {
-          onDestinationSelect(dest, row);
-        }
+      // Remove faded sibling cards & filter pills
+      otherCards.forEach((c) => c.remove());
+      if (filterPillsContainer) filterPillsContainer.remove();
+
+      // Unlock container min-heights smoothly
+      grid.style.transition = 'min-height 280ms cubic-bezier(0.16, 1, 0.3, 1)';
+      row.style.transition = 'min-height 280ms cubic-bezier(0.16, 1, 0.3, 1)';
+      grid.style.minHeight = '180px';
+      row.style.minHeight = `${header.offsetHeight + 180 + 20}px`;
+
+      setTimeout(() => {
+        grid.style.minHeight = '';
+        grid.style.transition = '';
+        row.style.minHeight = '';
+        row.style.transition = '';
+      }, 300);
+
+      // Trigger follow-up chat engine action cleanly AFTER docking
+      if (typeof onDestinationSelect === 'function') {
+        onDestinationSelect(dest, row);
       }
     };
   }

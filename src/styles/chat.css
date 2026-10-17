@@ -313,7 +313,7 @@
   border-color: var(--terracotta) !important;
   box-shadow: 0 0 0 2px var(--terracotta), 0 12px 32px -4px rgba(148, 74, 26, 0.35) !important;
   pointer-events: none;
-  z-index: 40;
+  z-index: 50 !important;
 }
 
 .dest-card.dest-card-morphing {
@@ -324,7 +324,6 @@
   transform-origin: top left !important;
   will-change: transform, box-shadow !important;
 }
-
 
 .dest-card.dest-card-confirmed {
   width: 100% !important;
@@ -339,6 +338,9 @@
   box-shadow: 0 0 0 2.5px var(--terracotta), 0 12px 36px -4px rgba(148, 74, 26, 0.32) !important;
   pointer-events: none;
   cursor: default;
+  z-index: 30;
+  transform: none;
+  will-change: transform;
 }
 
 .dest-card.dest-card-shrink-out {
