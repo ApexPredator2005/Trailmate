@@ -150,15 +150,18 @@ img {
 
 /* Bidirectional wave delays: reverse cascading delays on mouse leave (default exit) */
 .social-flip-node:nth-of-type(1) .social-flip-node-inner {
-  transition-delay: 0.18s;
+  transition-delay: 0.20s;
 }
 .social-flip-node:nth-of-type(2) .social-flip-node-inner {
-  transition-delay: 0.12s;
+  transition-delay: 0.15s;
 }
 .social-flip-node:nth-of-type(3) .social-flip-node-inner {
-  transition-delay: 0.06s;
+  transition-delay: 0.10s;
 }
 .social-flip-node:nth-of-type(4) .social-flip-node-inner {
+  transition-delay: 0.05s;
+}
+.social-flip-node:nth-of-type(5) .social-flip-node-inner {
   transition-delay: 0.00s;
 }
 
@@ -175,14 +178,18 @@ img {
 }
 .social-flip-container:hover .social-flip-node:nth-of-type(2) .social-flip-node-inner {
   transform: rotateY(180deg);
-  transition-delay: 0.06s;
+  transition-delay: 0.05s;
 }
 .social-flip-container:hover .social-flip-node:nth-of-type(3) .social-flip-node-inner {
   transform: rotateY(180deg);
-  transition-delay: 0.12s;
+  transition-delay: 0.10s;
 }
 .social-flip-container:hover .social-flip-node:nth-of-type(4) .social-flip-node-inner {
   transform: rotateY(180deg);
-  transition-delay: 0.18s;
+  transition-delay: 0.15s;
+}
+.social-flip-container:hover .social-flip-node:nth-of-type(5) .social-flip-node-inner {
+  transform: rotateY(180deg);
+  transition-delay: 0.20s;
 }
 
