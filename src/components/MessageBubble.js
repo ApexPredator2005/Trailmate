@@ -123,6 +123,12 @@ function _destinationsRow(message, onDestinationSelect) {
     if (row.dataset.hasSelected) return;
     row.dataset.hasSelected = 'true';
 
+    // 0. Pause ChatThread auto-scrolling immediately so scroll changes don't collide with morph
+    const chatThread = window.__trailmate?.chatThread;
+    if (chatThread && typeof chatThread.pauseAutoScroll === 'function') {
+      chatThread.pauseAutoScroll(true);
+    }
+
     // Disable all filter pills and fade them out smoothly
     const pills = header.querySelectorAll('.dest-filter-pill');
     pills.forEach((p) => {
@@ -132,110 +138,129 @@ function _destinationsRow(message, onDestinationSelect) {
 
     const isReduced = typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    // 1. Mark selected card & update check icon immediately
-    selectedCard.classList.add('dest-card-selected');
-    const arrowIcon = selectedCard.querySelector('.dest-card-arrow');
-    if (arrowIcon) {
-      arrowIcon.textContent = 'check_circle';
-      arrowIcon.className = 'dest-card-arrow material-symbols-outlined text-base opacity-100 text-terracotta transition-all';
-    }
-
-    // Measure starting coordinates (First) relative to viewport
+    // 1. Measure starting coordinates (First) relative to fixed viewport
     const firstRect = selectedCard.getBoundingClientRect();
 
-    // 2. Identify sibling cards and fade them out simultaneously
+    // Sibling cards
     const allCards = Array.from(grid.querySelectorAll('.dest-card'));
     const otherCards = allCards.filter((c) => c !== selectedCard);
-    otherCards.forEach((otherCard) => {
-      otherCard.style.pointerEvents = 'none';
-      otherCard.classList.add('dest-card-shrink-out');
-    });
 
     // Fade out filter pills cleanly
     const filterPillsContainer = header.querySelector('#destFilterPills');
     if (filterPillsContainer) {
+      filterPillsContainer.style.transition = 'opacity 180ms ease, transform 180ms ease';
       filterPillsContainer.style.opacity = '0';
-      filterPillsContainer.style.transition = 'opacity 200ms ease';
+      filterPillsContainer.style.transform = 'translateY(-4px)';
       setTimeout(() => { filterPillsContainer.style.display = 'none'; }, 200);
+    }
+
+    // 2. Lock heights of row and grid to eliminate any layout collapse during flight
+    const initialRowHeight = row.offsetHeight;
+    const initialGridHeight = grid.offsetHeight;
+    row.style.minHeight = `${initialRowHeight}px`;
+    grid.style.minHeight = `${initialGridHeight}px`;
+
+    // Cross-fade the header labels cleanly
+    const headerTitleContainer = header.querySelector('.flex.items-center.justify-between');
+    if (headerTitleContainer) {
+      headerTitleContainer.style.transition = 'opacity 160ms ease';
+      headerTitleContainer.style.opacity = '0';
+      setTimeout(() => {
+        const titleLabel = header.querySelector('.dest-header-title');
+        if (titleLabel) titleLabel.textContent = 'Selected Destination';
+        const subtitleLabel = header.querySelector('.dest-header-subtitle');
+        if (subtitleLabel) subtitleLabel.textContent = 'Confirmed';
+        headerTitleContainer.style.opacity = '1';
+      }, 160);
     }
 
     if (isReduced) {
       // Reduced motion: immediate settlement
       otherCards.forEach((c) => c.remove());
       grid.className = 'w-full max-w-md';
+      grid.style.minHeight = '';
+      row.style.minHeight = '';
       selectedCard.classList.remove('dest-card-selected');
       selectedCard.classList.add('dest-card-confirmed');
-      const titleLabel = header.querySelector('.dest-header-title');
-      if (titleLabel) titleLabel.textContent = 'Selected Destination';
-      const subtitleLabel = header.querySelector('.dest-header-subtitle');
-      if (subtitleLabel) subtitleLabel.textContent = 'Confirmed';
+      if (chatThread && typeof chatThread.pauseAutoScroll === 'function') {
+        chatThread.pauseAutoScroll(false);
+      }
       if (typeof onDestinationSelect === 'function') {
         onDestinationSelect(dest, row);
       }
       return;
     }
 
-    // 3. FRAME 1 INSTANT MORPH:
-    // Create an invisible placeholder with exact target hero dimensions in the grid
-    // so we can measure the final target coordinates (Last) right now!
-    const targetPlaceholder = document.createElement('div');
-    targetPlaceholder.style.width = '100%';
-    targetPlaceholder.style.maxWidth = '480px';
-    targetPlaceholder.style.height = '180px';
-    targetPlaceholder.style.visibility = 'hidden';
-    targetPlaceholder.style.pointerEvents = 'none';
-    grid.insertBefore(targetPlaceholder, grid.firstChild);
+    // 3. Compute resting target position in fixed viewport coordinates
+    // In resting state, the confirmed card occupies the top-left of the destination block,
+    // with max width 480px and height 180px.
+    const gridRect = grid.getBoundingClientRect();
+    const chatPane = document.getElementById('chatPane');
+    const headerEl = chatPane ? chatPane.querySelector('header') : null;
+    const headerBottom = headerEl ? headerEl.getBoundingClientRect().bottom : 70;
 
-    const lastRect = targetPlaceholder.getBoundingClientRect();
-    targetPlaceholder.remove();
+    const targetWidth = Math.min(gridRect.width, 480);
+    const targetHeight = 180;
+    const targetLeft = gridRect.left;
+    const targetTop = Math.max(headerBottom + 12, gridRect.top);
 
-    // Take selectedCard out of grid flow IMMEDIATELY so sibling collapse does not alter its position
-    const rowRect = row.getBoundingClientRect();
-    row.style.position = 'relative';
+    // 4. Create Fixed-Position Flying Morph Card (Viewport Compositor Clone)
+    const flyingCard = selectedCard.cloneNode(true);
+    flyingCard.className = 'dest-card dest-card-flying-morph';
+    flyingCard.style.cssText = `
+      position: fixed !important;
+      top: ${firstRect.top}px !important;
+      left: ${firstRect.left}px !important;
+      width: ${firstRect.width}px !important;
+      height: ${firstRect.height}px !important;
+      margin: 0 !important;
+      z-index: 9999 !important;
+      pointer-events: none !important;
+      transform-origin: top left !important;
+      will-change: transform, box-shadow !important;
+      border-radius: 1rem !important;
+      border: 2px solid var(--terracotta) !important;
+      box-shadow: 0 12px 32px -4px rgba(148, 74, 26, 0.35) !important;
+      overflow: hidden !important;
+    `;
 
-    // Measure relative starting and target offsets inside row
-    const startLeft = firstRect.left - rowRect.left;
-    const startTop = firstRect.top - rowRect.top;
-    const targetLeft = lastRect.left - rowRect.left;
-    const targetTop = lastRect.top - rowRect.top;
+    // Show check icon on flying card
+    const flyingArrow = flyingCard.querySelector('.dest-card-arrow');
+    if (flyingArrow) {
+      flyingArrow.textContent = 'check_circle';
+      flyingArrow.className = 'dest-card-arrow material-symbols-outlined text-base opacity-100 text-terracotta';
+    }
 
-    // Fix the card at its exact starting position in absolute coordinates
-    selectedCard.classList.add('dest-card-morphing');
-    selectedCard.style.left = `${startLeft}px`;
-    selectedCard.style.top = `${startTop}px`;
-    selectedCard.style.width = `${firstRect.width}px`;
-    selectedCard.style.height = `${firstRect.height}px`;
+    // Hide original card in place (keeps exact grid geometry intact during flight)
+    selectedCard.style.visibility = 'hidden';
 
-    // Calculate invert delta
-    const deltaX = targetLeft - startLeft;
-    const deltaY = targetTop - startTop;
-    const scaleX = lastRect.width / Math.max(firstRect.width, 1);
-    const scaleY = lastRect.height / Math.max(firstRect.height, 1);
+    // Fade out sibling cards smoothly
+    otherCards.forEach((c) => {
+      c.style.transition = 'opacity 220ms ease, transform 220ms cubic-bezier(0.2, 0, 0, 1)';
+      c.style.opacity = '0';
+      c.style.transform = 'scale(0.92)';
+      c.style.pointerEvents = 'none';
+    });
 
-    // Update header labels concurrently
-    const titleLabel = header.querySelector('.dest-header-title');
-    if (titleLabel) titleLabel.textContent = 'Selected Destination';
-    const subtitleLabel = header.querySelector('.dest-header-subtitle');
-    if (subtitleLabel) subtitleLabel.textContent = 'Confirmed';
+    document.body.appendChild(flyingCard);
 
-    // Remove other cards after fade completes
-    setTimeout(() => {
-      otherCards.forEach((c) => c.remove());
-    }, 280);
+    // 5. Hardware-Accelerated Compositor Morph
+    const DURATION = 380;
+    const EASING = 'cubic-bezier(0.16, 1, 0.3, 1)'; // Apple HIG fluid spring
+    const deltaX = targetLeft - firstRect.left;
+    const deltaY = targetTop - firstRect.top;
+    const scaleX = targetWidth / Math.max(firstRect.width, 1);
+    const scaleY = targetHeight / Math.max(firstRect.height, 1);
 
-    // PLAY on frame 1: Single, uninterrupted 360ms compositor tween
-    const DURATION = 360;
-    const EASING = 'cubic-bezier(0.2, 0, 0, 1)';
-
-    const cardAnim = selectedCard.animate(
+    const cardAnim = flyingCard.animate(
       [
         {
-          transform: 'translate(0px, 0px) scale(1, 1)',
+          transform: 'translate3d(0px, 0px, 0px) scale(1, 1)',
           boxShadow: '0 4px 16px rgba(0, 0, 0, 0.25)',
         },
         {
-          transform: `translate(${deltaX}px, ${deltaY}px) scale(${scaleX}, ${scaleY})`,
-          boxShadow: '0 0 0 2.5px var(--terracotta), 0 12px 36px -4px rgba(148, 74, 26, 0.32)',
+          transform: `translate3d(${deltaX}px, ${deltaY}px, 0px) scale(${scaleX}, ${scaleY})`,
+          boxShadow: '0 0 0 2.5px var(--terracotta), 0 16px 40px -4px rgba(148, 74, 26, 0.32)',
         },
       ],
       {
@@ -245,11 +270,11 @@ function _destinationsRow(message, onDestinationSelect) {
       }
     );
 
-    // Counter-scale inner image so aspect ratio does not distort while container expands
-    const innerImg = selectedCard.querySelector('img');
+    // Counter-scale image so photo stays natural without distortion
+    const flyingImg = flyingCard.querySelector('img');
     let imgAnim = null;
-    if (innerImg) {
-      imgAnim = innerImg.animate(
+    if (flyingImg) {
+      imgAnim = flyingImg.animate(
         [
           { transform: 'scale(1, 1)' },
           { transform: `scale(${1 / scaleX}, ${1 / scaleY})` },
@@ -262,39 +287,63 @@ function _destinationsRow(message, onDestinationSelect) {
       );
     }
 
-    // When card expansion reaches >85% (around 310ms), trigger follow-up message creation
-    let callbackTriggered = false;
-    const triggerTimeout = setTimeout(() => {
-      if (!callbackTriggered) {
-        callbackTriggered = true;
-        if (typeof onDestinationSelect === 'function') {
-          onDestinationSelect(dest, row);
-        }
-      }
-    }, Math.round(DURATION * 0.88));
-
-    // When animation completes, settle DOM classes cleanly
+    // 6. Seamless Docking on Animation Complete
     cardAnim.onfinish = () => {
-      cardAnim.cancel();
-      if (imgAnim) imgAnim.cancel();
+      // Remove sibling cards
+      otherCards.forEach((c) => c.remove());
 
-      // Clean up inline styles and finalize resting layout
-      selectedCard.classList.remove('dest-card-selected', 'dest-card-morphing');
-      selectedCard.classList.add('dest-card-confirmed');
+      // Settle resting card in DOM
+      selectedCard.style.visibility = '';
       selectedCard.style.left = '';
       selectedCard.style.top = '';
       selectedCard.style.width = '';
       selectedCard.style.height = '';
       selectedCard.style.transform = '';
+      selectedCard.classList.remove('dest-card-selected', 'dest-card-morphing');
+      selectedCard.classList.add('dest-card-confirmed');
+
+      const restingArrow = selectedCard.querySelector('.dest-card-arrow');
+      if (restingArrow) {
+        restingArrow.textContent = 'check_circle';
+        restingArrow.className = 'dest-card-arrow material-symbols-outlined text-base opacity-100 text-terracotta';
+      }
+
       grid.className = 'w-full max-w-md';
 
-      if (!callbackTriggered) {
-        callbackTriggered = true;
-        clearTimeout(triggerTimeout);
+      // Smoothly transition container min-height down to resting hero card height
+      grid.style.transition = 'min-height 280ms cubic-bezier(0.16, 1, 0.3, 1)';
+      grid.style.minHeight = '180px';
+      row.style.transition = 'min-height 280ms cubic-bezier(0.16, 1, 0.3, 1)';
+      row.style.minHeight = '';
+
+      // Remove flying clone
+      flyingCard.remove();
+
+      // If row was scrolled partially under sticky header, gently scroll down to reveal it
+      if (gridRect.top < headerBottom + 12 && chatThread?.el) {
+        chatThread.el.scrollTo({ top: Math.max(0, row.offsetTop - 12), behavior: 'smooth' });
+      }
+
+      // 7. Staggered Message Sequence (Phase 4):
+      // Allow DOM to settle before mounting follow-up user message
+      setTimeout(() => {
+        // Unlock auto-scroll
+        if (chatThread && typeof chatThread.pauseAutoScroll === 'function') {
+          chatThread.pauseAutoScroll(false);
+        }
+
+        // Trigger onDestinationSelect to append user confirmation message & AI prompt
         if (typeof onDestinationSelect === 'function') {
           onDestinationSelect(dest, row);
         }
-      }
+
+        // Clean up transition inline styles after collapse completes
+        setTimeout(() => {
+          grid.style.transition = '';
+          grid.style.minHeight = '';
+          row.style.transition = '';
+        }, 300);
+      }, 50);
     };
   }
 

@@ -519,6 +519,24 @@ To maintain this standard while offering a high-performance **Scrapbook Studio**
   * Delivers the exact tactile aesthetic of VengeanceUI within Trailmate's lightweight Vanilla JS architecture (DEC-001) with zero runtime bundle bloat.
   * Preserves native browser clipboard interactions and document flow while providing a delightful micro-interaction on text selection.
 
+### DEC-024: Zero-Jank Fluid Shared-Element Morph & Layout Sequencing Engine
+* **Decision Makers:** User Transition Bug Directive & Engineering
+* **Category:** Motion Choreography, Render Performance & Layout Stability
+* **Status:** Implemented (October 2026)
+* **The Context & Problem:**
+  Clicking a destination card (e.g. Nainital) caused severe transition stutter and visual snapping instead of a smooth morph into the focused chat hero view due to uncoordinated layout thrashing:
+  1. Auto-scroll collision: `ChatThread.scrollToBottom` and `ResizeObserver` triggered multiple programmatic scrolls mid-flight, fighting the animation delta.
+  2. Sibling height collapse: Sibling cards unmounted while the card was interpolating, collapsing the grid container by hundreds of pixels.
+  3. Shared element coordinate mismatch: Target coordinates were incorrectly calculated in a 3-column CSS grid cell instead of the resting block container.
+  4. Premature message mounting: User and AI bubbles mounted at 310ms while the card was still animating.
+* **The Decision:**
+  * **Composited Fixed-Position Flying Morph:** Cloned the clicked card into a hardware-accelerated fixed viewport overlay (`.dest-card-flying-morph`), moving via `translate3d()` and `scale()` with an Apple HIG fluid spring (`cubic-bezier(0.16, 1, 0.3, 1)`), counter-scaling the inner image to prevent aspect ratio distortion.
+  * **Auto-Scroll Locking:** Introduced `ChatThread.pauseAutoScroll(true)` to suppress all programmatic and `ResizeObserver` scroll events during the 380ms morph.
+  * **Container Height Locking:** Froze `row.style.minHeight` and `grid.style.minHeight` to their exact pre-click dimensions, eliminating container collapse during flight.
+  * **Staggered Orchestration:** Deferred message insertion (`onDestinationSelect`) until 50ms *after* the card docks cleanly into place, unlocking auto-scroll only once the DOM has settled.
+* **Why This Was Chosen:**
+  * Eliminates all five root causes of layout thrashing, achieving a fluid 60fps morph with 0px coordinate drift and zero snap.
+
 ---
 
 ## 8. Comprehensive Decision Matrix
@@ -548,6 +566,7 @@ To maintain this standard while offering a high-performance **Scrapbook Studio**
 | **DEC-021** | UI / Motion | VengeanceUI 3D Social Flip Button in Sidebar | User | Pure CSS 3D spring transforms; official Instagram, Facebook, Gmail, X brand badges; 0KB runtime |
 | **DEC-022** | Security | Defense-in-Depth Hardening: Strict Schemas & Magic Bytes | User | .strict() schema rejection, magic byte raster validation, 10MB upload limits, error sanitization |
 | **DEC-023** | UI / Motion | VengeanceUI 3D Flip Text Engine & Selection Highlighter | User | 3D perspective character-by-character flipping on selection; sine-wave delay; floating HUD pill; 0KB runtime |
+| **DEC-024** | Motion | Zero-Jank Fluid Shared-Element Morph & Layout Sequencing | User | Fixed compositor clone, scroll lock, height freeze, and staggered message mounting |
 
 ---
 

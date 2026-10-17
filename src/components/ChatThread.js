@@ -51,9 +51,13 @@ export class ChatThread {
       loading ? this._showTyping() : this._hideTyping();
     });
 
+    this._isAutoScrollPaused = false;
+    this._scrollTimers = [];
+
     // Auto-scroll when content inside the thread resizes (images load, cards render, text expands)
     if (typeof ResizeObserver !== 'undefined') {
       this._resizeObserver = new ResizeObserver(() => {
+        if (this._isAutoScrollPaused) return;
         const threshold = 250;
         const isNearBottom = this.el.scrollHeight - this.el.scrollTop - this.el.clientHeight < threshold;
         if (isNearBottom) {
@@ -66,12 +70,21 @@ export class ChatThread {
 
   /* ── Public API ─────────────────────────────────────────────────────── */
 
+  /** Pause or resume auto-scroll to avoid layout collisions during shared-element morphs */
+  pauseAutoScroll(paused = true) {
+    this._isAutoScrollPaused = Boolean(paused);
+    if (paused) {
+      this._scrollTimers.forEach(clearTimeout);
+      this._scrollTimers = [];
+    }
+  }
+
   /** Programmatically scroll to the bottom of the thread */
   scrollToBottom(smooth = true) {
-    if (!this.el) return;
+    if (!this.el || this._isAutoScrollPaused) return;
 
     const performScroll = (isSmooth = smooth) => {
-      if (!this.el) return;
+      if (!this.el || this._isAutoScrollPaused) return;
       const last = this.el.lastElementChild;
       if (last && typeof last.scrollIntoView === 'function') {
         try {
@@ -85,10 +98,11 @@ export class ChatThread {
     };
 
     performScroll(smooth);
-    requestAnimationFrame(() => performScroll(false));
-    setTimeout(() => performScroll(smooth), 60);
-    setTimeout(() => performScroll(false), 200);
-    setTimeout(() => performScroll(false), 450);
+    const t0 = requestAnimationFrame(() => performScroll(false));
+    const t1 = setTimeout(() => performScroll(smooth), 60);
+    const t2 = setTimeout(() => performScroll(false), 200);
+    const t3 = setTimeout(() => performScroll(false), 450);
+    this._scrollTimers = [t1, t2, t3];
   }
 
   /** Remove all rendered messages and reset tracked IDs */
