@@ -593,6 +593,7 @@ To maintain this standard while offering a high-performance **Scrapbook Studio**
 | **DEC-023** | UI / Motion | VengeanceUI 3D Flip Text Engine & Selection Highlighter (Retired) | User | Retired per design directive; clean native text selection restored; 0KB runtime |
 | **DEC-024** | Motion | Zero-Jank Fluid Shared-Element Morph & Layout Sequencing | User | Fixed compositor clone, scroll lock, height freeze, and staggered message mounting |
 | **DEC-025** | Motion | Viewport Anti-Clipping Geometry & Motion Polish Engine | User | Anti-clipping scroll guard, deterministic message deduplication, doodle cross-fades, and 3D page curl |
+| **DEC-026** | Motion | Continuous Single-Element FLIP Destination Morph | Joint | Single shared DOM node FLIP; simultaneous 3D translation & scale interpolation; locked container layout & anti-jitter handoff |
 
 ---
 
