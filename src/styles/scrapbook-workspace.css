@@ -1771,52 +1771,54 @@
 /* ── Animated Page Transitions (Feature #11) ──────────────────────── */
 .scrapbook-artboard.page-flip-forward {
   animation-name: pageTurnForward;
-  animation-duration: 360ms;
+  animation-duration: 380ms;
   animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
   animation-fill-mode: forwards;
   transform-origin: left center;
+  backface-visibility: hidden;
 }
 
 .scrapbook-artboard.page-flip-backward {
   animation-name: pageTurnBackward;
-  animation-duration: 360ms;
+  animation-duration: 380ms;
   animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
   animation-fill-mode: forwards;
-  transform-origin: left center;
+  transform-origin: right center;
+  backface-visibility: hidden;
 }
 
 @keyframes pageTurnForward {
   0% {
-    opacity: 0.6;
-    transform: scale(var(--artboard-zoom, 1)) rotateY(16deg) skewY(1deg);
-    box-shadow: -4px 0 16px rgba(0, 0, 0, 0.1);
+    opacity: 0.7;
+    transform: scale(var(--artboard-zoom, 1)) rotateY(24deg) skewY(1.5deg);
+    box-shadow: -8px 0 24px rgba(0, 0, 0, 0.18), inset 16px 0 24px -8px rgba(0, 0, 0, 0.15);
   }
-  50% {
-    opacity: 0.9;
-    transform: scale(var(--artboard-zoom, 1)) rotateY(-14deg) skewY(-1deg);
-    box-shadow: -12px 0 24px -4px rgba(0, 0, 0, 0.18);
+  45% {
+    opacity: 0.92;
+    transform: scale(var(--artboard-zoom, 1)) rotateY(-6deg) skewY(-0.5deg);
+    box-shadow: -14px 0 32px -4px rgba(0, 0, 0, 0.22), inset 8px 0 16px -4px rgba(0, 0, 0, 0.1);
   }
   100% {
     opacity: 1;
-    transform: scale(var(--artboard-zoom, 1)) rotateY(0deg) skewY(0deg) scale(1);
+    transform: scale(var(--artboard-zoom, 1)) rotateY(0deg) skewY(0deg);
     box-shadow: 0 16px 40px rgba(0, 0, 0, 0.14), 0 2px 8px rgba(0, 0, 0, 0.04);
   }
 }
 
 @keyframes pageTurnBackward {
   0% {
-    opacity: 0.6;
-    transform: scale(var(--artboard-zoom, 1)) rotateY(-18deg) skewY(-1deg);
-    box-shadow: -16px 0 28px -4px rgba(0, 0, 0, 0.22);
+    opacity: 0.7;
+    transform: scale(var(--artboard-zoom, 1)) rotateY(-24deg) skewY(-1.5deg);
+    box-shadow: 8px 0 24px rgba(0, 0, 0, 0.18), inset -16px 0 24px -8px rgba(0, 0, 0, 0.15);
   }
-  50% {
-    opacity: 0.9;
-    transform: scale(var(--artboard-zoom, 1)) rotateY(-14deg) skewY(-1deg);
-    box-shadow: -12px 0 24px -4px rgba(0, 0, 0, 0.18);
+  45% {
+    opacity: 0.92;
+    transform: scale(var(--artboard-zoom, 1)) rotateY(6deg) skewY(0.5deg);
+    box-shadow: 14px 0 32px -4px rgba(0, 0, 0, 0.22), inset -8px 0 16px -4px rgba(0, 0, 0, 0.1);
   }
   100% {
     opacity: 1;
-    transform: scale(var(--artboard-zoom, 1)) rotateY(0deg) skewY(0deg) scale(1);
+    transform: scale(var(--artboard-zoom, 1)) rotateY(0deg) skewY(0deg);
     box-shadow: 0 16px 40px rgba(0, 0, 0, 0.14), 0 2px 8px rgba(0, 0, 0, 0.04);
   }
 }
@@ -1824,36 +1826,26 @@
 /* Backward compatibility aliases */
 @keyframes pageFlipForward {
   0% {
-    opacity: 0.6;
-    transform: scale(var(--artboard-zoom, 1)) rotateY(16deg) skewY(1deg);
-    box-shadow: -4px 0 16px rgba(0, 0, 0, 0.1);
-  }
-  50% {
-    opacity: 0.9;
-    transform: scale(var(--artboard-zoom, 1)) rotateY(-14deg) skewY(-1deg);
-    box-shadow: -12px 0 24px -4px rgba(0, 0, 0, 0.18);
+    opacity: 0.7;
+    transform: scale(var(--artboard-zoom, 1)) rotateY(24deg) skewY(1.5deg);
+    box-shadow: -8px 0 24px rgba(0, 0, 0, 0.18);
   }
   100% {
     opacity: 1;
-    transform: scale(var(--artboard-zoom, 1)) rotateY(0deg) skewY(0deg) scale(1);
+    transform: scale(var(--artboard-zoom, 1)) rotateY(0deg) skewY(0deg);
     box-shadow: 0 16px 40px rgba(0, 0, 0, 0.14), 0 2px 8px rgba(0, 0, 0, 0.04);
   }
 }
 
 @keyframes pageFlipBackward {
   0% {
-    opacity: 0.6;
-    transform: scale(var(--artboard-zoom, 1)) rotateY(-18deg) skewY(-1deg);
-    box-shadow: -16px 0 28px -4px rgba(0, 0, 0, 0.22);
-  }
-  50% {
-    opacity: 0.9;
-    transform: scale(var(--artboard-zoom, 1)) rotateY(-14deg) skewY(-1deg);
-    box-shadow: -12px 0 24px -4px rgba(0, 0, 0, 0.18);
+    opacity: 0.7;
+    transform: scale(var(--artboard-zoom, 1)) rotateY(-24deg) skewY(-1.5deg);
+    box-shadow: 8px 0 24px rgba(0, 0, 0, 0.18);
   }
   100% {
     opacity: 1;
-    transform: scale(var(--artboard-zoom, 1)) rotateY(0deg) skewY(0deg) scale(1);
+    transform: scale(var(--artboard-zoom, 1)) rotateY(0deg) skewY(0deg);
     box-shadow: 0 16px 40px rgba(0, 0, 0, 0.14), 0 2px 8px rgba(0, 0, 0, 0.04);
   }
 }
