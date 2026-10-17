@@ -135,28 +135,54 @@ img {
   transform: rotateY(180deg);
 }
 
+.social-flip-node {
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.social-flip-node:hover {
+  transform: translateY(-2px) scale(1.08);
+  box-shadow: 0 4px 12px rgba(196, 112, 61, 0.25);
+}
+
 .social-flip-node-inner {
   transition: transform 0.65s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-/* Staggered spring flip on container hover and direct node hover */
-.social-flip-node:hover .social-flip-node-inner {
-  transform: rotateY(180deg);
+/* Bidirectional wave delays: reverse cascading delays on mouse leave (default exit) */
+.social-flip-node:nth-of-type(1) .social-flip-node-inner {
+  transition-delay: 0.18s;
+}
+.social-flip-node:nth-of-type(2) .social-flip-node-inner {
+  transition-delay: 0.12s;
+}
+.social-flip-node:nth-of-type(3) .social-flip-node-inner {
+  transition-delay: 0.06s;
+}
+.social-flip-node:nth-of-type(4) .social-flip-node-inner {
+  transition-delay: 0.00s;
 }
 
+/* Staggered spring flip on direct node hover */
+.social-flip-node:hover .social-flip-node-inner {
+  transform: rotateY(180deg);
+  transition-delay: 0.00s;
+}
+
+/* Staggered spring flip on container hover: forward cascading delays */
 .social-flip-container:hover .social-flip-node:nth-of-type(1) .social-flip-node-inner {
   transform: rotateY(180deg);
   transition-delay: 0.00s;
 }
 .social-flip-container:hover .social-flip-node:nth-of-type(2) .social-flip-node-inner {
   transform: rotateY(180deg);
-  transition-delay: 0.07s;
+  transition-delay: 0.06s;
 }
 .social-flip-container:hover .social-flip-node:nth-of-type(3) .social-flip-node-inner {
   transform: rotateY(180deg);
-  transition-delay: 0.14s;
+  transition-delay: 0.12s;
 }
 .social-flip-container:hover .social-flip-node:nth-of-type(4) .social-flip-node-inner {
   transform: rotateY(180deg);
-  transition-delay: 0.21s;
+  transition-delay: 0.18s;
 }
+

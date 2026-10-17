@@ -2009,7 +2009,7 @@ export class ScrapbookWorkspace {
     const artboard = this.container.querySelector('#scrapbookArtboard');
     if (artboard) {
       artboard.classList.add('page-flip-forward');
-      setTimeout(() => artboard.classList.remove('page-flip-forward'), 290);
+      setTimeout(() => artboard.classList.remove('page-flip-forward'), 380);
     }
   }
 
@@ -2029,7 +2029,7 @@ export class ScrapbookWorkspace {
     const artboard = this.container.querySelector('#scrapbookArtboard');
     if (artboard) {
       artboard.classList.add('page-flip-backward');
-      setTimeout(() => artboard.classList.remove('page-flip-backward'), 290);
+      setTimeout(() => artboard.classList.remove('page-flip-backward'), 380);
     }
   }
 
@@ -2051,7 +2051,7 @@ export class ScrapbookWorkspace {
       artboard.classList.add(animClass);
       setTimeout(() => {
         artboard.classList.remove(animClass);
-      }, 290);
+      }, 380);
     }
   }
 

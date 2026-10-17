@@ -37,6 +37,9 @@ export class ChatThread {
     /** The current typing indicator row, if visible */
     this._typingEl = null;
 
+    this._isAutoScrollPaused = false;
+    this._scrollTimers = [];
+
     // Render any messages already in the store (e.g. from a previous session
     // or pre-seeded demo content)
     this._renderAll(store.getState().messages);
@@ -50,9 +53,6 @@ export class ChatThread {
     store.subscribe('isLoading', (loading) => {
       loading ? this._showTyping() : this._hideTyping();
     });
-
-    this._isAutoScrollPaused = false;
-    this._scrollTimers = [];
 
     // Auto-scroll when content inside the thread resizes (images load, cards render, text expands)
     if (typeof ResizeObserver !== 'undefined') {
@@ -73,22 +73,77 @@ export class ChatThread {
   /** Pause or resume auto-scroll to avoid layout collisions during shared-element morphs */
   pauseAutoScroll(paused = true) {
     this._isAutoScrollPaused = Boolean(paused);
-    if (paused) {
-      this._scrollTimers.forEach(clearTimeout);
-      this._scrollTimers = [];
-    }
+    this._scrollTimers.forEach(clearTimeout);
+    this._scrollTimers = [];
   }
 
-  /** Programmatically scroll to the bottom of the thread */
+  /** Programmatically scroll to the bottom of the thread with viewport safety */
   scrollToBottom(smooth = true) {
     if (!this.el || this._isAutoScrollPaused) return;
+
+    // Clear previous pending timers to cancel duplicates
+    this._scrollTimers.forEach(clearTimeout);
+    this._scrollTimers = [];
 
     const performScroll = (isSmooth = smooth) => {
       if (!this.el || this._isAutoScrollPaused) return;
       const last = this.el.lastElementChild;
-      if (last && typeof last.scrollIntoView === 'function') {
+      if (!last) return;
+
+      const first = this.el.firstElementChild;
+      const threadRect = typeof this.el.getBoundingClientRect === 'function' ? this.el.getBoundingClientRect() : null;
+      const hasLayout = threadRect && (threadRect.height > 0 || threadRect.width > 0);
+      const firstRect = (first && typeof first.getBoundingClientRect === 'function') ? first.getBoundingClientRect() : null;
+      const lastRect = (last && typeof last.getBoundingClientRect === 'function') ? last.getBoundingClientRect() : null;
+
+      // Anti-clipping safety check:
+      // If conversation is short (this.el.scrollHeight <= this.el.clientHeight * 1.4),
+      // ensure the top welcome greeting is NEVER pushed above the visible container top!
+      const isShortThread = this.el.scrollHeight <= this.el.clientHeight * 1.4;
+      if (isShortThread) {
+        const chatPane = document.getElementById('chatPane');
+        const header = chatPane ? chatPane.querySelector('header') : document.querySelector('header');
+        const headerBottom = header && typeof header.getBoundingClientRect === 'function'
+          ? header.getBoundingClientRect().bottom
+          : (threadRect ? threadRect.top : 0);
+        const visibleTop = Math.max(threadRect ? threadRect.top : 0, headerBottom);
+
+        // Check if first message (welcome message) is or would be clipped behind sticky header
+        if (firstRect && hasLayout && firstRect.top < visibleTop) {
+          return;
+        }
+
+        const overflow = (hasLayout && lastRect && threadRect)
+          ? (lastRect.bottom - threadRect.bottom)
+          : (this.el.scrollHeight - this.el.clientHeight - this.el.scrollTop);
+
+        if (overflow > 0) {
+          // If the last element is below the visible container, scroll only the minimal needed amount
+          const scrollAmount = Math.min(overflow, 60);
+
+          // NEVER push the top welcome message off-screen or above the container's visible top!
+          if (firstRect && hasLayout && (firstRect.bottom - scrollAmount <= visibleTop || firstRect.top - scrollAmount < visibleTop)) {
+            return;
+          }
+
+          if (typeof this.el.scrollBy === 'function') {
+            try {
+              this.el.scrollBy({ top: scrollAmount, behavior: isSmooth ? 'smooth' : 'auto' });
+            } catch {
+              this.el.scrollTop += scrollAmount;
+            }
+          } else {
+            this.el.scrollTop += scrollAmount;
+          }
+        }
+        return;
+      }
+
+      // For normal/longer threads, use block: 'nearest' to bring the new bubble into view smoothly
+      // without violent layout jumps
+      if (typeof last.scrollIntoView === 'function') {
         try {
-          last.scrollIntoView({ behavior: isSmooth ? 'smooth' : 'auto', block: 'end' });
+          last.scrollIntoView({ behavior: isSmooth ? 'smooth' : 'auto', block: 'nearest' });
         } catch {
           this.el.scrollTop = this.el.scrollHeight;
         }
@@ -98,11 +153,8 @@ export class ChatThread {
     };
 
     performScroll(smooth);
-    const t0 = requestAnimationFrame(() => performScroll(false));
     const t1 = setTimeout(() => performScroll(smooth), 60);
-    const t2 = setTimeout(() => performScroll(false), 200);
-    const t3 = setTimeout(() => performScroll(false), 450);
-    this._scrollTimers = [t1, t2, t3];
+    this._scrollTimers = [t1];
   }
 
   /** Remove all rendered messages and reset tracked IDs */

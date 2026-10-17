@@ -592,14 +592,30 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // ── 3. Chat Thread ──────────────────────────────────────────────────
+  let isDestinationSelecting = false;
   chatThread = new ChatThread({
     threadId: 'chatThread',
 
     onDestinationSelect: (dest, rowEl) => {
       const destName = typeof dest === 'object' ? dest.name : dest;
+      if (!destName || isDestinationSelecting) return;
+      isDestinationSelecting = true;
+
+      const slug = destName.toLowerCase().replace(/[^a-z0-9]/g, '-');
+      const stableMsgId = `user-dest-${slug}`;
+
       store.setState({ trip: { ...store.getState().trip, destination: destName } });
-      store.pushMessage({ role: 'user', text: `I'd love to visit ${destName}!` });
+      store.pushMessage({
+        id: stableMsgId,
+        role: 'user',
+        text: `I'd love to visit ${destName}!`,
+      });
       engine.handleUserMessage(destName, destName);
+
+      // Reset transition lock once stage has settled
+      setTimeout(() => {
+        isDestinationSelecting = false;
+      }, 1500);
     },
 
     onChipSelect: (chip) => {
@@ -734,24 +750,51 @@ document.addEventListener('DOMContentLoaded', () => {
   const weatherPill = document.getElementById('headerWeatherPill');
   const budgetFill = document.getElementById('budgetProgressFill');
 
+  let currentDoodleSrc = '';
   function updateHeaderDoodle(destination) {
     if (!doodleContainer) return;
     if (!destination) {
-      doodleContainer.innerHTML = '';
+      const existingImgs = doodleContainer.querySelectorAll('img:not(.header-doodle-leaving)');
+      if (existingImgs.length > 0) {
+        existingImgs.forEach((img) => {
+          img.classList.add('header-doodle-leaving');
+          setTimeout(() => {
+            img.remove();
+            if (!doodleContainer.querySelector('img')) {
+              doodleContainer.innerHTML = '';
+            }
+          }, 220);
+        });
+      } else {
+        doodleContainer.innerHTML = '';
+      }
+      currentDoodleSrc = '';
       return;
     }
+
     const { src, title, animationClass } = getDestinationHeaderArt(destination);
-    // Smooth rise-up animation starting from the bottom of the top bar (ease-out) with organic boomerang motion
-    doodleContainer.innerHTML = `
-      <div class="header-doodle-wrap relative w-full h-full flex items-center justify-center">
-        <img 
-          src="${src}" 
-          alt="${title}" 
-          title="${title}"
-          class="h-full w-auto max-h-[52px] object-contain header-doodle-rising doodle-boomerang ${animationClass || ''} header-doodle-interactive" 
-        />
-      </div>
-    `;
+    if (currentDoodleSrc === src) return;
+    currentDoodleSrc = src;
+
+    const incomingImg = document.createElement('img');
+    incomingImg.src = src;
+    incomingImg.alt = title;
+    incomingImg.title = title;
+    incomingImg.className = `h-full w-auto max-h-[52px] object-contain header-doodle-rising doodle-boomerang ${animationClass || ''} header-doodle-interactive`;
+
+    const existingImgs = doodleContainer.querySelectorAll('img:not(.header-doodle-leaving)');
+    if (existingImgs.length > 0) {
+      existingImgs.forEach((oldImg) => {
+        oldImg.classList.add('header-doodle-leaving');
+        setTimeout(() => {
+          oldImg.remove();
+        }, 220);
+      });
+      doodleContainer.appendChild(incomingImg);
+    } else {
+      doodleContainer.innerHTML = '';
+      doodleContainer.appendChild(incomingImg);
+    }
   }
 
   function updateAmbientTheme(destination) {

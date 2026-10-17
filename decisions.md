@@ -537,6 +537,31 @@ To maintain this standard while offering a high-performance **Scrapbook Studio**
 * **Why This Was Chosen:**
   * Eliminates all five root causes of layout thrashing, achieving a fluid 60fps morph with 0px coordinate drift and zero snap.
 
+### DEC-025: Viewport Anti-Clipping Geometry & Cross-App Motion Polish Engine
+* **Decision Makers:** User Transition Bug Directive & Engineering
+* **Category:** Motion Choreography, Viewport Geometry & UI Physics
+* **Status:** Implemented & Verified (October 2026)
+* **The Context & Problem:**
+  Following the initial morph transition, three distinct visual glitches degraded the destination selection experience:
+  1. **Introductory Greeting Clipping:** After selecting a card (e.g. Gangtok or Nainital), `ChatThread.scrollToBottom` triggered `scrollIntoView({ block: 'end' })` multiple times across staggered timers. With the combined height of the welcome card, confirmed card, user pill, and bot reply (625px) exceeding the container viewport (509px), the container forced `scrollTop` to 102px, pushing the top welcome greeting 85px up behind the sticky header.
+  2. **Duplicate / Ghost Button Stacking:** Automated test execution or rapid event bubbling dispatched two identical user pill intents with `Date.now()` timestamps within 50ms, visually overlapping until the thread re-rendered and abruptly vanished the lower pill.
+  3. **Motion Friction Across Views:** Header doodles lacked enter/exit cross-fades during destination changes, scrapbook page turns lacked authentic book-spine perspective curls, and social buttons needed bidirectional wave delays.
+* **The Decision:**
+  * **Viewport Anti-Clipping Geometry in `ChatThread.js`:**
+    * Re-engineered `scrollToBottom(smooth)` with an explicit viewport guard: if `scrollHeight <= clientHeight * 1.45`, auto-scrolling is suppressed so the traveler can read the welcome introduction in its natural unclipped state.
+    * Enforced a strict boundary check calculating `first.getBoundingClientRect().top < containerRect.top`. If a scroll step would push the top welcome message above the visible container rim, the scroll is clamped or cancelled.
+    * Replaced forceful `block: 'end'` scrolls with natural `block: 'nearest'`.
+  * **Deterministic State Deduplication & Lockout:**
+    * In `src/store/state.js`, enhanced `pushMessage` with exact ID deduplication and rapid duplicate suppression (< 1000ms identical role & text).
+    * In `src/main.js` and `src/components/MessageBubble.js`, introduced `isDestinationSelecting` transition lock and deterministic message IDs (`user-dest-[slug]`), completely preventing double-dispatch.
+    * Extended `chatThread.pauseAutoScroll(true)` through 800ms post-clarify mount to prevent scroll tug-of-war.
+  * **Cross-Application Motion Polish:**
+    * **Header Doodles:** Added 200ms `.header-doodle-leaving` / `.header-doodle-entering` cross-fade transition in `src/styles/chat.css` and `src/main.js`.
+    * **Sidebar 3D Social Flip:** Polished bidirectional wave stagger ($0.18\text{s} \to 0.00\text{s}$ exit, $0.00\text{s} \to 0.18\text{s}$ enter) with tactile hover elevation (`translateY(-2px) scale(1.08)`).
+    * **Scrapbook Studio Page Turns:** Engineered 3D page curls with left-spine anchoring and dynamic box-shadow sweeps using Apple HIG timing (`0.34s cubic-bezier(0.16, 1, 0.3, 1)`).
+* **Why This Was Chosen:**
+  * Completely cures greeting clipping (`welcomeTop: 88.9px > headerBottom: 71.9px`, `scrollTop: 0`), eliminates duplicate ghost buttons, and elevates all interactive transitions across the app to physical Apple HIG motion standards.
+
 ---
 
 ## 8. Comprehensive Decision Matrix
@@ -567,6 +592,7 @@ To maintain this standard while offering a high-performance **Scrapbook Studio**
 | **DEC-022** | Security | Defense-in-Depth Hardening: Strict Schemas & Magic Bytes | User | .strict() schema rejection, magic byte raster validation, 10MB upload limits, error sanitization |
 | **DEC-023** | UI / Motion | VengeanceUI 3D Flip Text Engine & Selection Highlighter (Retired) | User | Retired per design directive; clean native text selection restored; 0KB runtime |
 | **DEC-024** | Motion | Zero-Jank Fluid Shared-Element Morph & Layout Sequencing | User | Fixed compositor clone, scroll lock, height freeze, and staggered message mounting |
+| **DEC-025** | Motion | Viewport Anti-Clipping Geometry & Motion Polish Engine | User | Anti-clipping scroll guard, deterministic message deduplication, doodle cross-fades, and 3D page curl |
 
 ---
 

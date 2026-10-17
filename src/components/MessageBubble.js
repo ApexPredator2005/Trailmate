@@ -119,11 +119,20 @@ function _destinationsRow(message, onDestinationSelect) {
   const grid = document.createElement('div');
   grid.className = 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5 transition-all duration-300';
 
+  let isSelectingDestination = false;
   function handleDestinationSelect(dest, selectedCard) {
-    if (row.dataset.hasSelected) return;
+    if (isSelectingDestination || row.dataset.hasSelected) return;
+    isSelectingDestination = true;
     row.dataset.hasSelected = 'true';
 
-    // 0. Pause ChatThread auto-scrolling immediately so scroll changes don't collide with morph
+    // 0. Disable grid pointer events and all card buttons immediately upon first selection
+    grid.style.pointerEvents = 'none';
+    grid.querySelectorAll('.dest-card').forEach((c) => {
+      c.disabled = true;
+      c.style.pointerEvents = 'none';
+    });
+
+    // Pause ChatThread auto-scrolling immediately so scroll changes don't collide with morph
     const chatThread = window.__trailmate?.chatThread;
     if (chatThread && typeof chatThread.pauseAutoScroll === 'function') {
       chatThread.pauseAutoScroll(true);
@@ -182,12 +191,17 @@ function _destinationsRow(message, onDestinationSelect) {
       row.style.minHeight = '';
       selectedCard.classList.remove('dest-card-selected');
       selectedCard.classList.add('dest-card-confirmed');
-      if (chatThread && typeof chatThread.pauseAutoScroll === 'function') {
-        chatThread.pauseAutoScroll(false);
-      }
       if (typeof onDestinationSelect === 'function') {
         onDestinationSelect(dest, row);
       }
+      setTimeout(() => {
+        if (chatThread && typeof chatThread.pauseAutoScroll === 'function') {
+          chatThread.pauseAutoScroll(false);
+        }
+      }, 800);
+      setTimeout(() => {
+        isSelectingDestination = false;
+      }, 1200);
       return;
     }
 
@@ -324,26 +338,31 @@ function _destinationsRow(message, onDestinationSelect) {
         chatThread.el.scrollTo({ top: Math.max(0, row.offsetTop - 12), behavior: 'smooth' });
       }
 
-      // 7. Staggered Message Sequence (Phase 4):
-      // Allow DOM to settle before mounting follow-up user message
+      // 7. Staggered Message Sequence:
+      // After cardAnim.onfinish, call onDestinationSelect(dest, row)
+      if (typeof onDestinationSelect === 'function') {
+        onDestinationSelect(dest, row);
+      }
+
+      // Keep pauseAutoScroll(true) active through initial bot response so mounting text does not violently yank container down.
+      // Unlock chatThread.pauseAutoScroll(false) 800ms after the bot response has mounted, allowing gentle scrolling if needed.
       setTimeout(() => {
-        // Unlock auto-scroll
         if (chatThread && typeof chatThread.pauseAutoScroll === 'function') {
           chatThread.pauseAutoScroll(false);
         }
+      }, 800);
 
-        // Trigger onDestinationSelect to append user confirmation message & AI prompt
-        if (typeof onDestinationSelect === 'function') {
-          onDestinationSelect(dest, row);
-        }
+      // Reset isSelectingDestination = false after 1200ms
+      setTimeout(() => {
+        isSelectingDestination = false;
+      }, 1200);
 
-        // Clean up transition inline styles after collapse completes
-        setTimeout(() => {
-          grid.style.transition = '';
-          grid.style.minHeight = '';
-          row.style.transition = '';
-        }, 300);
-      }, 50);
+      // Clean up transition inline styles after collapse completes
+      setTimeout(() => {
+        grid.style.transition = '';
+        grid.style.minHeight = '';
+        row.style.transition = '';
+      }, 300);
     };
   }
 
