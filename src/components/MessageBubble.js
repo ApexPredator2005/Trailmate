@@ -119,27 +119,9 @@ function _destinationsRow(message, onDestinationSelect) {
   const grid = document.createElement('div');
   grid.className = 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5 transition-all duration-300';
 
-  let isSelectingDestination = false;
   function handleDestinationSelect(dest, selectedCard) {
-    if (isSelectingDestination || row.dataset.hasSelected || selectedCard.dataset.selected) return;
-    isSelectingDestination = true;
+    if (row.dataset.hasSelected) return;
     row.dataset.hasSelected = 'true';
-    selectedCard.dataset.selected = 'true';
-
-    // 0. Synchronously hide original card and disable pointer events IMMEDIATELY
-    // This ensures no ghost card remains visible at the source position when the flying clone mounts.
-    selectedCard.style.visibility = 'hidden';
-    grid.style.pointerEvents = 'none';
-    grid.querySelectorAll('.dest-card').forEach((c) => {
-      c.disabled = true;
-      c.style.pointerEvents = 'none';
-    });
-
-    // Pause ChatThread auto-scrolling immediately so scroll changes don't collide with morph
-    const chatThread = window.__trailmate?.chatThread;
-    if (chatThread && typeof chatThread.pauseAutoScroll === 'function') {
-      chatThread.pauseAutoScroll(true);
-    }
 
     // Disable all filter pills and fade them out smoothly
     const pills = header.querySelectorAll('.dest-filter-pill');
@@ -150,131 +132,110 @@ function _destinationsRow(message, onDestinationSelect) {
 
     const isReduced = typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    // 1. Measure starting coordinates (First) relative to fixed viewport
-    const firstRect = selectedCard.getBoundingClientRect();
-
-    // Sibling cards
-    const allCards = Array.from(grid.querySelectorAll('.dest-card'));
-    const otherCards = allCards.filter((c) => c !== selectedCard);
-
-    // 2. Lock heights of row and grid to eliminate any layout collapse during flight
-    const initialRowHeight = row.offsetHeight;
-    const initialGridHeight = grid.offsetHeight;
-    row.style.minHeight = `${initialRowHeight}px`;
-    grid.style.minHeight = `${initialGridHeight}px`;
-
-    // 3. Compute exact resting target position in fixed viewport coordinates BEFORE modifying header
-    // The resting confirmed card will anchor to the top-left of the destination block.
-    const gridRect = grid.getBoundingClientRect();
-    const targetWidth = Math.min(gridRect.width, 480);
-    const targetHeight = 180;
-    const targetLeft = gridRect.left;
-    const targetTop = gridRect.top;
-
-    // Fade out filter pills cleanly WITHOUT collapsing header height during flight
-    const filterPillsContainer = header.querySelector('#destFilterPills');
-    if (filterPillsContainer) {
-      const pillsHeight = filterPillsContainer.offsetHeight;
-      filterPillsContainer.style.minHeight = `${pillsHeight}px`;
-      filterPillsContainer.style.transition = 'opacity 180ms ease, transform 180ms ease';
-      filterPillsContainer.style.opacity = '0';
-      filterPillsContainer.style.transform = 'translateY(-4px)';
+    // 1. Mark selected card & update check icon immediately
+    selectedCard.classList.add('dest-card-selected');
+    const arrowIcon = selectedCard.querySelector('.dest-card-arrow');
+    if (arrowIcon) {
+      arrowIcon.textContent = 'check_circle';
+      arrowIcon.className = 'dest-card-arrow material-symbols-outlined text-base opacity-100 text-terracotta transition-all';
     }
 
-    // Cross-fade the header labels cleanly
-    const headerTitleContainer = header.querySelector('.flex.items-center.justify-between');
-    if (headerTitleContainer) {
-      headerTitleContainer.style.transition = 'opacity 160ms ease';
-      headerTitleContainer.style.opacity = '0';
-      setTimeout(() => {
-        const titleLabel = header.querySelector('.dest-header-title');
-        if (titleLabel) titleLabel.textContent = 'Selected Destination';
-        const subtitleLabel = header.querySelector('.dest-header-subtitle');
-        if (subtitleLabel) subtitleLabel.textContent = 'Confirmed';
-        headerTitleContainer.style.opacity = '1';
-      }, 160);
+    // Measure starting coordinates (First) relative to viewport
+    const firstRect = selectedCard.getBoundingClientRect();
+
+    // 2. Identify sibling cards and fade them out simultaneously
+    const allCards = Array.from(grid.querySelectorAll('.dest-card'));
+    const otherCards = allCards.filter((c) => c !== selectedCard);
+    otherCards.forEach((otherCard) => {
+      otherCard.style.pointerEvents = 'none';
+      otherCard.classList.add('dest-card-shrink-out');
+    });
+
+    // Fade out filter pills cleanly
+    const filterPillsContainer = header.querySelector('#destFilterPills');
+    if (filterPillsContainer) {
+      filterPillsContainer.style.opacity = '0';
+      filterPillsContainer.style.transition = 'opacity 200ms ease';
+      setTimeout(() => { filterPillsContainer.style.display = 'none'; }, 200);
     }
 
     if (isReduced) {
       // Reduced motion: immediate settlement
-      if (filterPillsContainer) filterPillsContainer.style.display = 'none';
       otherCards.forEach((c) => c.remove());
       grid.className = 'w-full max-w-md';
-      grid.style.minHeight = '';
-      row.style.minHeight = '';
       selectedCard.classList.remove('dest-card-selected');
       selectedCard.classList.add('dest-card-confirmed');
+      const titleLabel = header.querySelector('.dest-header-title');
+      if (titleLabel) titleLabel.textContent = 'Selected Destination';
+      const subtitleLabel = header.querySelector('.dest-header-subtitle');
+      if (subtitleLabel) subtitleLabel.textContent = 'Confirmed';
       if (typeof onDestinationSelect === 'function') {
         onDestinationSelect(dest, row);
       }
-      setTimeout(() => {
-        if (chatThread && typeof chatThread.pauseAutoScroll === 'function') {
-          chatThread.pauseAutoScroll(false);
-        }
-      }, 800);
-      setTimeout(() => {
-        isSelectingDestination = false;
-      }, 1200);
       return;
     }
 
-    // 4. Create Fixed-Position Flying Morph Card (Viewport Compositor Clone)
-    const flyingCard = selectedCard.cloneNode(true);
-    flyingCard.className = 'dest-card dest-card-flying-morph';
-    flyingCard.style.cssText = `
-      position: fixed !important;
-      top: ${firstRect.top}px !important;
-      left: ${firstRect.left}px !important;
-      width: ${firstRect.width}px !important;
-      height: ${firstRect.height}px !important;
-      margin: 0 !important;
-      z-index: 9999 !important;
-      pointer-events: none !important;
-      transform-origin: top left !important;
-      will-change: transform, box-shadow !important;
-      border-radius: 1rem !important;
-      border: 2px solid var(--terracotta) !important;
-      box-shadow: 0 12px 32px -4px rgba(148, 74, 26, 0.35) !important;
-      overflow: hidden !important;
-    `;
+    // 3. FRAME 1 INSTANT MORPH:
+    // Create an invisible placeholder with exact target hero dimensions in the grid
+    // so we can measure the final target coordinates (Last) right now!
+    const targetPlaceholder = document.createElement('div');
+    targetPlaceholder.style.width = '100%';
+    targetPlaceholder.style.maxWidth = '480px';
+    targetPlaceholder.style.height = '180px';
+    targetPlaceholder.style.visibility = 'hidden';
+    targetPlaceholder.style.pointerEvents = 'none';
+    grid.insertBefore(targetPlaceholder, grid.firstChild);
 
-    // Show check icon on flying card
-    const flyingArrow = flyingCard.querySelector('.dest-card-arrow');
-    if (flyingArrow) {
-      flyingArrow.textContent = 'check_circle';
-      flyingArrow.className = 'dest-card-arrow material-symbols-outlined text-base opacity-100 text-terracotta';
-    }
+    const lastRect = targetPlaceholder.getBoundingClientRect();
+    targetPlaceholder.remove();
 
-    // Hide original card in place (keeps exact grid geometry intact during flight)
-    selectedCard.style.visibility = 'hidden';
+    // Take selectedCard out of grid flow IMMEDIATELY so sibling collapse does not alter its position
+    const rowRect = row.getBoundingClientRect();
+    row.style.position = 'relative';
 
-    // Fade out sibling cards smoothly
-    otherCards.forEach((c) => {
-      c.style.transition = 'opacity 220ms ease, transform 220ms cubic-bezier(0.2, 0, 0, 1)';
-      c.style.opacity = '0';
-      c.style.transform = 'scale(0.92)';
-      c.style.pointerEvents = 'none';
-    });
+    // Measure relative starting and target offsets inside row
+    const startLeft = firstRect.left - rowRect.left;
+    const startTop = firstRect.top - rowRect.top;
+    const targetLeft = lastRect.left - rowRect.left;
+    const targetTop = lastRect.top - rowRect.top;
 
-    document.body.appendChild(flyingCard);
+    // Fix the card at its exact starting position in absolute coordinates
+    selectedCard.classList.add('dest-card-morphing');
+    selectedCard.style.left = `${startLeft}px`;
+    selectedCard.style.top = `${startTop}px`;
+    selectedCard.style.width = `${firstRect.width}px`;
+    selectedCard.style.height = `${firstRect.height}px`;
 
-    // 5. Hardware-Accelerated Compositor Morph
-    const DURATION = 380;
-    const EASING = 'cubic-bezier(0.16, 1, 0.3, 1)'; // Apple HIG fluid spring
-    const deltaX = targetLeft - firstRect.left;
-    const deltaY = targetTop - firstRect.top;
-    const scaleX = targetWidth / Math.max(firstRect.width, 1);
-    const scaleY = targetHeight / Math.max(firstRect.height, 1);
+    // Calculate invert delta
+    const deltaX = targetLeft - startLeft;
+    const deltaY = targetTop - startTop;
+    const scaleX = lastRect.width / Math.max(firstRect.width, 1);
+    const scaleY = lastRect.height / Math.max(firstRect.height, 1);
 
-    const cardAnim = flyingCard.animate(
+    // Update header labels concurrently
+    const titleLabel = header.querySelector('.dest-header-title');
+    if (titleLabel) titleLabel.textContent = 'Selected Destination';
+    const subtitleLabel = header.querySelector('.dest-header-subtitle');
+    if (subtitleLabel) subtitleLabel.textContent = 'Confirmed';
+
+    // Remove other cards after fade completes
+    setTimeout(() => {
+      otherCards.forEach((c) => c.remove());
+    }, 280);
+
+    // PLAY on frame 1: Single, uninterrupted 360ms compositor tween
+    const DURATION = 360;
+    const EASING = 'cubic-bezier(0.2, 0, 0, 1)';
+
+    const cardAnim = selectedCard.animate(
       [
         {
-          transform: 'translate3d(0px, 0px, 0px) scale(1, 1)',
+          transform: 'translate(0px, 0px) scale(1, 1)',
           boxShadow: '0 4px 16px rgba(0, 0, 0, 0.25)',
         },
         {
-          transform: `translate3d(${deltaX}px, ${deltaY}px, 0px) scale(${scaleX}, ${scaleY})`,
-          boxShadow: '0 0 0 2.5px var(--terracotta), 0 16px 40px -4px rgba(148, 74, 26, 0.32)',
+          transform: `translate(${deltaX}px, ${deltaY}px) scale(${scaleX}, ${scaleY})`,
+          boxShadow: '0 0 0 2.5px var(--terracotta), 0 12px 36px -4px rgba(148, 74, 26, 0.32)',
         },
       ],
       {
@@ -284,11 +245,11 @@ function _destinationsRow(message, onDestinationSelect) {
       }
     );
 
-    // Counter-scale image so photo stays natural without distortion
-    const flyingImg = flyingCard.querySelector('img');
+    // Counter-scale inner image so aspect ratio does not distort while container expands
+    const innerImg = selectedCard.querySelector('img');
     let imgAnim = null;
-    if (flyingImg) {
-      imgAnim = flyingImg.animate(
+    if (innerImg) {
+      imgAnim = innerImg.animate(
         [
           { transform: 'scale(1, 1)' },
           { transform: `scale(${1 / scaleX}, ${1 / scaleY})` },
@@ -301,69 +262,39 @@ function _destinationsRow(message, onDestinationSelect) {
       );
     }
 
-    // 6. Seamless Docking on Animation Complete
-    cardAnim.onfinish = () => {
-      // Remove sibling cards
-      otherCards.forEach((c) => c.remove());
+    // When card expansion reaches >85% (around 310ms), trigger follow-up message creation
+    let callbackTriggered = false;
+    const triggerTimeout = setTimeout(() => {
+      if (!callbackTriggered) {
+        callbackTriggered = true;
+        if (typeof onDestinationSelect === 'function') {
+          onDestinationSelect(dest, row);
+        }
+      }
+    }, Math.round(DURATION * 0.88));
 
-      // Settle resting card in DOM
-      selectedCard.style.visibility = '';
+    // When animation completes, settle DOM classes cleanly
+    cardAnim.onfinish = () => {
+      cardAnim.cancel();
+      if (imgAnim) imgAnim.cancel();
+
+      // Clean up inline styles and finalize resting layout
+      selectedCard.classList.remove('dest-card-selected', 'dest-card-morphing');
+      selectedCard.classList.add('dest-card-confirmed');
       selectedCard.style.left = '';
       selectedCard.style.top = '';
       selectedCard.style.width = '';
       selectedCard.style.height = '';
       selectedCard.style.transform = '';
-      selectedCard.classList.remove('dest-card-selected', 'dest-card-morphing');
-      selectedCard.classList.add('dest-card-confirmed');
-
-      const restingArrow = selectedCard.querySelector('.dest-card-arrow');
-      if (restingArrow) {
-        restingArrow.textContent = 'check_circle';
-        restingArrow.className = 'dest-card-arrow material-symbols-outlined text-base opacity-100 text-terracotta';
-      }
-
       grid.className = 'w-full max-w-md';
 
-      // Remove filter pills completely now that animation is done
-      if (filterPillsContainer) {
-        filterPillsContainer.style.display = 'none';
-        filterPillsContainer.style.minHeight = '';
-      }
-
-      // Smoothly transition container min-height down to resting hero card height
-      grid.style.transition = 'min-height 280ms cubic-bezier(0.16, 1, 0.3, 1)';
-      grid.style.minHeight = '180px';
-      row.style.transition = 'min-height 280ms cubic-bezier(0.16, 1, 0.3, 1)';
-      row.style.minHeight = '';
-
-      // Remove flying clone
-      flyingCard.remove();
-
-      // 7. Staggered Message Sequence:
-      // After cardAnim.onfinish, call onDestinationSelect(dest, row)
-      if (typeof onDestinationSelect === 'function') {
-        onDestinationSelect(dest, row);
-      }
-
-      // Keep pauseAutoScroll(true) active through initial bot response so mounting text does not violently yank container down.
-      // Unlock chatThread.pauseAutoScroll(false) 800ms after the bot response has mounted, allowing gentle scrolling if needed.
-      setTimeout(() => {
-        if (chatThread && typeof chatThread.pauseAutoScroll === 'function') {
-          chatThread.pauseAutoScroll(false);
+      if (!callbackTriggered) {
+        callbackTriggered = true;
+        clearTimeout(triggerTimeout);
+        if (typeof onDestinationSelect === 'function') {
+          onDestinationSelect(dest, row);
         }
-      }, 800);
-
-      // Reset isSelectingDestination = false after 1200ms
-      setTimeout(() => {
-        isSelectingDestination = false;
-      }, 1200);
-
-      // Clean up transition inline styles after collapse completes
-      setTimeout(() => {
-        grid.style.transition = '';
-        grid.style.minHeight = '';
-        row.style.transition = '';
-      }, 300);
+      }
     };
   }
 

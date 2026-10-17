@@ -37,9 +37,6 @@ export class ChatThread {
     /** The current typing indicator row, if visible */
     this._typingEl = null;
 
-    this._isAutoScrollPaused = false;
-    this._scrollTimers = [];
-
     // Render any messages already in the store (e.g. from a previous session
     // or pre-seeded demo content)
     this._renderAll(store.getState().messages);
@@ -57,8 +54,11 @@ export class ChatThread {
     // Auto-scroll when content inside the thread resizes (images load, cards render, text expands)
     if (typeof ResizeObserver !== 'undefined') {
       this._resizeObserver = new ResizeObserver(() => {
-        if (this._isAutoScrollPaused) return;
-        this.scrollToBottom(true);
+        const threshold = 250;
+        const isNearBottom = this.el.scrollHeight - this.el.scrollTop - this.el.clientHeight < threshold;
+        if (isNearBottom) {
+          this.el.scrollTop = this.el.scrollHeight;
+        }
       });
       this._resizeObserver.observe(this.el);
     }
@@ -66,84 +66,16 @@ export class ChatThread {
 
   /* ── Public API ─────────────────────────────────────────────────────── */
 
-  /** Pause or resume auto-scroll to avoid layout collisions during shared-element morphs */
-  pauseAutoScroll(paused = true) {
-    this._isAutoScrollPaused = Boolean(paused);
-    this._scrollTimers.forEach(clearTimeout);
-    this._scrollTimers = [];
-  }
-
-  /** Programmatically scroll to the bottom of the thread with viewport safety */
+  /** Programmatically scroll to the bottom of the thread */
   scrollToBottom(smooth = true) {
-    if (!this.el || this._isAutoScrollPaused) return;
-
-    // Clear previous pending timers to cancel duplicates
-    this._scrollTimers.forEach(clearTimeout);
-    this._scrollTimers = [];
+    if (!this.el) return;
 
     const performScroll = (isSmooth = smooth) => {
-      if (!this.el || this._isAutoScrollPaused) return;
+      if (!this.el) return;
       const last = this.el.lastElementChild;
-      if (!last) return;
-
-      const first = this.el.firstElementChild;
-      const threadRect = typeof this.el.getBoundingClientRect === 'function' ? this.el.getBoundingClientRect() : null;
-      const hasLayout = threadRect && (threadRect.height > 0 || threadRect.width > 0);
-      const firstRect = (first && typeof first.getBoundingClientRect === 'function') ? first.getBoundingClientRect() : null;
-      const lastRect = (last && typeof last.getBoundingClientRect === 'function') ? last.getBoundingClientRect() : null;
-
-      // Anti-clipping safety check:
-      // In early conversation stages or when the initial destination is confirmed,
-      // the welcome message and selected destination card should stay comfortably in view.
-      // NEVER allow scrollToBottom to push the welcome message offscreen or clip it behind the sticky header!
-      const hasDestCard = Boolean(this.el.querySelector('.dest-card-confirmed, [data-has-selected="true"]'));
-      const isShortThread = (this.el.scrollHeight <= this.el.clientHeight * 1.8) || (this._renderedIds.size <= 4) || hasDestCard;
-
-      if (isShortThread) {
-        const chatPane = document.getElementById('chatPane');
-        const header = chatPane ? chatPane.querySelector('header') : document.querySelector('header');
-        const headerBottom = header && typeof header.getBoundingClientRect === 'function'
-          ? header.getBoundingClientRect().bottom
-          : (threadRect ? threadRect.top : 0);
-        const visibleTop = Math.max(threadRect ? threadRect.top : 0, headerBottom);
-
-        // If first message is already at or above visible top, or thread is short, clamp to top
-        if (firstRect && hasLayout && firstRect.top <= visibleTop + 4) {
-          if (this.el.scrollTop > 0) {
-            this.el.scrollTop = 0;
-          }
-          return;
-        }
-
-        const overflow = (hasLayout && lastRect && threadRect)
-          ? (lastRect.bottom - threadRect.bottom)
-          : (this.el.scrollHeight - this.el.clientHeight - this.el.scrollTop);
-
-        if (overflow > 0) {
-          // Calculate strict max allowed scroll so that first message never gets clipped
-          const maxAllowed = (firstRect && hasLayout) ? Math.max(0, firstRect.top - visibleTop - 12) : 0;
-          const scrollAmount = Math.min(overflow, maxAllowed);
-
-          if (scrollAmount <= 1) return;
-
-          if (typeof this.el.scrollBy === 'function') {
-            try {
-              this.el.scrollBy({ top: scrollAmount, behavior: isSmooth ? 'smooth' : 'auto' });
-            } catch {
-              this.el.scrollTop += scrollAmount;
-            }
-          } else {
-            this.el.scrollTop += scrollAmount;
-          }
-        }
-        return;
-      }
-
-      // For normal/longer threads, use block: 'nearest' to bring the new bubble into view smoothly
-      // without violent layout jumps
-      if (typeof last.scrollIntoView === 'function') {
+      if (last && typeof last.scrollIntoView === 'function') {
         try {
-          last.scrollIntoView({ behavior: isSmooth ? 'smooth' : 'auto', block: 'nearest' });
+          last.scrollIntoView({ behavior: isSmooth ? 'smooth' : 'auto', block: 'end' });
         } catch {
           this.el.scrollTop = this.el.scrollHeight;
         }
@@ -153,8 +85,10 @@ export class ChatThread {
     };
 
     performScroll(smooth);
-    const t1 = setTimeout(() => performScroll(smooth), 60);
-    this._scrollTimers = [t1];
+    requestAnimationFrame(() => performScroll(false));
+    setTimeout(() => performScroll(smooth), 60);
+    setTimeout(() => performScroll(false), 200);
+    setTimeout(() => performScroll(false), 450);
   }
 
   /** Remove all rendered messages and reset tracked IDs */

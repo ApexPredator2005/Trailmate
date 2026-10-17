@@ -227,35 +227,10 @@ class Store {
     });
   }
 
-  /** Append a message and fire subscribers, preventing duplicate ghost messages */
+  /** Append a message and fire subscribers */
   pushMessage(message) {
-    if (!message) return null;
-
-    // 1. Enforce stable deterministic or monotonic ID
-    const msgId = message.id || `msg-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`;
-
-    // 2. Exact ID deduplication guard: if message with same ID already exists, ignore
-    const existing = this._state.messages.find(m => m.id === msgId);
-    if (existing) {
-      return existing;
-    }
-
-    // 3. Debounce rapid duplicate messages (e.g. automated test double click / event bubbling)
-    const msgs = this._state.messages;
-    if (msgs.length > 0) {
-      const last = msgs[msgs.length - 1];
-      if (
-        last.role === message.role &&
-        last.text &&
-        last.text === message.text &&
-        Date.now() - (last.ts || 0) < 1000
-      ) {
-        return last;
-      }
-    }
-
     const msg = {
-      id: msgId,
+      id: `${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
       ts: Date.now(),
       ...message,
     };
