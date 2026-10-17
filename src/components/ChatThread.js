@@ -58,11 +58,7 @@ export class ChatThread {
     if (typeof ResizeObserver !== 'undefined') {
       this._resizeObserver = new ResizeObserver(() => {
         if (this._isAutoScrollPaused) return;
-        const threshold = 250;
-        const isNearBottom = this.el.scrollHeight - this.el.scrollTop - this.el.clientHeight < threshold;
-        if (isNearBottom) {
-          this.el.scrollTop = this.el.scrollHeight;
-        }
+        this.scrollToBottom(true);
       });
       this._resizeObserver.observe(this.el);
     }
@@ -97,9 +93,9 @@ export class ChatThread {
       const lastRect = (last && typeof last.getBoundingClientRect === 'function') ? last.getBoundingClientRect() : null;
 
       // Anti-clipping safety check:
-      // If conversation is short (this.el.scrollHeight <= this.el.clientHeight * 1.4),
+      // If conversation is short (this.el.scrollHeight <= this.el.clientHeight * 1.8),
       // ensure the top welcome greeting is NEVER pushed above the visible container top!
-      const isShortThread = this.el.scrollHeight <= this.el.clientHeight * 1.4;
+      const isShortThread = this.el.scrollHeight <= this.el.clientHeight * 1.8;
       if (isShortThread) {
         const chatPane = document.getElementById('chatPane');
         const header = chatPane ? chatPane.querySelector('header') : document.querySelector('header');
@@ -118,13 +114,11 @@ export class ChatThread {
           : (this.el.scrollHeight - this.el.clientHeight - this.el.scrollTop);
 
         if (overflow > 0) {
-          // If the last element is below the visible container, scroll only the minimal needed amount
-          const scrollAmount = Math.min(overflow, 60);
+          // If the last element is below the visible container, scroll only the minimal safe amount
+          const maxAllowed = firstRect && hasLayout ? Math.max(0, firstRect.top - visibleTop - 8) : 0;
+          const scrollAmount = Math.min(overflow, maxAllowed);
 
-          // NEVER push the top welcome message off-screen or above the container's visible top!
-          if (firstRect && hasLayout && (firstRect.bottom - scrollAmount <= visibleTop || firstRect.top - scrollAmount < visibleTop)) {
-            return;
-          }
+          if (scrollAmount <= 1) return;
 
           if (typeof this.el.scrollBy === 'function') {
             try {

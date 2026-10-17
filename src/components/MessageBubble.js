@@ -154,20 +154,29 @@ function _destinationsRow(message, onDestinationSelect) {
     const allCards = Array.from(grid.querySelectorAll('.dest-card'));
     const otherCards = allCards.filter((c) => c !== selectedCard);
 
-    // Fade out filter pills cleanly
-    const filterPillsContainer = header.querySelector('#destFilterPills');
-    if (filterPillsContainer) {
-      filterPillsContainer.style.transition = 'opacity 180ms ease, transform 180ms ease';
-      filterPillsContainer.style.opacity = '0';
-      filterPillsContainer.style.transform = 'translateY(-4px)';
-      setTimeout(() => { filterPillsContainer.style.display = 'none'; }, 200);
-    }
-
     // 2. Lock heights of row and grid to eliminate any layout collapse during flight
     const initialRowHeight = row.offsetHeight;
     const initialGridHeight = grid.offsetHeight;
     row.style.minHeight = `${initialRowHeight}px`;
     grid.style.minHeight = `${initialGridHeight}px`;
+
+    // 3. Compute exact resting target position in fixed viewport coordinates BEFORE modifying header
+    // The resting confirmed card will anchor to the top-left of the destination block.
+    const gridRect = grid.getBoundingClientRect();
+    const targetWidth = Math.min(gridRect.width, 480);
+    const targetHeight = 180;
+    const targetLeft = gridRect.left;
+    const targetTop = gridRect.top;
+
+    // Fade out filter pills cleanly WITHOUT collapsing header height during flight
+    const filterPillsContainer = header.querySelector('#destFilterPills');
+    if (filterPillsContainer) {
+      const pillsHeight = filterPillsContainer.offsetHeight;
+      filterPillsContainer.style.minHeight = `${pillsHeight}px`;
+      filterPillsContainer.style.transition = 'opacity 180ms ease, transform 180ms ease';
+      filterPillsContainer.style.opacity = '0';
+      filterPillsContainer.style.transform = 'translateY(-4px)';
+    }
 
     // Cross-fade the header labels cleanly
     const headerTitleContainer = header.querySelector('.flex.items-center.justify-between');
@@ -185,6 +194,7 @@ function _destinationsRow(message, onDestinationSelect) {
 
     if (isReduced) {
       // Reduced motion: immediate settlement
+      if (filterPillsContainer) filterPillsContainer.style.display = 'none';
       otherCards.forEach((c) => c.remove());
       grid.className = 'w-full max-w-md';
       grid.style.minHeight = '';
@@ -204,19 +214,6 @@ function _destinationsRow(message, onDestinationSelect) {
       }, 1200);
       return;
     }
-
-    // 3. Compute resting target position in fixed viewport coordinates
-    // In resting state, the confirmed card occupies the top-left of the destination block,
-    // with max width 480px and height 180px.
-    const gridRect = grid.getBoundingClientRect();
-    const chatPane = document.getElementById('chatPane');
-    const headerEl = chatPane ? chatPane.querySelector('header') : null;
-    const headerBottom = headerEl ? headerEl.getBoundingClientRect().bottom : 70;
-
-    const targetWidth = Math.min(gridRect.width, 480);
-    const targetHeight = 180;
-    const targetLeft = gridRect.left;
-    const targetTop = Math.max(headerBottom + 12, gridRect.top);
 
     // 4. Create Fixed-Position Flying Morph Card (Viewport Compositor Clone)
     const flyingCard = selectedCard.cloneNode(true);
@@ -324,6 +321,12 @@ function _destinationsRow(message, onDestinationSelect) {
 
       grid.className = 'w-full max-w-md';
 
+      // Remove filter pills completely now that animation is done
+      if (filterPillsContainer) {
+        filterPillsContainer.style.display = 'none';
+        filterPillsContainer.style.minHeight = '';
+      }
+
       // Smoothly transition container min-height down to resting hero card height
       grid.style.transition = 'min-height 280ms cubic-bezier(0.16, 1, 0.3, 1)';
       grid.style.minHeight = '180px';
@@ -332,11 +335,6 @@ function _destinationsRow(message, onDestinationSelect) {
 
       // Remove flying clone
       flyingCard.remove();
-
-      // If row was scrolled partially under sticky header, gently scroll down to reveal it
-      if (gridRect.top < headerBottom + 12 && chatThread?.el) {
-        chatThread.el.scrollTo({ top: Math.max(0, row.offsetTop - 12), behavior: 'smooth' });
-      }
 
       // 7. Staggered Message Sequence:
       // After cardAnim.onfinish, call onDestinationSelect(dest, row)
