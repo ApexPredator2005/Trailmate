@@ -491,10 +491,10 @@ To maintain this standard while offering a high-performance **Scrapbook Studio**
   * Rejection over silent escaping ensures malicious or corrupted payloads are blocked at the perimeter before touching application state.
   * Offscreen canvas rasterization strips metadata, EXIF geotags, and steganographic payloads before storage.
 
-### DEC-023: VengeanceUI 3D Flip Text Engine & Interactive Selection Highlighter
+### DEC-023: VengeanceUI 3D Flip Text Engine & Interactive Selection Highlighter (Retired)
 * **Decision Makers:** User Design Directive & Engineering
 * **Category:** UI / Motion, Typography Engineering & Tactile Micro-Interactions
-* **Status:** Implemented (October 2026)
+* **Status:** Retired & Removed per User Directive (October 2026)
 * **The Context & Problem:**
   The user requested the signature 3D Flip Text animation from VengeanceUI (`vengenceui.com/components/flip-text`) triggered when text is selected or highlighted across the interface ("add flip text animation to the text when i select a text /highlight it ,like in picture"). Standard browser `::selection` CSS only supports color/background tints and cannot decompose text nodes into 3D rotating character facets. Furthermore, naive DOM manipulation during mouse drag interrupts native selection, breaks text copying (`Cmd+C`), and risks DOM pollution.
 * **The Decision:**
@@ -565,7 +565,7 @@ To maintain this standard while offering a high-performance **Scrapbook Studio**
 | **DEC-020** | DevOps | Vercel Function Storage Quota & Deployment Pruning | User | Automated REST deletion of 14 old deployments; reclaimed 4.4GB quota |
 | **DEC-021** | UI / Motion | VengeanceUI 3D Social Flip Button in Sidebar | User | Pure CSS 3D spring transforms; official Instagram, Facebook, Gmail, X brand badges; 0KB runtime |
 | **DEC-022** | Security | Defense-in-Depth Hardening: Strict Schemas & Magic Bytes | User | .strict() schema rejection, magic byte raster validation, 10MB upload limits, error sanitization |
-| **DEC-023** | UI / Motion | VengeanceUI 3D Flip Text Engine & Selection Highlighter | User | 3D perspective character-by-character flipping on selection; sine-wave delay; floating HUD pill; 0KB runtime |
+| **DEC-023** | UI / Motion | VengeanceUI 3D Flip Text Engine & Selection Highlighter (Retired) | User | Retired per design directive; clean native text selection restored; 0KB runtime |
 | **DEC-024** | Motion | Zero-Jank Fluid Shared-Element Morph & Layout Sequencing | User | Fixed compositor clone, scroll lock, height freeze, and staggered message mounting |
 
 ---
