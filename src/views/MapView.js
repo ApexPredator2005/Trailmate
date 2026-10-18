@@ -1230,10 +1230,6 @@ export function renderMapView(container, { switchView, store }) {
                     <span>${escapeHtml(categoryTag)}</span>
                   </span>
                   <div class="map-card-actions">
-                    <button type="button" class="map-btn-outline" data-action="open-gallery" title="View all ${photoCount} photos">
-                      <span class="material-symbols-outlined text-[11px]">photo_library</span>
-                      <span>Photos (${photoCount})</span>
-                    </button>
                     <button type="button" class="map-btn-outline" data-action="directions">Directions</button>
                     <button type="button" class="map-btn-solid-terracotta" data-action="circuit">In Circuit ✓</button>
                   </div>
