@@ -586,6 +586,7 @@ export function renderMapView(container, { switchView, store }) {
   let activeFilter = 'Day 1 Route';
   let searchQuery = '';
   let activeCardIndex = 0;
+  let updateActiveFocusCircle = null;
 
   // Render Split-Pane DOM Shell
   container.innerHTML = `
@@ -978,6 +979,7 @@ export function renderMapView(container, { switchView, store }) {
     document.getElementById('btnZoomToPlaceFromGallery')?.addEventListener('click', () => {
       closeModal();
       safeMoveMap(place.lat, place.lng, 15, 0.8);
+      updateActiveFocusCircle?.(place);
     });
   }
 
@@ -985,6 +987,7 @@ export function renderMapView(container, { switchView, store }) {
   function loadDestinationData(destName, destKey) {
     activeDestKey = destKey;
     selectedDestination = destName;
+    activeCardIndex = 0;
 
     const destMeta = DESTINATION_META[destKey] || DESTINATION_META.ooty;
     const centerMeta = DESTINATION_CENTERS[destKey] || DESTINATION_CENTERS.ooty;
@@ -1049,6 +1052,7 @@ export function renderMapView(container, { switchView, store }) {
       filtersBar.querySelectorAll('.map-filter-pill').forEach(btn => {
         btn.addEventListener('click', () => {
           activeFilter = btn.dataset.filter;
+          activeCardIndex = 0;
           filtersBar.querySelectorAll('.map-filter-pill').forEach(b => b.classList.remove('active'));
           btn.classList.add('active');
           renderFilteredFeed();
@@ -1091,53 +1095,30 @@ export function renderMapView(container, { switchView, store }) {
       // Ensure every attraction has authentic photos resolved
       displayedItems = displayedItems.map(item => resolveItemWithPhotos(item, activeDestKey));
 
-      // ── Topographic Water Overlays & Relief Circles (Ooty Lake & Doddabetta) ──
-      if (activeDestKey === 'ooty') {
-        // Soft Teal Ooty Lake polygon
-        L.circle([11.4050, 76.6880], {
-          radius: 650,
+      // ── Dynamic Green Highlight Focus Circle for the Selected Attraction ──
+      function updateSelectedAttractionCircle(selectedItem) {
+        currentOverlaysGroup.clearLayers();
+        if (!selectedItem) return;
+        const lat = Number(selectedItem.lat);
+        const lng = Number(selectedItem.lng);
+        if (!Number.isFinite(lat) || !Number.isFinite(lng)) return;
+
+        L.circle([lat, lng], {
+          radius: 550,
           color: '#5B8C7B',
           weight: 1.5,
           fillColor: '#5B8C7B',
           fillOpacity: 0.16,
+          interactive: false,
+          className: 'map-selected-focus-circle',
         }).addTo(currentOverlaysGroup);
+      }
+      updateActiveFocusCircle = updateSelectedAttractionCircle;
 
-        // Elegant italic label inside Ooty Lake
-        const lakeTextIcon = L.divIcon({
-          className: 'map-lake-callout-icon',
-          html: `<div class="map-lake-callout-text"><em>(Ooty Lake • 2,240m)</em></div>`,
-          iconSize: [140, 22],
-          iconAnchor: [70, 36],
-        });
-        L.marker([11.4050, 76.6880], { icon: lakeTextIcon, interactive: false }).addTo(currentOverlaysGroup);
-
-        // Topo contour rings around Doddabetta Peak (at 11.3995, 76.7388)
-        L.circle([11.3995, 76.7388], {
-          radius: 1200,
-          color: '#C4703D',
-          weight: 1,
-          dashArray: '4, 5',
-          fillColor: '#5B8C7B',
-          fillOpacity: 0.03,
-        }).addTo(currentOverlaysGroup);
-
-        L.circle([11.3995, 76.7388], {
-          radius: 650,
-          color: '#C4703D',
-          weight: 1,
-          dashArray: '3, 4',
-          fillColor: '#5B8C7B',
-          fillOpacity: 0.05,
-        }).addTo(currentOverlaysGroup);
-
-        // Topo peak label
-        const doddabettaTextIcon = L.divIcon({
-          className: 'map-topo-elevation-icon',
-          html: `<div class="map-topo-elevation-text">DODDABETTA PEAK 2,637m</div>`,
-          iconSize: [160, 20],
-          iconAnchor: [80, 48],
-        });
-        L.marker([11.3995, 76.7388], { icon: doddabettaTextIcon, interactive: false }).addTo(currentOverlaysGroup);
+      // Initialize focus circle on active attraction
+      const initialSelectedItem = displayedItems[activeCardIndex] || displayedItems[0];
+      if (initialSelectedItem) {
+        updateSelectedAttractionCircle(initialSelectedItem);
       }
 
       // ── Terracotta Polyline Connecting Day 1 Stops in Natural Circuit Order ──
@@ -1332,6 +1313,7 @@ export function renderMapView(container, { switchView, store }) {
             card.classList.add('active');
 
             if (item && Number.isFinite(item.lat) && Number.isFinite(item.lng)) {
+              updateSelectedAttractionCircle(item);
               safeMoveMap(item.lat, item.lng, 14, 0.8);
               const marker = markerMap.get(idx);
               if (marker) marker.openPopup();
@@ -1403,6 +1385,8 @@ export function renderMapView(container, { switchView, store }) {
           });
 
         marker.on('popupopen', (e) => {
+          activeCardIndex = idx;
+          updateSelectedAttractionCircle(item);
           document.querySelectorAll('.map-waypoint-pin').forEach(p => p.classList.remove('active'));
           const pinEl = document.getElementById(`waypointPin-${idx}`);
           if (pinEl) pinEl.classList.add('active');
@@ -1425,6 +1409,7 @@ export function renderMapView(container, { switchView, store }) {
 
         marker.on('click', () => {
           activeCardIndex = idx;
+          updateSelectedAttractionCircle(item);
           const card = feedContainer?.querySelector(`.map-sight-card[data-idx="${idx}"]`);
           if (card) {
             feedContainer.querySelectorAll('.map-sight-card').forEach(c => c.classList.remove('active'));

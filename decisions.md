@@ -601,6 +601,7 @@ To maintain this standard while offering a high-performance **Scrapbook Studio**
 | **DEC-031** | Maps | Split-Pane Dual Explorer Geospatial Map Architecture & Brand UI Palette | User | 42% itinerary ledger + 58% unobstructed map canvas; warm parchment & terracotta brand styling; zero sidebar impact |
 | **DEC-032** | Maps | Dynamic Multi-Destination Elevation Profiles & Typography Streamlining | User | Dynamic elevation curves for 15 destinations; removed coordinate clutter and obsolete estate wash layer |
 | **DEC-033** | Maps / Media | Multi-Photo Attraction Carousel & Audio Guide Elimination | User | Resolves 6 authentic photos per sight via inline card carousel & fullscreen modal; eliminated synthetic audio guide |
+| **DEC-034** | Maps | Dynamic Selected Attraction Focus Circle & Static Overlay Cleanup | User | Replaces static Ooty-only lake circle with a dynamic 550m expedition sage focus circle tracking the selected attraction across all 15 destinations |
 
 ---
 
@@ -725,6 +726,30 @@ To maintain this standard while offering a high-performance **Scrapbook Studio**
     * Provided high-res photo viewer with fluid spring transitions, filmstrip thumbnails, rating, description, and keyboard navigation (`ArrowLeft` for previous photo, `ArrowRight` for next photo, `Escape` to close).
 * **Why This Was Chosen:**
   * Maximizes traveler immersion by unlocking the full catalog of authentic photographs directly on the cards and in an archival fullscreen gallery, while keeping the UI clean and free of synthetic audio clutter.
+
+---
+
+### DEC-034: Dynamic Selected Attraction Focus Circle & Static Overlay Cleanup
+* **Decision Makers:** User Directive
+* **Category:** Geospatial UI, Selection Dynamics & Cartographic Clarity
+* **Status:** Implemented & Verified (October 2026)
+* **The Context & Problem:**
+  1. A static sage green circle (`L.circle` with 650m radius) and text `(Ooty Lake • 2,240m)` were permanently rendered over Ooty Lake, along with dashed contour rings over Doddabetta Peak, hardcoded strictly inside `if (activeDestKey === 'ooty')`.
+  2. This produced two usability and aesthetic defects:
+     - The green circle was pinned exclusively to Ooty Lake regardless of which attraction the traveler clicked.
+     - The other 14 destinations lacked any focus indicator on the map.
+     - The static lake text physically collided with the Pin 7 marker and its title label (`Ooty Lake & Boathouse`).
+  3. The user requested: "it should appear on the selected attraction only".
+* **The Decision:**
+  * **Dynamic Universal Attraction Focus Circle:**
+    * Completely eliminated the hardcoded static `if (activeDestKey === 'ooty')` overlay block (lake circle, lake text, Doddabetta contour rings).
+    * Implemented `updateSelectedAttractionCircle(selectedItem)` in `src/views/MapView.js`, which dynamically renders a 550m expedition sage (`#5B8C7B`, 1.5px border, 0.16 fill opacity) circular focus halo directly centered on the currently selected attraction (`[item.lat, item.lng]`).
+    * Hooked into ledger card click events, map marker clicks, marker popover openings (`popupopen`), and gallery modal "Center On Map" interactions.
+    * Dynamically tracks the active selection across all 15 destinations and resets smoothly to Stop 1 upon destination or filter switching.
+  * **Eliminated Marker Collisions:**
+    * Removed static map callout text nodes that were colliding with waypoint pin labels and popover cards, allowing the popover card to display title and elevation clearly without overlap.
+* **Why This Was Chosen:**
+  * Transforms an isolated, hardcoded static illustration element into a responsive, universal geographic focus indicator that elevates spatial awareness for all destinations.
 
 ---
 
