@@ -1,8 +1,8 @@
 /**
- * WallpapersData.js — Authentic, verified 3840px (4K) local embedded wallpapers of Indian scenery:
- * Lush Green Mountains, Tropical Beaches, Rolling Tea Gardens,
- * Majestic Waterfalls, Historic Indian Forts, Snow-Covered Himalayan Peaks,
- * and Scenic Indian Nature.
+ * WallpapersData.js — Curated collection of authentic, ultra-vibrant 4K wallpapers of Indian scenery:
+ * Lush Green Mountains, Tropical Azure Beaches, Rolling Emerald Tea Gardens,
+ * Majestic Rainforest Waterfalls, Historic Golden Indian Forts,
+ * Radiant Alpenglow Himalayan Peaks, and Mirror-Like Emerald Lakes.
  */
 
 export const WALLPAPER_CATEGORIES = [
@@ -19,28 +19,6 @@ export const WALLPAPER_CATEGORIES = [
 export const WALLPAPERS = [
   // ── 1. Lush Green Mountains ──
   {
-    id: 'green-mountains-mullayanagiri',
-    title: 'Mullayanagiri Valley Ridge',
-    location: 'Chikkamagaluru, Karnataka',
-    category: 'Lush Green Mountains',
-    tag: 'Cloud Valley',
-    icon: 'terrain',
-    url: '/images/wallpapers/mountains-mullayanagiri-4k.jpg',
-    fallback: '/images/attractions/coorg/rajas-seat-1.jpg',
-    description: 'Sweeping cloud-draped mountain crests rising above the coffee valleys',
-  },
-  {
-    id: 'green-mountains-nilgiris-glenmorgan',
-    title: 'Glenmorgan Highland Valley',
-    location: 'Nilgiri Mountains, Tamil Nadu',
-    category: 'Lush Green Mountains',
-    tag: 'Shola Valleys',
-    icon: 'forest',
-    url: '/images/wallpapers/mountains-nilgiris-glenmorgan-4k.jpg',
-    fallback: '/images/attractions/ooty/doddabetta-peak-1.jpg',
-    description: 'Dramatic mist-cloaked valley slopes and ancient Shola forests of the Nilgiris',
-  },
-  {
     id: 'green-mountains-nilgiris-slopes',
     title: 'Nilgiris TR Valley Slopes',
     location: 'Ooty, Tamil Nadu',
@@ -51,19 +29,19 @@ export const WALLPAPERS = [
     fallback: '/images/attractions/ooty/pykara-falls-1.jpg',
     description: 'Highland ridges and tiered agricultural valleys carved into the Blue Mountains',
   },
+  {
+    id: 'green-mountains-anamudi-peak',
+    title: 'Anamudi Shola Mountain Summit',
+    location: 'Munnar, Western Ghats, Kerala',
+    category: 'Lush Green Mountains',
+    tag: 'Highest Peak in South India',
+    icon: 'terrain',
+    url: '/images/wallpapers/mountains-anamudi-shola-peak.jpg',
+    fallback: '/images/attractions/munnar/anamudi-peak-1.jpg',
+    description: 'Sun-drenched mountain peaks rising above emerald shola grasslands and cloud forests',
+  },
 
   // ── 2. Beaches ──
-  {
-    id: 'beaches-palolem-goa',
-    title: 'Palolem Beach Crescent',
-    location: 'Canacona, South Goa',
-    category: 'Beaches',
-    tag: 'Coastal Lagoon',
-    icon: 'beach_access',
-    url: '/images/wallpapers/beaches-palolem-goa-4k.jpg',
-    fallback: '/images/attractions/goa/palolem-beach-1.jpg',
-    description: 'Golden sands fringed by coconut palms along the tranquil Arabian Sea',
-  },
   {
     id: 'beaches-andaman-radhanagar',
     title: 'Radhanagar Sunset Shore',
@@ -108,21 +86,10 @@ export const WALLPAPERS = [
     fallback: '/images/attractions/andaman/radhanagar-beach-1.jpg',
     description: 'Bird’s eye vista of crystal turquoise lagoons, moored wooden skiffs, and palm-shaded sands',
   },
-  {
-    id: 'beaches-golden-sunset-surf',
-    title: 'Golden Sunset Surf & Pastel Shore',
-    location: 'Goa Coastal Shores',
-    category: 'Beaches',
-    tag: 'Sunset Beach',
-    icon: 'wb_sunny',
-    url: '/images/wallpapers/beaches-golden-sunset-surf.jpg',
-    fallback: '/images/attractions/goa/palolem-beach-1.jpg',
-    description: 'Gentle warm sea foam washing over soft sands beneath a radiant evening sunset sky',
-  },
 
   // ── 3. Tea Gardens ──
   {
-    id: 'tea-gardens-munnar',
+    id: 'tea-gardens-munnar-tall',
     title: 'Munnar Highland Tea Terraces',
     location: 'Munnar, Kerala',
     category: 'Tea Gardens',
@@ -144,15 +111,15 @@ export const WALLPAPERS = [
     description: 'Sunlit terraces of hand-plucked tea bushes cascading down misty Western Ghats',
   },
   {
-    id: 'tea-gardens-darjeeling-teascape',
-    title: 'Darjeeling Himalayan Teascape',
-    location: 'Darjeeling, West Bengal',
+    id: 'tea-gardens-plantations-wide',
+    title: 'Munnar Panoramic Tea Ridges',
+    location: 'Munnar, Kerala',
     category: 'Tea Gardens',
-    tag: 'Himalayan Slopes',
+    tag: 'Endless Emerald',
     icon: 'yard',
-    url: '/images/wallpapers/tea-darjeeling-teascape-4k.jpg',
-    fallback: '/images/attractions/darjeeling/happy-valley-tea-1.jpg',
-    description: 'Century-old high-altitude tea bushes terraced against the Eastern Himalayan clouds',
+    url: '/images/wallpapers/tea-plantations-munnar-4k.jpg',
+    fallback: '/images/attractions/munnar/kolukkumalai-tea-1.jpg',
+    description: 'Breathtaking 4K wide panoramic carpets of emerald tea bushes stretching across cloud-capped ridges',
   },
   {
     id: 'tea-gardens-valparai-estates',
@@ -189,39 +156,6 @@ export const WALLPAPERS = [
     fallback: '/images/attractions/goa/dudhsagar-waterfalls-1.jpg',
     description: 'Towering four-tiered cascade plunging 310 meters down Western Ghat cliffs',
   },
-  {
-    id: 'waterfalls-jog-falls',
-    title: 'Jog Falls Sharavathi Gorge',
-    location: 'Shimoga, Karnataka',
-    category: 'Waterfalls',
-    tag: 'Segmented Cataract',
-    icon: 'water',
-    url: '/images/wallpapers/waterfalls-jog-falls-4k.jpg',
-    fallback: '/images/attractions/coorg/abbey-falls-1.jpg',
-    description: 'India’s second-highest plunge cataract tumbling 253 meters down sheer rock amphitheaters',
-  },
-  {
-    id: 'waterfalls-nohkalikai-meghalaya',
-    title: 'Nohkalikai Rainforest Plunge',
-    location: 'Cherrapunji, Meghalaya',
-    category: 'Waterfalls',
-    tag: 'Tallest Plunge Waterfall',
-    icon: 'water_drop',
-    url: '/images/wallpapers/waterfalls-nohkalikai-meghalaya-4k.jpg',
-    fallback: '/images/attractions/wayanad/soochipara-falls-1.jpg',
-    description: 'Spectacular 340-meter freefall drop into a vibrant emerald-green mountain pool',
-  },
-  {
-    id: 'waterfalls-sunlit-mossy-cascade',
-    title: 'Sunlit Mossy Stone Cascade',
-    location: 'Western Ghats Forest Reserve',
-    category: 'Waterfalls',
-    tag: 'Tiered Waterfall',
-    icon: 'water_drop',
-    url: '/images/wallpapers/waterfalls-sunlit-mossy-cascade.jpg',
-    fallback: '/images/attractions/coorg/abbey-falls-1.jpg',
-    description: 'Silky cascades tumbling over lush moss-covered boulder steps illuminated by canopy sunbeams',
-  },
 
   // ── 5. Indian Forts ──
   {
@@ -236,28 +170,6 @@ export const WALLPAPERS = [
     description: 'Imposing red sandstone and marble fortress reflected in still lake waters',
   },
   {
-    id: 'forts-gwalior-fort',
-    title: 'Gwalior Hilltop Citadel',
-    location: 'Gwalior, Madhya Pradesh',
-    category: 'Indian Forts',
-    tag: 'Hill Fortress',
-    icon: 'castle',
-    url: '/images/wallpapers/forts-gwalior-fort-4k.jpg',
-    fallback: '/images/attractions/jaipur/nahargarh-fort-1.jpg',
-    description: 'Magnificent 8th-century defensive stronghold perched atop a sheer sandstone precipice',
-  },
-  {
-    id: 'forts-kumbhalgarh-wall',
-    title: 'Great Wall of Kumbhalgarh',
-    location: 'Rajsamand, Rajasthan',
-    category: 'Indian Forts',
-    tag: 'The Great Wall of India',
-    icon: 'shield',
-    url: '/images/wallpapers/forts-kumbhalgarh-wall-4k.jpg',
-    fallback: '/images/attractions/jaipur/jaigarh-fort-1.jpg',
-    description: 'Massive 36-kilometer serpentine perimeter ramparts snaking through the Aravalli hills',
-  },
-  {
     id: 'forts-chittorgarh-citadel',
     title: 'Chittorgarh Bastion',
     location: 'Chittorgarh, Rajasthan',
@@ -267,6 +179,17 @@ export const WALLPAPERS = [
     url: '/images/wallpapers/forts-chittorgarh-citadel-4k.jpg',
     fallback: '/images/attractions/udaipur/city-palace-1.jpg',
     description: 'Sprawling 700-acre hilltop bastion echoing the legendary valor of Rajput kings',
+  },
+  {
+    id: 'forts-gwalior-fort',
+    title: 'Gwalior Hilltop Citadel',
+    location: 'Gwalior, Madhya Pradesh',
+    category: 'Indian Forts',
+    tag: 'Hill Fortress',
+    icon: 'castle',
+    url: '/images/wallpapers/forts-gwalior-fort-4k.jpg',
+    fallback: '/images/attractions/jaipur/nahargarh-fort-1.jpg',
+    description: 'Magnificent 8th-century defensive stronghold perched atop a sheer sandstone precipice',
   },
 
   // ── 6. Snow Covered Mountains ──
@@ -282,17 +205,6 @@ export const WALLPAPERS = [
     description: 'Alpenglow illuminating the world’s third-highest mountain summit',
   },
   {
-    id: 'snow-mountains-rohtang',
-    title: 'Rohtang Pass & Chandra Valley',
-    location: 'Manali, Himachal Pradesh',
-    category: 'Snow Covered Mountains',
-    tag: 'Himalayan Pass',
-    icon: 'ac_unit',
-    url: '/images/wallpapers/snow-rohtang-valley-4k.jpg',
-    fallback: '/images/attractions/manali/solang-valley-1.jpg',
-    description: 'Glacier-fed river valley framed by dramatic snow crests at 13,058 feet',
-  },
-  {
     id: 'snow-mountains-auli-peaks',
     title: 'Auli Garhwal Snow Crests',
     location: 'Chamoli, Uttarakhand',
@@ -302,17 +214,6 @@ export const WALLPAPERS = [
     url: '/images/wallpapers/snow-auli-peaks-4k.jpg',
     fallback: '/images/attractions/nainital/snow-view-point-1.jpg',
     description: 'Pristine Himalayan snow slopes framed by Nanda Devi and Trishul peaks',
-  },
-  {
-    id: 'snow-mountains-spiti-valley',
-    title: 'Spiti Cold Desert Pinnacles',
-    location: 'Lahaul & Spiti, Himachal Pradesh',
-    category: 'Snow Covered Mountains',
-    tag: 'High Altitude Desert',
-    icon: 'terrain',
-    url: '/images/wallpapers/snow-spiti-valley-4k.jpg',
-    fallback: '/images/attractions/shimla/kufri-fun-world-1.jpg',
-    description: 'Rugged trans-Himalayan valleys flanked by dramatic jagged glaciers and snow-capped peaks',
   },
 
   // ── 7. Scenic Views of India Nature ──
@@ -326,39 +227,6 @@ export const WALLPAPERS = [
     url: '/images/wallpapers/nature-kerala-backwaters-4k.jpg',
     fallback: '/images/attractions/wayanad/pookode-lake-1.jpg',
     description: 'Glassy emerald waterways weaving through peaceful coconut groves and canals',
-  },
-  {
-    id: 'scenic-nature-pangong',
-    title: 'Pangong Tso Turquoise Lake',
-    location: 'Ladakh (4,225m)',
-    category: 'Scenic India Nature',
-    tag: 'Glacial Salt Lake',
-    icon: 'water',
-    url: '/images/wallpapers/nature-pangong-lake-4k.jpg',
-    fallback: '/images/attractions/gangtok/tsomgo-lake-1.jpg',
-    description: 'Vibrant color-shifting turquoise waters framed by arid Himalayan peaks',
-  },
-  {
-    id: 'scenic-nature-rann-kutch',
-    title: 'Great Rann of Kutch Salt Desert',
-    location: 'Thar Desert, Gujarat',
-    category: 'Scenic India Nature',
-    tag: 'White Salt Marsh',
-    icon: 'wb_sunny',
-    url: '/images/wallpapers/nature-rann-kutch-4k.jpg',
-    fallback: '/images/attractions/jaipur/hawa-mahal-1.jpg',
-    description: 'Endless surreal white salt crust stretching towards infinite horizon under glowing twilight',
-  },
-  {
-    id: 'scenic-nature-meghalaya-root-bridge',
-    title: 'Mawlynnong Living Root Bridge',
-    location: 'East Khasi Hills, Meghalaya',
-    category: 'Scenic India Nature',
-    tag: 'Bio-Engineering Marvel',
-    icon: 'park',
-    url: '/images/wallpapers/nature-meghalaya-living-root-bridge-4k.jpg',
-    fallback: '/images/attractions/wayanad/kuruvadweep-1.jpg',
-    description: 'Centuries-old living rubber fig tree roots woven into a functional suspended bridge across mountain streams',
   },
   {
     id: 'nature-crystal-emerald-lake',
