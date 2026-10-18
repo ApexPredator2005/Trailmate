@@ -635,6 +635,24 @@ export function renderMapView(container, { switchView, store }) {
   // Render Split-Pane DOM Shell
   container.innerHTML = `
     <div class="map-split-workspace">
+      <!-- Gooey Search SVG Metablobs Filter -->
+      <svg class="sr-only" aria-hidden="true" style="position: absolute; width: 0; height: 0; pointer-events: none;">
+        <defs>
+          <filter id="map-gooey-filter" x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="5" result="blur" />
+            <feColorMatrix
+              in="blur"
+              type="matrix"
+              values="1 0 0 0 0  
+                      0 1 0 0 0  
+                      0 0 1 0 0  
+                      0 0 0 19 -8"
+              result="goo"
+            />
+            <feComposite in="SourceGraphic" in2="goo" operator="atop" />
+          </filter>
+        </defs>
+      </svg>
       <!-- ── Left 42%: Sights Ledger & Itinerary Feed ── -->
       <aside class="map-ledger-pane" id="mapLedgerPane">
         <!-- Header -->
@@ -691,11 +709,26 @@ export function renderMapView(container, { switchView, store }) {
             <h2 class="map-dest-main-title" id="lblDestHeadline">Ooty, Queen of Hill Stations</h2>
           </div>
 
-          <!-- Search Input -->
-          <div class="map-ledger-search-box">
-            <span class="material-symbols-outlined map-search-icon">search</span>
-            <input type="text" id="mapSearchInput" placeholder="Search 14 sights, elevation, flora..." autocomplete="off" />
-            <span class="map-search-cmd-k">⌘K</span>
+          <!-- Gooey Search Animated Input -->
+          <div class="map-gooey-search-wrapper" id="mapGooeySearchWrapper">
+            <!-- Gooey Liquid Metablobs Stage (SVG filtered shapes) -->
+            <div class="map-gooey-liquid-stage" aria-hidden="true">
+              <div class="map-gooey-base-capsule"></div>
+              <div class="map-gooey-satellite-orb" id="mapGooeyOrb"></div>
+            </div>
+
+            <!-- Crisp Foreground UI (Zero blur on typography/icons) -->
+            <div class="map-ledger-search-box">
+              <span class="material-symbols-outlined map-search-icon" id="mapSearchIcon">search</span>
+              <input type="text" id="mapSearchInput" placeholder="Search 14 sights, elevation, flora..." autocomplete="off" />
+              <button type="button" class="map-search-clear-btn" id="mapSearchClearBtn" title="Clear search" style="display: none;">
+                <span class="material-symbols-outlined text-[13px]">close</span>
+              </button>
+              <span class="map-search-cmd-k" id="mapSearchCmdK">⌘K</span>
+              <div class="map-gooey-satellite-badge" id="mapGooeySatelliteBadge" title="Click to clear or search">
+                <span class="material-symbols-outlined text-[14px] text-white">travel_explore</span>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -1605,13 +1638,88 @@ export function renderMapView(container, { switchView, store }) {
     }, 150);
   }
 
-  // ── Search Input Event (In-Place Filtering, Zero Camera Jump) ──
+  // ── Gooey Search Input & Animation Engine ──
   const searchInput = document.getElementById('mapSearchInput');
-  if (searchInput) {
+  const gooeyWrapper = document.getElementById('mapGooeySearchWrapper');
+  const searchClearBtn = document.getElementById('mapSearchClearBtn');
+  const searchCmdK = document.getElementById('mapSearchCmdK');
+  const satelliteBadge = document.getElementById('mapGooeySatelliteBadge');
+  const satelliteIcon = satelliteBadge?.querySelector('.material-symbols-outlined');
+
+  if (searchInput && gooeyWrapper) {
+    const updateGooeyState = (isFocused) => {
+      if (isFocused) {
+        gooeyWrapper.classList.add('is-focused');
+        if (searchInput.value) {
+          if (satelliteIcon) satelliteIcon.textContent = 'close';
+        } else {
+          if (satelliteIcon) satelliteIcon.textContent = 'arrow_forward';
+        }
+      } else {
+        if (!searchInput.value) {
+          gooeyWrapper.classList.remove('is-focused');
+          gooeyWrapper.classList.remove('has-query');
+          if (satelliteIcon) satelliteIcon.textContent = 'travel_explore';
+        } else {
+          gooeyWrapper.classList.remove('is-focused');
+          gooeyWrapper.classList.add('has-query');
+          if (satelliteIcon) satelliteIcon.textContent = 'close';
+        }
+      }
+    };
+
+    searchInput.addEventListener('focus', () => updateGooeyState(true));
+    searchInput.addEventListener('blur', () => {
+      setTimeout(() => updateGooeyState(false), 160);
+    });
+
     searchInput.addEventListener('input', (e) => {
       searchQuery = e.target.value;
       activeCardIndex = 0;
       activeRenderFilteredFeed?.();
+
+      if (e.target.value) {
+        gooeyWrapper.classList.add('has-query');
+        if (satelliteIcon) satelliteIcon.textContent = 'close';
+        if (searchClearBtn) searchClearBtn.style.display = 'flex';
+        if (searchCmdK) searchCmdK.style.display = 'none';
+      } else {
+        gooeyWrapper.classList.remove('has-query');
+        if (satelliteIcon) satelliteIcon.textContent = 'arrow_forward';
+        if (searchClearBtn) searchClearBtn.style.display = 'none';
+        if (searchCmdK) searchCmdK.style.display = 'inline-block';
+      }
+    });
+
+    // Clicking satellite badge acts as an organic liquid clear / focus trigger
+    satelliteBadge?.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (searchInput.value) {
+        searchInput.value = '';
+        searchQuery = '';
+        activeCardIndex = 0;
+        activeRenderFilteredFeed?.();
+        gooeyWrapper.classList.remove('has-query');
+        if (satelliteIcon) satelliteIcon.textContent = 'travel_explore';
+        if (searchClearBtn) searchClearBtn.style.display = 'none';
+        if (searchCmdK) searchCmdK.style.display = 'inline-block';
+        searchInput.focus();
+      } else {
+        searchInput.focus();
+      }
+    });
+
+    searchClearBtn?.addEventListener('click', (e) => {
+      e.stopPropagation();
+      searchInput.value = '';
+      searchQuery = '';
+      activeCardIndex = 0;
+      activeRenderFilteredFeed?.();
+      gooeyWrapper.classList.remove('has-query');
+      if (satelliteIcon) satelliteIcon.textContent = 'arrow_forward';
+      searchClearBtn.style.display = 'none';
+      if (searchCmdK) searchCmdK.style.display = 'inline-block';
+      searchInput.focus();
     });
   }
 

@@ -317,32 +317,113 @@
   letter-spacing: 0.02em;
 }
 
-/* Search Box inside Ledger */
+/* ──────────────────────────────────────────────────────────────
+   GOOEY SEARCH ANIMATION ENGINE (SVG Metablobs & Spring Physics)
+   ────────────────────────────────────────────────────────────── */
+.map-gooey-search-wrapper {
+  position: relative;
+  width: calc(100% - 14px);
+  margin-top: 1px;
+}
+
+/* Liquid Metablobs Stage (SVG Filtered) */
+.map-gooey-liquid-stage {
+  filter: url(#map-gooey-filter);
+  position: absolute;
+  inset: -6px -28px -6px -6px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Base Capsule Substrate */
+.map-gooey-base-capsule {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  right: 28px;
+  bottom: 6px;
+  border-radius: 9999px;
+  background: #FFFFFF;
+  box-shadow: 0 1px 3px rgba(45, 30, 20, 0.05);
+  transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1),
+              box-shadow 0.4s ease;
+  transform: translate3d(0, 0, 0) scale(1);
+}
+
+.map-gooey-search-wrapper:hover .map-gooey-base-capsule {
+  transform: scaleY(1.02) scaleX(1.004);
+}
+
+.map-gooey-search-wrapper.is-focused .map-gooey-base-capsule {
+  transform: scaleY(1.04) scaleX(1.008);
+  box-shadow: 0 6px 22px rgba(196, 112, 61, 0.18);
+}
+
+/* Detaching Satellite Orb */
+.map-gooey-satellite-orb {
+  position: absolute;
+  top: 9px;
+  right: 32px;
+  width: 26px;
+  height: 26px;
+  border-radius: 9999px;
+  background: #C4703D;
+  transition: transform 0.65s cubic-bezier(0.34, 1.56, 0.64, 1),
+              background-color 0.3s ease,
+              box-shadow 0.4s ease,
+              opacity 0.3s ease;
+  transform: translate3d(0, 0, 0) scale(0.85);
+  opacity: 0.85;
+}
+
+.map-gooey-search-wrapper:hover .map-gooey-satellite-orb {
+  transform: translate3d(6px, 0, 0) scale(1);
+  opacity: 1;
+}
+
+.map-gooey-search-wrapper.is-focused .map-gooey-satellite-orb {
+  transform: translate3d(20px, 0, 0) scale(1.18);
+  background: #C4703D;
+  box-shadow: 0 4px 14px rgba(196, 112, 61, 0.45);
+  opacity: 1;
+}
+
+.map-gooey-search-wrapper.has-query .map-gooey-satellite-orb {
+  transform: translate3d(20px, 0, 0) scale(1.12);
+  background: #944A1A;
+  opacity: 1;
+}
+
+/* Foreground UI Layer (100% Crisp, Zero Blur on Typography/Icons) */
 .map-ledger-search-box {
   position: relative;
+  z-index: 5;
   width: 100%;
-  margin-top: 1px;
 }
 
 .map-ledger-search-box input {
   width: 100%;
-  padding: 6.5px 34px 6.5px 28px;
-  border-radius: 10px;
-  background: #FFFFFF;
+  padding: 6.5px 56px 6.5px 28px;
+  border-radius: 9999px;
+  background: transparent;
   border: 1px solid #E5E2DD;
   font-size: 11px;
   color: #1E3A34;
   outline: none;
-  transition: border-color 0.18s ease, box-shadow 0.18s ease;
+  transition: border-color 0.25s ease;
 }
 
-.map-ledger-search-box input:focus {
-  border-color: #C4703D;
-  box-shadow: 0 0 0 3px rgba(196, 112, 61, 0.12);
+.map-gooey-search-wrapper.is-focused .map-ledger-search-box input {
+  border-color: rgba(196, 112, 61, 0.55);
 }
 
 .map-ledger-search-box input::placeholder {
   color: #9A9690;
+  transition: color 0.2s ease;
+}
+
+.map-gooey-search-wrapper.is-focused .map-ledger-search-box input::placeholder {
+  color: #B5B1AA;
 }
 
 .map-search-icon {
@@ -353,11 +434,47 @@
   color: #9A9690;
   font-size: 14px;
   pointer-events: none;
+  transition: color 0.25s ease, transform 0.25s ease;
+}
+
+.map-gooey-search-wrapper.is-focused .map-search-icon {
+  color: #C4703D;
+  transform: translateY(-50%) scale(1.06);
+}
+
+/* Satellite Badge Overlay (Sitting cleanly on top of the Gooey Orb) */
+.map-gooey-satellite-badge {
+  position: absolute;
+  right: 6px;
+  top: 50%;
+  width: 22px;
+  height: 22px;
+  transform: translate3d(0, -50%, 0) scale(0.85);
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: auto;
+  cursor: pointer;
+  z-index: 10;
+  transition: transform 0.65s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.map-gooey-search-wrapper:hover .map-gooey-satellite-badge {
+  transform: translate3d(6px, -50%, 0) scale(1);
+}
+
+.map-gooey-search-wrapper.is-focused .map-gooey-satellite-badge {
+  transform: translate3d(20px, -50%, 0) scale(1.18);
+}
+
+.map-gooey-search-wrapper.has-query .map-gooey-satellite-badge {
+  transform: translate3d(20px, -50%, 0) scale(1.12);
 }
 
 .map-search-cmd-k {
   position: absolute;
-  right: 8px;
+  right: 32px;
   top: 50%;
   transform: translateY(-50%);
   font-size: 9px;
@@ -369,6 +486,36 @@
   padding: 1px 4px;
   border-radius: 4px;
   pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+.map-gooey-search-wrapper.is-focused .map-search-cmd-k {
+  opacity: 0.35;
+}
+
+.map-search-clear-btn {
+  position: absolute;
+  right: 32px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 17px;
+  height: 17px;
+  border-radius: 50%;
+  background: #EAE5DE;
+  border: none;
+  color: #555;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0;
+  transition: background 0.15s ease, transform 0.15s ease;
+}
+
+.map-search-clear-btn:hover {
+  background: #D8D1C7;
+  color: #1C1C19;
+  transform: translateY(-50%) scale(1.08);
 }
 
 /* Horizontal Filter Chips Bar */
