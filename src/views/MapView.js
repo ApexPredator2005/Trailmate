@@ -704,16 +704,6 @@ export function renderMapView(container, { switchView, store }) {
           <!-- Injected dynamically -->
         </div>
 
-        <!-- Day 1 Circuit Summary Strip (Compact, Elegant) -->
-        <div class="map-circuit-strip" id="mapCircuitStrip">
-          <div class="map-circuit-strip-left" id="lblCircuitStripText">
-            <span class="map-circuit-badge-label">🧭 Day 1 Circuit</span>
-            <span>• 4 Stops</span>
-            <span>• 18.4 km</span>
-            <span>• ~4.5 hrs scenic drive & walk</span>
-          </div>
-          <button type="button" class="map-circuit-export-link" id="btnExportGpx">Export GPX</button>
-        </div>
 
         <!-- Scrollable Sights Feed -->
         <div class="map-ledger-feed" id="mapLedgerFeed">
@@ -1046,15 +1036,6 @@ export function renderMapView(container, { switchView, store }) {
     const lblDestHeadline = document.getElementById('lblDestHeadline');
     if (lblDestHeadline) lblDestHeadline.textContent = destMeta.headline || `${destName}, Queen of Hill Stations`;
 
-    const lblCircuitStripText = document.getElementById('lblCircuitStripText');
-    if (lblCircuitStripText) {
-      lblCircuitStripText.innerHTML = `
-        <span class="map-circuit-badge-label">🧭 Day 1 Circuit</span>
-        <span>• 4 Stops</span>
-        <span>• ${destMeta.circuitDistance || '18.4 km'}</span>
-        <span>• ${destMeta.circuitDuration || '~4.5 hrs scenic drive & walk'}</span>
-      `;
-    }
 
     const lblElevGraphRange = document.getElementById('lblElevGraphRange');
     if (lblElevGraphRange) lblElevGraphRange.textContent = destMeta.elevRange || '2,180m - 2,637m';
@@ -1319,39 +1300,6 @@ export function renderMapView(container, { switchView, store }) {
           }
         }
 
-        // Update Circuit Strip text dynamically
-        const lblCircuitStripText = document.getElementById('lblCircuitStripText');
-        if (lblCircuitStripText) {
-          const stopCount = orderedStops.length;
-          const distStr = totalDistKm > 0 ? `${totalDistKm.toFixed(1)} km` : (destMeta.circuitDistance || '18.4 km');
-          const estHours = Math.max(0.5, Math.round(stopCount * 1.1 * 10) / 10);
-
-          if (isDay1Mode) {
-            lblCircuitStripText.innerHTML = `
-              <span class="map-circuit-badge-label">🧭 Day 1 Circuit</span>
-              <span>• ${stopCount} ${stopCount === 1 ? 'Stop' : 'Stops'}</span>
-              <span>• ${stopCount > 1 ? distStr : (stopCount === 1 ? '1 Stop Selected' : '0 Stops Selected')}</span>
-              <span>• ~${estHours} hrs scenic drive & walk</span>
-            `;
-          } else if (activeFilter === 'Day 2 Route') {
-            lblCircuitStripText.innerHTML = `
-              <span class="map-circuit-badge-label">🧭 Day 2 Circuit</span>
-              <span>• ${displayedItems.length} Stops</span>
-              <span>• Excursions & Alpine Ridges</span>
-            `;
-          } else if (activeFilter === 'All' || activeFilter === 'All 14') {
-            lblCircuitStripText.innerHTML = `
-              <span class="map-circuit-badge-label">📚 Full Directory</span>
-              <span>• ${displayedItems.length} Curated Landmarks</span>
-              <span>• Regional Explorer (${stopCount} in Circuit)</span>
-            `;
-          } else {
-            lblCircuitStripText.innerHTML = `
-              <span class="map-circuit-badge-label">🏷️ ${escapeHtml(activeFilter)}</span>
-              <span>• ${displayedItems.length} Selected Sights</span>
-            `;
-          }
-        }
 
         // Update waypoint pin styles to reflect active circuit membership
         displayedItems.forEach((it, idx) => {
@@ -1737,18 +1685,7 @@ export function renderMapView(container, { switchView, store }) {
       .replace(/'/g, '&apos;');
   }
 
-  const btnExportGpx = document.getElementById('btnExportGpx');
-  if (btnExportGpx) {
-    btnExportGpx.addEventListener('click', (e) => {
-      e.stopPropagation();
-      exportCircuitGpx();
-      const origText = btnExportGpx.textContent;
-      btnExportGpx.textContent = 'Downloaded ✓';
-      setTimeout(() => {
-        btnExportGpx.textContent = origText;
-      }, 1800);
-    });
-  }
+
 
   // ── Compass Rose Button (Re-center & 360° Spring Spin) ──
   const btnCompassRose = document.getElementById('btnCompassRose');
