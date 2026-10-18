@@ -675,6 +675,31 @@ To maintain this standard while offering a high-performance **Scrapbook Studio**
 
 ---
 
+### DEC-032: Dynamic Multi-Destination Elevation Gradient Profiles & Cartographic Typography Streamlining
+* **Decision Makers:** User Directive
+* **Category:** Geospatial UI, Topographic Data Modeling & Typography
+* **Status:** Implemented & Verified
+* **The Context & Problem:**
+  Following the split-pane geospatial redesign, three usability and aesthetic issues were reported:
+  1. **Static Elevation & Profile Curves:** Toggling destinations did not update the average elevation badge or the bottom-right SVG elevation gradient profile chart, which remained locked to Ooty's 2,240m altitude and Doddabetta summit curve.
+  2. **Coordinate & Subtitle Clutter:** The header and ledger cards displayed technical coordinate strings (`INDEX: 32.24° / 77.19°`, `📍 11.4132° N...`) and a lengthy subtitle (`"Nilgiris Expedition Ledger • 14 Curated Sights & High Passes"`), cluttering the narrowed 30% left pane.
+  3. **Redundant Map Layer:** The "Estate Wash" tile layer was visually redundant and slower to load compared to the crisp topographic contours and aerial imagery.
+* **The Decision:**
+  * **Dynamic 15-Destination Topographic Elevation Architecture:**
+    * Populated `DESTINATION_META` with authentic altitudes, elevation ranges, and custom SVG terrain curves (`svgArea`, `svgStroke`, `peakDot`, `peakLabel`) for all 15 regions (Ooty, Goa, Manali, Munnar, Jaipur, Udaipur, Shimla, Andaman, Coorg, Mussoorie, Nainital, Kodaikanal, Darjeeling, Wayanad, Gangtok).
+    * `loadDestinationData()` dynamically re-computes and redraws `#lblDestElevValue`, `#lblElevGraphRange`, SVG path attributes (`#svgElevArea`, `#svgElevStroke`), and peak waypoint markers (`#svgElevPeakDot`).
+  * **Typography Streamlining & Coordinate De-cluttering:**
+    * Removed index coordinate tags (`#lblIndexCoords`) from the top header row, allowing the prominent destination selector and elevation pill to align harmoniously.
+    * Removed destination expedition subtitle (`#lblDestSubTitle`) for a cleaner, bolder title presentation.
+    * Replaced raw sight card coordinate numbers with clean curated category pills (`.map-card-tag-pill`) in the card footer.
+    * Simplified bottom scale datum card to `1:25,000 Topo Relief • Datum: GTS India 1878 • High Precision Topo Relief` without dynamic coordinate spam.
+  * **Streamlined Layer Switcher:**
+    * Pruned the `estate` tileLayer and removed the "Estate Wash" button, leaving a balanced dual segmented control: `[ Contours | Satellite ]`.
+* **Why This Was Chosen:**
+  * Dramatically improves ledger readability in the compact 30% pane while providing travellers with immediate, authentic topographic insight for every region in India.
+
+---
+
 ## 9. Pending & Future Architectural Roadmap
 
 ### 1. Real Google Identity Services (GIS) / OIDC Authentication

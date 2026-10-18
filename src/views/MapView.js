@@ -33,18 +33,40 @@ const DESTINATION_CENTERS = {
   kodaikanal: { lat: 10.2381, lng: 77.4892, zoom: 13, label: 'Kodaikanal Shola' },
   darjeeling: { lat: 27.0410, lng: 88.2663, zoom: 13, label: 'Darjeeling Himalayas' },
   wayanad: { lat: 11.6854, lng: 76.1320, zoom: 12, label: 'Wayanad Rainforest' },
-  gangtok: { lat: 27.3389, lng: 88.6065, zoom: 13, label: 'Gangtok & Sikkim' },
+  gangtok: { lat: 27.3389, lng: 88.6065, zoom: 13, label: 'Gangtok & Sikkim Ridge' },
 };
+
+// Curated Destination Options with Geographic Regions and Elevations
+const DESTINATION_OPTIONS = [
+  { name: 'Ooty', key: 'ooty', region: 'Nilgiri Hills', elev: '2,240m' },
+  { name: 'Goa', key: 'goa', region: 'Konkan Coast', elev: '15m' },
+  { name: 'Manali', key: 'manali', region: 'Kullu Valley', elev: '2,050m' },
+  { name: 'Munnar', key: 'munnar', region: 'High Range Tea', elev: '1,532m' },
+  { name: 'Jaipur', key: 'jaipur', region: 'Pink City', elev: '431m' },
+  { name: 'Udaipur', key: 'udaipur', region: 'City of Lakes', elev: '598m' },
+  { name: 'Shimla', key: 'shimla', region: 'Himachal Ridge', elev: '2,206m' },
+  { name: 'Andaman', key: 'andaman', region: 'Emerald Islands', elev: '10m' },
+  { name: 'Coorg', key: 'coorg', region: 'Coffee Country', elev: '1,170m' },
+  { name: 'Mussoorie', key: 'mussoorie', region: 'Garhwal Queen', elev: '2,005m' },
+  { name: 'Nainital', key: 'nainital', region: 'Kumaon Lakes', elev: '2,084m' },
+  { name: 'Kodaikanal', key: 'kodaikanal', region: 'Princess of Hills', elev: '2,133m' },
+  { name: 'Darjeeling', key: 'darjeeling', region: 'Queen of Hills', elev: '2,042m' },
+  { name: 'Wayanad', key: 'wayanad', region: 'Rainforest Hills', elev: '700m' },
+  { name: 'Gangtok', key: 'gangtok', region: 'Sikkim Heights', elev: '1,650m' },
+];
 
 // Rich destination editorial headlines and curated Day 1 circuit stop sequences
 const DESTINATION_META = {
   ooty: {
     headline: 'Ooty, Queen of Hill Stations',
-    ledgerSub: 'Nilgiris Expedition Ledger • 14 Curated Sights & High Passes',
     avgElev: '2,240m avg',
-    indexCoords: '11.41° / 76.69°',
-    circuitStrip: '🧭 Day 1 Circuit • 4 Stops • 18.4 km • ~4.5 hrs scenic drive & walk',
     elevRange: '2,180m - 2,637m',
+    circuitDistance: '18.4 km',
+    circuitDuration: '~4.5 hrs scenic drive & walk',
+    peakLabel: 'Doddabetta Peak 2,637m',
+    peakDot: { x: 100, y: 6 },
+    svgArea: 'M 0,34 L 10,24 Q 60,4 100,6 T 160,20 T 240,28 L 240,36 L 0,36 Z',
+    svgStroke: 'M 0,34 L 10,24 Q 60,4 100,6 T 160,20 T 240,28',
     circuitStops: [
       {
         name: 'Tea Museum & Dodabetta Tea Factory',
@@ -56,7 +78,6 @@ const DESTINATION_META = {
         desc: 'Orthodox CTC leaf processing dating back to 1902. Operates traditional wood-fueled drying kilns overlooking the Doddabetta foothills. Fresh estate tasting at the vintage cedar dispensary.',
         lat: 11.4132,
         lng: 76.7325,
-        coordsText: '11.4132° N, 76.7325° E',
         audioText: 'Audio Guide (14m)',
         photo: '/images/attractions/ooty/tea-museum-4.jpg',
       },
@@ -70,7 +91,6 @@ const DESTINATION_META = {
         desc: 'Summiting at 2,637 meters with panoramic telescope views across Tamil Nadu and Kerala valleys. Mist rolls in rapidly after 3 PM.',
         lat: 11.3995,
         lng: 76.7388,
-        coordsText: '11.3995° N, 76.7388° E',
         audioText: 'Clear Vista (360°)',
         photo: '/images/attractions/ooty/doddabetta-peak-1.jpg',
       },
@@ -84,7 +104,6 @@ const DESTINATION_META = {
         desc: 'Laid out in 1848 by William Graham McIvor. Features 20-million-year-old fossilized tree trunk and Italian floral garden terraces.',
         lat: 11.4180,
         lng: 76.7115,
-        coordsText: '11.4180° N, 76.7115° E',
         audioText: 'Audio Guide (8m)',
         photo: '/images/attractions/ooty/botanical-gardens-1.jpg',
       },
@@ -98,7 +117,6 @@ const DESTINATION_META = {
         desc: 'Constructed by John Sullivan in 1824. Flanked by eucalyptus groves, offering vintage paddle boating and narrow-gauge miniature train rides.',
         lat: 11.4050,
         lng: 76.6880,
-        coordsText: '11.4050° N, 76.6880° E',
         audioText: 'Audio Guide (6m)',
         photo: '/images/attractions/ooty/ooty-lake-1.jpg',
       },
@@ -106,45 +124,175 @@ const DESTINATION_META = {
   },
   goa: {
     headline: 'Goa, Sun-Kissed Coast & Heritage',
-    ledgerSub: 'Konkan Expedition Ledger • 14 Curated Sights & Sea Bastions',
     avgElev: '15m avg',
-    indexCoords: '15.35° / 73.85°',
-    circuitStrip: '🧭 Day 1 Circuit • 4 Stops • 26.2 km • ~5.0 hrs coastal drive',
     elevRange: '5m - 55m',
+    circuitDistance: '26.2 km',
+    circuitDuration: '~5.0 hrs coastal drive',
+    peakLabel: 'Chapora Fort 55m',
+    peakDot: { x: 190, y: 16 },
+    svgArea: 'M 0,32 Q 50,30 90,32 T 150,26 Q 190,16 210,22 T 240,30 L 240,36 L 0,36 Z',
+    svgStroke: 'M 0,32 Q 50,30 90,32 T 150,26 Q 190,16 210,22 T 240,30',
     circuitStops: [
-      { name: 'Fort Aguada & Lighthouse', shortName: 'Fort Aguada', altTag: '● Stop #1 • 42m BASTION', status: 'Open till 6 PM', openStatus: '● Lighthouse Open', meta: '★ 4.7 • 17th Century Portuguese Citadel', desc: 'Preserved Portuguese coastal bastion overlooking Sinquerim and Arabian Sea horizons.', lat: 15.4920, lng: 73.7735, coordsText: '15.4920° N, 73.7735° E', audioText: 'Audio Guide (12m)' },
-      { name: 'Basilica of Bom Jesus', shortName: 'Bom Jesus Basilica', altTag: '● Stop #2 • 18m HERITAGE', status: 'Open till 5:30 PM', openStatus: '● Sanctuary Open', meta: '★ 4.8 • UNESCO World Heritage Site', desc: 'Baroque architecture enshrining the mortal remains of St. Francis Xavier.', lat: 15.5008, lng: 73.9116, coordsText: '15.5008° N, 73.9116° E', audioText: 'Audio Guide (10m)' },
-      { name: 'Anjuna Beach & Flea Market', shortName: 'Anjuna Beach', altTag: '● Stop #3 • 5m COAST', status: 'Open 24 Hours', openStatus: '● Sunset Point', meta: '★ 4.5 • Red Laterite Cliffs & Shacks', desc: 'Curved shoreline framed by coconut groves, laterite crags, and boho artisan markets.', lat: 15.5828, lng: 73.7438, coordsText: '15.5828° N, 73.7438° E', audioText: 'Audio Guide (8m)' },
-      { name: 'Chapora Fort & Sunset Viewpoint', shortName: 'Chapora Fort', altTag: '● Stop #4 • 55m RIDGE', status: 'Open till 6:30 PM', openStatus: '● Sunset Prime', meta: '★ 4.6 • Vagator Bay Panoramic Bastion', desc: 'Historic red stone ramparts famous for dramatic twilight ocean horizons.', lat: 15.6058, lng: 73.7368, coordsText: '15.6058° N, 73.7368° E', audioText: 'Audio Guide (7m)' },
+      { name: 'Fort Aguada & Lighthouse', shortName: 'Fort Aguada', altTag: '● Stop #1 • 42m BASTION', status: 'Open till 6 PM', openStatus: '● Lighthouse Open', meta: '★ 4.7 • 17th Century Portuguese Citadel', desc: 'Preserved Portuguese coastal bastion overlooking Sinquerim and Arabian Sea horizons.', lat: 15.4920, lng: 73.7735, audioText: 'Audio Guide (12m)' },
+      { name: 'Basilica of Bom Jesus', shortName: 'Bom Jesus Basilica', altTag: '● Stop #2 • 18m HERITAGE', status: 'Open till 5:30 PM', openStatus: '● Sanctuary Open', meta: '★ 4.8 • UNESCO World Heritage Site', desc: 'Baroque architecture enshrining the mortal remains of St. Francis Xavier.', lat: 15.5008, lng: 73.9116, audioText: 'Audio Guide (10m)' },
+      { name: 'Anjuna Beach & Flea Market', shortName: 'Anjuna Beach', altTag: '● Stop #3 • 5m COAST', status: 'Open 24 Hours', openStatus: '● Sunset Point', meta: '★ 4.5 • Red Laterite Cliffs & Shacks', desc: 'Curved shoreline framed by coconut groves, laterite crags, and boho artisan markets.', lat: 15.5828, lng: 73.7438, audioText: 'Audio Guide (8m)' },
+      { name: 'Chapora Fort & Sunset Viewpoint', shortName: 'Chapora Fort', altTag: '● Stop #4 • 55m RIDGE', status: 'Open till 6:30 PM', openStatus: '● Sunset Prime', meta: '★ 4.6 • Vagator Bay Panoramic Bastion', desc: 'Historic red stone ramparts famous for dramatic twilight ocean horizons.', lat: 15.6058, lng: 73.7368, audioText: 'Audio Guide (7m)' },
     ],
   },
   manali: {
     headline: 'Manali, Valley of the Gods',
-    ledgerSub: 'Kullu Expedition Ledger • 14 Curated Sights & Snow Passes',
     avgElev: '2,050m avg',
-    indexCoords: '32.24° / 77.19°',
-    circuitStrip: '🧭 Day 1 Circuit • 4 Stops • 22.8 km • ~5.5 hrs alpine circuit',
-    elevRange: '2,050m - 2,560m',
+    elevRange: '2,050m - 3,978m',
+    circuitDistance: '22.8 km',
+    circuitDuration: '~5.5 hrs alpine circuit',
+    peakLabel: 'Rohtang Pass 3,978m',
+    peakDot: { x: 145, y: 4 },
+    svgArea: 'M 0,32 Q 40,26 80,18 L 115,12 Q 145,4 175,14 L 210,22 L 240,16 L 240,36 L 0,36 Z',
+    svgStroke: 'M 0,32 Q 40,26 80,18 L 115,12 Q 145,4 175,14 L 210,22 L 240,16',
     circuitStops: [
-      { name: 'Hadimba Devi Temple', shortName: 'Hadimba Temple', altTag: '● Stop #1 • 2,060m SHRINE', status: 'Open till 6 PM', openStatus: '● Forest Open', meta: '★ 4.7 • 1553 AD Pagoda Timber Sanctuary', desc: 'Four-tiered wooden pagoda temple set within ancient towering deodar pine cedar forests.', lat: 32.2483, lng: 77.1696, coordsText: '32.2483° N, 77.1696° E', audioText: 'Audio Guide (12m)' },
-      { name: 'Solang Valley Adventure Point', shortName: 'Solang Valley', altTag: '● Stop #2 • 2,560m MEADOW', status: 'Open till 6 PM', openStatus: '● Cable Car Active', meta: '★ 4.6 • Glacial Meadow & Paragliding', desc: 'Expansive glacial basin offering year-round adventure sports and snow-capped peak views.', lat: 32.3167, lng: 77.1583, coordsText: '32.3167° N, 77.1583° E', audioText: 'Audio Guide (10m)' },
-      { name: 'Jogini Waterfalls & Vashisht Trek', shortName: 'Jogini Falls', altTag: '● Stop #3 • 2,140m CASCADE', status: 'Daylight Access', openStatus: '● Trail Clear', meta: '★ 4.8 • Sacred Cascades & Apple Orchards', desc: 'Picturesque pine trail ascending to multiple cascading streams over granite cliffs.', lat: 32.2683, lng: 77.1925, coordsText: '32.2683° N, 77.1925° E', audioText: 'Audio Guide (9m)' },
-      { name: 'Old Manali Village & Manu Temple', shortName: 'Old Manali Village', altTag: '● Stop #4 • 2,050m HERITAGE', status: 'Open till 8 PM', openStatus: '● Cafes Open', meta: '★ 4.6 • Stone & Timber Himalayan Architecture', desc: 'Narrow flagstone alleyways lined with traditional Himachali houses and bakeries.', lat: 32.2542, lng: 77.1750, coordsText: '32.2542° N, 77.1750° E', audioText: 'Audio Guide (8m)' },
+      { name: 'Hadimba Devi Temple', shortName: 'Hadimba Temple', altTag: '● Stop #1 • 2,060m SHRINE', status: 'Open till 6 PM', openStatus: '● Forest Open', meta: '★ 4.7 • 1553 AD Pagoda Timber Sanctuary', desc: 'Four-tiered wooden pagoda temple set within ancient towering deodar pine cedar forests.', lat: 32.2483, lng: 77.1696, audioText: 'Audio Guide (12m)' },
+      { name: 'Solang Valley Adventure Point', shortName: 'Solang Valley', altTag: '● Stop #2 • 2,560m MEADOW', status: 'Open till 6 PM', openStatus: '● Cable Car Active', meta: '★ 4.6 • Glacial Meadow & Paragliding', desc: 'Expansive glacial basin offering year-round adventure sports and snow-capped peak views.', lat: 32.3167, lng: 77.1583, audioText: 'Audio Guide (10m)' },
+      { name: 'Jogini Waterfalls & Vashisht Trek', shortName: 'Jogini Falls', altTag: '● Stop #3 • 2,140m CASCADE', status: 'Daylight Access', openStatus: '● Trail Clear', meta: '★ 4.8 • Sacred Cascades & Apple Orchards', desc: 'Picturesque pine trail ascending to multiple cascading streams over granite cliffs.', lat: 32.2683, lng: 77.1925, audioText: 'Audio Guide (9m)' },
+      { name: 'Old Manali Village & Manu Temple', shortName: 'Old Manali Village', altTag: '● Stop #4 • 2,050m HERITAGE', status: 'Open till 8 PM', openStatus: '● Cafes Open', meta: '★ 4.6 • Stone & Timber Himalayan Architecture', desc: 'Narrow flagstone alleyways lined with traditional Himachali houses and bakeries.', lat: 32.2542, lng: 77.1750, audioText: 'Audio Guide (8m)' },
     ],
   },
   munnar: {
     headline: 'Munnar, High Range Tea Realm',
-    ledgerSub: 'Idukki Expedition Ledger • 14 Curated Sights & High Passes',
     avgElev: '1,532m avg',
-    indexCoords: '10.09° / 77.06°',
-    circuitStrip: '🧭 Day 1 Circuit • 4 Stops • 21.6 km • ~5.0 hrs highland route',
-    elevRange: '1,520m - 1,880m',
+    elevRange: '1,520m - 2,695m',
+    circuitDistance: '21.6 km',
+    circuitDuration: '~5.0 hrs highland route',
+    peakLabel: 'Anamudi Peak 2,695m',
+    peakDot: { x: 120, y: 5 },
+    svgArea: 'M 0,30 Q 30,22 65,18 T 120,5 Q 160,12 195,22 T 240,26 L 240,36 L 0,36 Z',
+    svgStroke: 'M 0,30 Q 30,22 65,18 T 120,5 Q 160,12 195,22 T 240,26',
     circuitStops: [
-      { name: 'Tata Tea Museum & Factory', shortName: 'Tata Tea Museum', altTag: '● Stop #1 • 1,520m ALT', status: 'Open till 5 PM', openStatus: '● Rollers Active', meta: '★ 4.6 • Century-Old Tea Processing Machinery', desc: 'Live demonstration of Orthodox and CTC tea manufacturing with original Kundale valley artifacts.', lat: 10.0880, lng: 77.0580, coordsText: '10.0880° N, 77.0580° E', audioText: 'Audio Guide (14m)' },
-      { name: 'Mattupetty Dam & Lake', shortName: 'Mattupetty Dam', altTag: '● Stop #2 • 1,700m BASIN', status: 'Open till 5:30 PM', openStatus: '● Speedboats Active', meta: '★ 4.5 • Hydro Reservoir & Elephant Corridor', desc: 'Concrete gravity dam surrounded by rolling tea plantations and mist-covered hills.', lat: 10.1064, lng: 77.1242, coordsText: '10.1064° N, 77.1242° E', audioText: 'Audio Guide (9m)' },
-      { name: 'Top Station Nilgiri Overlook', shortName: 'Top Station', altTag: '● Stop #3 • 1,880m SUMMIT', status: 'Open till 6 PM', openStatus: '● Valley Clear', meta: '★ 4.7 • Highest Point on Munnar-Kodaikanal Ridge', desc: 'Historic terminus of the Kundala Valley Railway offering sweeping views of the Western Ghats.', lat: 10.1242, lng: 77.2444, coordsText: '10.1242° N, 77.2444° E', audioText: 'Audio Guide (11m)' },
-      { name: 'Eravikulam National Park & Rajamalai', shortName: 'Eravikulam Park', altTag: '● Stop #4 • 1,750m SANCTUARY', status: 'Open till 4 PM', openStatus: '● Tahr Sighting High', meta: '★ 4.8 • Endangered Nilgiri Tahr Habitat', desc: 'Rolling shola-grassland high plateau crowned by the Anamudi peak, home to rare mountain goats.', lat: 10.1500, lng: 77.0600, coordsText: '10.1500° N, 77.0600° E', audioText: 'Audio Guide (12m)' },
+      { name: 'Tata Tea Museum & Factory', shortName: 'Tata Tea Museum', altTag: '● Stop #1 • 1,520m ALT', status: 'Open till 5 PM', openStatus: '● Rollers Active', meta: '★ 4.6 • Century-Old Tea Processing Machinery', desc: 'Live demonstration of Orthodox and CTC tea manufacturing with original Kundale valley artifacts.', lat: 10.0880, lng: 77.0580, audioText: 'Audio Guide (14m)' },
+      { name: 'Mattupetty Dam & Lake', shortName: 'Mattupetty Dam', altTag: '● Stop #2 • 1,700m BASIN', status: 'Open till 5:30 PM', openStatus: '● Speedboats Active', meta: '★ 4.5 • Hydro Reservoir & Elephant Corridor', desc: 'Concrete gravity dam surrounded by rolling tea plantations and mist-covered hills.', lat: 10.1064, lng: 77.1242, audioText: 'Audio Guide (9m)' },
+      { name: 'Top Station Nilgiri Overlook', shortName: 'Top Station', altTag: '● Stop #3 • 1,880m SUMMIT', status: 'Open till 6 PM', openStatus: '● Valley Clear', meta: '★ 4.7 • Highest Point on Munnar-Kodaikanal Ridge', desc: 'Historic terminus of the Kundala Valley Railway offering sweeping views of the Western Ghats.', lat: 10.1242, lng: 77.2444, audioText: 'Audio Guide (11m)' },
+      { name: 'Eravikulam National Park & Rajamalai', shortName: 'Eravikulam Park', altTag: '● Stop #4 • 1,750m SANCTUARY', status: 'Open till 4 PM', openStatus: '● Tahr Sighting High', meta: '★ 4.8 • Endangered Nilgiri Tahr Habitat', desc: 'Rolling shola-grassland high plateau crowned by the Anamudi peak, home to rare mountain goats.', lat: 10.1500, lng: 77.0600, audioText: 'Audio Guide (12m)' },
     ],
+  },
+  jaipur: {
+    headline: 'Jaipur, Pink City & Aravalli Citadels',
+    avgElev: '431m avg',
+    elevRange: '431m - 648m',
+    circuitDistance: '19.8 km',
+    circuitDuration: '~4.2 hrs royal heritage circuit',
+    peakLabel: 'Nahargarh Ridge 648m',
+    peakDot: { x: 160, y: 12 },
+    svgArea: 'M 0,32 L 40,30 Q 90,28 120,20 L 160,12 Q 185,16 210,24 L 240,28 L 240,36 L 0,36 Z',
+    svgStroke: 'M 0,32 L 40,30 Q 90,28 120,20 L 160,12 Q 185,16 210,24 L 240,28',
+  },
+  udaipur: {
+    headline: 'Udaipur, City of Lakes & Palaces',
+    avgElev: '598m avg',
+    elevRange: '580m - 930m',
+    circuitDistance: '17.2 km',
+    circuitDuration: '~4.0 hrs lakefront tour',
+    peakLabel: 'Monsoon Palace 930m',
+    peakDot: { x: 80, y: 8 },
+    svgArea: 'M 0,34 L 35,26 Q 55,14 80,8 L 115,22 Q 160,28 200,24 L 240,30 L 240,36 L 0,36 Z',
+    svgStroke: 'M 0,34 L 35,26 Q 55,14 80,8 L 115,22 Q 160,28 200,24 L 240,30',
+  },
+  shimla: {
+    headline: 'Shimla, Pine Ridges & Mall Road',
+    avgElev: '2,206m avg',
+    elevRange: '2,100m - 2,454m',
+    circuitDistance: '15.6 km',
+    circuitDuration: '~4.8 hrs mountain circuit',
+    peakLabel: 'Jakhoo Hill 2,454m',
+    peakDot: { x: 130, y: 6 },
+    svgArea: 'M 0,30 Q 40,22 85,15 L 130,6 Q 165,14 200,20 L 240,24 L 240,36 L 0,36 Z',
+    svgStroke: 'M 0,30 Q 40,22 85,15 L 130,6 Q 165,14 200,20 L 240,24',
+  },
+  andaman: {
+    headline: 'Andaman, Coral Lagoons & Islands',
+    avgElev: '10m avg',
+    elevRange: '0m - 732m',
+    circuitDistance: '24.5 km',
+    circuitDuration: '~5.2 hrs coastal trail',
+    peakLabel: 'Saddle Peak 732m',
+    peakDot: { x: 170, y: 15 },
+    svgArea: 'M 0,34 Q 45,33 80,31 T 140,24 Q 170,15 195,22 T 240,32 L 240,36 L 0,36 Z',
+    svgStroke: 'M 0,34 Q 45,33 80,31 T 140,24 Q 170,15 195,22 T 240,32',
+  },
+  coorg: {
+    headline: 'Coorg, Mist-Veiled Coffee Country',
+    avgElev: '1,170m avg',
+    elevRange: '900m - 1,748m',
+    circuitDistance: '21.0 km',
+    circuitDuration: '~4.6 hrs plantation drive',
+    peakLabel: 'Tadiandamol Peak 1,748m',
+    peakDot: { x: 110, y: 7 },
+    svgArea: 'M 0,32 Q 35,24 75,18 L 110,7 Q 150,15 185,22 L 240,26 L 240,36 L 0,36 Z',
+    svgStroke: 'M 0,32 Q 35,24 75,18 L 110,7 Q 150,15 185,22 L 240,26',
+  },
+  mussoorie: {
+    headline: 'Mussoorie, Queen of the Garhwal Hills',
+    avgElev: '2,005m avg',
+    elevRange: '1,880m - 2,290m',
+    circuitDistance: '16.4 km',
+    circuitDuration: '~4.4 hrs scenic hill tour',
+    peakLabel: 'Lal Tibba 2,290m',
+    peakDot: { x: 150, y: 6 },
+    svgArea: 'M 0,33 Q 45,26 90,19 L 125,12 Q 150,6 185,16 L 240,24 L 240,36 L 0,36 Z',
+    svgStroke: 'M 0,33 Q 45,26 90,19 L 125,12 Q 150,6 185,16 L 240,24',
+  },
+  nainital: {
+    headline: 'Nainital, Lake District of Kumaon',
+    avgElev: '2,084m avg',
+    elevRange: '1,938m - 2,615m',
+    circuitDistance: '14.8 km',
+    circuitDuration: '~4.2 hrs lake & viewpoint circuit',
+    peakLabel: 'Naina Peak 2,615m',
+    peakDot: { x: 95, y: 5 },
+    svgArea: 'M 0,31 L 30,22 Q 60,12 95,5 L 140,18 Q 185,26 215,22 L 240,28 L 240,36 L 0,36 Z',
+    svgStroke: 'M 0,31 L 30,22 Q 60,12 95,5 L 140,18 Q 185,26 215,22 L 240,28',
+  },
+  kodaikanal: {
+    headline: 'Kodaikanal, Princess of Hill Stations',
+    avgElev: '2,133m avg',
+    elevRange: '2,000m - 2,517m',
+    circuitDistance: '18.2 km',
+    circuitDuration: '~4.5 hrs shola forest trail',
+    peakLabel: 'Vandaravu Peak 2,517m',
+    peakDot: { x: 125, y: 6 },
+    svgArea: 'M 0,33 Q 40,25 80,18 L 125,6 Q 160,14 195,20 L 240,25 L 240,36 L 0,36 Z',
+    svgStroke: 'M 0,33 Q 40,25 80,18 L 125,6 Q 160,14 195,20 L 240,25',
+  },
+  darjeeling: {
+    headline: 'Darjeeling, Queen of the Himalayas',
+    avgElev: '2,042m avg',
+    elevRange: '2,042m - 2,590m',
+    circuitDistance: '17.6 km',
+    circuitDuration: '~4.7 hrs tea & toy train route',
+    peakLabel: 'Tiger Hill 2,590m',
+    peakDot: { x: 105, y: 5 },
+    svgArea: 'M 0,34 L 25,24 Q 65,10 105,5 L 155,16 Q 190,22 220,18 L 240,26 L 240,36 L 0,36 Z',
+    svgStroke: 'M 0,34 L 25,24 Q 65,10 105,5 L 155,16 Q 190,22 220,18 L 240,26',
+  },
+  wayanad: {
+    headline: 'Wayanad, Rainforests & Waterfalls',
+    avgElev: '700m avg',
+    elevRange: '700m - 2,100m',
+    circuitDistance: '25.0 km',
+    circuitDuration: '~5.3 hrs ghats expedition',
+    peakLabel: 'Chembra Peak 2,100m',
+    peakDot: { x: 140, y: 6 },
+    svgArea: 'M 0,32 Q 40,26 80,20 L 110,12 Q 140,6 170,16 L 210,24 L 240,28 L 240,36 L 0,36 Z',
+    svgStroke: 'M 0,32 Q 40,26 80,20 L 110,12 Q 140,6 170,16 L 210,24 L 240,28',
+  },
+  gangtok: {
+    headline: 'Gangtok, Monasteries & Sikkim Heights',
+    avgElev: '1,650m avg',
+    elevRange: '1,650m - 4,310m',
+    circuitDistance: '28.0 km',
+    circuitDuration: '~5.8 hrs mountain pass route',
+    peakLabel: 'Nathu La Pass 4,310m',
+    peakDot: { x: 155, y: 4 },
+    svgArea: 'M 0,34 L 35,26 Q 80,18 120,11 L 155,4 Q 185,12 215,20 L 240,25 L 240,36 L 0,36 Z',
+    svgStroke: 'M 0,34 L 35,26 Q 80,18 120,11 L 155,4 Q 185,12 215,20 L 240,25',
   },
 };
 
@@ -192,52 +340,54 @@ export function renderMapView(container, { switchView, store }) {
         <div class="map-ledger-header">
           <div class="map-header-top-row">
             <div class="relative">
-              <button type="button" class="map-dest-dropdown-btn" id="btnDestPicker" aria-haspopup="true">
-                <span class="text-xs text-[#C4703D]">📍</span>
-                <span class="font-bold text-xs text-[#1C1C19]" id="lblActiveDestName">${escapeHtml(selectedDestination)}</span>
-                <span class="material-symbols-outlined text-[14px] text-neutral-400">arrow_drop_down</span>
+              <button type="button" class="map-dest-dropdown-btn" id="btnDestPicker" aria-haspopup="true" aria-expanded="false" title="Switch Destination Circuit">
+                <span class="map-dest-pin-badge">
+                  <span class="material-symbols-outlined text-[13px]">location_on</span>
+                </span>
+                <div class="map-dest-btn-text">
+                  <span class="map-dest-btn-sub">Destination</span>
+                  <span class="map-dest-btn-title" id="lblActiveDestName">${escapeHtml(selectedDestination)}</span>
+                </div>
+                <span class="material-symbols-outlined map-dest-btn-arrow">expand_more</span>
               </button>
 
-              <!-- Dropdown destination menu -->
+              <!-- Prominently Highlighted Destination Menu Popover -->
               <div class="map-dest-menu hidden" id="destPickerMenu">
-                ${[
-                  { name: 'Ooty', key: 'ooty' },
-                  { name: 'Goa', key: 'goa' },
-                  { name: 'Manali', key: 'manali' },
-                  { name: 'Munnar', key: 'munnar' },
-                  { name: 'Jaipur', key: 'jaipur' },
-                  { name: 'Udaipur', key: 'udaipur' },
-                  { name: 'Shimla', key: 'shimla' },
-                  { name: 'Andaman', key: 'andaman' },
-                  { name: 'Coorg', key: 'coorg' },
-                  { name: 'Mussoorie', key: 'mussoorie' },
-                  { name: 'Nainital', key: 'nainital' },
-                  { name: 'Kodaikanal', key: 'kodaikanal' },
-                  { name: 'Darjeeling', key: 'darjeeling' },
-                  { name: 'Wayanad', key: 'wayanad' },
-                  { name: 'Gangtok', key: 'gangtok' },
-                ].map(c => `
-                  <button type="button" class="map-dest-option ${c.key === activeDestKey ? 'active' : ''}" data-name="${c.name}" data-key="${c.key}">
-                    <span>${c.name}</span>
-                    <span class="text-[9.5px] font-mono text-neutral-400">14 Sights</span>
-                  </button>
-                `).join('')}
+                <div class="map-dest-menu-header">
+                  <div class="map-dest-menu-header-title">
+                    <span class="material-symbols-outlined text-xs text-[#C4703D]">travel_explore</span>
+                    <span>Curated Circuits</span>
+                  </div>
+                  <span class="map-dest-menu-badge">15 Regions</span>
+                </div>
+                <div class="map-dest-menu-list">
+                  ${DESTINATION_OPTIONS.map(c => `
+                    <button type="button" class="map-dest-option ${c.key === activeDestKey ? 'active' : ''}" data-name="${c.name}" data-key="${c.key}">
+                      <div class="map-dest-opt-left">
+                        <span class="map-dest-opt-name">${c.name}</span>
+                        <span class="map-dest-opt-sub">${c.region}</span>
+                      </div>
+                      <div class="map-dest-opt-right">
+                        <span class="map-dest-opt-elev">${c.elev}</span>
+                        ${c.key === activeDestKey ? '<span class="material-symbols-outlined text-[13px] font-bold text-white">check</span>' : ''}
+                      </div>
+                    </button>
+                  `).join('')}
+                </div>
               </div>
             </div>
 
-            <div class="flex items-center gap-2">
-              <div class="map-elevation-badge" id="destElevationBadge">
-                <span class="material-symbols-outlined text-xs text-[#5B8C7B]">terrain</span>
+            <div class="flex items-center gap-1.5">
+              <div class="map-elevation-badge" id="destElevationBadge" title="Average Destination Elevation">
+                <span class="material-symbols-outlined text-[11px] text-[#5B8C7B]">terrain</span>
                 <span id="lblDestElevValue">2,240m avg</span>
               </div>
-              <div class="map-index-tag" id="lblIndexCoords">INDEX: 11.41° / 76.69°</div>
             </div>
           </div>
 
           <!-- Headline -->
           <div class="map-destination-headline">
             <h2 class="map-dest-main-title" id="lblDestHeadline">Ooty, Queen of Hill Stations</h2>
-            <p class="map-dest-sub-title" id="lblDestSubTitle">Nilgiris Expedition Ledger • 14 Curated Sights & High Passes</p>
           </div>
 
           <!-- Search Input -->
@@ -279,7 +429,6 @@ export function renderMapView(container, { switchView, store }) {
           <div class="map-hud-segmented-card">
             <button type="button" class="map-segmented-btn active" data-layer="contours">Contours</button>
             <button type="button" class="map-segmented-btn" data-layer="satellite">Satellite</button>
-            <button type="button" class="map-segmented-btn" data-layer="estate">Estate Wash</button>
           </div>
 
           <button type="button" class="map-compass-badge-btn" id="btnCompassRose" title="Compass Orientation">
@@ -296,7 +445,7 @@ export function renderMapView(container, { switchView, store }) {
               <span>1:25,000 Topo Relief</span>
             </div>
             <div class="map-datum-text" id="lblMapDatumText">
-              Datum: GTS India 1878 • 11.4102° N, 76.6950° E
+              Datum: GTS India 1878 • High Precision Topo Relief
             </div>
           </div>
 
@@ -320,12 +469,12 @@ export function renderMapView(container, { switchView, store }) {
                     <stop offset="100%" stop-color="#5B8C7B" stop-opacity="0.04" />
                   </linearGradient>
                 </defs>
-                <!-- SVG Area Curve -->
-                <path d="M 0,34 L 10,24 Q 60,4 100,6 T 160,20 T 240,28 L 240,36 L 0,36 Z" fill="url(#elevGradientFill)" />
-                <!-- SVG Stroke Curve -->
-                <path d="M 0,34 L 10,24 Q 60,4 100,6 T 160,20 T 240,28" fill="none" stroke="#5B8C7B" stroke-width="1.8" stroke-linecap="round" />
-                <!-- Peak Waypoint Dot (Doddabetta 2,637m) -->
-                <circle cx="100" cy="6" r="3" fill="#C4703D" stroke="#FFFFFF" stroke-width="1.2" />
+                <!-- Dynamic SVG Area Curve -->
+                <path id="svgElevArea" d="M 0,34 L 10,24 Q 60,4 100,6 T 160,20 T 240,28 L 240,36 L 0,36 Z" fill="url(#elevGradientFill)" />
+                <!-- Dynamic SVG Stroke Curve -->
+                <path id="svgElevStroke" d="M 0,34 L 10,24 Q 60,4 100,6 T 160,20 T 240,28" fill="none" stroke="#5B8C7B" stroke-width="1.8" stroke-linecap="round" />
+                <!-- Peak Waypoint Dot -->
+                <circle id="svgElevPeakDot" cx="100" cy="6" r="3" fill="#C4703D" stroke="#FFFFFF" stroke-width="1.2" />
               </svg>
             </div>
           </div>
@@ -370,10 +519,6 @@ export function renderMapView(container, { switchView, store }) {
       maxZoom: 19,
       attribution: 'Esri, DigitalGlobe',
     }),
-    estate: L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Map/MapServer/tile/{z}/{y}/{x}', {
-      maxZoom: 16,
-      attribution: 'National Geographic, Esri',
-    }),
   };
 
   let activeTileLayer = tileLayers.contours;
@@ -398,15 +543,6 @@ export function renderMapView(container, { switchView, store }) {
   currentRouteGroup = L.layerGroup().addTo(map);
   currentDistMarkersGroup = L.layerGroup().addTo(map);
   currentOverlaysGroup = L.layerGroup().addTo(map);
-
-  // Update scale coordinates on move
-  map.on('move', () => {
-    const center = map.getCenter();
-    const datumEl = document.getElementById('lblMapDatumText');
-    if (datumEl) {
-      datumEl.textContent = `Datum: GTS India 1878 • ${center.lat.toFixed(4)}° N, ${center.lng.toFixed(4)}° E`;
-    }
-  });
 
   // Safe Map Movement Helper
   function safeMoveMap(lat, lng, zoom = 14, duration = 0.8) {
@@ -566,18 +702,39 @@ export function renderMapView(container, { switchView, store }) {
     const centerMeta = DESTINATION_CENTERS[destKey] || DESTINATION_CENTERS.ooty;
 
     // Update Header labels
-    document.getElementById('lblActiveDestName').textContent = destName;
-    document.getElementById('lblDestElevValue').textContent = destMeta.avgElev || '2,240m avg';
-    document.getElementById('lblIndexCoords').textContent = `INDEX: ${destMeta.indexCoords || '11.41° / 76.69°'}`;
-    document.getElementById('lblDestHeadline').textContent = destMeta.headline || `${destName}, Queen of Hill Stations`;
-    document.getElementById('lblDestSubTitle').textContent = destMeta.ledgerSub || `Expedition Ledger • 14 Curated Sights`;
-    document.getElementById('lblCircuitStripText').innerHTML = `
-      <span class="map-circuit-badge-label">🧭 Day 1 Circuit</span>
-      <span>• 4 Stops</span>
-      <span>• 18.4 km</span>
-      <span>• ~4.5 hrs scenic drive & walk</span>
-    `;
-    document.getElementById('lblElevGraphRange').textContent = destMeta.elevRange || '2,180m - 2,637m';
+    const lblActiveDestName = document.getElementById('lblActiveDestName');
+    if (lblActiveDestName) lblActiveDestName.textContent = destName;
+
+    const lblDestElevValue = document.getElementById('lblDestElevValue');
+    if (lblDestElevValue) lblDestElevValue.textContent = destMeta.avgElev || '2,240m avg';
+
+    const lblDestHeadline = document.getElementById('lblDestHeadline');
+    if (lblDestHeadline) lblDestHeadline.textContent = destMeta.headline || `${destName}, Queen of Hill Stations`;
+
+    const lblCircuitStripText = document.getElementById('lblCircuitStripText');
+    if (lblCircuitStripText) {
+      lblCircuitStripText.innerHTML = `
+        <span class="map-circuit-badge-label">🧭 Day 1 Circuit</span>
+        <span>• 4 Stops</span>
+        <span>• ${destMeta.circuitDistance || '18.4 km'}</span>
+        <span>• ${destMeta.circuitDuration || '~4.5 hrs scenic drive & walk'}</span>
+      `;
+    }
+
+    const lblElevGraphRange = document.getElementById('lblElevGraphRange');
+    if (lblElevGraphRange) lblElevGraphRange.textContent = destMeta.elevRange || '2,180m - 2,637m';
+
+    // Update Elevation Profile SVG curve and peak waypoint dot
+    const svgArea = document.getElementById('svgElevArea');
+    const svgStroke = document.getElementById('svgElevStroke');
+    const svgPeakDot = document.getElementById('svgElevPeakDot');
+    if (svgArea && destMeta.svgArea) svgArea.setAttribute('d', destMeta.svgArea);
+    if (svgStroke && destMeta.svgStroke) svgStroke.setAttribute('d', destMeta.svgStroke);
+    if (svgPeakDot && destMeta.peakDot) {
+      svgPeakDot.setAttribute('cx', destMeta.peakDot.x);
+      svgPeakDot.setAttribute('cy', destMeta.peakDot.y);
+      if (destMeta.peakLabel) svgPeakDot.setAttribute('title', destMeta.peakLabel);
+    }
 
     // Smoothly fly map to destination center
     safeMoveMap(centerMeta.lat, centerMeta.lng, centerMeta.zoom || 13, 1.0);
@@ -741,15 +898,15 @@ export function renderMapView(container, { switchView, store }) {
       if (feedContainer) {
         feedContainer.innerHTML = displayedItems.map((item, idx) => {
           const isStop1 = idx === 0 && isDay1Mode;
-          let photoUrl = item.photo || `/images/attractions/ooty/tea-museum-4.jpg`;
-          if (item.name && (item.name.includes('Tea Museum') || item.name.includes('Factory'))) {
-            photoUrl = '/images/attractions/ooty/tea-museum-4.jpg';
+          let photoUrl = item.photo || (item.photos && item.photos[0]) || `/images/attractions/ooty/tea-museum-4.jpg`;
+          if (item.photos && item.photos.length > 0) {
+            photoUrl = item.photos[0];
           }
-          const altTag = item.altTag || `● Stop #${idx + 1} • 2,240m ALT`;
+          const altTag = item.altTag || `● Stop #${idx + 1} • ${destMeta.avgElev.replace(' avg', '')} ALT`;
           const statusText = item.status || 'Open till 6 PM';
           const metaText = item.meta || `★ ${item.rating || '4.6'} • Curated Landmark`;
           const descText = item.desc || item.description || '';
-          const coordsText = item.coordsText || `${Number(item.lat).toFixed(4)}° N, ${Number(item.lng).toFixed(4)}° E`;
+          const categoryTag = item.category || 'Curated Landmark';
           const audioText = item.audioText || 'Audio Guide (14m)';
 
           return `
@@ -785,9 +942,9 @@ export function renderMapView(container, { switchView, store }) {
 
                 <!-- Footer Actions -->
                 <div class="map-card-footer">
-                  <span class="map-card-coords">
-                    <span class="material-symbols-outlined text-[11px]">location_on</span>
-                    <span>${escapeHtml(coordsText)}</span>
+                  <span class="map-card-tag-pill">
+                    <span class="material-symbols-outlined text-[11px]">local_activity</span>
+                    <span>${escapeHtml(categoryTag)}</span>
                   </span>
                   <div class="map-card-actions">
                     <button type="button" class="map-btn-outline" data-action="directions">Directions</button>
@@ -835,13 +992,13 @@ export function renderMapView(container, { switchView, store }) {
         if (!Number.isFinite(itemLat) || !Number.isFinite(itemLng)) return;
 
         const isStop1 = idx === 0 && isDay1Mode;
-        let photoUrl = item.photo || `/images/attractions/ooty/tea-museum-4.jpg`;
-        if (item.name && (item.name.includes('Tea Museum') || item.name.includes('Factory'))) {
-          photoUrl = '/images/attractions/ooty/tea-museum-4.jpg';
+        let photoUrl = item.photo || (item.photos && item.photos[0]) || `/images/attractions/ooty/tea-museum-4.jpg`;
+        if (item.photos && item.photos.length > 0) {
+          photoUrl = item.photos[0];
         }
         const stopLabel = item.shortName || item.name;
-        const altTag = item.altTag || `STOP #${idx + 1} • 2,240m`;
-        const openStatus = item.openStatus || '● Tasting Open Now';
+        const altTag = item.altTag || `STOP #${idx + 1} • ${destMeta.avgElev.replace(' avg', '')}`;
+        const openStatus = item.openStatus || '● Open Today';
 
         // Terracotta Numbered Pin
         const pinHtml = `
@@ -938,12 +1095,14 @@ export function renderMapView(container, { switchView, store }) {
   if (btnDestPicker && destPickerMenu) {
     btnDestPicker.addEventListener('click', (e) => {
       e.stopPropagation();
-      destPickerMenu.classList.toggle('hidden');
+      const isHidden = destPickerMenu.classList.toggle('hidden');
+      btnDestPicker.setAttribute('aria-expanded', isHidden ? 'false' : 'true');
     });
 
     document.addEventListener('click', (e) => {
       if (!destPickerMenu.contains(e.target) && e.target !== btnDestPicker) {
         destPickerMenu.classList.add('hidden');
+        btnDestPicker.setAttribute('aria-expanded', 'false');
       }
     });
 
@@ -951,9 +1110,18 @@ export function renderMapView(container, { switchView, store }) {
       opt.addEventListener('click', () => {
         const destName = opt.dataset.name;
         const destKey = opt.dataset.key;
-        destPickerMenu.querySelectorAll('.map-dest-option').forEach(o => o.classList.remove('active'));
+        destPickerMenu.querySelectorAll('.map-dest-option').forEach(o => {
+          o.classList.remove('active');
+          const checkIcon = o.querySelector('.map-dest-opt-right .material-symbols-outlined');
+          if (checkIcon) checkIcon.remove();
+        });
         opt.classList.add('active');
+        const rightWrap = opt.querySelector('.map-dest-opt-right');
+        if (rightWrap && !rightWrap.querySelector('.material-symbols-outlined')) {
+          rightWrap.insertAdjacentHTML('beforeend', '<span class="material-symbols-outlined text-[13px] font-bold text-white">check</span>');
+        }
         destPickerMenu.classList.add('hidden');
+        btnDestPicker.setAttribute('aria-expanded', 'false');
         loadDestinationData(destName, destKey);
       });
     });
