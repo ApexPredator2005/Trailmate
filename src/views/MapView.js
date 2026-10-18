@@ -348,7 +348,11 @@ export function renderMapView(container, { switchView, store }) {
       // Center on Map Button
       document.getElementById('btnZoomToPlaceFromGallery')?.addEventListener('click', () => {
         modalContainer.classList.add('hidden');
-        map.flyTo([place.lat, place.lng], 16, { duration: 1.0 });
+        const pLat = Number(place?.lat);
+        const pLng = Number(place?.lng);
+        if (Number.isFinite(pLat) && Number.isFinite(pLng)) {
+          map.flyTo([pLat, pLng], 16, { duration: 1.0 });
+        }
       });
   }
 
@@ -453,7 +457,9 @@ export function renderMapView(container, { switchView, store }) {
             const idx = parseInt(card.dataset.idx, 10);
             const item = filtered[idx];
 
-            map.flyTo([lat, lng], 15, { duration: 0.8 });
+            if (Number.isFinite(lat) && Number.isFinite(lng)) {
+              map.flyTo([lat, lng], 15, { duration: 0.8 });
+            }
             const marker = markerMap.get(idx);
             if (marker) marker.openPopup();
 
@@ -469,6 +475,10 @@ export function renderMapView(container, { switchView, store }) {
 
       // Plot markers for filtered items
       filtered.forEach((item, idx) => {
+        const itemLat = Number(item?.lat);
+        const itemLng = Number(item?.lng);
+        if (!Number.isFinite(itemLat) || !Number.isFinite(itemLng)) return;
+
         const pinIconHtml = `
           <div class="photo-pin-container" title="${escapeHtml(item.name)}">
             <div class="photo-pin-bubble">
@@ -515,7 +525,7 @@ export function renderMapView(container, { switchView, store }) {
                   <span class="material-symbols-outlined text-xs">photo_library</span>
                   <span>See More Images</span>
                 </button>
-                <button class="popup-focus-btn text-[10px] font-bold text-[#5B8C7B] hover:underline cursor-pointer" data-lat="${item.lat}" data-lng="${item.lng}">
+                <button class="popup-focus-btn text-[10px] font-bold text-[#5B8C7B] hover:underline cursor-pointer" data-lat="${itemLat}" data-lng="${itemLng}">
                   Zoom Closer
                 </button>
               </div>
@@ -523,7 +533,7 @@ export function renderMapView(container, { switchView, store }) {
           </div>
         `;
 
-        const marker = L.marker([item.lat, item.lng], { icon: customIcon })
+        const marker = L.marker([itemLat, itemLng], { icon: customIcon })
           .bindPopup(popupHtml, { maxWidth: 280, minWidth: 260 });
 
         marker.on('click', () => {
@@ -548,7 +558,9 @@ export function renderMapView(container, { switchView, store }) {
 
             popupEl.querySelector('.popup-focus-btn')?.addEventListener('click', (e) => {
               e.stopPropagation();
-              map.flyTo([item.lat, item.lng], 16, { duration: 0.6 });
+              if (Number.isFinite(itemLat) && Number.isFinite(itemLng)) {
+                map.flyTo([itemLat, itemLng], 16, { duration: 0.6 });
+              }
             });
           }
         });
@@ -574,20 +586,20 @@ export function renderMapView(container, { switchView, store }) {
         const dayCoords = [];
 
         (day.stops || []).forEach(stop => {
-          let lat = stop.lat;
-          let lng = stop.lng;
-          if (!lat || !lng) {
+          let lat = Number(stop.lat);
+          let lng = Number(stop.lng);
+          if (!Number.isFinite(lat) || !Number.isFinite(lng)) {
             // Find in curated attractions by name matching
             const match = allAttractions.find(a =>
               a.name.toLowerCase().includes((stop.name || '').toLowerCase()) ||
               (stop.name || '').toLowerCase().includes(a.name.toLowerCase())
             );
-            if (match) {
-              lat = match.lat;
-              lng = match.lng;
+            if (match && Number.isFinite(Number(match.lat)) && Number.isFinite(Number(match.lng))) {
+              lat = Number(match.lat);
+              lng = Number(match.lng);
             }
           }
-          if (lat && lng) dayCoords.push([lat, lng]);
+          if (Number.isFinite(lat) && Number.isFinite(lng)) dayCoords.push([lat, lng]);
         });
 
         if (dayCoords.length > 1) {
