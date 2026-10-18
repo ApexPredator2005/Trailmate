@@ -90,74 +90,58 @@ export class RippleDisplacementTransition {
         float dist = distance(coord, center);
         float time = uProgress;
 
-        if (time <= 0.001 || dist > time + 0.04) {
+        // Strictly clamp cutoff to time: zero rendering ahead of the expanding wave front!
+        if (time <= 0.001 || dist > time) {
           gl_FragColor = vec4(0.0);
           return;
         }
 
         float trailing = dist - time;
 
-        // Waveband exists behind the shockwave front
+        // Waveband exists strictly behind the leading wave crest
         if (trailing < 0.0 && trailing > -uWaveWidth) {
           float age = -trailing;
           float normAge = age / uWaveWidth; // 0.0 (leading crest) -> 1.0 (trailing tail)
           
           // ── 1. Directional Sunbeam (315° Top-Left Lighting Azimuth) ──
-          // Calculate 2D radial wave normal pointing away from center
           vec2 waveNormal = dist > 0.001 ? normalize(coord - center) : vec2(0.0);
-          // Top-left sun vector (X: -0.7071 from left, Y: -0.7071 from top in DOM Y-down coords)
           vec2 sunDirection = normalize(vec2(-0.7071, -0.7071));
-          // Dot product measures alignment with incoming sunlight
-          float sunFacing = dot(waveNormal, -sunDirection); // 1.0 when facing top-left sun, -1.0 when facing away
-          // Upper-left wave crest catches brilliant direct sun glint, lee side has tranquil reflection
-          float sunModulation = 0.55 + 0.45 * max(0.0, sunFacing + 0.25);
-          float directionalBoost = uBoostStrength * sunModulation;
+          float sunFacing = dot(waveNormal, -sunDirection); // 1.0 when facing top-left sun
+          float sunModulation = 0.65 + 0.35 * max(0.0, sunFacing + 0.20);
+          float specularPower = pow(max(0.0, sunFacing + 0.25) / 1.25, 2.5);
 
-          // ── 2. Chromatic Dispersion (Prismatic Wavelength Separation) ──
-          // Cauchy's dispersion: Red wavelength leads slightly, Blue trails slightly
-          float dispersionOffset = 0.024;
-          float rAge = clamp(normAge - dispersionOffset, 0.0, 1.0);
-          float gAge = normAge;
-          float bAge = clamp(normAge + dispersionOffset, 0.0, 1.0);
+          // ── 2. Terracotta Brand Liquid Meniscus & Caustic Shimmer ──
+          // Leading crest meniscus rises smoothly from 0.0 at normAge = 0.0 (zero gap or hard edge)
+          float crest = smoothstep(0.0, 0.04, normAge) * (1.0 - smoothstep(0.04, 0.28, normAge));
+          
+          // Physical exponential falloff through trailing wake
+          float decay = exp(-normAge * 3.8);
 
-          // Physical exponential falloff per channel
-          float rDecay = exp(-rAge * 3.4);
-          float gDecay = exp(-gAge * 3.4);
-          float bDecay = exp(-bAge * 3.4);
+          // Secondary gentle liquid undulation
+          float ripples = max(0.0, sin(normAge * 3.14159265 * 4.2)) * decay;
 
-          // Multi-harmonic wave undulations per channel
-          float rWave = max(0.0, sin(rAge * 3.14159265 * 4.6)) * rDecay;
-          float gWave = max(0.0, sin(gAge * 3.14159265 * 4.6)) * gDecay;
-          float bWave = max(0.0, sin(bAge * 3.14159265 * 4.6)) * bDecay;
+          // Trailmate signature UI terracotta palette
+          vec3 terracottaBase = vec3(0.769, 0.439, 0.239); // Primary Terracotta #C4703D
+          vec3 sunlitAmber    = vec3(0.940, 0.640, 0.360); // Warm sunlit amber crest
+          vec3 deepTerracotta = vec3(0.580, 0.290, 0.102); // Deep warm earth shadow
 
-          // Sharp caustic specular gleams per channel (prismatic fringe on leading edge)
-          float rLead = smoothstep(0.0, 0.05, rAge) * (1.0 - smoothstep(0.05, 0.28, rAge));
-          float gLead = smoothstep(0.0, 0.05, gAge) * (1.0 - smoothstep(0.05, 0.28, gAge));
-          float bLead = smoothstep(0.0, 0.05, bAge) * (1.0 - smoothstep(0.05, 0.28, bAge));
+          // Surface color of liquid meniscus
+          vec3 liquidColor = mix(terracottaBase, sunlitAmber, clamp(sunFacing * 0.5 + 0.5, 0.0, 1.0));
+          // Add sunbeam specular gleam along the sun-facing crest
+          liquidColor += vec3(0.20, 0.15, 0.08) * (specularPower * uBoostStrength);
+          // Darken slightly in the trough
+          float troughWave = sin(normAge * 3.14159265 * 4.2);
+          float shadow = max(0.0, -troughWave) * 0.20 * decay;
+          liquidColor = mix(liquidColor, deepTerracotta, shadow);
 
-          // Compose chromatic prismatic specular highlight modulated by sunbeam
-          float rGlint = (rLead * 1.55 + rWave * 0.90) * directionalBoost;
-          float gGlint = (gLead * 1.50 + gWave * 0.90) * directionalBoost;
-          float bGlint = (bLead * 1.65 + bWave * 1.05) * directionalBoost;
+          // Refined, translucent liquid alpha (max 0.38 — silky translucent lens, never opaque or hazy)
+          float alpha = clamp((crest * 0.90 + ripples * 0.35) * sunModulation * uBoostStrength, 0.0, 0.38);
 
-          // Depth refraction shadow in the wave trough
-          float troughWave = sin(gAge * 3.14159265 * 4.6);
-          float shadow = max(0.0, -troughWave) * 0.24 * gDecay;
-
-          // Crystalline liquid highlights with oceanic cyan refraction tone
-          vec3 chromaticLiquid = vec3(rGlint, gGlint, bGlint);
-          vec3 aquaticTint = vec3(0.18, 0.65, 0.88) * (gLead * 0.40 * directionalBoost);
-          vec3 liquidRgb = chromaticLiquid + aquaticTint;
-
-          // Liquid opacity smoothly modulated by sunbeam
-          float totalGlint = (rGlint + gGlint + bGlint) * 0.333;
-          float alpha = clamp(totalGlint * 1.15 + shadow * 0.40, 0.0, 0.88);
-
-          // Fade out cleanly as the wave clears the viewport perimeter
-          float edgeFade = smoothstep(2.6, 1.4, time);
+          // Standard-compliant smooth fade-out as wave clears outer viewport perimeter
+          float edgeFade = 1.0 - smoothstep(1.3, 2.5, time);
           alpha *= edgeFade;
 
-          gl_FragColor = vec4(liquidRgb, alpha);
+          gl_FragColor = vec4(liquidColor, alpha);
         } else {
           gl_FragColor = vec4(0.0);
         }
@@ -198,8 +182,8 @@ export class RippleDisplacementTransition {
     };
 
     gl.uniform1f(this.uniforms.uWaveFreq, 28.0);
-    gl.uniform1f(this.uniforms.uWaveWidth, 0.46);
-    gl.uniform1f(this.uniforms.uBoostStrength, 0.88);
+    gl.uniform1f(this.uniforms.uWaveWidth, 0.14);
+    gl.uniform1f(this.uniforms.uBoostStrength, 0.85);
   }
 
   _setupGeometry() {
@@ -293,17 +277,19 @@ export class RippleDisplacementTransition {
     gl.uniform2f(this.uniforms.uResolution, w, h);
     gl.uniform2f(this.uniforms.uCenter, originXPercent, originYPercent);
 
-    // Calculate maximum radius to fully clear the viewport
-    const maxPixelRadius = Math.hypot(
-      Math.max(originXpx, w - originXpx),
-      Math.max(originYpx, h - originYpx)
-    ) * 1.15;
+    // Calculate maximum Euclidean distance to the 4 corners of #appMain
+    const d1 = Math.hypot(originXpx, originYpx);
+    const d2 = Math.hypot(w - originXpx, originYpx);
+    const d3 = Math.hypot(originXpx, h - originYpx);
+    const d4 = Math.hypot(w - originXpx, h - originYpx);
+    const maxCornerDistPx = Math.max(d1, d2, d3, d4);
 
-    const ratio = h / w;
-    const maxDist = Math.hypot(
-      Math.max(originXPercent, 1.0 - originXPercent),
-      Math.max(originYPercent, 1.0 - originYPercent) * ratio
-    ) + 0.45;
+    // Wave width in pixels (uWaveWidth = 0.14 in normalized horizontal units)
+    const waveWidthPx = 0.14 * w;
+    // Total travel required so the trailing wake completely exits the furthest corner
+    const totalTravelPx = maxCornerDistPx + waveWidthPx + 24;
+    // Normalized maximum shader distance (exactly totalTravelPx / w)
+    const maxDist = totalTravelPx / Math.max(w, 1);
 
     // Stack views for seamless in-place liquid reveal
     if (outgoingElement) {
@@ -336,14 +322,16 @@ export class RippleDisplacementTransition {
       // Starts gently from the button, smoothly gathers momentum, and accelerates across the canvas
       const ease = progress * progress;
 
-      // Expand incoming DOM element with exact circular wavefront
+      // Exact synchronized distance for both WebGL shader and DOM clip-path
+      const currentWaveDist = ease * maxDist;
+      const currentRadiusPx = currentWaveDist * w;
+
+      // Expand incoming DOM element with exact circular wavefront (100% zero-gap lockstep)
       if (incomingElement) {
-        const currentRadius = Math.round(ease * maxPixelRadius);
-        incomingElement.style.clipPath = `circle(${currentRadius}px at ${originXpx}px ${originYpx}px)`;
+        incomingElement.style.clipPath = `circle(${Math.round(currentRadiusPx)}px at ${originXpx}px ${originYpx}px)`;
       }
 
       // Render liquid caustic shockwave in WebGL directly over the boundary
-      const currentWaveDist = ease * maxDist;
       gl.clearColor(0.0, 0.0, 0.0, 0.0);
       gl.clear(gl.COLOR_BUFFER_BIT);
       gl.uniform1f(this.uniforms.uProgress, currentWaveDist);

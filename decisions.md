@@ -597,6 +597,7 @@ To maintain this standard while offering a high-performance **Scrapbook Studio**
 | **DEC-027** | UI / Motion | Ripple Displacement Slider Screen Transitions | User | WebGL liquid ripple shockwave shader over #appMain for switching between chat, trips, scrapbook, map, community, and settings; 0KB runtime bloat; leaves sidebar untouched |
 | **DEC-028** | UI / Motion | Transparent Liquid Caustic Wave with Button Origin & Ease-In | User | Eliminates black screen/placeholder textures via transparent WebGL caustic glint shader + concurrent DOM clip-path expansion; originates from clicked button; applies authentic ease-in acceleration curve ($t^2$, 840ms) |
 | **DEC-029** | UI / Motion | Directional Sunbeam (315° Azimuth) & Chromatic Dispersion | User | Physically models 315° top-left sunlight reflection via 2D wave normal dot product and Cauchy's chromatic wavelength separation (R/G/B phase shift) on liquid ripple crest |
+| **DEC-030** | UI / Motion | Terracotta Liquid Meniscus & Wavefront Boundary Lockstep | User | Eliminates blue/cyan shimmer with Trailmate brand Terracotta (`#C4703D`) and sunlit amber; locks DOM clip-path and WebGL wave to exact 1:1 pixel coordinate lockstep, eliminating white gaps and pre-glow |
 
 ---
 
@@ -625,6 +626,27 @@ To maintain this standard while offering a high-performance **Scrapbook Studio**
   * **Chromatic Dispersion:** Implemented Cauchy's prismatic dispersion on the wave crest by slightly offsetting channel age ($\pm 0.024$). The leading edge reveals warm champagne-gold prismatic glints, diamond-white core crests, and aquatic cyan-violet trailing dispersion fringes.
 * **Why This Was Chosen:**
   * Delivers photorealistic water optical physics with zero external library overhead and 60 FPS performance.
+
+---
+
+### DEC-030: Brand Terracotta Liquid Meniscus & Wavefront Boundary Lockstep
+* **Decision Makers:** User Directive
+* **Category:** UI Brand Design, WebGL Shader Optics & Viewport Geometry
+* **Status:** Implemented & Verified
+* **The Context & Problem:**
+  Two visual artifacts degraded the transition aesthetic:
+  1. **Cyan / Blue Glint Disconnect:** The previous chromatic dispersion used an aquatic cyan tint (`vec3(0.18, 0.65, 0.88)`), creating an artificial blue halo disconnected from Trailmate's warm terracotta brand palette (`#C4703D`).
+  2. **White Space Ahead of Wave:** The shader permitted fragment rendering past the wave crest (`dist > time + 0.04`), and the WebGL distance scale was decoupled from the DOM clip-path radius by ~20%. This projected an opaque white highlight border ahead of the expanding page clip-path. Furthermore, an oversized wave ring (`uWaveWidth = 0.46`) and high peak alpha ($0.88$) formed a heavy opaque ring.
+* **The Decision:**
+  * **Trailmate Signature Terracotta Palette:** Replaced aquatic cyan and harsh white glints with the authentic brand clay and amber palette:
+    * Primary Terracotta: `vec3(0.769, 0.439, 0.239)` (`#C4703D`).
+    * Sunlit Amber Crest: `vec3(0.940, 0.640, 0.360)` (`#F0A25C`).
+    * Deep Earth Trough: `vec3(0.580, 0.290, 0.102)` (`#944A1A`).
+  * **Strict Boundary Cutoff (Zero White Space Ahead):** Clamped fragment rendering strictly to `if (time <= 0.001 || dist > time) { gl_FragColor = vec4(0.0); return; }`, mathematically guaranteeing that zero pixels are rendered ahead of the wave crest.
+  * **1:1 Mathematical Pixel Lockstep:** Unified the distance scaling: $r_{px} = \text{dist}_{shader} \times w$. At every frame, the DOM `clip-path` circular radius in pixels matches the WebGL shader wavefront coordinate to sub-pixel accuracy.
+  * **Refined Meniscus Profile & Translucent Alpha:** Narrowed the waveband width to $0.14$ ($~140\text{px}$) and lowered peak alpha to $0.38$. The wave crest now acts as an organic, translucent liquid lens rather than an opaque masking ring.
+* **Why This Was Chosen:**
+  * Beautifully harmonizes the screen transition with Trailmate's heritage aesthetic while eliminating visual seams and unnatural color fringes.
 
 ---
 
