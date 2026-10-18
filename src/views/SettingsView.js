@@ -1,114 +1,475 @@
 /**
  * SettingsView.js — Modular View Renderer for User Preferences
- * (Suggestion #19)
+ * Archival Expedition Ledger & Wayfarer Preferences
+ * Designed with Stitch MCP & Trailmate Heritage Design System
  */
 
+import { communityService } from '../services/CommunityService.js';
+
+function escapeHtml(str) {
+  if (!str) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
 export function renderSettingsView(container, { switchView, store }) {
-  const storedCurrency = localStorage.getItem('trailmate_currency') || '₹ INR';
-  const storedDiet = localStorage.getItem('trailmate_diet') || 'All';
-  const storedStay = localStorage.getItem('trailmate_stay') || 'Heritage / Boutique';
-  const storedHome = localStorage.getItem('trailmate_home_city') || 'Delhi';
+  let storedCurrency = localStorage.getItem('trailmate_currency') || '₹ INR';
+  let storedDiet = localStorage.getItem('trailmate_diet') || 'All';
+  let storedStay = localStorage.getItem('trailmate_stay') || '🏛 Heritage / Boutique';
+  let storedHome = localStorage.getItem('trailmate_home_city') || 'Delhi';
+  let storedMapStyle = localStorage.getItem('trailmate_map_style') || 'atlas';
+  let storedUnits = localStorage.getItem('trailmate_units') || 'metric';
+
+  const profile = communityService?.getProfile() || {};
+  const userName = profile.name || 'Pratyush Raj';
+  const userRank = profile.level ? `Master Scout • Rank ${profile.level}` : 'Master Scout • Rank IV';
+  const userXp = profile.xp || 2450;
+  const targetXp = 3000;
+  const xpPercent = Math.min(100, Math.round((userXp / targetXp) * 100));
 
   container.innerHTML = `
-    <div class="mb-5">
-      <span class="text-[10px] font-mono font-bold uppercase tracking-widest text-[#944a1a] bg-[#944a1a]/10 px-2.5 py-0.5 rounded-full">SYSTEM PREFERENCES</span>
-      <h1 class="text-[26px] sm:text-[30px] font-bold text-neutral-900 mt-1 font-headline-md tracking-tight">Planner Preferences</h1>
-      <p class="text-xs text-neutral-600 font-body-sm">Configure default currencies, stay styles, and origin departure city</p>
-    </div>
-
-    <div class="space-y-3.5">
-      <div class="tactile-inset-panel flex items-center justify-between">
+    <div class="settings-ledger-wrap">
+      <!-- ── Top Archival Header ── -->
+      <div class="settings-header-banner flex flex-col sm:flex-row sm:items-start justify-between gap-3">
         <div>
-          <label class="block text-xs font-bold text-neutral-900">Preferred Currency</label>
-          <p class="text-[10px] text-neutral-600">Calculates flight and hotel totals</p>
+          <div class="flex items-center gap-2 mb-1.5 flex-wrap">
+            <span class="settings-mono-tag">
+              EXPEDITION SPECIFICATIONS // SYSTEM PREFERENCES
+            </span>
+            <span class="inline-flex items-center gap-1.5 text-[11px] text-[#5B8C7B] font-medium">
+              <span class="w-1.5 h-1.5 rounded-full bg-[#5B8C7B] animate-pulse"></span>
+              Autosaved to explorer ledger
+            </span>
+          </div>
+          <h1 class="text-2xl sm:text-3xl font-bold font-serif text-[#1E3A34] tracking-tight leading-tight">
+            Wayfarer & Planner Preferences
+          </h1>
+          <p class="text-xs text-[#54443B] mt-1 leading-relaxed max-w-xl">
+            Calibrate regional currencies, lodging archetypes, field nutrition, and base camp departure coordinates.
+          </p>
         </div>
-        <select id="fullPrefCurrency" class="text-xs font-semibold p-2 rounded-xl border border-neutral-300 bg-white cursor-pointer focus:ring-1 focus:ring-secondary">
-          <option value="₹ INR" ${storedCurrency === '₹ INR' ? 'selected' : ''}>₹ INR (Indian Rupee)</option>
-          <option value="$ USD" ${storedCurrency === '$ USD' ? 'selected' : ''}>$ USD (US Dollar)</option>
-          <option value="€ EUR" ${storedCurrency === '€ EUR' ? 'selected' : ''}>€ EUR (Euro)</option>
-          <option value="£ GBP" ${storedCurrency === '£ GBP' ? 'selected' : ''}>£ GBP (British Pound)</option>
-        </select>
-      </div>
 
-      <div class="tactile-inset-panel">
-        <label class="block text-xs font-bold text-neutral-900 mb-2">Preferred Stay Style</label>
-        <div class="grid grid-cols-2 gap-2" id="stayStylePills">
-          <button type="button" class="pref-stay-btn p-2.5 rounded-xl text-xs font-semibold text-left border ${storedStay.includes('Homestay') ? 'bg-secondary text-white border-secondary shadow-xs' : 'bg-white/90 text-neutral-800 border-neutral-200'} transition-all cursor-pointer" data-stay="🏡 Homestay / Farmstay">🏡 Homestay</button>
-          <button type="button" class="pref-stay-btn p-2.5 rounded-xl text-xs font-semibold text-left border ${storedStay.includes('Hotel') ? 'bg-secondary text-white border-secondary shadow-xs' : 'bg-white/90 text-neutral-800 border-neutral-200'} transition-all cursor-pointer" data-stay="🏨 Standard Hotel">🏨 Standard Hotel</button>
-          <button type="button" class="pref-stay-btn p-2.5 rounded-xl text-xs font-semibold text-left border ${storedStay.includes('Heritage') ? 'bg-secondary text-white border-secondary shadow-xs' : 'bg-white/90 text-neutral-800 border-neutral-200'} transition-all cursor-pointer" data-stay="🏛 Heritage / Boutique">🏛 Heritage / Boutique</button>
-          <button type="button" class="pref-stay-btn p-2.5 rounded-xl text-xs font-semibold text-left border ${storedStay.includes('Resort') ? 'bg-secondary text-white border-secondary shadow-xs' : 'bg-white/90 text-neutral-800 border-neutral-200'} transition-all cursor-pointer" data-stay="⛺ Resort / Retreat">⛺ Luxury Resort</button>
-        </div>
-      </div>
-
-      <div class="tactile-inset-panel flex items-center justify-between">
-        <div>
-          <label class="block text-xs font-bold text-neutral-900">Dietary Preference</label>
-          <p class="text-[10px] text-neutral-600">Guides curated dining recommendations</p>
-        </div>
-        <select id="fullPrefDiet" class="text-xs font-semibold p-2 rounded-xl border border-neutral-300 bg-white cursor-pointer focus:ring-1 focus:ring-secondary">
-          <option value="All" ${storedDiet === 'All' ? 'selected' : ''}>All Cuisines</option>
-          <option value="Pure Vegetarian" ${storedDiet === 'Pure Vegetarian' ? 'selected' : ''}>Pure Vegetarian</option>
-          <option value="Vegan" ${storedDiet === 'Vegan' ? 'selected' : ''}>Vegan</option>
-          <option value="Halal" ${storedDiet === 'Halal' ? 'selected' : ''}>Halal</option>
-          <option value="Jain" ${storedDiet === 'Jain' ? 'selected' : ''}>Jain</option>
-        </select>
-      </div>
-
-      <div class="tactile-inset-panel flex items-center justify-between">
-        <div>
-          <label class="block text-xs font-bold text-neutral-900">Home / Origin City</label>
-          <p class="text-[10px] text-neutral-600">Default departure for route searches</p>
-        </div>
-        <input type="text" id="fullPrefHome" value="${storedHome}" class="text-xs font-semibold p-2 rounded-xl border border-neutral-300 bg-white w-32 focus:ring-1 focus:ring-secondary" placeholder="e.g. Delhi" />
-      </div>
-
-      <div class="tactile-inset-panel flex items-center justify-between">
-        <div>
-          <label class="block text-xs font-bold text-neutral-900">Traveler Account</label>
-          <p class="text-[10px] text-neutral-600">Switch profile, sign in, or register as explorer</p>
-        </div>
-        <button type="button" id="btnOpenLoginFromSettings" class="text-xs font-bold px-3.5 py-1.5 rounded-xl bg-white border border-[#BFA895] text-[#944a1a] hover:bg-[#FAF6EE] transition cursor-pointer shadow-xs">
-          Switch Account
+        <button type="button" id="btnHeaderSwitchScout" class="self-start flex items-center gap-1.5 px-3 py-1.5 bg-white border border-[#D5C3B6] hover:border-[#C4703D] rounded-xl text-xs font-semibold text-[#1E3A34] transition shadow-xs cursor-pointer shrink-0">
+          <span class="material-symbols-outlined text-sm text-[#C4703D]">badge</span>
+          <span>${escapeHtml(userName)}</span>
+          <span class="material-symbols-outlined text-xs text-neutral-400">swap_horiz</span>
         </button>
       </div>
-    </div>
 
-    <button id="btnSaveFullSettings" class="w-full mt-6 py-3.5 bg-[#8b4513] text-white rounded-xl text-sm font-bold hover:bg-[#703810] transition-all shadow-md active:scale-[0.99] cursor-pointer">
-      Save Preferences
-    </button>
+      <!-- ── Section 1: Regional Currency ── -->
+      <div class="settings-paper-panel">
+        <div class="settings-panel-header">
+          <div class="settings-panel-title">
+            <span class="material-symbols-outlined text-base text-[#C4703D]">payments</span>
+            <span>Preferred Fiscal Currency</span>
+          </div>
+          <span class="settings-panel-subtitle">Calculates airfares, entry fees & rail passes</span>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5" id="settingsCurrencyGrid">
+          <button type="button" class="settings-currency-card ${storedCurrency === '₹ INR' ? 'selected' : ''}" data-currency="₹ INR">
+            <div class="flex items-center justify-between">
+              <span class="font-serif font-bold text-sm ${storedCurrency === '₹ INR' ? 'text-[#C4703D]' : 'text-[#1E3A34]'}">₹ INR</span>
+              ${storedCurrency === '₹ INR' ? '<span class="material-symbols-outlined text-xs text-[#C4703D]">check_circle</span>' : ''}
+            </div>
+            <div class="text-[11px] font-medium text-neutral-600 truncate mt-1">Indian Rupee</div>
+          </button>
+
+          <button type="button" class="settings-currency-card ${storedCurrency === '$ USD' ? 'selected' : ''}" data-currency="$ USD">
+            <div class="flex items-center justify-between">
+              <span class="font-serif font-bold text-sm ${storedCurrency === '$ USD' ? 'text-[#C4703D]' : 'text-[#1E3A34]'}">$ USD</span>
+              ${storedCurrency === '$ USD' ? '<span class="material-symbols-outlined text-xs text-[#C4703D]">check_circle</span>' : ''}
+            </div>
+            <div class="text-[11px] font-medium text-neutral-600 truncate mt-1">US Dollar</div>
+          </button>
+
+          <button type="button" class="settings-currency-card ${storedCurrency === '€ EUR' ? 'selected' : ''}" data-currency="€ EUR">
+            <div class="flex items-center justify-between">
+              <span class="font-serif font-bold text-sm ${storedCurrency === '€ EUR' ? 'text-[#C4703D]' : 'text-[#1E3A34]'}">€ EUR</span>
+              ${storedCurrency === '€ EUR' ? '<span class="material-symbols-outlined text-xs text-[#C4703D]">check_circle</span>' : ''}
+            </div>
+            <div class="text-[11px] font-medium text-neutral-600 truncate mt-1">Euro</div>
+          </button>
+
+          <button type="button" class="settings-currency-card ${storedCurrency === '£ GBP' ? 'selected' : ''}" data-currency="£ GBP">
+            <div class="flex items-center justify-between">
+              <span class="font-serif font-bold text-sm ${storedCurrency === '£ GBP' ? 'text-[#C4703D]' : 'text-[#1E3A34]'}">£ GBP</span>
+              ${storedCurrency === '£ GBP' ? '<span class="material-symbols-outlined text-xs text-[#C4703D]">check_circle</span>' : ''}
+            </div>
+            <div class="text-[11px] font-medium text-neutral-600 truncate mt-1">British Pound</div>
+          </button>
+        </div>
+      </div>
+
+      <!-- ── Section 2: Preferred Stay Styles ── -->
+      <div class="settings-paper-panel">
+        <div class="settings-panel-header">
+          <div class="settings-panel-title">
+            <span class="material-symbols-outlined text-base text-[#C4703D]">holiday_village</span>
+            <span>Expedition Stay Archetype</span>
+          </div>
+          <span class="settings-panel-subtitle">Prioritized in AI lodging curation</span>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5" id="settingsStayGrid">
+          <button type="button" class="settings-stay-card ${storedStay.includes('Homestay') ? 'selected' : ''}" data-stay="🏡 Homestay / Farmstay">
+            <div class="settings-stay-icon-box bg-[#5B8C7B]/10 text-[#5B8C7B]">
+              <span class="material-symbols-outlined text-base">cottage</span>
+            </div>
+            <div>
+              <div class="text-xs font-bold text-[#1E3A34]">Homestay / Plantation</div>
+              <p class="text-[11px] text-[#7A7670] leading-snug mt-0.5">Local host families & organic coffee estates</p>
+            </div>
+          </button>
+
+          <button type="button" class="settings-stay-card ${storedStay.includes('Heritage') ? 'selected' : ''}" data-stay="🏛 Heritage / Boutique">
+            <div class="settings-stay-icon-box bg-[#C4703D]/10 text-[#C4703D]">
+              <span class="material-symbols-outlined text-base">castle</span>
+            </div>
+            <div>
+              <div class="flex items-center gap-1.5">
+                <span class="text-xs font-bold text-[#1E3A34]">Heritage / Boutique</span>
+                <span class="px-1.5 py-0.5 bg-[#C4703D]/10 text-[#C4703D] text-[8px] font-bold rounded-sm uppercase tracking-wider">Curated</span>
+              </div>
+              <p class="text-[11px] text-[#7A7670] leading-snug mt-0.5">Restored colonial bungalows & royal havelis</p>
+            </div>
+          </button>
+
+          <button type="button" class="settings-stay-card ${storedStay.includes('Hotel') ? 'selected' : ''}" data-stay="🏨 Standard Hotel">
+            <div class="settings-stay-icon-box bg-neutral-100 text-neutral-600">
+              <span class="material-symbols-outlined text-base">hotel</span>
+            </div>
+            <div>
+              <div class="text-xs font-bold text-[#1E3A34]">Standard Hotel</div>
+              <p class="text-[11px] text-[#7A7670] leading-snug mt-0.5">City-center business suites & modern amenities</p>
+            </div>
+          </button>
+
+          <button type="button" class="settings-stay-card ${storedStay.includes('Resort') ? 'selected' : ''}" data-stay="⛺ Resort / Retreat">
+            <div class="settings-stay-icon-box bg-[#8B5A2B]/10 text-[#8B5A2B]">
+              <span class="material-symbols-outlined text-base">camping</span>
+            </div>
+            <div>
+              <div class="text-xs font-bold text-[#1E3A34]">Luxury Glamping & Retreat</div>
+              <p class="text-[11px] text-[#7A7670] leading-snug mt-0.5">Safari dome tents, tea valley retreats & infinity spas</p>
+            </div>
+          </button>
+        </div>
+      </div>
+
+      <!-- ── Section 3: Dietary & Field Nutrition ── -->
+      <div class="settings-paper-panel">
+        <div class="settings-panel-header">
+          <div class="settings-panel-title">
+            <span class="material-symbols-outlined text-base text-[#C4703D]">restaurant_menu</span>
+            <span>Dietary & Field Dining Protocol</span>
+          </div>
+          <span class="settings-panel-subtitle">Guides culinary recommendations</span>
+        </div>
+
+        <div class="flex flex-wrap gap-2" id="settingsDietChips">
+          <button type="button" class="settings-diet-pill ${storedDiet === 'All' ? 'selected' : ''}" data-diet="All">
+            <span class="material-symbols-outlined text-sm">tune</span>
+            <span>All Cuisines</span>
+          </button>
+
+          <button type="button" class="settings-diet-pill ${storedDiet === 'Pure Vegetarian' ? 'selected' : ''}" data-diet="Pure Vegetarian">
+            <span class="material-symbols-outlined text-sm text-[#5B8C7B]">eco</span>
+            <span>Pure Vegetarian</span>
+          </button>
+
+          <button type="button" class="settings-diet-pill ${storedDiet === 'Vegan' ? 'selected' : ''}" data-diet="Vegan">
+            <span class="material-symbols-outlined text-sm text-[#5B8C7B]">spa</span>
+            <span>Vegan</span>
+          </button>
+
+          <button type="button" class="settings-diet-pill ${storedDiet === 'Halal' ? 'selected' : ''}" data-diet="Halal">
+            <span class="material-symbols-outlined text-sm text-amber-600">dark_mode</span>
+            <span>Halal</span>
+          </button>
+
+          <button type="button" class="settings-diet-pill ${storedDiet === 'Jain' ? 'selected' : ''}" data-diet="Jain">
+            <span class="material-symbols-outlined text-sm text-orange-600">psychology_alt</span>
+            <span>Jain Friendly</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- ── Section 4: Base Camp Origin & Cartography ── -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
+        <!-- Base Camp Origin -->
+        <div class="settings-paper-panel mb-0">
+          <div class="flex items-center gap-1.5 mb-2">
+            <span class="material-symbols-outlined text-sm text-[#C4703D]">trip_origin</span>
+            <span class="text-xs font-bold text-[#1E3A34]">Base Camp Origin</span>
+          </div>
+          <div class="relative">
+            <input type="text" id="inpOriginCity" value="${escapeHtml(storedHome)}" class="w-full text-xs font-semibold px-3 py-2 pl-8 bg-white rounded-xl border border-[#D5C3B6] focus:border-[#C4703D] focus:outline-none transition shadow-2xs" placeholder="e.g. Delhi, Mumbai" />
+            <span class="material-symbols-outlined absolute left-2.5 top-2.5 text-xs text-[#7A7670]">location_on</span>
+          </div>
+          <div class="flex items-center gap-1.5 mt-2 flex-wrap">
+            <span class="text-[10px] text-[#7A7670] font-mono">Quick:</span>
+            <button type="button" class="settings-city-chip" data-city="Delhi">Delhi</button>
+            <button type="button" class="settings-city-chip" data-city="Mumbai">Mumbai</button>
+            <button type="button" class="settings-city-chip" data-city="Bengaluru">Bengaluru</button>
+            <button type="button" class="settings-city-chip" data-city="Kolkata">Kolkata</button>
+            <button type="button" class="settings-city-chip" data-city="Chennai">Chennai</button>
+          </div>
+        </div>
+
+        <!-- Cartographic Style & Units -->
+        <div class="settings-paper-panel mb-0 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center gap-1.5 mb-2">
+              <span class="material-symbols-outlined text-sm text-[#C4703D]">map</span>
+              <span class="text-xs font-bold text-[#1E3A34]">Cartographic Style & Units</span>
+            </div>
+            <div class="grid grid-cols-2 gap-2 mb-2" id="settingsMapStyleGroup">
+              <button type="button" class="settings-carto-btn ${storedMapStyle === 'atlas' ? 'active' : 'inactive'}" data-map-style="atlas">
+                Parchment Atlas
+              </button>
+              <button type="button" class="settings-carto-btn ${storedMapStyle === 'topo' ? 'active' : 'inactive'}" data-map-style="topo">
+                Satellite Topo
+              </button>
+            </div>
+          </div>
+          <div class="flex items-center justify-between text-[11px] text-[#7A7670] pt-2 border-t border-[#E8E5DF]">
+            <span>Measurement Units:</span>
+            <button type="button" id="btnToggleUnits" class="font-bold text-[#1E3A34] hover:text-[#C4703D] transition underline cursor-pointer">
+              ${storedUnits === 'metric' ? 'Metric (km • m)' : 'Imperial (mi • ft)'}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Section 5: Explorer Credentials & Profile Pass ── -->
+      <div class="settings-paper-panel">
+        <div class="settings-passport-card">
+          <div class="flex items-center gap-3">
+            <div class="w-11 h-11 rounded-full bg-[#1E3A34] text-white flex items-center justify-center font-serif text-lg font-bold shadow-xs shrink-0 border border-[#BFA895]">
+              ${escapeHtml(userName.charAt(0) || 'P')}
+            </div>
+            <div class="min-w-0">
+              <div class="flex items-center gap-2">
+                <span class="text-sm font-bold text-[#1E3A34] truncate">${escapeHtml(userName)}</span>
+                <span class="px-2 py-0.5 bg-[#5B8C7B]/15 text-[#2E5E4E] text-[10px] font-bold rounded-full border border-[#5B8C7B]/30 whitespace-nowrap">
+                  ${escapeHtml(userRank)}
+                </span>
+              </div>
+              <div class="settings-xp-bar-track">
+                <div class="settings-xp-bar-fill" style="width: ${xpPercent}%;"></div>
+              </div>
+              <div class="text-[10px] text-[#7A7670] font-mono mt-1">
+                ${userXp} / ${targetXp} XP to Cartographer Laureate
+              </div>
+            </div>
+          </div>
+
+          <button type="button" id="btnOpenLoginFromSettings" class="px-3.5 py-1.5 rounded-xl bg-white border border-[#BFA895] text-[#944a1a] hover:bg-[#FAF6EE] text-xs font-bold transition shadow-2xs shrink-0 cursor-pointer">
+            Switch Account
+          </button>
+        </div>
+      </div>
+
+      <!-- ── Footer Action Bar ── -->
+      <div class="settings-action-bar">
+        <button type="button" id="btnRestoreDefaults" class="btn-settings-restore">
+          Restore Archival Defaults
+        </button>
+
+        <button type="button" id="btnSaveFullSettings" class="btn-settings-save">
+          <span class="material-symbols-outlined text-base">bookmark_added</span>
+          <span>Save Preferences</span>
+        </button>
+      </div>
+
+      <!-- ── Interactive Toast Feedback ── -->
+      <div id="settingsToast" class="settings-toast-banner hidden">
+        <span class="material-symbols-outlined text-base text-[#A7F3D0]">check_circle</span>
+        <span id="settingsToastText">Preferences updated in explorer ledger!</span>
+      </div>
+    </div>
   `;
 
-  let selectedStay = storedStay;
-  container.querySelectorAll('.pref-stay-btn').forEach((btn) => {
-    btn.addEventListener('click', () => {
-      container.querySelectorAll('.pref-stay-btn').forEach((b) => {
-        b.className = 'pref-stay-btn p-2.5 rounded-xl text-xs font-semibold text-left border bg-white/90 text-neutral-800 border-neutral-200 transition-all cursor-pointer';
+  // ── State Variables ──
+  let currentCurrency = storedCurrency;
+  let currentStay = storedStay;
+  let currentDiet = storedDiet;
+  let currentMapStyle = storedMapStyle;
+  let currentUnits = storedUnits;
+
+  const showToast = (message) => {
+    const toast = document.getElementById('settingsToast');
+    const toastText = document.getElementById('settingsToastText');
+    if (toast && toastText) {
+      toastText.textContent = message;
+      toast.classList.remove('hidden');
+      setTimeout(() => {
+        toast.classList.add('hidden');
+      }, 2500);
+    }
+  };
+
+  // ── Currency Card Selection ──
+  const currencyGrid = container.querySelector('#settingsCurrencyGrid');
+  currencyGrid?.querySelectorAll('.settings-currency-card').forEach((card) => {
+    card.addEventListener('click', () => {
+      currencyGrid.querySelectorAll('.settings-currency-card').forEach((c) => {
+        c.classList.remove('selected');
+        c.querySelector('.material-symbols-outlined')?.remove();
+        c.querySelector('.font-serif')?.classList.remove('text-[#C4703D]');
+        c.querySelector('.font-serif')?.classList.add('text-[#1E3A34]');
       });
-      btn.className = 'pref-stay-btn p-2.5 rounded-xl text-xs font-semibold text-left border bg-secondary text-white border-secondary shadow-xs transition-all cursor-pointer';
-      selectedStay = btn.dataset.stay;
+      card.classList.add('selected');
+      const val = card.dataset.currency;
+      currentCurrency = val;
+      const titleSpan = card.querySelector('.font-serif');
+      if (titleSpan) {
+        titleSpan.classList.remove('text-[#1E3A34]');
+        titleSpan.classList.add('text-[#C4703D]');
+      }
+      const checkIcon = document.createElement('span');
+      checkIcon.className = 'material-symbols-outlined text-xs text-[#C4703D]';
+      checkIcon.textContent = 'check_circle';
+      card.querySelector('.flex')?.appendChild(checkIcon);
+      showToast(`Preferred currency set to ${val}`);
     });
   });
 
-  document.getElementById('btnSaveFullSettings')?.addEventListener('click', () => {
-    const c = document.getElementById('fullPrefCurrency')?.value || '₹ INR';
-    const d = document.getElementById('fullPrefDiet')?.value || 'All';
-    const h = document.getElementById('fullPrefHome')?.value.trim() || 'Delhi';
-    localStorage.setItem('trailmate_currency', c);
-    localStorage.setItem('trailmate_diet', d);
-    localStorage.setItem('trailmate_stay', selectedStay);
-    localStorage.setItem('trailmate_home_city', h);
-    switchView('chat');
+  // ── Stay Style Card Selection ──
+  const stayGrid = container.querySelector('#settingsStayGrid');
+  stayGrid?.querySelectorAll('.settings-stay-card').forEach((card) => {
+    card.addEventListener('click', () => {
+      stayGrid.querySelectorAll('.settings-stay-card').forEach((c) => c.classList.remove('selected'));
+      card.classList.add('selected');
+      currentStay = card.dataset.stay;
+      showToast(`Stay archetype set to ${currentStay}`);
+    });
+  });
+
+  // ── Dietary Protocol Selection ──
+  const dietChips = container.querySelector('#settingsDietChips');
+  dietChips?.querySelectorAll('.settings-diet-pill').forEach((pill) => {
+    pill.addEventListener('click', () => {
+      dietChips.querySelectorAll('.settings-diet-pill').forEach((p) => p.classList.remove('selected'));
+      pill.classList.add('selected');
+      currentDiet = pill.dataset.diet;
+      showToast(`Dietary protocol set to ${currentDiet}`);
+    });
+  });
+
+  // ── Quick City Chips ──
+  container.querySelectorAll('.settings-city-chip').forEach((chip) => {
+    chip.addEventListener('click', () => {
+      const cityInput = container.querySelector('#inpOriginCity');
+      if (cityInput) {
+        cityInput.value = chip.dataset.city;
+        showToast(`Base camp origin set to ${chip.dataset.city}`);
+      }
+    });
+  });
+
+  // ── Cartographic Style Selection ──
+  const mapStyleGroup = container.querySelector('#settingsMapStyleGroup');
+  mapStyleGroup?.querySelectorAll('.settings-carto-btn').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      mapStyleGroup.querySelectorAll('.settings-carto-btn').forEach((b) => {
+        b.classList.remove('active');
+        b.classList.add('inactive');
+      });
+      btn.classList.remove('inactive');
+      btn.classList.add('active');
+      currentMapStyle = btn.dataset.mapStyle;
+      showToast(`Cartographic style set to ${currentMapStyle === 'atlas' ? 'Parchment Atlas' : 'Satellite Topo'}`);
+    });
+  });
+
+  // ── Toggle Units ──
+  const btnToggleUnits = container.querySelector('#btnToggleUnits');
+  btnToggleUnits?.addEventListener('click', () => {
+    currentUnits = currentUnits === 'metric' ? 'imperial' : 'metric';
+    btnToggleUnits.textContent = currentUnits === 'metric' ? 'Metric (km • m)' : 'Imperial (mi • ft)';
+    showToast(`Units set to ${currentUnits === 'metric' ? 'Metric' : 'Imperial'}`);
+  });
+
+  // ── Restore Defaults ──
+  container.querySelector('#btnRestoreDefaults')?.addEventListener('click', () => {
+    currentCurrency = '₹ INR';
+    currentStay = '🏛 Heritage / Boutique';
+    currentDiet = 'All';
+    currentMapStyle = 'atlas';
+    currentUnits = 'metric';
+
+    const cityInput = container.querySelector('#inpOriginCity');
+    if (cityInput) cityInput.value = 'Delhi';
+
+    // Update UI elements
+    currencyGrid?.querySelectorAll('.settings-currency-card').forEach((c) => {
+      const isDefault = c.dataset.currency === '₹ INR';
+      c.classList.toggle('selected', isDefault);
+      c.querySelector('.material-symbols-outlined')?.remove();
+      if (isDefault) {
+        const checkIcon = document.createElement('span');
+        checkIcon.className = 'material-symbols-outlined text-xs text-[#C4703D]';
+        checkIcon.textContent = 'check_circle';
+        c.querySelector('.flex')?.appendChild(checkIcon);
+      }
+    });
+
+    stayGrid?.querySelectorAll('.settings-stay-card').forEach((c) => {
+      c.classList.toggle('selected', c.dataset.stay.includes('Heritage'));
+    });
+
+    dietChips?.querySelectorAll('.settings-diet-pill').forEach((p) => {
+      p.classList.toggle('selected', p.dataset.diet === 'All');
+    });
+
+    mapStyleGroup?.querySelectorAll('.settings-carto-btn').forEach((b) => {
+      const isDefault = b.dataset.mapStyle === 'atlas';
+      b.classList.toggle('active', isDefault);
+      b.classList.toggle('inactive', !isDefault);
+    });
+
+    if (btnToggleUnits) btnToggleUnits.textContent = 'Metric (km • m)';
+
+    showToast('Defaults restored (₹ INR • Heritage / Boutique • Delhi • Metric)');
+  });
+
+  // ── Save Preferences Action ──
+  container.querySelector('#btnSaveFullSettings')?.addEventListener('click', () => {
+    const originCity = container.querySelector('#inpOriginCity')?.value.trim() || 'Delhi';
+
+    localStorage.setItem('trailmate_currency', currentCurrency);
+    localStorage.setItem('trailmate_diet', currentDiet);
+    localStorage.setItem('trailmate_stay', currentStay);
+    localStorage.setItem('trailmate_home_city', originCity);
+    localStorage.setItem('trailmate_map_style', currentMapStyle);
+    localStorage.setItem('trailmate_units', currentUnits);
+
     store.pushMessage({
       role: 'bot',
-      text: `⚙️ **Preferences updated:** Currency set to ${c}, stay style **${selectedStay}**, home origin **${h}**.`,
+      text: `⚙️ **Preferences updated:** Currency set to ${currentCurrency}, lodging archetype **${currentStay}**, diet **${currentDiet}**, base camp origin **${originCity}**.`,
     });
+
+    showToast('Preferences bound to expedition ledger! Returning to journal...');
+    setTimeout(() => {
+      switchView('chat');
+    }, 800);
   });
 
-  document.getElementById('btnOpenLoginFromSettings')?.addEventListener('click', () => {
+  // ── Account Switcher Action ──
+  const openLogin = () => {
     if (window.__trailmate?.showLoginScreen) {
       window.__trailmate.showLoginScreen({ isFirstTime: false });
     } else {
       window.location.hash = '#login';
     }
-  });
+  };
+
+  container.querySelector('#btnOpenLoginFromSettings')?.addEventListener('click', openLogin);
+  container.querySelector('#btnHeaderSwitchScout')?.addEventListener('click', openLogin);
 }

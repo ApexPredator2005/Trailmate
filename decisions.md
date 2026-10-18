@@ -831,6 +831,34 @@ To maintain this standard while offering a high-performance **Scrapbook Studio**
 
 ---
 
+### DEC-038: Tactile Archival Preferences Ledger & Settings Redesign (Stitch MCP Integration)
+* **Decision Makers:** User Directive & Architectural Audit
+* **Category:** UI/UX, Design Systems, Stitch MCP & Wayfarer Preferences
+* **Status:** Implemented & Verified (October 2026)
+* **The Context & Problem:**
+  The settings view previously utilized standard HTML form controls (`<select>` dropdowns, basic text inputs, and flat rectangular buttons) rendered over a plain background. While functional, it lacked alignment with Trailmate's tactile, 19th-century geographical journal brand identity (Parchment, Terracotta, Forest Ink, and Expedition Sage).
+* **The Decision:**
+  * **Stitch MCP Design Generation & Brand Palette Alignment:**
+    - Leveraged Stitch MCP (`generate_screen_from_text`, project `16593476996015616226`) to synthesize a cohesive, archival "Wayfarer & Planner Preferences Ledger".
+    - Embedded Trailmate's core design tokens: Warm Parchment (`#FCF9F4`), Aged Vellum panels (`#FBF8F3` / `#F4EEDD`), Deep Forest Ink (`#1E3A34`), Weathered Terracotta (`#C4703D`), and Expedition Sage (`#5B8C7B`).
+  * **Tactile Currency & Fiscal Ledger:**
+    - Replaced the single `<select>` menu with 4 tactile debossed currency cards (`₹ INR`, `$ USD`, `€ EUR`, `£ GBP`) featuring active wax-seal checkmark indicators and subtle terracotta borders.
+  * **Curated Expedition Stay Archetypes:**
+    - Replaced flat buttons with rich 2-column cards including architectural icons, descriptive copy (*"Restored colonial bungalows & royal havelis"*), and a "Curated" status tag.
+  * **Dietary Protocol Chips:**
+    - Replaced the select menu with custom pill chips carrying dedicated semantic iconography: All Cuisines (`tune`), Pure Vegetarian (`eco`), Vegan (`spa`), Halal (`dark_mode`), and Jain Friendly (`psychology_alt`).
+  * **Base Camp Origin & Cartography Controls:**
+    - Added a surveyor pin origin input with quick-select hub chips (`Delhi`, `Mumbai`, `Bengaluru`, `Kolkata`, `Chennai`).
+    - Introduced cartographic canvas selectors (`Parchment Atlas` vs `Satellite Topo`) and dynamic metric/imperial unit toggling.
+  * **Explorer Passport & Credential Pass:**
+    - Bound `CommunityService` profile state to render the traveler's callsign, rank badge (`Master Scout • Rank IV`), and dynamic XP progress bar with one-click scout switching.
+  * **Dedicated Modular Styling (`settings.css`):**
+    - Isolated settings-specific components (`.settings-paper-panel`, `.settings-currency-card`, `.settings-stay-card`, `.settings-diet-pill`, `.settings-toast-banner`) in `src/styles/settings.css` linked directly in `index.html`.
+* **Why This Was Chosen:**
+  * Transforms a generic settings screen into an immersive, tactile expedition ledger consistent with Trailmate's physical journal aesthetic while retaining 100% backward compatibility with existing `localStorage` keys and chat bot notifications.
+
+---
+
 ## 9. Pending & Future Architectural Roadmap
 
 ### 1. Real Google Identity Services (GIS) / OIDC Authentication
