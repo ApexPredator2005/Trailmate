@@ -885,6 +885,34 @@ To maintain this standard while offering a high-performance **Scrapbook Studio**
 
 ---
 
+### DEC-040: Authentic Gooey Search Engine Architecture & Liquid Physics (Codrops / Oğuzhan Tüfenk)
+* **Decision Makers:** User Directive & Frontend Motion Engineering
+* **Category:** UI/UX, Motion Design, SVG Filters & Interactive Cartography
+* **Status:** Implemented & Verified (October 2026)
+* **The Context & Problem:**
+  The map ledger search input required an organic, fluid search experience inspired by the iconic Codrops / Oğuzhan Tüfenk gooey search interaction. Initial iterations suffered from several subtle interaction bugs:
+  1. *Orb Clipping:* The satellite clear/close orb was translated 44px to the right while pinned at `right: 0`, overshooting the padded ledger boundary and clipping by 20px against the ledger pane.
+  2. *Keystroke DOM Churn & Flashing:* Recreating result DOM nodes on every character input caused child elements to restart CSS entrance spring transitions, causing visual jitter during typing.
+  3. *State Overwrite on Dropdown Item Click:* Closing the search input previously wiped `activeCardIndex = 0`, resetting the user's selected landmark back to the first item in the list.
+  4. *Dropdown Item Hover Jumps:* Replacing `transform` on hover with `scale(1.02) !important` wiped out the vertical `translate3d(-2px, Y, 0)` offsets, snapping hovered items upward.
+* **The Decision:**
+  * **Unified Liquid Metablobs Stage (`#map-gooey-filter`):**
+    - Configured SVG filter with `feGaussianBlur (stdDeviation=6)` and high-contrast alpha transfer matrix (`19 -9`) with `feComposite in="SourceGraphic" in2="goo" operator="atop"`. This keeps text, icons, and borders 100% sharp while connecting the morphing search capsule, the satellite orb, and the dripping dropdown items with a molten liquid meniscus.
+  * **Zero-Clipping Satellite Orb Geometry:**
+    - Positioned orb at `right: 0` with `transform: translate3d(0, 0, 0) scale(1)`. When the search pill contracts from `100%` to `calc(100% - 46px)`, a natural 10px meniscus bridge forms between the pill and orb. The orb remains comfortably inside the header with 25px of breathing room from the pane boundary.
+  * **Smart Signature Diffing in Dropdown Renderer:**
+    - Added match signature comparison (`matchSig = matches.map(m => m.name).join('||')`). Keystrokes that do not alter the top 3 results skip DOM reconstruction, preserving rock-solid 60 FPS transitions without visual flicker.
+  * **Preserved Active Card State & Dynamic Filter Promotion:**
+    - Selecting any landmark from the gooey dropdown flies the Leaflet camera, updates the reticle focus circle, promotes the filter to `'All'` if the landmark is outside the active circuit, and closes the search while strictly preserving `activeCardIndex`.
+  * **Scoped 3D Hover Transitions:**
+    - Defined per-child hover transforms (`nth-child(N):hover`) retaining vertical translation offsets while applying gentle `scale(1.02)`.
+  * **Keyboard Accessibility:**
+    - Full keyboard navigation: `⌘K` / `Ctrl+K` to open, `Escape` to close, `Enter` to select top recommendation, and clicking satellite orb to clear or close.
+* **Why This Was Chosen:**
+  * Delivers a playful, tactile, 60fps gooey interaction that connects the ledger search interface directly with the Leaflet expedition map without visual defects or state resets.
+
+---
+
 ## 9. Pending & Future Architectural Roadmap
 
 ### 1. Real Google Identity Services (GIS) / OIDC Authentication

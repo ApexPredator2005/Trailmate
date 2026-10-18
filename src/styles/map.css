@@ -43,6 +43,8 @@
 
 /* Header Area inside Left Ledger */
 .map-ledger-header {
+  position: relative;
+  z-index: 50;
   padding: 12px 14px 10px;
   background: #FCF9F4;
   border-bottom: 1px solid #EAE5DE;
@@ -418,23 +420,23 @@
   z-index: 10;
   cursor: pointer;
   box-shadow: 0 4px 14px rgba(27, 28, 26, 0.16);
-  transition: transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1),
+  transition: transform 0.65s cubic-bezier(0.34, 1.56, 0.64, 1),
               opacity 0.35s ease,
               background-color 0.2s ease;
-  transform: translate3d(0, 0, 0) scale(0.6);
+  transform: translate3d(-10px, 0, 0) scale(0.6);
   opacity: 0;
   pointer-events: none;
 }
 
 .map-gooey-search-wrapper.is-active .map-gooey-separate-orb {
-  transform: translate3d(44px, 0, 0) scale(1);
+  transform: translate3d(0, 0, 0) scale(1);
   opacity: 1;
   pointer-events: auto;
 }
 
 .map-gooey-search-wrapper.is-active .map-gooey-separate-orb:hover {
   background: #C4703D;
-  transform: translate3d(44px, 0, 0) scale(1.08);
+  transform: translate3d(0, 0, 0) scale(1.08);
 }
 
 /* Dripping Results Dropdown Container */
@@ -461,7 +463,7 @@
   gap: 8px;
   cursor: pointer;
   box-shadow: 0 3px 12px rgba(27, 28, 26, 0.14);
-  transform: translate3d(0, 0, 0) scale(0.3);
+  transform: translate3d(-2px, 0, 0) scale(0.3);
   opacity: 0;
   transition: transform 0.55s cubic-bezier(0.34, 1.56, 0.64, 1),
               opacity 0.3s ease,
@@ -489,10 +491,21 @@
   transition-delay: 0.14s;
 }
 
+.map-gooey-search-wrapper.is-active.has-dropdown .map-gooey-result-item:nth-child(1):hover {
+  transform: translate3d(-2px, 46px, 0) scale(1.02);
+}
+
+.map-gooey-search-wrapper.is-active.has-dropdown .map-gooey-result-item:nth-child(2):hover {
+  transform: translate3d(-2px, 90px, 0) scale(1.02);
+}
+
+.map-gooey-search-wrapper.is-active.has-dropdown .map-gooey-result-item:nth-child(3):hover {
+  transform: translate3d(-2px, 134px, 0) scale(1.02);
+}
+
 .map-gooey-result-item:hover {
   background: #2D2F2C;
   color: #FFFFFF;
-  transform: scale(1.02) !important;
 }
 
 .map-gooey-result-item:hover .material-symbols-outlined {

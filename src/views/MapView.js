@@ -1673,6 +1673,12 @@ export function renderMapView(container, { switchView, store }) {
           ).slice(0, 3)
         : allAttractions.slice(0, 3);
 
+      const matchSig = matches.map(m => m.name).join('||');
+      if (gooeyResultsContainer.dataset.renderedSig === matchSig && matches.length > 0) {
+        return;
+      }
+      gooeyResultsContainer.dataset.renderedSig = matchSig;
+
       if (matches.length === 0) {
         gooeyResultsContainer.innerHTML = `
           <div class="map-gooey-result-item" style="pointer-events: none;">
@@ -1699,13 +1705,26 @@ export function renderMapView(container, { switchView, store }) {
           const foundIdx = allAttractions.findIndex(it => it.name === targetName);
           const foundItem = allAttractions[foundIdx];
           if (foundItem) {
+            // If the landmark is not in current filter (e.g. Day 1 route only), switch filter to 'All'
+            activeFilter = 'All';
+            const filtersBar = document.getElementById('mapLedgerFiltersBar');
+            filtersBar?.querySelectorAll('.map-filter-pill').forEach(b => {
+              b.classList.toggle('active', b.dataset.filter === 'All');
+            });
+
+            activeCardIndex = foundIdx !== -1 ? foundIdx : 0;
             safeMoveMap(foundItem.lat, foundItem.lng, 15, 0.8);
             updateActiveFocusCircle?.(foundItem, false);
-            activeCardIndex = foundIdx !== -1 ? foundIdx : 0;
-            const sightCard = document.querySelector(`.map-sight-card[data-name="${CSS.escape(targetName)}"]`);
-            sightCard?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+            closeGooeySearch({ preserveActiveCard: true });
+
+            setTimeout(() => {
+              const sightCard = document.querySelector(`.map-sight-card[data-name="${CSS.escape(targetName)}"]`);
+              sightCard?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }, 280);
+          } else {
+            closeGooeySearch();
           }
-          closeGooeySearch();
         });
       });
     };
@@ -1722,7 +1741,7 @@ export function renderMapView(container, { switchView, store }) {
       }
     };
 
-    closeGooeySearch = () => {
+    closeGooeySearch = ({ preserveActiveCard = false } = {}) => {
       gooeyWrapper.classList.remove('is-active', 'has-dropdown');
       gooeyWrapper.classList.add('is-idle');
       setTimeout(() => {
@@ -1730,7 +1749,12 @@ export function renderMapView(container, { switchView, store }) {
         searchInput.classList.add('hidden');
         searchInput.value = '';
         searchQuery = '';
-        activeCardIndex = 0;
+        if (!preserveActiveCard) {
+          activeCardIndex = 0;
+        }
+        if (gooeyResultsContainer) {
+          gooeyResultsContainer.dataset.renderedSig = '';
+        }
         activeRenderFilteredFeed?.();
       }, 250);
     };
@@ -1748,6 +1772,9 @@ export function renderMapView(container, { switchView, store }) {
       if (searchInput.value) {
         searchInput.value = '';
         searchQuery = '';
+        if (gooeyResultsContainer) {
+          gooeyResultsContainer.dataset.renderedSig = '';
+        }
         activeCardIndex = 0;
         activeRenderFilteredFeed?.();
         renderGooeyDropdown('');
@@ -1766,6 +1793,22 @@ export function renderMapView(container, { switchView, store }) {
       renderGooeyDropdown(e.target.value);
       if (gooeyOrbIcon) {
         gooeyOrbIcon.textContent = e.target.value ? 'close' : 'arrow_forward';
+      }
+    });
+
+    // Keyboard support inside input
+    searchInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        const firstResultBtn = gooeyResultsContainer?.querySelector('.map-gooey-result-item[data-name]');
+        if (firstResultBtn) {
+          firstResultBtn.click();
+        } else if (searchInput.value.trim()) {
+          closeGooeySearch();
+        }
+      } else if (e.key === 'Escape') {
+        e.preventDefault();
+        closeGooeySearch();
       }
     });
 
