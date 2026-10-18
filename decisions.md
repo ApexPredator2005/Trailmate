@@ -650,6 +650,28 @@ To maintain this standard while offering a high-performance **Scrapbook Studio**
 
 ---
 
+### DEC-031: Split-Pane Dual Explorer Geospatial Map Architecture & Brand UI Palette
+* **Decision Makers:** User Directive (Approved Stitch MCP Style 3 Prototype)
+* **Category:** Geospatial UI Architecture, Stitch MCP Prototyping & Leaflet Synchronization
+* **Status:** Implemented & Verified
+* **The Context & Problem:**
+  The previous map design was a full-bleed map overlaid with floating glass headers, category filter chips, and a bottom horizontal carousel tray. This cluttered the map canvas, obscured geographic context, and lacked an organized day-by-day expedition ledger. The user selected the **Split-Pane Dual Explorer** layout generated via Stitch MCP, requiring strict Trailmate brand UI colors (warm parchment `#FCF9F4`, terracotta `#C4703D` / `#944A1A`, forest ink `#1E3A34`, expedition sage `#5B8C7B`) with zero modification to the live application sidebar.
+* **The Decision:**
+  * **Split-Pane Architecture (42% Ledger / 58% Map Canvas):**
+    * **Left 42% Ledger Feed:** Dedicated scrollable itinerary pane featuring destination switcher (`📍 Ooty ▾`), elevation badge (`2,240m avg`), `⌘K` live search input, filter pills (`All`, `Day 1 Route` [active terracotta], `Day 2 Route`, and category chips), Day 1 circuit summary banner (`4 Stops • 18.4 km • ~4.5 hrs • 2,637m Peak`), and rich sight cards with photo banners, ratings, audio guide triggers, and elevation badges.
+    * **Right 58% Unobstructed Map Canvas:** Full-height Leaflet.js map with top-right HUD (Contours / Satellite layer switcher, Back to Planner shortcut), numbered terracotta waypoint pins (`1`, `2`, `3`, `4`), connected terracotta polyline (`#C4703D`, weight 4, dashArray `6, 7`), segment distance badges (`3.4 km`, `5.4 km`), and a bottom elevation ribbon displaying the geographic elevation track.
+  * **Bi-Directional Interactive Synchronization:**
+    * Clicking a card in the left feed smoothly flies the map to that landmark, opens its popup, and marks the card active.
+    * Clicking a map pin or route waypoint scrolls the corresponding card in the left ledger into view and highlights it.
+  * **Sidebar Isolation (100% Untouched):**
+    * Scoped all layout and styling strictly inside `#mapWorkspaceView` (`.map-split-workspace`), leaving the global desktop sidebar completely intact.
+  * **Robust Lifecycle & Zero-Dimension Guards:**
+    * Implemented `safeMoveMap(lat, lng, zoom)` and `ResizeObserver` on the map container to prevent Leaflet `(NaN, NaN)` calculation errors when initializing or transitioning views.
+* **Why This Was Chosen:**
+  * Replaces awkward floating trays with a professional expedition journal interface, elevating cartographic readability and itinerary pacing.
+
+---
+
 ## 9. Pending & Future Architectural Roadmap
 
 ### 1. Real Google Identity Services (GIS) / OIDC Authentication

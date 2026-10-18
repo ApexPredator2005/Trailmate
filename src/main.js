@@ -291,8 +291,8 @@ document.addEventListener('DOMContentLoaded', () => {
       renderCardContent(viewName);
     }
 
-    if (reduced) {
-      // Reduced motion: immediate settlement
+    if (reduced || meta?.immediate) {
+      // Reduced motion or initial direct hash load: immediate settlement
       [splitChatView, fullViewSection, scrapbookView, mapWorkspaceView, communityWorkspaceView].forEach((el) => {
         if (el && el !== incomingElement) el.classList.add('hidden');
       });
@@ -344,7 +344,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (initialHash === 'login') {
     showLoginScreen({ isFirstTime: false });
   } else if (initialHash && ['trips', 'settings', 'map', 'scrapbook', 'community', 'share', 'guide', 'privacy'].includes(initialHash)) {
-    switchView(initialHash);
+    switchView(initialHash, { immediate: true });
   }
   window.addEventListener('hashchange', () => {
     const hash = (window.location.hash || '').replace('#', '');
