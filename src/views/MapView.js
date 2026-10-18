@@ -728,7 +728,7 @@ export function renderMapView(container, { switchView, store }) {
                 <input 
                   type="text" 
                   id="mapSearchInput" 
-                  class="map-gooey-input-box hidden" 
+                  class="map-gooey-input-box focus:outline-none focus:ring-0 focus:border-transparent hidden" 
                   placeholder="Search sights, elevation, flora..." 
                   autocomplete="off" 
                 />

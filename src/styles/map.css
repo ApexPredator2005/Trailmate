@@ -396,12 +396,30 @@
 
 .map-gooey-input-box {
   width: 100%;
-  background: transparent;
-  border: none;
-  outline: none;
+  background: transparent !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
   color: #1E3A34;
   font-size: 11.5px;
   font-weight: 500;
+  padding: 0;
+}
+
+.map-gooey-input-box:focus,
+.map-gooey-input-box:focus-visible,
+.map-gooey-input-box:active,
+#mapSearchInput:focus,
+#mapSearchInput:focus-visible,
+#mapSearchInput:active {
+  outline: none !important;
+  border: none !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+  --tw-ring-color: transparent !important;
+  --tw-ring-shadow: none !important;
+  --tw-ring-offset-shadow: none !important;
+  --tw-ring-offset-width: 0px !important;
 }
 
 .map-gooey-input-box::placeholder {
