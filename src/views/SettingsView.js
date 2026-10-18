@@ -32,34 +32,7 @@ export function renderSettingsView(container, { switchView, store }) {
   const xpPercent = Math.min(100, Math.round((userXp / targetXp) * 100));
 
   container.innerHTML = `
-    <div class="settings-ledger-wrap">
-      <!-- ── Top Archival Header ── -->
-      <div class="settings-header-banner flex flex-col sm:flex-row sm:items-start justify-between gap-3">
-        <div>
-          <div class="flex items-center gap-2 mb-1.5 flex-wrap">
-            <span class="settings-mono-tag">
-              EXPEDITION SPECIFICATIONS // SYSTEM PREFERENCES
-            </span>
-            <span class="inline-flex items-center gap-1.5 text-[11px] text-[#5B8C7B] font-medium">
-              <span class="w-1.5 h-1.5 rounded-full bg-[#5B8C7B] animate-pulse"></span>
-              Autosaved to explorer ledger
-            </span>
-          </div>
-          <h1 class="text-2xl sm:text-3xl font-bold font-serif text-[#1E3A34] tracking-tight leading-tight">
-            Wayfarer & Planner Preferences
-          </h1>
-          <p class="text-xs text-[#54443B] mt-1 leading-relaxed max-w-xl">
-            Calibrate regional currencies, lodging archetypes, field nutrition, and base camp departure coordinates.
-          </p>
-        </div>
-
-        <button type="button" id="btnHeaderSwitchScout" class="self-start flex items-center gap-1.5 px-3 py-1.5 bg-white border border-[#D5C3B6] hover:border-[#C4703D] rounded-xl text-xs font-semibold text-[#1E3A34] transition shadow-xs cursor-pointer shrink-0">
-          <span class="material-symbols-outlined text-sm text-[#C4703D]">badge</span>
-          <span>${escapeHtml(userName)}</span>
-          <span class="material-symbols-outlined text-xs text-neutral-400">swap_horiz</span>
-        </button>
-      </div>
-
+    <div class="settings-ledger-wrap pt-2">
       <!-- ── Section 1: Regional Currency ── -->
       <div class="settings-paper-panel">
         <div class="settings-panel-header">
@@ -471,5 +444,4 @@ export function renderSettingsView(container, { switchView, store }) {
   };
 
   container.querySelector('#btnOpenLoginFromSettings')?.addEventListener('click', openLogin);
-  container.querySelector('#btnHeaderSwitchScout')?.addEventListener('click', openLogin);
 }
