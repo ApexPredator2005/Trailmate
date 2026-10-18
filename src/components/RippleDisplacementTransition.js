@@ -102,29 +102,29 @@ export class RippleDisplacementTransition {
           float normAge = age / uWaveWidth; // 0.0 (leading crest) -> 1.0 (trailing tail)
           
           // Exponential decay from shockwave crest
-          float decay = exp(-normAge * 3.6);
-          float wave = sin(normAge * 3.14159265 * 3.2) * decay;
+          float decay = exp(-normAge * 3.4);
+          float wave = sin(normAge * 3.14159265 * 4.6) * decay;
 
           // Sharp caustic specular gleam right on the leading shockwave edge
-          float leadingEdge = smoothstep(0.0, 0.06, normAge) * (1.0 - smoothstep(0.06, 0.32, normAge));
-          float glint = leadingEdge * uBoostStrength * 1.5;
+          float leadingEdge = smoothstep(0.0, 0.05, normAge) * (1.0 - smoothstep(0.05, 0.28, normAge));
+          float glint = leadingEdge * uBoostStrength * 1.6;
 
-          // Secondary liquid ripples
-          float ripples = max(0.0, wave) * uBoostStrength * 0.85;
+          // Multi-harmonic secondary liquid ripples
+          float ripples = max(0.0, wave) * uBoostStrength * 0.95;
 
           // Depth refraction shadow in the wave trough
-          float shadow = max(0.0, -wave) * 0.25 * decay;
+          float shadow = max(0.0, -wave) * 0.26 * decay;
 
-          // Organic crystal liquid highlights with subtle aquatic cyan refraction
+          // Organic crystal liquid highlights with oceanic cyan refraction
           vec3 highlightColor = vec3(1.0, 1.0, 1.0) * (glint + ripples);
-          vec3 causticCyan = vec3(0.28, 0.72, 0.88) * (glint * 0.45);
+          vec3 causticCyan = vec3(0.25, 0.76, 0.92) * (glint * 0.50);
           vec3 liquidRgb = highlightColor + causticCyan;
 
           // Liquid opacity
-          float alpha = clamp(glint * 1.1 + ripples * 0.65 + shadow * 0.4, 0.0, 0.85);
+          float alpha = clamp(glint * 1.15 + ripples * 0.70 + shadow * 0.45, 0.0, 0.88);
 
           // Fade out cleanly as the wave clears the viewport perimeter
-          float edgeFade = smoothstep(2.5, 1.4, time);
+          float edgeFade = smoothstep(2.6, 1.4, time);
           alpha *= edgeFade;
 
           gl_FragColor = vec4(liquidRgb, alpha);
@@ -167,9 +167,9 @@ export class RippleDisplacementTransition {
       uBoostStrength: gl.getUniformLocation(prog, 'uBoostStrength'),
     };
 
-    gl.uniform1f(this.uniforms.uWaveFreq, 26.0);
-    gl.uniform1f(this.uniforms.uWaveWidth, 0.38);
-    gl.uniform1f(this.uniforms.uBoostStrength, 0.75);
+    gl.uniform1f(this.uniforms.uWaveFreq, 28.0);
+    gl.uniform1f(this.uniforms.uWaveWidth, 0.46);
+    gl.uniform1f(this.uniforms.uBoostStrength, 0.88);
   }
 
   _setupGeometry() {
@@ -295,15 +295,16 @@ export class RippleDisplacementTransition {
       }
     }
 
-    const DURATION = 620; // ms
+    const DURATION = 1050; // ms (relaxed, fluid liquid wave pacing)
     const startTime = performance.now();
 
     const animate = (time) => {
       const elapsed = time - startTime;
       const progress = Math.min(elapsed / DURATION, 1.0);
 
-      // Authentic physical ease-in curve: starts gentle at the button, then accelerates across the page
-      const ease = Math.pow(progress, 2.4);
+      // Authentic physical ease-in acceleration curve:
+      // Starts gently from the button, smoothly gathers momentum, and accelerates across the canvas
+      const ease = progress * progress;
 
       // Expand incoming DOM element with exact circular wavefront
       if (incomingElement) {
