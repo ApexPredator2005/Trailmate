@@ -71,7 +71,8 @@ export class RippleDisplacementTransition {
       }
     `;
 
-    // Authentic Liquid Caustic Shockwave Fragment Shader
+    // Authentic Liquid Caustic Shockwave Fragment Shader with Directional Sunbeam,
+    // Prismatic Chromatic Dispersion, Organic Micro-Turbulence, and Thematic Mineral Tint
     const fsSource = `
       precision highp float;
       uniform float uProgress;      // Current wave distance
@@ -80,6 +81,7 @@ export class RippleDisplacementTransition {
       uniform float uWaveFreq;       // Ripple undulation frequency
       uniform float uWaveWidth;      // Total width of the shockwave ring
       uniform float uBoostStrength;  // Specular caustic glint intensity
+      uniform vec3 uTint;           // Thematic liquid mineral refraction tint
       varying vec2 vUv;
 
       void main() {
@@ -90,39 +92,59 @@ export class RippleDisplacementTransition {
         float dist = distance(coord, center);
         float time = uProgress;
 
-        if (time <= 0.001 || dist > time + 0.04) {
+        if (time <= 0.001 || dist > time + 0.05) {
           gl_FragColor = vec4(0.0);
           return;
         }
 
-        float trailing = dist - time;
+        // 1. Organic Micro-Turbulence: subtle harmonic undulation breaks mathematical circularity
+        float angle = atan(coord.y - center.y, coord.x - center.x);
+        float turbulence = sin(angle * 7.0 + time * 3.2) * 0.006 + sin(angle * 13.0 - time * 2.0) * 0.003;
+        float distortedDist = dist + turbulence;
+        float trailing = distortedDist - time;
 
-        // Waveband exists behind the shockwave front
+        // Active waveband behind the leading shockwave crest
         if (trailing < 0.0 && trailing > -uWaveWidth) {
           float age = -trailing;
           float normAge = age / uWaveWidth; // 0.0 (leading crest) -> 1.0 (trailing tail)
           
-          // Exponential decay from shockwave crest
+          // 2. 315° Directional Sunbeam Glint: highlights crest facing top-left sunlight
+          vec2 waveNormal = (dist > 0.0001) ? normalize(coord - center) : vec2(1.0, 0.0);
+          vec2 sunDir = normalize(vec2(-0.7071, -0.7071)); // 315° illumination azimuth
+          float sunAlignment = max(0.0, dot(waveNormal, -sunDir));
+          float directionalFactor = 0.55 + 0.70 * pow(sunAlignment, 1.8);
+
+          // Physical exponential decay
           float decay = exp(-normAge * 3.4);
           float wave = sin(normAge * 3.14159265 * 4.6) * decay;
 
-          // Sharp caustic specular gleam right on the leading shockwave edge
+          // 3. Chromatic Dispersion (Prismatic wave split)
+          float dispOffset = 0.016 * (1.0 - normAge);
+          float rAge = clamp(normAge + dispOffset, 0.0, 1.0);
+          float bAge = clamp(normAge - dispOffset, 0.0, 1.0);
+          float rWave = sin(rAge * 3.14159265 * 4.6) * exp(-rAge * 3.4);
+          float bWave = sin(bAge * 3.14159265 * 4.6) * exp(-bAge * 3.4);
+
+          // Leading shockwave caustic gleam
           float leadingEdge = smoothstep(0.0, 0.05, normAge) * (1.0 - smoothstep(0.05, 0.28, normAge));
-          float glint = leadingEdge * uBoostStrength * 1.6;
+          float glint = leadingEdge * uBoostStrength * 1.7 * directionalFactor;
 
-          // Multi-harmonic secondary liquid ripples
-          float ripples = max(0.0, wave) * uBoostStrength * 0.95;
+          // Multi-harmonic ripples with prismatic dispersion
+          float rRipples = max(0.0, rWave) * uBoostStrength * 0.95;
+          float gRipples = max(0.0, wave)  * uBoostStrength * 0.95;
+          float bRipples = max(0.0, bWave) * uBoostStrength * 0.95;
 
-          // Depth refraction shadow in the wave trough
-          float shadow = max(0.0, -wave) * 0.26 * decay;
+          // 4. Volumetric Caustic Trough Shadow
+          float shadow = max(0.0, -wave) * 0.30 * decay;
 
-          // Organic crystal liquid highlights with oceanic cyan refraction
-          vec3 highlightColor = vec3(1.0, 1.0, 1.0) * (glint + ripples);
-          vec3 causticCyan = vec3(0.25, 0.76, 0.92) * (glint * 0.50);
-          vec3 liquidRgb = highlightColor + causticCyan;
+          // Liquid color synthesis: crystalline white + chromatic dispersion + thematic mineral tint
+          vec3 baseWhite = vec3(1.0) * glint;
+          vec3 prismaticColor = vec3(rRipples * 1.05, gRipples * 0.98, bRipples * 1.18);
+          vec3 mineralGlow = uTint * (glint * 0.45 + gRipples * 0.25);
+          vec3 liquidRgb = baseWhite + prismaticColor + mineralGlow;
 
-          // Liquid opacity
-          float alpha = clamp(glint * 1.15 + ripples * 0.70 + shadow * 0.45, 0.0, 0.88);
+          // Combined liquid alpha
+          float alpha = clamp(glint * 1.2 + gRipples * 0.72 + shadow * 0.45, 0.0, 0.90);
 
           // Fade out cleanly as the wave clears the viewport perimeter
           float edgeFade = smoothstep(2.6, 1.4, time);
@@ -166,11 +188,13 @@ export class RippleDisplacementTransition {
       uWaveFreq: gl.getUniformLocation(prog, 'uWaveFreq'),
       uWaveWidth: gl.getUniformLocation(prog, 'uWaveWidth'),
       uBoostStrength: gl.getUniformLocation(prog, 'uBoostStrength'),
+      uTint: gl.getUniformLocation(prog, 'uTint'),
     };
 
     gl.uniform1f(this.uniforms.uWaveFreq, 28.0);
     gl.uniform1f(this.uniforms.uWaveWidth, 0.46);
     gl.uniform1f(this.uniforms.uBoostStrength, 0.88);
+    gl.uniform3f(this.uniforms.uTint, 0.96, 0.92, 0.82);
   }
 
   _setupGeometry() {
@@ -263,6 +287,18 @@ export class RippleDisplacementTransition {
     gl.useProgram(this.program);
     gl.uniform2f(this.uniforms.uResolution, w, h);
     gl.uniform2f(this.uniforms.uCenter, originXPercent, originYPercent);
+
+    // Thematic mineral water refraction tints per view
+    const VIEW_TINTS = {
+      chat: [0.96, 0.92, 0.82],      // Sunlit mountain spring (warm amber/sandstone glint)
+      trips: [0.30, 0.82, 0.72],     // Glacial alpine stream (pine emerald/teal)
+      scrapbook: [0.72, 0.52, 0.95], // Archival mineral spring (twilight amethyst)
+      map: [0.28, 0.78, 0.68],       // Cartographic river emerald
+      community: [0.98, 0.78, 0.35], // Overland mineral spring (warm gold/amber)
+      settings: [0.65, 0.80, 0.92],  // Titanium cool spring
+    };
+    const tint = VIEW_TINTS[nextView] || VIEW_TINTS.chat;
+    gl.uniform3f(this.uniforms.uTint, tint[0], tint[1], tint[2]);
 
     // Calculate maximum radius to fully clear the viewport
     const maxPixelRadius = Math.hypot(
