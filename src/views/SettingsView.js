@@ -4,8 +4,6 @@
  * Designed with Stitch MCP & Trailmate Heritage Design System
  */
 
-import { communityService } from '../services/CommunityService.js';
-
 function escapeHtml(str) {
   if (!str) return '';
   return String(str)
@@ -23,13 +21,6 @@ export function renderSettingsView(container, { switchView, store }) {
   let storedHome = localStorage.getItem('trailmate_home_city') || 'Delhi';
   let storedMapStyle = localStorage.getItem('trailmate_map_style') || 'atlas';
   let storedUnits = localStorage.getItem('trailmate_units') || 'metric';
-
-  const profile = communityService?.getProfile() || {};
-  const userName = profile.name || 'Pratyush Raj';
-  const userRank = profile.level ? `Master Scout • Rank ${profile.level}` : 'Master Scout • Rank IV';
-  const userXp = profile.xp || 2450;
-  const targetXp = 3000;
-  const xpPercent = Math.min(100, Math.round((userXp / targetXp) * 100));
 
   container.innerHTML = `
     <div class="settings-ledger-wrap pt-2">
@@ -218,35 +209,6 @@ export function renderSettingsView(container, { switchView, store }) {
         </div>
       </div>
 
-      <!-- ── Section 5: Explorer Credentials & Profile Pass ── -->
-      <div class="settings-paper-panel">
-        <div class="settings-passport-card">
-          <div class="flex items-center gap-3">
-            <div class="w-11 h-11 rounded-full bg-[#1E3A34] text-white flex items-center justify-center font-serif text-lg font-bold shadow-xs shrink-0 border border-[#BFA895]">
-              ${escapeHtml(userName.charAt(0) || 'P')}
-            </div>
-            <div class="min-w-0">
-              <div class="flex items-center gap-2">
-                <span class="text-sm font-bold text-[#1E3A34] truncate">${escapeHtml(userName)}</span>
-                <span class="px-2 py-0.5 bg-[#5B8C7B]/15 text-[#2E5E4E] text-[10px] font-bold rounded-full border border-[#5B8C7B]/30 whitespace-nowrap">
-                  ${escapeHtml(userRank)}
-                </span>
-              </div>
-              <div class="settings-xp-bar-track">
-                <div class="settings-xp-bar-fill" style="width: ${xpPercent}%;"></div>
-              </div>
-              <div class="text-[10px] text-[#7A7670] font-mono mt-1">
-                ${userXp} / ${targetXp} XP to Cartographer Laureate
-              </div>
-            </div>
-          </div>
-
-          <button type="button" id="btnOpenLoginFromSettings" class="px-3.5 py-1.5 rounded-xl bg-white border border-[#BFA895] text-[#944a1a] hover:bg-[#FAF6EE] text-xs font-bold transition shadow-2xs shrink-0 cursor-pointer">
-            Switch Account
-          </button>
-        </div>
-      </div>
-
       <!-- ── Footer Action Bar ── -->
       <div class="settings-action-bar">
         <button type="button" id="btnRestoreDefaults" class="btn-settings-restore">
@@ -432,15 +394,4 @@ export function renderSettingsView(container, { switchView, store }) {
       switchView('chat');
     }, 800);
   });
-
-  // ── Account Switcher Action ──
-  const openLogin = () => {
-    if (window.__trailmate?.showLoginScreen) {
-      window.__trailmate.showLoginScreen({ isFirstTime: false });
-    } else {
-      window.location.hash = '#login';
-    }
-  };
-
-  container.querySelector('#btnOpenLoginFromSettings')?.addEventListener('click', openLogin);
 }
