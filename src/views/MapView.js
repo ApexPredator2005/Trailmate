@@ -723,9 +723,6 @@ export function renderMapView(container, { switchView, store }) {
                 <span class="material-symbols-outlined text-[16px] text-[#C4703D] mr-2 shrink-0">search</span>
                 <div id="mapGooeyIdleLabel" class="map-gooey-idle-label">
                   <span class="text-xs font-semibold text-[#1E3A34]">Search 14 sights...</span>
-                  <span class="map-gooey-arrow-badge" title="Search landmarks">
-                    <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
-                  </span>
                 </div>
                 <input 
                   type="text" 
@@ -736,9 +733,9 @@ export function renderMapView(container, { switchView, store }) {
                 />
               </div>
 
-              <!-- Separate Satellite Orb (Detaches with liquid goo bridge) -->
-              <div class="map-gooey-separate-orb" id="mapGooeyOrb" title="Close / Clear Search">
-                <span id="mapGooeyOrbIcon" class="material-symbols-outlined text-[16px] text-[#414846]">close</span>
+              <!-- Separate Satellite Orb (Houses arrow in idle, detaches with liquid goo into active orb) -->
+              <div class="map-gooey-separate-orb" id="mapGooeyOrb" title="Search / Clear">
+                <span id="mapGooeyOrbIcon" class="material-symbols-outlined text-[14px]">arrow_forward</span>
               </div>
 
             </div>
@@ -1746,6 +1743,9 @@ export function renderMapView(container, { switchView, store }) {
     closeGooeySearch = ({ preserveActiveCard = false } = {}) => {
       gooeyWrapper.classList.remove('is-active', 'has-dropdown');
       gooeyWrapper.classList.add('is-idle');
+      if (gooeyOrbIcon) {
+        gooeyOrbIcon.textContent = 'arrow_forward';
+      }
       setTimeout(() => {
         gooeyIdleLabel?.classList.remove('hidden');
         searchInput.classList.add('hidden');
@@ -1758,7 +1758,7 @@ export function renderMapView(container, { switchView, store }) {
           gooeyResultsContainer.dataset.renderedSig = '';
         }
         activeRenderFilteredFeed?.();
-      }, 250);
+      }, 420);
     };
 
     // Open on search pill click
@@ -1768,9 +1768,13 @@ export function renderMapView(container, { switchView, store }) {
       }
     });
 
-    // Clicking satellite orb clears query or closes
+    // Clicking satellite orb
     gooeyOrb?.addEventListener('click', (e) => {
       e.stopPropagation();
+      if (gooeyWrapper.classList.contains('is-idle')) {
+        openGooeySearch();
+        return;
+      }
       if (searchInput.value) {
         searchInput.value = '';
         searchQuery = '';
