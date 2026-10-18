@@ -1448,7 +1448,6 @@ export function renderMapView(container, { switchView, store }) {
                     <span>${escapeHtml(categoryTag)}</span>
                   </span>
                   <div class="map-card-actions">
-                    <button type="button" class="map-btn-outline" data-action="directions">Directions</button>
                     <button type="button" class="${activeCircuitSet.has(item.name) ? 'map-btn-solid-terracotta' : 'map-btn-outline'}" data-action="circuit">${activeCircuitSet.has(item.name) ? 'In Circuit ✓' : 'Add to Circuit +'}</button>
                   </div>
                 </div>
@@ -1500,13 +1499,6 @@ export function renderMapView(container, { switchView, store }) {
               return;
             }
 
-            // Google Maps Directions
-            if (e.target.closest('[data-action="directions"]')) {
-              e.stopPropagation();
-              const url = `https://www.google.com/maps/dir/?api=1&destination=${item.lat},${item.lng}`;
-              window.open(url, '_blank');
-              return;
-            }
 
             // Circuit toggle
             if (e.target.closest('[data-action="circuit"]')) {
