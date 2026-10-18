@@ -722,7 +722,7 @@ export function renderMapView(container, { switchView, store }) {
               <div class="map-gooey-search-btn" id="mapGooeySearchBtn">
                 <span class="material-symbols-outlined text-[16px] text-[#C4703D] mr-2 shrink-0">search</span>
                 <div id="mapGooeyIdleLabel" class="map-gooey-idle-label">
-                  <span class="text-xs font-semibold text-[#EAE5DE]">Search 14 sights...</span>
+                  <span class="text-xs font-semibold text-[#1E3A34]">Search 14 sights...</span>
                   <span class="map-gooey-cmd-k">⌘K</span>
                 </div>
                 <input 
@@ -736,7 +736,7 @@ export function renderMapView(container, { switchView, store }) {
 
               <!-- Separate Satellite Orb (Detaches with liquid goo bridge) -->
               <div class="map-gooey-separate-orb" id="mapGooeyOrb" title="Close / Clear Search">
-                <span id="mapGooeyOrbIcon" class="material-symbols-outlined text-[16px] text-white">close</span>
+                <span id="mapGooeyOrbIcon" class="material-symbols-outlined text-[16px] text-[#414846]">close</span>
               </div>
 
             </div>
@@ -1683,7 +1683,7 @@ export function renderMapView(container, { switchView, store }) {
         gooeyResultsContainer.innerHTML = `
           <div class="map-gooey-result-item" style="pointer-events: none;">
             <span class="material-symbols-outlined text-[14px] text-[#C4703D]">search_off</span>
-            <span class="text-xs text-white/80">No landmarks match "${escapeHtml(query)}"</span>
+            <span class="text-xs text-[#55524C]">No landmarks match "${escapeHtml(query)}"</span>
           </div>
         `;
         return;
@@ -1692,8 +1692,8 @@ export function renderMapView(container, { switchView, store }) {
       gooeyResultsContainer.innerHTML = matches.map((item) => `
         <div class="map-gooey-result-item" data-name="${escapeHtml(item.name)}">
           <span class="material-symbols-outlined text-[15px] text-[#C4703D]">location_on</span>
-          <span class="text-xs font-medium text-white truncate">${escapeHtml(item.name)}</span>
-          <span class="text-[10px] font-mono text-white/50 ml-auto shrink-0">${escapeHtml(item.alt || (item.elevation ? `${item.elevation}m` : ''))}</span>
+          <span class="text-xs font-medium text-[#1E3A34] truncate">${escapeHtml(item.name)}</span>
+          <span class="text-[10px] font-mono text-[#7A756D] ml-auto shrink-0">${escapeHtml(item.alt || (item.elevation ? `${item.elevation}m` : ''))}</span>
         </div>
       `).join('');
 
