@@ -601,8 +601,8 @@ To maintain this standard while offering a high-performance **Scrapbook Studio**
 | **DEC-031** | Maps | Split-Pane Dual Explorer Geospatial Map Architecture & Brand UI Palette | User | 42% itinerary ledger + 58% unobstructed map canvas; warm parchment & terracotta brand styling; zero sidebar impact |
 | **DEC-032** | Maps | Dynamic Multi-Destination Elevation Profiles & Typography Streamlining | User | Dynamic elevation curves for 15 destinations; removed coordinate clutter and obsolete estate wash layer |
 | **DEC-033** | Maps / Media | Multi-Photo Attraction Carousel & Audio Guide Elimination | User | Resolves 6 authentic photos per sight via inline card carousel & fullscreen modal; eliminated synthetic audio guide |
-| **DEC-034** | Maps | Dynamic Selected Attraction Focus Circle & Static Overlay Cleanup | User | Replaces static Ooty-only lake circle with a dynamic 550m expedition sage focus circle tracking the selected attraction across all 15 destinations |
-| **DEC-035** | Maps / Motion | 60 FPS Focus Reticle Coordinate Glide Engine & Zoom Jitter Elimination | User | Eliminates CSS transition fighting on Leaflet SVG during zoom; persistent L.circle with 60 FPS cubic ease-out coordinate interpolation and elastic breathing radius |
+| **DEC-035** | Maps / Motion | Smooth Dissolve & Re-emerge Selection Reticle & Zero Zoom Jitter Architecture | User | Eliminates CSS transition fighting on Leaflet SVG during zoom; 180ms dissolve & post-settle bloom |
+| **DEC-036** | Maps | Geospatial Map Quality Remediation, In-Place Live Search & GPS Export | User | Camera-synchronized focus bloom via moveend, in-place search (zero camera jump), branded empty state, GPX v1.1 XML export, compass spin & elevation profile modal |
 
 ---
 
@@ -770,6 +770,37 @@ To maintain this standard while offering a high-performance **Scrapbook Studio**
   * **Cancellation Safety:** If the traveler rapidly clicks another card within 200ms, `clearTimeout(focusTransitionTimer)` immediately cancels pending timers, ensuring rock-solid state synchronization without queue buildup.
 * **Why This Was Chosen:**
   * Delivers a calm, cinematic dissolve and reappear transition that respects physical camera motion and eliminates 100% of visual jitter during selection and zooming.
+
+---
+
+### DEC-036: Geospatial Map Quality Remediation, In-Place Live Search & GPS Exchange (GPX v1.1) Export
+* **Decision Makers:** User Directive & Architectural Audit
+* **Category:** Geospatial UI, Kinematics, Search UX & Data Portability
+* **Status:** Implemented & Verified (October 2026)
+* **The Context & Problem:**
+  Following the split-pane map redesign, several latent UX defects were identified:
+  1. **Focus Circle Mid-Flight Stutter:** The selection focus circle previously reappeared at 200ms while Leaflet's camera was still mid-flight at 25% of its 800ms pan. When the camera docked, Leaflet reset the map pane transform matrix, causing a visible jump on screen.
+  2. **Search Keystroke Map Jump:** Typing in `#mapSearchInput` invoked `loadDestinationData()`, flying the camera back to the city center and destroying all layers on every character typed. Additionally, 0-match searches resulted in a blank void.
+  3. **Inert HUD Controls:** "Export GPX" (`#btnExportGpx`), Compass Rose (`#btnCompassRose`), and Elevation Expand (`#btnExpandElevation`) buttons had no click listeners.
+  4. **Unscoped Polyline & Static Strip Banner:** The Day 1 polyline remained visible across unrelated categories, and the circuit strip banner failed to reflect active filter selection.
+* **The Decision:**
+  * **Camera-Synchronized Lifecycle Engine:**
+    - Hooked focus circle reveal to Leaflet's `moveend` event: the circle dissolves at the previous landmark in 180ms, remains 100% invisible while the camera glides across the map, and blooms gently into view over 250ms only *after* the camera has docked and the map tiles have settled.
+    - Added deduplication guarding against double-invocations from asynchronous `openPopup()` calls.
+  * **In-Place Live Search & Branded Empty State:**
+    - Decoupled search input from `loadDestinationData()`. Keystrokes now trigger `activeRenderFilteredFeed()` directly with zero camera movement.
+    - Rendered `.map-empty-feed` with search-off icon, contextual explanation, and a "Clear Search" button when queries match 0 sights.
+    - Added `⌘K` / `Ctrl+K` keydown shortcut to instantly focus the search bar, and `Escape` to dismiss menus and blur.
+  * **Standard GPX v1.1 XML Export:**
+    - Wired `#btnExportGpx` to build a valid Topografix GPX v1.1 XML payload containing metadata, geocoded `<wpt>` waypoints with elevation tags, and `<trk>` track segments, downloading directly as `${destKey}-circuit.gpx`.
+  * **Interactive Compass Rose & Elevation Profile Modal:**
+    - Wired `#btnCompassRose` to smoothly re-center the map on the destination origin with a tactile 360° spring icon spin (`.compass-spinning`).
+    - Wired `#btnExpandElevation` to display a detailed HUD modal with altitude telemetry (average elevation, range, peak label, and per-stop heights).
+  * **Contextual Circuit Strip & Conditional Polyline:**
+    - Dynamically updates `#lblCircuitStripText` based on active filter (Day 1 vs Day 2 vs All 14 vs Categories).
+    - Scoped the terracotta circuit polyline and segment distance badges strictly to Day 1 mode.
+* **Why This Was Chosen:**
+  * Eliminates 100% of camera jumping, provides robust GPS export for real-world hiking and navigation, and delivers an Apple-grade, responsive geospatial explorer.
 
 ---
 

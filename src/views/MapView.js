@@ -587,6 +587,7 @@ export function renderMapView(container, { switchView, store }) {
   let searchQuery = '';
   let activeCardIndex = 0;
   let updateActiveFocusCircle = null;
+  let activeRenderFilteredFeed = null;
 
   // Render Split-Pane DOM Shell
   container.innerHTML = `
@@ -704,7 +705,7 @@ export function renderMapView(container, { switchView, store }) {
               </span>
               <div class="flex items-center gap-1.5">
                 <span class="elev-range" id="lblElevGraphRange">2,180m - 2,637m</span>
-                <span class="material-symbols-outlined text-[13px] text-neutral-400 hover:text-neutral-700 cursor-pointer">open_in_full</span>
+                <span class="material-symbols-outlined text-[13px] text-neutral-400 hover:text-neutral-700 cursor-pointer" id="btnExpandElevation" title="View Detailed Elevation Profile">open_in_full</span>
               </div>
             </div>
             <div class="map-elev-svg-container">
@@ -1095,15 +1096,51 @@ export function renderMapView(container, { switchView, store }) {
       // Ensure every attraction has authentic photos resolved
       displayedItems = displayedItems.map(item => resolveItemWithPhotos(item, activeDestKey));
 
-      // ── Persistent Focus Reticle with Smooth Dissolve & Re-emerge Transition ──
+      activeRenderFilteredFeed = renderFilteredFeed;
+
+      // Update Circuit Strip text dynamically based on active filter
+      const lblCircuitStripText = document.getElementById('lblCircuitStripText');
+      if (lblCircuitStripText) {
+        if (isDay1Mode) {
+          lblCircuitStripText.innerHTML = `
+            <span class="map-circuit-badge-label">🧭 Day 1 Circuit</span>
+            <span>• 4 Stops</span>
+            <span>• ${destMeta.circuitDistance || '18.4 km'}</span>
+            <span>• ${destMeta.circuitDuration || '~4.5 hrs scenic drive & walk'}</span>
+          `;
+        } else if (activeFilter === 'Day 2 Route') {
+          lblCircuitStripText.innerHTML = `
+            <span class="map-circuit-badge-label">🧭 Day 2 Circuit</span>
+            <span>• 4 Stops</span>
+            <span>• Excursions & Alpine Ridges</span>
+          `;
+        } else if (activeFilter === 'All' || activeFilter === 'All 14') {
+          lblCircuitStripText.innerHTML = `
+            <span class="map-circuit-badge-label">📚 Full Directory</span>
+            <span>• ${displayedItems.length} Curated Landmarks</span>
+            <span>• Regional Explorer</span>
+          `;
+        } else {
+          lblCircuitStripText.innerHTML = `
+            <span class="map-circuit-badge-label">🏷️ ${escapeHtml(activeFilter)}</span>
+            <span>• ${displayedItems.length} Selected Sights</span>
+          `;
+        }
+      }
+
+      // ── Persistent Focus Reticle with Jitter-Free Dissolve & Re-emerge Lifecycle ──
       let focusCircleInstance = null;
       let focusTransitionTimer = null;
+      let focusMoveEndHandler = null;
+      let activeFocusKey = null;
 
       function updateSelectedAttractionCircle(selectedItem, instant = false) {
         if (!selectedItem) return;
         const targetLat = Number(selectedItem.lat);
         const targetLng = Number(selectedItem.lng);
         if (!Number.isFinite(targetLat) || !Number.isFinite(targetLng)) return;
+
+        const targetKey = `${targetLat.toFixed(5)},${targetLng.toFixed(5)}`;
 
         // If circle doesn't exist yet, instantiate it at target coordinate
         if (!focusCircleInstance || !currentOverlaysGroup.hasLayer(focusCircleInstance)) {
@@ -1117,44 +1154,99 @@ export function renderMapView(container, { switchView, store }) {
             interactive: false,
             className: 'map-selected-focus-circle',
           }).addTo(currentOverlaysGroup);
+          activeFocusKey = targetKey;
+          return;
+        }
+
+        // Clean up any ongoing transition or event listeners
+        if (focusTransitionTimer) {
+          clearTimeout(focusTransitionTimer);
+          focusTransitionTimer = null;
+        }
+        if (focusMoveEndHandler) {
+          map.off('moveend', focusMoveEndHandler);
+          focusMoveEndHandler = null;
+        }
+
+        const el = focusCircleInstance.getElement();
+
+        // If already at target coordinate and currently visible, no-op
+        if (activeFocusKey === targetKey && el && !el.classList.contains('circle-hidden')) {
           return;
         }
 
         const startLatLng = focusCircleInstance.getLatLng();
         const dist = Math.hypot(targetLat - startLatLng.lat, targetLng - startLatLng.lng);
 
-        // If already at target coordinate (< 5 meters), no-op
-        if (dist < 0.00005) return;
-
-        if (focusTransitionTimer) {
-          clearTimeout(focusTransitionTimer);
-          focusTransitionTimer = null;
-        }
-
         // Instant repositioning (initial load, or cross-city destination switch)
         if (instant || dist > 1.0) {
+          activeFocusKey = targetKey;
           focusCircleInstance.setLatLng([targetLat, targetLng]);
-          const el = focusCircleInstance.getElement();
           if (el) el.classList.remove('circle-hidden');
           return;
         }
 
-        // Smooth Disappear (Fade-Out) -> Re-position -> Reappear (Fade-In)
-        const el = focusCircleInstance.getElement();
-        if (el) {
-          // 1. Smoothly fade out at old location (200ms)
-          el.classList.add('circle-hidden');
+        activeFocusKey = targetKey;
 
-          // 2. While completely invisible, update coordinates and smoothly bloom back in
-          focusTransitionTimer = setTimeout(() => {
-            focusCircleInstance.setLatLng([targetLat, targetLng]);
-            requestAnimationFrame(() => {
-              el.classList.remove('circle-hidden');
-            });
-            focusTransitionTimer = null;
-          }, 200);
-        } else {
+        // If element is not in DOM for some reason, just set coordinates
+        if (!el) {
           focusCircleInstance.setLatLng([targetLat, targetLng]);
+          return;
+        }
+
+        // 1. Immediately dissolve (fade out) at old landmark (180ms)
+        el.classList.add('circle-hidden');
+
+        // Determine if map camera is going to move significantly
+        let willFly = false;
+        try {
+          const mapCenter = map.getCenter();
+          const currentZoom = map.getZoom();
+          const targetZoom = 14;
+          const centerDistMeters = mapCenter.distanceTo([targetLat, targetLng]);
+          willFly = centerDistMeters > 80 || Math.abs(currentZoom - targetZoom) > 0.5;
+        } catch {
+          willFly = false;
+        }
+
+        const revealAtNewLandmark = () => {
+          if (focusTransitionTimer) {
+            clearTimeout(focusTransitionTimer);
+            focusTransitionTimer = null;
+          }
+          if (focusMoveEndHandler) {
+            map.off('moveend', focusMoveEndHandler);
+            focusMoveEndHandler = null;
+          }
+
+          // Silently set target coordinate while completely hidden
+          focusCircleInstance.setLatLng([targetLat, targetLng]);
+
+          // Wait one RAF frame so Leaflet post-settle DOM projection is complete
+          requestAnimationFrame(() => {
+            // Only reveal if this is still the active target
+            if (activeFocusKey === targetKey) {
+              el.classList.remove('circle-hidden');
+            }
+          });
+        };
+
+        if (willFly) {
+          // Fade out takes 180ms. While fading / faded, wait for map camera to settle.
+          focusMoveEndHandler = () => {
+            revealAtNewLandmark();
+          };
+          map.once('moveend', focusMoveEndHandler);
+
+          // Fallback safety timer in case moveend doesn't fire or map was cancelled
+          focusTransitionTimer = setTimeout(() => {
+            revealAtNewLandmark();
+          }, 700);
+        } else {
+          // Stationary or micro-move: fade out (180ms), reposition silently, then fade in
+          focusTransitionTimer = setTimeout(() => {
+            revealAtNewLandmark();
+          }, 180);
         }
       }
       updateActiveFocusCircle = updateSelectedAttractionCircle;
@@ -1179,7 +1271,7 @@ export function renderMapView(container, { switchView, store }) {
         .map(s => [Number(s.lat), Number(s.lng)])
         .filter(c => Number.isFinite(c[0]) && Number.isFinite(c[1]));
 
-      if (day1Coords.length > 1) {
+      if (isDay1Mode && day1Coords.length > 1) {
         L.polyline(day1Coords, {
           color: '#C4703D',
           weight: 3.5,
@@ -1212,6 +1304,24 @@ export function renderMapView(container, { switchView, store }) {
       const markerMap = new Map();
 
       if (feedContainer) {
+        if (displayedItems.length === 0) {
+          feedContainer.innerHTML = `
+            <div class="map-empty-feed">
+              <span class="material-symbols-outlined map-empty-icon">search_off</span>
+              <h4 class="map-empty-title">No matching sights found</h4>
+              <p class="map-empty-desc">No landmarks match "${escapeHtml(searchQuery)}" in ${escapeHtml(selectedDestination)}.</p>
+              <button type="button" class="map-empty-clear-btn" id="btnClearMapSearch">Clear Search</button>
+            </div>
+          `;
+          feedContainer.querySelector('#btnClearMapSearch')?.addEventListener('click', () => {
+            searchQuery = '';
+            const sInput = document.getElementById('mapSearchInput');
+            if (sInput) sInput.value = '';
+            renderFilteredFeed();
+          });
+          return;
+        }
+
         feedContainer.innerHTML = displayedItems.map((item, idx) => {
           const isStop1 = idx === 0 && isDay1Mode;
           const photos = item.photos && item.photos.length > 0 ? item.photos : [item.photo];
@@ -1354,7 +1464,7 @@ export function renderMapView(container, { switchView, store }) {
 
             if (item && Number.isFinite(item.lat) && Number.isFinite(item.lng)) {
               updateSelectedAttractionCircle(item);
-              safeMoveMap(item.lat, item.lng, 14, 0.8);
+              safeMoveMap(item.lat, item.lng, 14, 0.65);
               const marker = markerMap.get(idx);
               if (marker) marker.openPopup();
             }
@@ -1477,14 +1587,210 @@ export function renderMapView(container, { switchView, store }) {
     }, 150);
   }
 
-  // ── Search Input Event ──
+  // ── Search Input Event (In-Place Filtering, Zero Camera Jump) ──
   const searchInput = document.getElementById('mapSearchInput');
   if (searchInput) {
     searchInput.addEventListener('input', (e) => {
       searchQuery = e.target.value;
-      loadDestinationData(selectedDestination, activeDestKey);
+      activeCardIndex = 0;
+      activeRenderFilteredFeed?.();
     });
   }
+
+  // ── GPX Export Generator (Standard GPX v1.1 XML) ──
+  function exportCircuitGpx() {
+    const destMeta = DESTINATION_META[activeDestKey] || DESTINATION_META.ooty;
+    const allAttractions = CURATED_ATTRACTIONS[activeDestKey] || CURATED_ATTRACTIONS.ooty;
+    const circuitStops = destMeta.circuitStops || allAttractions.slice(0, 4);
+
+    let gpx = `<?xml version="1.0" encoding="UTF-8"?>
+<gpx version="1.1" creator="Trailmate Explorer https://trailmate.app" xmlns="http://www.topografix.com/GPX/1/1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd">
+  <metadata>
+    <name>${escapeXml(selectedDestination)} Day 1 Circuit</name>
+    <desc>Scenic expedition circuit for ${escapeXml(selectedDestination)} curated by Trailmate.</desc>
+    <time>${new Date().toISOString()}</time>
+  </metadata>
+`;
+
+    circuitStops.forEach((stop, i) => {
+      const lat = Number(stop.lat).toFixed(6);
+      const lng = Number(stop.lng).toFixed(6);
+      gpx += `  <wpt lat="${lat}" lon="${lng}">
+    <name>${escapeXml(stop.name)}</name>
+    <desc>${escapeXml(stop.desc || stop.description || '')}</desc>
+    <sym>Scenic Area</sym>
+    <type>Waypoint #${i + 1}</type>
+  </wpt>
+`;
+    });
+
+    gpx += `  <trk>
+    <name>${escapeXml(selectedDestination)} Day 1 Trail</name>
+    <trkseg>
+`;
+    circuitStops.forEach(stop => {
+      const lat = Number(stop.lat).toFixed(6);
+      const lng = Number(stop.lng).toFixed(6);
+      gpx += `      <trkpt lat="${lat}" lon="${lng}"></trkpt>\n`;
+    });
+
+    gpx += `    </trkseg>
+  </trk>
+</gpx>`;
+
+    const blob = new Blob([gpx], { type: 'application/gpx+xml;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${activeDestKey}-circuit.gpx`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }
+
+  function escapeXml(str) {
+    if (!str) return '';
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&apos;');
+  }
+
+  const btnExportGpx = document.getElementById('btnExportGpx');
+  if (btnExportGpx) {
+    btnExportGpx.addEventListener('click', (e) => {
+      e.stopPropagation();
+      exportCircuitGpx();
+      const origText = btnExportGpx.textContent;
+      btnExportGpx.textContent = 'Downloaded ✓';
+      setTimeout(() => {
+        btnExportGpx.textContent = origText;
+      }, 1800);
+    });
+  }
+
+  // ── Compass Rose Button (Re-center & 360° Spring Spin) ──
+  const btnCompassRose = document.getElementById('btnCompassRose');
+  if (btnCompassRose) {
+    btnCompassRose.addEventListener('click', () => {
+      btnCompassRose.classList.remove('compass-spinning');
+      void btnCompassRose.offsetWidth;
+      btnCompassRose.classList.add('compass-spinning');
+      setTimeout(() => {
+        btnCompassRose.classList.remove('compass-spinning');
+      }, 700);
+
+      const centerMeta = DESTINATION_CENTERS[activeDestKey] || DESTINATION_CENTERS.ooty;
+      safeMoveMap(centerMeta.lat, centerMeta.lng, centerMeta.zoom || 13, 0.7);
+
+      const allAttractions = CURATED_ATTRACTIONS[activeDestKey] || CURATED_ATTRACTIONS.ooty;
+      const initialItem = allAttractions[0];
+      if (initialItem) {
+        updateActiveFocusCircle?.(initialItem, false);
+      }
+    });
+  }
+
+  // ── Detailed Elevation Gradient Modal ──
+  function openElevationModal() {
+    const destMeta = DESTINATION_META[activeDestKey] || DESTINATION_META.ooty;
+    const allAttractions = CURATED_ATTRACTIONS[activeDestKey] || CURATED_ATTRACTIONS.ooty;
+    const circuitStops = destMeta.circuitStops || allAttractions.slice(0, 4);
+
+    const existing = document.getElementById('mapElevModal');
+    if (existing) existing.remove();
+
+    const modalHtml = `
+      <div class="map-elev-modal-backdrop" id="mapElevModal">
+        <div class="map-elev-modal-dialog">
+          <div class="map-elev-modal-header">
+            <h3 class="map-elev-modal-title">
+              <span class="material-symbols-outlined text-[#C4703D]">trending_up</span>
+              <span>${escapeHtml(selectedDestination)} Elevation Profile</span>
+            </h3>
+            <button type="button" class="text-neutral-400 hover:text-neutral-700 p-1 flex items-center justify-center rounded" id="btnCloseElevModal" aria-label="Close">
+              <span class="material-symbols-outlined text-lg">close</span>
+            </button>
+          </div>
+          <div class="map-elev-modal-body">
+            <div class="map-elev-modal-stat-grid">
+              <div class="map-elev-modal-stat-card">
+                <div class="map-elev-modal-stat-label">Average Altitude</div>
+                <div class="map-elev-modal-stat-val text-[#5B8C7B]">${escapeHtml(destMeta.avgElev)}</div>
+              </div>
+              <div class="map-elev-modal-stat-card">
+                <div class="map-elev-modal-stat-label">Elevation Range</div>
+                <div class="map-elev-modal-stat-val text-[#C4703D]">${escapeHtml(destMeta.elevRange)}</div>
+              </div>
+              <div class="map-elev-modal-stat-card">
+                <div class="map-elev-modal-stat-label">Highest Landmark</div>
+                <div class="map-elev-modal-stat-val text-[#1E3A34]">${escapeHtml(destMeta.peakLabel || 'Summit Peak')}</div>
+              </div>
+            </div>
+
+            <div class="map-elev-modal-stops-list">
+              <div class="text-[10px] font-bold uppercase tracking-wider text-[#7A7670] mb-1">Circuit Stops Altitude Telemetry</div>
+              ${circuitStops.map((stop, idx) => `
+                <div class="map-elev-modal-stop-row">
+                  <span class="font-medium text-[#1C1C19]">Stop #${idx + 1} — ${escapeHtml(stop.name)}</span>
+                  <span class="font-mono font-bold text-[#5B8C7B]">${escapeHtml((stop.altTag || '').replace('● ', ''))}</span>
+                </div>
+              `).join('')}
+            </div>
+
+            <div class="text-[11px] text-[#7A7670] leading-relaxed bg-white/70 p-3 rounded-lg border border-[#E5E2DD]">
+              💡 <strong>Acclimatization Tip:</strong> Pace your ascents gradually. Always carry warm layers and hydrate frequently when exploring above 2,000 meters.
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+
+    document.body.insertAdjacentHTML('beforeend', modalHtml);
+
+    const modalEl = document.getElementById('mapElevModal');
+    const closeBtn = document.getElementById('btnCloseElevModal');
+
+    const closeModal = () => modalEl?.remove();
+    closeBtn?.addEventListener('click', closeModal);
+    modalEl?.addEventListener('click', (e) => {
+      if (e.target === modalEl) closeModal();
+    });
+  }
+
+  const btnExpandElevation = document.getElementById('btnExpandElevation');
+  if (btnExpandElevation) {
+    btnExpandElevation.addEventListener('click', (e) => {
+      e.stopPropagation();
+      openElevationModal();
+    });
+  }
+
+  // ── Keyboard Shortcuts (⌘K for Search, Escape for Menu & Modals) ──
+  const keydownHandler = (e) => {
+    if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+      e.preventDefault();
+      if (searchInput) {
+        searchInput.focus();
+        searchInput.select();
+      }
+    }
+    if (e.key === 'Escape') {
+      if (destPickerMenu && !destPickerMenu.classList.contains('hidden')) {
+        destPickerMenu.classList.add('hidden');
+        btnDestPicker?.setAttribute('aria-expanded', 'false');
+      }
+      const elevModal = document.getElementById('mapElevModal');
+      if (elevModal) elevModal.remove();
+      if (document.activeElement === searchInput) {
+        searchInput.blur();
+      }
+    }
+  };
+  document.addEventListener('keydown', keydownHandler);
 
   // ── Destination Picker Menu Events ──
   const btnDestPicker = document.getElementById('btnDestPicker');
