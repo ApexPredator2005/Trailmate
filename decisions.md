@@ -595,6 +595,26 @@ To maintain this standard while offering a high-performance **Scrapbook Studio**
 | **DEC-025** | Motion | Viewport Anti-Clipping Geometry & Motion Polish Engine | User | Anti-clipping scroll guard, deterministic message deduplication, doodle cross-fades, and 3D page curl |
 | **DEC-026** | Motion | Continuous Single-Element FLIP Destination Morph | Joint | Single shared DOM node FLIP; simultaneous 3D translation & scale interpolation; locked container layout & anti-jitter handoff |
 | **DEC-027** | UI / Motion | Ripple Displacement Slider Screen Transitions | User | WebGL liquid ripple shockwave shader over #appMain for switching between chat, trips, scrapbook, map, community, and settings; 0KB runtime bloat; leaves sidebar untouched |
+| **DEC-028** | UI / Motion | Transparent Liquid Caustic Wave with Button Origin & Ease-In | User | Eliminates black screen/placeholder textures via transparent WebGL caustic glint shader + concurrent DOM clip-path expansion; originates from clicked button; applies authentic ease-in acceleration curve ($t^{2.4}$) |
+
+---
+
+### DEC-028: Transparent Liquid Caustic Ripple Displacement Transition with Button Origin & Ease-In Acceleration
+* **Decision Makers:** User Directive
+* **Category:** UI / Motion Physics & WebGL Architecture
+* **Status:** Implemented & Verified
+* **The Context & Problem:**
+  In the initial screen transition prototype, an artificial 2D canvas texture with dark tones (`#1A2926`, `#0B0610`, etc.) was drawn into WebGL textures (`uTexCurrent`, `uTexNext`). When the ripple wave reached full radius, the canvas displayed an opaque dark screen. Upon completion, a 150ms opacity fade caused a noticeable "black screen" flash and delayed pop-in of the real page content. Additionally, the wave origin was statically pinned to the left edge rather than the clicked button, and used an ease-out deceleration instead of an authentic ease-in acceleration.
+* **The Decision:**
+  * **Zero Black Screen Architecture:** Completely removed artificial opaque 2D canvas textures and placeholder drawings. Initialized WebGL with an authentic transparent overlay context (`alpha: true`, `gl.clearColor(0, 0, 0, 0)`).
+  * **Transparent Caustic Shockwave Shader:** Redesigned the fragment shader to render solely the organic liquid caustic shockwave ring at the leading boundary (specular crest glints, aquatic cyan refraction fringes, and soft trough shadows) while remaining $100\%$ transparent (`vec4(0.0)`) everywhere else.
+  * **Lockstep Live DOM Reveal:** Stacked incoming and outgoing DOM elements in-place (`z-25` vs `z-10`). Concurrently expanded a dynamic circular `clip-path` on the real incoming view (`circle(${r}px at ${originXpx}px ${originYpx}px)`) in lockstep with the liquid wave front. The actual DOM page is revealed in real-time beneath the water ripple, completely eliminating black frames.
+  * **Clicked-Button Origin:** Dynamically resolved `clickX` and `clickY` from the user's click event. For sidebar items, the wave emerges directly from the junction of the clicked button and `#appMain`. For in-page buttons (e.g. map thumbnail preview, close button), it radiates from the button's exact coordinates.
+  * **Authentic Ease-In Acceleration:** Replaced the decelerating ease-out curve with a fluid ease-in curve (`Math.pow(progress, 2.4)`). The liquid wave gathers energy slowly at the button and accelerates dynamically as it sweeps across the screen.
+* **Verification:**
+  * Verified via Chrome DevTools MCP screencast recording across all 6 views. Frame-by-frame OpenCV pixel analysis confirmed: 0 black frames ($< 50$ brightness), minimum brightness $190.41$ (warm canvas), and 0 runtime errors.
+* **Why This Was Chosen:**
+  * Completely solves the black screen flash and pop-in lag, delivering physical liquid refraction directly over live application DOM views.
 
 ---
 

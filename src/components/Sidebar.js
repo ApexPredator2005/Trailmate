@@ -30,8 +30,11 @@ export class Sidebar {
         e.preventDefault();
         const view = item.dataset.view;
         this.setActiveView(view);
+        const rect = item.getBoundingClientRect();
+        const clickX = typeof e.clientX === 'number' && e.clientX > 0 ? e.clientX : (rect.left + rect.width / 2);
+        const clickY = typeof e.clientY === 'number' && e.clientY > 0 ? e.clientY : (rect.top + rect.height / 2);
         if (typeof this.onNavChange === 'function') {
-          this.onNavChange(view, { clickY: e.clientY, event: e });
+          this.onNavChange(view, { clickX, clickY, targetRect: rect, event: e });
         }
       });
     });

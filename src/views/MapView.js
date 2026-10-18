@@ -387,9 +387,16 @@ export function renderMapView(container, { switchView, store }) {
     });
 
     const meta = DESTINATION_CENTERS[destKey] || DESTINATION_CENTERS.ooty;
-    map.flyTo([meta.lat, meta.lng], meta.zoom, {
-      duration: 1.2,
-      easeLinearity: 0.25,
+    if (mapElement && mapElement.offsetWidth > 0 && mapElement.offsetHeight > 0) {
+      map.flyTo([meta.lat, meta.lng], meta.zoom || 13, {
+        duration: 1.2,
+        easeLinearity: 0.25,
+      });
+    } else {
+      map.setView([meta.lat, meta.lng], meta.zoom || 13);
+    }
+    requestAnimationFrame(() => {
+      map.invalidateSize();
     });
 
     // Clear existing markers & polylines

@@ -250,6 +250,7 @@ document.addEventListener('DOMContentLoaded', () => {
     } catch {}
 
     const reduced = isReducedMotion();
+    const clickX = meta?.clickX ?? null;
     const clickY = meta?.clickY ?? null;
 
     const outgoingElement = getViewElement(previousView);
@@ -299,11 +300,12 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    // 2. Trigger VengeanceUI-style Ripple Displacement Slider Transition
+    // 2. Trigger Liquid Ripple Displacement Transition originating directly at the clicked button
     isTransitioning = true;
     rippleDisplacement.transition({
       currentView: previousView,
       nextView: viewName,
+      clickX,
       clickY,
       incomingElement,
       outgoingElement,
@@ -320,7 +322,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (btnFullViewClose) {
     btnFullViewClose.addEventListener('click', (e) => {
-      switchView('chat', { clickY: e.clientY });
+      switchView('chat', { clickX: e.clientX, clickY: e.clientY });
     });
   }
 
@@ -506,10 +508,10 @@ document.addEventListener('DOMContentLoaded', () => {
   // Itinerary View Map Button
   const mapPreview = document.getElementById('mapPreview');
   const btnViewMap = document.getElementById('btnViewMap');
-  mapPreview?.addEventListener('click', () => switchView('map'));
+  mapPreview?.addEventListener('click', (e) => switchView('map', { clickX: e?.clientX, clickY: e?.clientY }));
   btnViewMap?.addEventListener('click', (e) => {
     e.stopPropagation();
-    switchView('map');
+    switchView('map', { clickX: e?.clientX, clickY: e?.clientY });
   });
 
   // ── 3. Chat Thread ──────────────────────────────────────────────────
@@ -979,9 +981,9 @@ document.addEventListener('DOMContentLoaded', () => {
       moreOptionsMenu.classList.toggle('hidden');
     });
 
-    btnDropdownScrapbook?.addEventListener('click', () => {
+    btnDropdownScrapbook?.addEventListener('click', (e) => {
       moreOptionsMenu.classList.add('hidden');
-      switchView('scrapbook');
+      switchView('scrapbook', { clickX: e?.clientX, clickY: e?.clientY });
     });
 
     btnDropdownPrint?.addEventListener('click', () => {
@@ -1026,7 +1028,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const btnOpenScrapbook = document.getElementById('btnOpenScrapbookStudio');
   btnOpenScrapbook?.addEventListener('click', (e) => {
     e.stopPropagation();
-    switchView('scrapbook');
+    switchView('scrapbook', { clickX: e?.clientX, clickY: e?.clientY });
   });
 
   // ── 8. Boot ─────────────────────────────────────────────────────────
