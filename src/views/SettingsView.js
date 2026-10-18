@@ -85,7 +85,6 @@ export function renderSettingsView(container, { switchView, store }) {
             <span class="material-symbols-outlined text-base text-[#C4703D]">holiday_village</span>
             <span>Expedition Stay Archetype</span>
           </div>
-          <span class="settings-panel-subtitle">Prioritized in AI lodging curation</span>
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5" id="settingsStayGrid">
