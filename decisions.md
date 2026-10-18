@@ -655,20 +655,23 @@ To maintain this standard while offering a high-performance **Scrapbook Studio**
 * **Category:** Geospatial UI Architecture, Stitch MCP Prototyping & Leaflet Synchronization
 * **Status:** Implemented & Verified
 * **The Context & Problem:**
-  The previous map design was a full-bleed map overlaid with floating glass headers, category filter chips, and a bottom horizontal carousel tray. This cluttered the map canvas, obscured geographic context, and lacked an organized day-by-day expedition ledger. The user selected the **Split-Pane Dual Explorer** layout generated via Stitch MCP, requiring strict Trailmate brand UI colors (warm parchment `#FCF9F4`, terracotta `#C4703D` / `#944A1A`, forest ink `#1E3A34`, expedition sage `#5B8C7B`) with zero modification to the live application sidebar.
+  The previous map design was a full-bleed map overlaid with floating glass headers, category filter chips, and a bottom horizontal carousel tray. This cluttered the map canvas, obscured geographic context, and lacked an organized day-by-day expedition ledger. The user selected the **Split-Pane Dual Explorer** layout generated via Stitch MCP, requiring strict Trailmate brand UI colors (warm parchment `#FCF9F4`, terracotta `#C4703D` / `#944A1A`, forest ink `#1E3A34`, expedition sage `#5B8C7B`) with zero modification to the live application sidebar. Initial implementation had pin collisions between Tea Museum and Doddabetta Peak, redundant pin labels underneath popover cards, watermarked CartoDB tiles, and out-of-order route lines.
 * **The Decision:**
   * **Split-Pane Architecture (42% Ledger / 58% Map Canvas):**
-    * **Left 42% Ledger Feed:** Dedicated scrollable itinerary pane featuring destination switcher (`📍 Ooty ▾`), elevation badge (`2,240m avg`), `⌘K` live search input, filter pills (`All`, `Day 1 Route` [active terracotta], `Day 2 Route`, and category chips), Day 1 circuit summary banner (`4 Stops • 18.4 km • ~4.5 hrs • 2,637m Peak`), and rich sight cards with photo banners, ratings, audio guide triggers, and elevation badges.
-    * **Right 58% Unobstructed Map Canvas:** Full-height Leaflet.js map with top-right HUD (Contours / Satellite layer switcher, Back to Planner shortcut), numbered terracotta waypoint pins (`1`, `2`, `3`, `4`), connected terracotta polyline (`#C4703D`, weight 4, dashArray `6, 7`), segment distance badges (`3.4 km`, `5.4 km`), and a bottom elevation ribbon displaying the geographic elevation track.
-  * **Bi-Directional Interactive Synchronization:**
-    * Clicking a card in the left feed smoothly flies the map to that landmark, opens its popup, and marks the card active.
-    * Clicking a map pin or route waypoint scrolls the corresponding card in the left ledger into view and highlights it.
+    * **Left 42% Ledger Feed:** Dedicated scrollable itinerary pane featuring destination switcher (`📍 Ooty ▾`), elevation badge (`2,240m avg`), `⌘K` live search input, filter pills (`All`, `Day 1 Route` [active terracotta], `Day 2 Route`, and category chips), Day 1 circuit summary banner (`4 Stops • 18.4 km • ~4.5 hrs`), `CURRENT FOCUS` card tag, rich sight cards with photo banners, ratings, audio guide triggers, elevation badges, and solid terracotta `In Circuit ✓` buttons.
+    * **Right 58% Unobstructed Map Canvas:** Full-height Leaflet.js map with top-right HUD (`Contours` [terracotta] / `Satellite` / `Estate Wash` switcher, compass rose button), numbered terracotta waypoint pins (`1`, `2`, `3`, `4`), connected terracotta polyline (`#C4703D`, weight 3.5), distance pills (`5.4 km`, `6.8 km`), bottom scale datum card (`1:25,000 Topo Relief • Datum: GTS India 1878`), and bottom SVG Elevation Gradient Profile chart (`2,180m - 2,637m`).
+  * **Geodesic Pin Separation & Dynamic Active Label Suppression:**
+    * Separated Doddabetta Peak (`11.3995, 76.7388`) from Nilgiri Tea Museum (`11.4132, 76.7325`), placing Pin 2 south-east directly inside the Doddabetta summit contour rings and Pin 1 on the northwestern tea slopes.
+    * Dynamically hid `.map-waypoint-label` when a pin is active (`.map-waypoint-pin.active .map-waypoint-label { display: none !important; }`), ensuring the sleek popover card (`STOP #1 • 2,180M ALT`, `Nilgiri Tea Museum`, `● Tasting Open Now` with tea factory photo) points directly down to the pin without duplicate label overlap.
+  * **Natural Topological Route Progression:**
+    * Routed the Day 1 polyline along the scenic road topology: Ooty Lake (Pin 4) -> Botanical Gardens (Pin 3) -> Nilgiri Tea Museum (Pin 1) -> Doddabetta Peak (Pin 2), with distance badges (`5.4 km`, `6.8 km`) on major transit legs.
+    * Rendered soft teal water body with italic serif label `(Ooty Lake • 2,240m)` and concentric contour rings around Doddabetta summit with `DODDABETTA PEAK 2,637m`.
+  * **Museum-Grade Topographic Cartography (Zero Watermarks):**
+    * Integrated Esri World Topo Map with calibrated CSS warmth filter (`filter: sepia(0.20) hue-rotate(-10deg) contrast(0.93) brightness(1.03) saturate(0.82)`), delivering authentic elevation contour lines and mountain relief shading with zero API keys and zero watermarks.
   * **Sidebar Isolation (100% Untouched):**
     * Scoped all layout and styling strictly inside `#mapWorkspaceView` (`.map-split-workspace`), leaving the global desktop sidebar completely intact.
-  * **Robust Lifecycle & Zero-Dimension Guards:**
-    * Implemented `safeMoveMap(lat, lng, zoom)` and `ResizeObserver` on the map container to prevent Leaflet `(NaN, NaN)` calculation errors when initializing or transitioning views.
 * **Why This Was Chosen:**
-  * Replaces awkward floating trays with a professional expedition journal interface, elevating cartographic readability and itinerary pacing.
+  * Achieves pixel-perfect fidelity with the Stitch-approved master design mockup, pairing an archival expedition ledger with an uncluttered, responsive cartographic explorer.
 
 ---
 
