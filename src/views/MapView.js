@@ -588,6 +588,49 @@ export function renderMapView(container, { switchView, store }) {
   let activeCardIndex = 0;
   let updateActiveFocusCircle = null;
   let activeRenderFilteredFeed = null;
+  const destinationCircuitSets = new Map();
+
+  function getOrderedCircuitStops(destKey, circuitSet, attractions) {
+    if (!circuitSet) return [];
+    const seenNames = new Set();
+    const activeStops = [];
+    (attractions || []).forEach(a => {
+      if (circuitSet.has(a.name) && !seenNames.has(a.name)) {
+        seenNames.add(a.name);
+        activeStops.push(a);
+      }
+    });
+
+    if (destKey === 'ooty') {
+      const ootyOrder = [
+        'Ooty Lake & Boathouse',
+        'Government Botanical Gardens',
+        'Tea Museum & Dodabetta Tea Factory',
+        'Doddabetta Peak & Observatory'
+      ];
+      return activeStops.sort((a, b) => {
+        const idxA = ootyOrder.indexOf(a.name);
+        const idxB = ootyOrder.indexOf(b.name);
+        if (idxA !== -1 && idxB !== -1) return idxA - idxB;
+        if (idxA !== -1) return -1;
+        if (idxB !== -1) return 1;
+        return 0;
+      });
+    }
+    const metaStops = DESTINATION_META[destKey]?.circuitStops;
+    if (metaStops && metaStops.length > 0) {
+      const orderNames = metaStops.map(s => s.name);
+      return activeStops.sort((a, b) => {
+        const idxA = orderNames.indexOf(a.name);
+        const idxB = orderNames.indexOf(b.name);
+        if (idxA !== -1 && idxB !== -1) return idxA - idxB;
+        if (idxA !== -1) return -1;
+        if (idxB !== -1) return 1;
+        return 0;
+      });
+    }
+    return activeStops;
+  }
 
   // Render Split-Pane DOM Shell
   container.innerHTML = `
@@ -1032,6 +1075,13 @@ export function renderMapView(container, { switchView, store }) {
     safeMoveMap(centerMeta.lat, centerMeta.lng, centerMeta.zoom || 13, 1.0);
 
     const allAttractions = CURATED_ATTRACTIONS[destKey] || CURATED_ATTRACTIONS.ooty;
+    const defaultCircuitStops = destMeta.circuitStops || allAttractions.slice(0, 4);
+    const combinedAttractions = [...defaultCircuitStops, ...allAttractions];
+
+    if (!destinationCircuitSets.has(destKey)) {
+      destinationCircuitSets.set(destKey, new Set(defaultCircuitStops.map(s => s.name)));
+    }
+    const activeCircuitSet = destinationCircuitSets.get(destKey);
 
     // Filter Chips: All 14, Day 1 Route (active), Day 2 Route, Categories
     const categories = [...new Set(allAttractions.map(a => a.category).filter(Boolean))].slice(0, 3);
@@ -1097,36 +1147,6 @@ export function renderMapView(container, { switchView, store }) {
       displayedItems = displayedItems.map(item => resolveItemWithPhotos(item, activeDestKey));
 
       activeRenderFilteredFeed = renderFilteredFeed;
-
-      // Update Circuit Strip text dynamically based on active filter
-      const lblCircuitStripText = document.getElementById('lblCircuitStripText');
-      if (lblCircuitStripText) {
-        if (isDay1Mode) {
-          lblCircuitStripText.innerHTML = `
-            <span class="map-circuit-badge-label">🧭 Day 1 Circuit</span>
-            <span>• 4 Stops</span>
-            <span>• ${destMeta.circuitDistance || '18.4 km'}</span>
-            <span>• ${destMeta.circuitDuration || '~4.5 hrs scenic drive & walk'}</span>
-          `;
-        } else if (activeFilter === 'Day 2 Route') {
-          lblCircuitStripText.innerHTML = `
-            <span class="map-circuit-badge-label">🧭 Day 2 Circuit</span>
-            <span>• 4 Stops</span>
-            <span>• Excursions & Alpine Ridges</span>
-          `;
-        } else if (activeFilter === 'All' || activeFilter === 'All 14') {
-          lblCircuitStripText.innerHTML = `
-            <span class="map-circuit-badge-label">📚 Full Directory</span>
-            <span>• ${displayedItems.length} Curated Landmarks</span>
-            <span>• Regional Explorer</span>
-          `;
-        } else {
-          lblCircuitStripText.innerHTML = `
-            <span class="map-circuit-badge-label">🏷️ ${escapeHtml(activeFilter)}</span>
-            <span>• ${displayedItems.length} Selected Sights</span>
-          `;
-        }
-      }
 
       // ── Persistent Focus Reticle with Jitter-Free Dissolve & Re-emerge Lifecycle ──
       let focusCircleInstance = null;
@@ -1257,46 +1277,91 @@ export function renderMapView(container, { switchView, store }) {
         updateSelectedAttractionCircle(initialSelectedItem, true);
       }
 
-      // ── Terracotta Polyline Connecting Day 1 Stops in Natural Circuit Order ──
-      // Geographical road order: Lake (4) -> Botanical Gardens (3) -> Tea Museum (1) -> Doddabetta Peak (2)
-      let day1PolylineStops = day1Stops;
-      let segmentDistances = ['3.4 km', '5.4 km', '6.8 km'];
+      // ── Dynamic Terracotta Polyline Connecting Active Circuit Stops ──
+      function redrawCircuitPolylineAndTelemetry() {
+        currentRouteGroup.clearLayers();
+        currentDistMarkersGroup.clearLayers();
 
-      if (activeDestKey === 'ooty' && day1Stops.length >= 4) {
-        day1PolylineStops = [day1Stops[3], day1Stops[2], day1Stops[0], day1Stops[1]];
-        segmentDistances = ['5.4 km', '6.8 km'];
-      }
+        const orderedStops = getOrderedCircuitStops(activeDestKey, activeCircuitSet, combinedAttractions);
+        const coords = orderedStops
+          .map(s => [Number(s.lat), Number(s.lng)])
+          .filter(c => Number.isFinite(c[0]) && Number.isFinite(c[1]));
 
-      const day1Coords = day1PolylineStops
-        .map(s => [Number(s.lat), Number(s.lng)])
-        .filter(c => Number.isFinite(c[0]) && Number.isFinite(c[1]));
+        let totalDistKm = 0;
 
-      if (isDay1Mode && day1Coords.length > 1) {
-        L.polyline(day1Coords, {
-          color: '#C4703D',
-          weight: 3.5,
-          opacity: 0.95,
-          lineJoin: 'round',
-        }).addTo(currentRouteGroup);
+        if (coords.length > 1) {
+          L.polyline(coords, {
+            color: '#C4703D',
+            weight: 3.5,
+            opacity: 0.95,
+            lineJoin: 'round',
+          }).addTo(currentRouteGroup);
 
-        // Segment distance badges on polyline
-        for (let i = 0; i < day1Coords.length - 1; i++) {
-          const distLabel = segmentDistances[i];
-          if (!distLabel) continue;
+          // Segment distance badges on polyline
+          for (let i = 0; i < coords.length - 1; i++) {
+            const p1 = coords[i];
+            const p2 = coords[i + 1];
+            const segDistMeters = L.latLng(p1[0], p1[1]).distanceTo(L.latLng(p2[0], p2[1]));
+            const roadDistKm = (segDistMeters * 1.38) / 1000;
+            totalDistKm += roadDistKm;
 
-          const p1 = day1Coords[i];
-          const p2 = day1Coords[i + 1];
-          const midLat = (p1[0] + p2[0]) / 2;
-          const midLng = (p1[1] + p2[1]) / 2;
+            const distLabel = `${roadDistKm.toFixed(1)} km`;
+            const midLat = (p1[0] + p2[0]) / 2;
+            const midLng = (p1[1] + p2[1]) / 2;
 
-          const distIcon = L.divIcon({
-            className: 'custom-dist-pill',
-            html: `<div class="map-segment-distance-badge">${distLabel}</div>`,
-            iconSize: [46, 20],
-            iconAnchor: [23, 10],
-          });
-          L.marker([midLat, midLng], { icon: distIcon, interactive: false }).addTo(currentDistMarkersGroup);
+            const distIcon = L.divIcon({
+              className: 'custom-dist-pill',
+              html: `<div class="map-segment-distance-badge">${distLabel}</div>`,
+              iconSize: [46, 20],
+              iconAnchor: [23, 10],
+            });
+            L.marker([midLat, midLng], { icon: distIcon, interactive: false }).addTo(currentDistMarkersGroup);
+          }
         }
+
+        // Update Circuit Strip text dynamically
+        const lblCircuitStripText = document.getElementById('lblCircuitStripText');
+        if (lblCircuitStripText) {
+          const stopCount = orderedStops.length;
+          const distStr = totalDistKm > 0 ? `${totalDistKm.toFixed(1)} km` : (destMeta.circuitDistance || '18.4 km');
+          const estHours = Math.max(0.5, Math.round(stopCount * 1.1 * 10) / 10);
+
+          if (isDay1Mode) {
+            lblCircuitStripText.innerHTML = `
+              <span class="map-circuit-badge-label">🧭 Day 1 Circuit</span>
+              <span>• ${stopCount} ${stopCount === 1 ? 'Stop' : 'Stops'}</span>
+              <span>• ${stopCount > 1 ? distStr : (stopCount === 1 ? '1 Stop Selected' : '0 Stops Selected')}</span>
+              <span>• ~${estHours} hrs scenic drive & walk</span>
+            `;
+          } else if (activeFilter === 'Day 2 Route') {
+            lblCircuitStripText.innerHTML = `
+              <span class="map-circuit-badge-label">🧭 Day 2 Circuit</span>
+              <span>• ${displayedItems.length} Stops</span>
+              <span>• Excursions & Alpine Ridges</span>
+            `;
+          } else if (activeFilter === 'All' || activeFilter === 'All 14') {
+            lblCircuitStripText.innerHTML = `
+              <span class="map-circuit-badge-label">📚 Full Directory</span>
+              <span>• ${displayedItems.length} Curated Landmarks</span>
+              <span>• Regional Explorer (${stopCount} in Circuit)</span>
+            `;
+          } else {
+            lblCircuitStripText.innerHTML = `
+              <span class="map-circuit-badge-label">🏷️ ${escapeHtml(activeFilter)}</span>
+              <span>• ${displayedItems.length} Selected Sights</span>
+            `;
+          }
+        }
+
+        // Update waypoint pin styles to reflect active circuit membership
+        displayedItems.forEach((it, idx) => {
+          const pinEl = document.getElementById(`waypointPin-${idx}`);
+          if (pinEl) {
+            const inCircuit = activeCircuitSet.has(it.name);
+            pinEl.classList.toggle('in-circuit', inCircuit);
+            pinEl.classList.toggle('out-of-circuit', !inCircuit);
+          }
+        });
       }
 
       // ── Populate Left Ledger Feed ──
@@ -1384,7 +1449,7 @@ export function renderMapView(container, { switchView, store }) {
                   </span>
                   <div class="map-card-actions">
                     <button type="button" class="map-btn-outline" data-action="directions">Directions</button>
-                    <button type="button" class="map-btn-solid-terracotta" data-action="circuit">In Circuit ✓</button>
+                    <button type="button" class="${activeCircuitSet.has(item.name) ? 'map-btn-solid-terracotta' : 'map-btn-outline'}" data-action="circuit">${activeCircuitSet.has(item.name) ? 'In Circuit ✓' : 'Add to Circuit +'}</button>
                   </div>
                 </div>
               </div>
@@ -1447,12 +1512,22 @@ export function renderMapView(container, { switchView, store }) {
             if (e.target.closest('[data-action="circuit"]')) {
               e.stopPropagation();
               const btn = e.target.closest('[data-action="circuit"]');
-              if (btn) {
-                const inCircuit = btn.textContent.includes('✓');
-                btn.textContent = inCircuit ? 'Add to Circuit +' : 'In Circuit ✓';
-                btn.classList.toggle('map-btn-solid-terracotta', !inCircuit);
-                btn.classList.toggle('map-btn-outline', inCircuit);
+              if (!btn || !item) return;
+
+              const isCurrentlyIn = activeCircuitSet.has(item.name);
+              if (isCurrentlyIn) {
+                activeCircuitSet.delete(item.name);
+                btn.textContent = 'Add to Circuit +';
+                btn.classList.remove('map-btn-solid-terracotta');
+                btn.classList.add('map-btn-outline');
+              } else {
+                activeCircuitSet.add(item.name);
+                btn.textContent = 'In Circuit ✓';
+                btn.classList.add('map-btn-solid-terracotta');
+                btn.classList.remove('map-btn-outline');
               }
+
+              redrawCircuitPolylineAndTelemetry();
               return;
             }
 
@@ -1478,6 +1553,7 @@ export function renderMapView(container, { switchView, store }) {
         if (!Number.isFinite(itemLat) || !Number.isFinite(itemLng)) return;
 
         const isStop1 = idx === 0 && isDay1Mode;
+        const inCircuit = activeCircuitSet.has(item.name);
         const photos = item.photos && item.photos.length > 0 ? item.photos : [item.photo];
         const photoUrl = photos[0];
         const stopLabel = item.shortName || item.name;
@@ -1486,7 +1562,7 @@ export function renderMapView(container, { switchView, store }) {
 
         // Terracotta Numbered Pin
         const pinHtml = `
-          <div class="map-waypoint-pin ${isStop1 ? 'active' : ''}" id="waypointPin-${idx}">
+          <div class="map-waypoint-pin ${isStop1 ? 'active' : ''} ${inCircuit ? 'in-circuit' : 'out-of-circuit'}" id="waypointPin-${idx}">
             <div class="map-waypoint-bubble">${idx + 1}</div>
             <div class="map-waypoint-label">${escapeHtml(stopLabel)}</div>
           </div>
@@ -1577,6 +1653,9 @@ export function renderMapView(container, { switchView, store }) {
           }, 300);
         }
       });
+
+      // Redraw dynamic circuit polyline and update HUD telemetry
+      redrawCircuitPolylineAndTelemetry();
     }
 
     renderFilteredFeed();
@@ -1600,7 +1679,15 @@ export function renderMapView(container, { switchView, store }) {
   function exportCircuitGpx() {
     const destMeta = DESTINATION_META[activeDestKey] || DESTINATION_META.ooty;
     const allAttractions = CURATED_ATTRACTIONS[activeDestKey] || CURATED_ATTRACTIONS.ooty;
-    const circuitStops = destMeta.circuitStops || allAttractions.slice(0, 4);
+    const defaultCircuitStops = destMeta.circuitStops || allAttractions.slice(0, 4);
+    const combinedAttractions = [...defaultCircuitStops, ...allAttractions];
+    const activeCircuitSet = destinationCircuitSets.get(activeDestKey) || new Set();
+    const circuitStops = getOrderedCircuitStops(activeDestKey, activeCircuitSet, combinedAttractions);
+
+    if (circuitStops.length === 0) {
+      alert('Please select at least 1 attraction in the circuit to export GPX.');
+      return;
+    }
 
     let gpx = `<?xml version="1.0" encoding="UTF-8"?>
 <gpx version="1.1" creator="Trailmate Explorer https://trailmate.app" xmlns="http://www.topografix.com/GPX/1/1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd">
@@ -1697,7 +1784,10 @@ export function renderMapView(container, { switchView, store }) {
   function openElevationModal() {
     const destMeta = DESTINATION_META[activeDestKey] || DESTINATION_META.ooty;
     const allAttractions = CURATED_ATTRACTIONS[activeDestKey] || CURATED_ATTRACTIONS.ooty;
-    const circuitStops = destMeta.circuitStops || allAttractions.slice(0, 4);
+    const defaultCircuitStops = destMeta.circuitStops || allAttractions.slice(0, 4);
+    const combinedAttractions = [...defaultCircuitStops, ...allAttractions];
+    const activeCircuitSet = destinationCircuitSets.get(activeDestKey) || new Set();
+    const circuitStops = getOrderedCircuitStops(activeDestKey, activeCircuitSet, combinedAttractions);
 
     const existing = document.getElementById('mapElevModal');
     if (existing) existing.remove();
@@ -1732,12 +1822,12 @@ export function renderMapView(container, { switchView, store }) {
 
             <div class="map-elev-modal-stops-list">
               <div class="text-[10px] font-bold uppercase tracking-wider text-[#7A7670] mb-1">Circuit Stops Altitude Telemetry</div>
-              ${circuitStops.map((stop, idx) => `
+              ${circuitStops.length > 0 ? circuitStops.map((stop, idx) => `
                 <div class="map-elev-modal-stop-row">
                   <span class="font-medium text-[#1C1C19]">Stop #${idx + 1} — ${escapeHtml(stop.name)}</span>
                   <span class="font-mono font-bold text-[#5B8C7B]">${escapeHtml((stop.altTag || '').replace('● ', ''))}</span>
                 </div>
-              `).join('')}
+              `).join('') : '<div class="text-xs text-neutral-500 py-2">No attractions currently in circuit. Add attractions from the ledger to view their altitude telemetry.</div>'}
             </div>
 
             <div class="text-[11px] text-[#7A7670] leading-relaxed bg-white/70 p-3 rounded-lg border border-[#E5E2DD]">

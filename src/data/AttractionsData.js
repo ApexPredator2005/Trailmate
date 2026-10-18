@@ -64,7 +64,7 @@ export const CURATED_ATTRACTIONS = {
     },
     {
       "id": "pl-ooty-a4",
-      "name": "Doddabetta Peak Viewpoint",
+      "name": "Doddabetta Peak & Observatory",
       "formattedAddress": "Ooty-Kotagiri Road, Tamil Nadu 643002",
       "description": "Highest vantage point in the Nilgiris (2,637 m) offering panoramic mountain vistas.",
       "rating": 4.4,

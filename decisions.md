@@ -804,6 +804,33 @@ To maintain this standard while offering a high-performance **Scrapbook Studio**
 
 ---
 
+### DEC-037: Dynamic Circuit Management, Reactive Polyline Route Updates & Custom GPX Export
+* **Decision Makers:** User Directive & Architectural Audit
+* **Category:** Geospatial UI, Route Planning, Dynamic State & Layer Reactivity
+* **Status:** Implemented & Verified (October 2026)
+* **The Context & Problem:**
+  In the split-pane geospatial map view, clicking the "In Circuit ✓" / "Add to Circuit +" button on attraction cards previously only toggled the button's text string in the DOM. It maintained zero circuit state, never updated the Leaflet polyline layer (`currentRouteGroup`), never recalculated segment distance badges (`currentDistMarkersGroup`), never updated the circuit summary strip text (`#lblCircuitStripText`), and left map waypoint pin styles completely static.
+* **The Decision:**
+  * **Per-Destination Dynamic Circuit Sets:**
+    - Declared `destinationCircuitSets = new Map()` at view scope to store active circuit stops per destination.
+    - Initialized with curated default stops and preserved user circuit customizations across filter switches and destination transitions.
+  * **Topological Road Ordering Engine (`getOrderedCircuitStops`):**
+    - Enforced topological road ordering (e.g. Ooty: Lake -> Botanical Gardens -> Tea Museum -> Doddabetta Peak; or destination metadata sequence) with automatic name-based deduplication so that arbitrarily adding or removing stops never creates jarring polyline zig-zags or duplicate zero-distance segments.
+  * **Reactive Route & Telemetry Engine (`redrawCircuitPolylineAndTelemetry`):**
+    - Clears and reconstructs `currentRouteGroup` and `currentDistMarkersGroup`.
+    - If $\ge 2$ stops: renders the terracotta `#C4703D` polyline and places `.map-segment-distance-badge` pills at segment midpoints using mountain curve factor (1.38x).
+    - If $\le 1$ stops: cleanly clears polyline and distance badges.
+    - Dynamically updates `#lblCircuitStripText` with calculated total distance, stop count, and driving/hiking duration.
+    - Toggles `.in-circuit` vs `.out-of-circuit` classes on waypoint markers (`#waypointPin-${idx}`).
+  * **Visual Waypoint Pin States (`map.css`):**
+    - Added `.map-waypoint-pin.out-of-circuit` styling with a subdued graphite bubble (`#7A7670`), border `#EDEAE4`, and 0.65 opacity to clearly indicate landmarks not in the active route.
+  * **Dynamic GPX Export & Elevation Telemetry:**
+    - Wired `exportCircuitGpx()` and `openElevationModal()` to consume the active circuit stops instead of static metadata, providing travelers with customized GPS exchange files and elevation profile telemetry.
+* **Why This Was Chosen:**
+  * Delivers a responsive, bidirectional route-building experience where travelers can customize their trip circuit directly from the ledger while seeing immediate visual confirmation on the map lines, distance badges, HUD telemetry, and exported GPX routes.
+
+---
+
 ## 9. Pending & Future Architectural Roadmap
 
 ### 1. Real Google Identity Services (GIS) / OIDC Authentication
