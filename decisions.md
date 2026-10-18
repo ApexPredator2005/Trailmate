@@ -595,8 +595,8 @@ To maintain this standard while offering a high-performance **Scrapbook Studio**
 | **DEC-025** | Motion | Viewport Anti-Clipping Geometry & Motion Polish Engine | User | Anti-clipping scroll guard, deterministic message deduplication, doodle cross-fades, and 3D page curl |
 | **DEC-026** | Motion | Continuous Single-Element FLIP Destination Morph | Joint | Single shared DOM node FLIP; simultaneous 3D translation & scale interpolation; locked container layout & anti-jitter handoff |
 | **DEC-027** | UI / Motion | Ripple Displacement Slider Screen Transitions | User | WebGL liquid ripple shockwave shader over #appMain for switching between chat, trips, scrapbook, map, community, and settings; 0KB runtime bloat; leaves sidebar untouched |
-| **DEC-028** | UI / Motion | Transparent Liquid Caustic Wave with Button Origin & Ease-In | User | Eliminates black screen/placeholder textures via transparent WebGL caustic glint shader + concurrent DOM clip-path expansion; originates from clicked button; applies authentic ease-in acceleration curve ($t^2$) |
-| **DEC-029** | UI / Motion | Physically Grounded Liquid Optics & Chromatic Dispersion | User | 315° directional sunbeam glint, chromatic waveband dispersion, organic micro-turbulence (sine harmonics), volumetric trough shadow, and view-adaptive mineral tints |
+| **DEC-028** | UI / Motion | Transparent Liquid Caustic Wave with Button Origin & Ease-In | User | Eliminates black screen/placeholder textures via transparent WebGL caustic glint shader + concurrent DOM clip-path expansion; originates from clicked button; applies authentic ease-in acceleration curve ($t^2$, 840ms) |
+| **DEC-029** | UI / Motion | Directional Sunbeam (315° Azimuth) & Chromatic Dispersion | User | Physically models 315° top-left sunlight reflection via 2D wave normal dot product and Cauchy's chromatic wavelength separation (R/G/B phase shift) on liquid ripple crest |
 
 ---
 
@@ -605,34 +605,26 @@ To maintain this standard while offering a high-performance **Scrapbook Studio**
 * **Category:** UI / Motion Physics & WebGL Architecture
 * **Status:** Implemented & Verified
 * **The Context & Problem:**
-  In the initial screen transition prototype, an artificial 2D canvas texture with dark tones (`#1A2926`, `#0B0610`, etc.) was drawn into WebGL textures (`uTexCurrent`, `uTexNext`). When the ripple wave reached full radius, the canvas displayed an opaque dark screen. Upon completion, a 150ms opacity fade caused a noticeable "black screen" flash and delayed pop-in of the real page content. Additionally, the wave origin was statically pinned to the left edge rather than the clicked button, and used an ease-out deceleration instead of an authentic ease-in acceleration.
+  In the initial screen transition prototype, an artificial 2D canvas texture with dark tones (`#1A2926`, `#0B0610`, etc.) was drawn into WebGL textures (`uTexCurrent`, `uTexNext`). When the ripple wave reached full radius, the canvas displayed an opaque dark screen. Upon completion, a 150ms opacity fade caused a noticeable "black screen" flash and delayed pop-in of the real page content. Additionally, the wave origin was statically pinned to the left edge rather than the clicked button, and WebGL inverted the Y-axis relative to DOM space, creating two distinct starting points.
 * **The Decision:**
   * **Zero Black Screen Architecture:** Completely removed artificial opaque 2D canvas textures and placeholder drawings. Initialized WebGL with an authentic transparent overlay context (`alpha: true`, `gl.clearColor(0, 0, 0, 0)`).
-  * **Transparent Caustic Shockwave Shader:** Redesigned the fragment shader to render solely the organic liquid caustic shockwave ring at the leading boundary (specular crest glints, aquatic cyan refraction fringes, and soft trough shadows) while remaining $100\%$ transparent (`vec4(0.0)`) everywhere else.
-  * **Lockstep Live DOM Reveal:** Stacked incoming and outgoing DOM elements in-place (`z-25` vs `z-10`). Concurrently expanded a dynamic circular `clip-path` on the real incoming view (`circle(${r}px at ${originXpx}px ${originYpx}px)`) in lockstep with the liquid wave front. The actual DOM page is revealed in real-time beneath the water ripple, completely eliminating black frames.
-  * **Clicked-Button Origin:** Dynamically resolved `clickX` and `clickY` from the user's click event. For sidebar items, the wave emerges directly from the junction of the clicked button and `#appMain`. For in-page buttons (e.g. map thumbnail preview, close button), it radiates from the button's exact coordinates.
-  * **Authentic Ease-In Acceleration:** Replaced the decelerating ease-out curve with a fluid quadratic ease-in curve ($t^2$, duration $840\text{ms}$). The liquid wave gathers energy slowly at the button and accelerates dynamically as it sweeps across the screen.
-* **Verification:**
-  * Verified via Chrome DevTools MCP screencast recording across all 6 views. Frame-by-frame OpenCV pixel analysis confirmed: 0 black frames ($< 50$ brightness), minimum brightness $190.41$ (warm canvas), and 0 runtime errors.
-* **Why This Was Chosen:**
-  * Completely solves the black screen flash and pop-in lag, delivering physical liquid refraction directly over live application DOM views.
+  * **Unified Single Point Origin:** Inverted the WebGL vertex shader Y mapping (`(1.0 - aPos.y) * 0.5`) to align with DOM top-down coordinate space, unifying the WebGL caustic ripple and CSS `clip-path` circle to the single clicked button coordinate.
+  * **Lockstep Live DOM Reveal:** Stacked incoming and outgoing DOM elements in-place (`z-25` vs `z-10`). Concurrently expanded a dynamic circular `clip-path` on the real incoming view (`circle(${r}px at ${originXpx}px ${originYpx}px)`) in lockstep with the liquid wave front.
+  * **Authentic Ease-In Acceleration:** Applied a fluid quadratic ease-in curve ($\text{progress}^2$) with an optimal 840ms duration for responsive, fluid propagation.
 
 ---
 
-### DEC-029: Physically Grounded Liquid Optics & Chromatic Dispersion
+### DEC-029: Directional Sunbeam (315° Azimuth) & Chromatic Dispersion Liquid Ripple Shader
 * **Decision Makers:** User Directive
-* **Category:** Optical Physics & WebGL Shader Architecture
+* **Category:** Visual Physics & GLSL Shader Architecture
 * **Status:** Implemented & Verified
 * **The Context & Problem:**
-  While the unified single-point origin and ease-in acceleration resolved the mechanics, the liquid wave could be elevated into a photorealistic, museum-grade physical liquid simulation reflecting the romance of an alpine expedition journal.
+  A uniform circular glint around 360° looks flat and synthetic, lacking the physical reflection of real water illuminated by ambient light.
 * **The Decision:**
-  * **$315^\circ$ Directional Sunbeam:** Calculated 2D wave surface normals and modulated specular glint with the top-left sun vector ($\vec{N} \cdot \vec{L}_{\text{sun}}$), giving the wavecrest physical 3D spherical elevation.
-  * **Organic Micro-Turbulence:** Introduced sinusoidal angular harmonics (`sin(angle * 7.0 + time * 3.2)`) along the wavefront circumference to break sterile mathematical geometry and mimic real alpine spring water tension.
-  * **Prismatic Chromatic Dispersion:** Separated waveband harmonics across red, green, and blue wavelengths ($r \pm \delta$) to generate crystal caustic dispersion fringes along the water crest.
-  * **Volumetric Trough Shadow:** Rendered an ambient occlusion trough behind the leading crest, creating real volumetric depth.
-  * **Thematic Mineral Water Tints:** Bound destination-specific refraction tints (sunlit amber for Chat/Map, pine glacial teal for Trips, amethyst crystal for Scrapbook, campfire gold for Community).
+  * **315° Directional Sunbeam:** Calculated the 2D radial wave normal ($\vec{N} = \text{normalize}(\text{coord} - \text{center})$) and modulated specular intensity with the dot product against Trailmate's canonical top-left $315^\circ$ sunlight vector ($\vec{N} \cdot -\vec{L}$). The upper-left wave crest facing the light source catches a brilliant, crisp sun glint ($1.0\times$), while the opposite lee side retains a gentle ambient water reflection ($0.55\times$).
+  * **Chromatic Dispersion:** Implemented Cauchy's prismatic dispersion on the wave crest by slightly offsetting channel age ($\pm 0.024$). The leading edge reveals warm champagne-gold prismatic glints, diamond-white core crests, and aquatic cyan-violet trailing dispersion fringes.
 * **Why This Was Chosen:**
-  * Achieves lifelike optical fidelity with zero CPU overhead and 60 FPS performance on standard WebGL hardware.
+  * Delivers photorealistic water optical physics with zero external library overhead and 60 FPS performance.
 
 ---
 
