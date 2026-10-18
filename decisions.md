@@ -695,7 +695,7 @@ To maintain this standard while offering a high-performance **Scrapbook Studio**
     * Removed index coordinate tags (`#lblIndexCoords`) from the top header row, allowing the prominent destination selector and elevation pill to align harmoniously.
     * Removed destination expedition subtitle (`#lblDestSubTitle`) for a cleaner, bolder title presentation.
     * Replaced raw sight card coordinate numbers with clean curated category pills (`.map-card-tag-pill`) in the card footer.
-    * Simplified bottom scale datum card to `1:25,000 Topo Relief • Datum: GTS India 1878 • High Precision Topo Relief` without dynamic coordinate spam.
+    * Completely eliminated mock cartographic datum card and scale ruler text (`Datum: GTS India 1878 • High Precision Topo Relief`, `1:25,000 Topo Relief`), leaving an unobstructed bottom map canvas with the clean Elevation Gradient Profile neatly docked to the bottom right.
   * **Streamlined Layer Switcher:**
     * Pruned the `estate` tileLayer and removed the "Estate Wash" button, leaving a balanced dual segmented control: `[ Contours | Satellite ]`.
 * **Why This Was Chosen:**

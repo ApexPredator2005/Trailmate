@@ -692,19 +692,8 @@ export function renderMapView(container, { switchView, store }) {
           </button>
         </div>
 
-        <!-- Bottom Map HUD Widgets (Scale Datum & Elevation Graph) -->
+        <!-- Bottom Map HUD Widgets (Elevation Graph) -->
         <div class="map-canvas-bottom-hud">
-          <!-- Left: Scale & Topo Relief Datum -->
-          <div class="map-scale-datum-card">
-            <div class="map-scale-bar-row">
-              <span class="map-scale-ruler"></span>
-              <span>1:25,000 Topo Relief</span>
-            </div>
-            <div class="map-datum-text" id="lblMapDatumText">
-              Datum: GTS India 1878 • High Precision Topo Relief
-            </div>
-          </div>
-
           <!-- Right: Mini Elevation Gradient Profile Card -->
           <div class="map-elevation-graph-card">
             <div class="map-elev-header-row">
