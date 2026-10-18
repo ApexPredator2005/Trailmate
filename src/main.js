@@ -231,7 +231,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   async function switchView(viewName, meta = {}) {
-    if (viewName === currentActiveView) return;
+    if (viewName === currentActiveView || isTransitioning) return;
 
     if (pendingTransitionTimer) {
       clearTimeout(pendingTransitionTimer);

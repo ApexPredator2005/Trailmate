@@ -65,7 +65,8 @@ export class RippleDisplacementTransition {
       attribute vec2 aPos;
       varying vec2 vUv;
       void main() {
-        vUv = (aPos + 1.0) * 0.5;
+        // Map Y so 0.0 is at the TOP, exactly matching DOM coordinate system
+        vUv = vec2((aPos.x + 1.0) * 0.5, (1.0 - aPos.y) * 0.5);
         gl_Position = vec4(aPos, 0.0, 1.0);
       }
     `;
@@ -295,7 +296,7 @@ export class RippleDisplacementTransition {
       }
     }
 
-    const DURATION = 1050; // ms (relaxed, fluid liquid wave pacing)
+    const DURATION = 840; // ms (slightly faster, responsive & fluid)
     const startTime = performance.now();
 
     const animate = (time) => {
