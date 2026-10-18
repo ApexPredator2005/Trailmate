@@ -602,6 +602,7 @@ To maintain this standard while offering a high-performance **Scrapbook Studio**
 | **DEC-032** | Maps | Dynamic Multi-Destination Elevation Profiles & Typography Streamlining | User | Dynamic elevation curves for 15 destinations; removed coordinate clutter and obsolete estate wash layer |
 | **DEC-033** | Maps / Media | Multi-Photo Attraction Carousel & Audio Guide Elimination | User | Resolves 6 authentic photos per sight via inline card carousel & fullscreen modal; eliminated synthetic audio guide |
 | **DEC-034** | Maps | Dynamic Selected Attraction Focus Circle & Static Overlay Cleanup | User | Replaces static Ooty-only lake circle with a dynamic 550m expedition sage focus circle tracking the selected attraction across all 15 destinations |
+| **DEC-035** | Maps / Motion | 60 FPS Focus Reticle Coordinate Glide Engine & Zoom Jitter Elimination | User | Eliminates CSS transition fighting on Leaflet SVG during zoom; persistent L.circle with 60 FPS cubic ease-out coordinate interpolation and elastic breathing radius |
 
 ---
 
@@ -750,6 +751,25 @@ To maintain this standard while offering a high-performance **Scrapbook Studio**
     * Removed static map callout text nodes that were colliding with waypoint pin labels and popover cards, allowing the popover card to display title and elevation clearly without overlap.
 * **Why This Was Chosen:**
   * Transforms an isolated, hardcoded static illustration element into a responsive, universal geographic focus indicator that elevates spatial awareness for all destinations.
+
+---
+
+### DEC-035: 60 FPS Focus Reticle Coordinate Glide Engine & Zoom Jitter Elimination
+* **Decision Makers:** User Directive
+* **Category:** Geospatial UI, Render Kinematics & Zoom Physics
+* **Status:** Implemented & Verified (October 2026)
+* **The Context & Problem:**
+  1. **Zoom Jitter:** When zooming or pinch-zooming the map, the green selection focus circle jittered violently, jumping and lagging behind the map tiles. This was caused by CSS `transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1)` applied to `.map-selected-focus-circle`. When Leaflet updated the SVG `<path>` geometry (`d` attribute) on each zoom tick, the CSS transition actively delayed and tweened the path coordinates by 300ms, fighting Leaflet's matrix projections.
+  2. **Movement Stutter on Selection:** Selecting another attraction caused the circle to abruptly disappear and pop onto the new landmark because the previous layer was destroyed and recreated from scratch in 0ms, lacking any position interpolation while the camera flew over 800ms.
+* **The Decision:**
+  * **Elimination of Geometric CSS Transitions:** Replaced `transition: all` with strictly paint transitions (`transition: opacity 0.25s ease, fill-opacity 0.25s ease`), allowing Leaflet's SVG projection to scale and pan 100% rigidly with the map tiles without geometric fighting or lag during zoom.
+  * **Persistent Reticle Instance:** Retained a single persistent `L.circle` instance in `currentOverlaysGroup` rather than destroying and reconstructing it on every click.
+  * **60 FPS Coordinate Interpolation (`requestAnimationFrame`):**
+    * When switching attractions within the destination, interpolated `focusCircleInstance.setLatLng([curLat, curLng])` on every frame over 750ms using cubic ease-out (`easeOutCubic = t => 1 - Math.pow(1 - t, 3)`), running in exact lockstep with `safeMoveMap`'s 800ms camera flyTo.
+    * Added an elastic breathing radius curve (`Math.sin(progress * Math.PI) * 50m`), gently expanding the circle to 600m mid-flight and settling back at 550m as it docks onto the target landmark pin.
+    * Instant repositioning is preserved for cross-destination transitions (> 1.0 degree).
+* **Why This Was Chosen:**
+  * Cures 100% of zoom jitter and transforms selection into a fluid, physical 60 FPS reticle glide across the terrain.
 
 ---
 

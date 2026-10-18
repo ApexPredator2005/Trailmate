@@ -1095,30 +1095,85 @@ export function renderMapView(container, { switchView, store }) {
       // Ensure every attraction has authentic photos resolved
       displayedItems = displayedItems.map(item => resolveItemWithPhotos(item, activeDestKey));
 
-      // ── Dynamic Green Highlight Focus Circle for the Selected Attraction ──
-      function updateSelectedAttractionCircle(selectedItem) {
-        currentOverlaysGroup.clearLayers();
-        if (!selectedItem) return;
-        const lat = Number(selectedItem.lat);
-        const lng = Number(selectedItem.lng);
-        if (!Number.isFinite(lat) || !Number.isFinite(lng)) return;
+      // ── Persistent Focus Reticle & Smooth 60 FPS Glide Engine ──
+      let focusCircleInstance = null;
+      let focusAnimId = null;
 
-        L.circle([lat, lng], {
-          radius: 550,
-          color: '#5B8C7B',
-          weight: 1.5,
-          fillColor: '#5B8C7B',
-          fillOpacity: 0.16,
-          interactive: false,
-          className: 'map-selected-focus-circle',
-        }).addTo(currentOverlaysGroup);
+      function updateSelectedAttractionCircle(selectedItem, instant = false) {
+        if (!selectedItem) return;
+        const targetLat = Number(selectedItem.lat);
+        const targetLng = Number(selectedItem.lng);
+        if (!Number.isFinite(targetLat) || !Number.isFinite(targetLng)) return;
+
+        // If circle doesn't exist yet in current layer group, instantiate it
+        if (!focusCircleInstance || !currentOverlaysGroup.hasLayer(focusCircleInstance)) {
+          currentOverlaysGroup.clearLayers();
+          focusCircleInstance = L.circle([targetLat, targetLng], {
+            radius: 550,
+            color: '#5B8C7B',
+            weight: 1.5,
+            fillColor: '#5B8C7B',
+            fillOpacity: 0.16,
+            interactive: false,
+            className: 'map-selected-focus-circle',
+          }).addTo(currentOverlaysGroup);
+          return;
+        }
+
+        const startLatLng = focusCircleInstance.getLatLng();
+        const startLat = startLatLng.lat;
+        const startLng = startLatLng.lng;
+
+        const dist = Math.hypot(targetLat - startLat, targetLng - startLng);
+
+        // If already at target coordinate, no-op
+        if (dist < 0.00005) return;
+
+        // If instant requested or distance is huge (cross-city / cross-destination > 1.0 deg), snap directly
+        if (instant || dist > 1.0) {
+          if (focusAnimId) cancelAnimationFrame(focusAnimId);
+          focusCircleInstance.setLatLng([targetLat, targetLng]);
+          focusCircleInstance.setRadius(550);
+          return;
+        }
+
+        // Cancel running animation
+        if (focusAnimId) cancelAnimationFrame(focusAnimId);
+
+        // Smooth 60 FPS interpolation synchronized with safeMoveMap duration
+        const duration = 750; // ms
+        const startTime = performance.now();
+        const easeOut = t => 1 - Math.pow(1 - t, 3);
+
+        function animateGlide(now) {
+          const elapsed = now - startTime;
+          const progress = Math.min(elapsed / duration, 1);
+          const eased = easeOut(progress);
+
+          const curLat = startLat + (targetLat - startLat) * eased;
+          const curLng = startLng + (targetLng - startLng) * eased;
+          focusCircleInstance.setLatLng([curLat, curLng]);
+
+          // Subtle breathing radius curve (expands to 600m mid-flight and settles at 550m)
+          const radiusDelta = Math.sin(progress * Math.PI) * 50;
+          focusCircleInstance.setRadius(550 + radiusDelta);
+
+          if (progress < 1) {
+            focusAnimId = requestAnimationFrame(animateGlide);
+          } else {
+            focusCircleInstance.setRadius(550);
+            focusAnimId = null;
+          }
+        }
+
+        focusAnimId = requestAnimationFrame(animateGlide);
       }
       updateActiveFocusCircle = updateSelectedAttractionCircle;
 
       // Initialize focus circle on active attraction
       const initialSelectedItem = displayedItems[activeCardIndex] || displayedItems[0];
       if (initialSelectedItem) {
-        updateSelectedAttractionCircle(initialSelectedItem);
+        updateSelectedAttractionCircle(initialSelectedItem, true);
       }
 
       // ── Terracotta Polyline Connecting Day 1 Stops in Natural Circuit Order ──
