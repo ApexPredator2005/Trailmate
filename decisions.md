@@ -594,6 +594,7 @@ To maintain this standard while offering a high-performance **Scrapbook Studio**
 | **DEC-024** | Motion | Zero-Jank Fluid Shared-Element Morph & Layout Sequencing | User | Fixed compositor clone, scroll lock, height freeze, and staggered message mounting |
 | **DEC-025** | Motion | Viewport Anti-Clipping Geometry & Motion Polish Engine | User | Anti-clipping scroll guard, deterministic message deduplication, doodle cross-fades, and 3D page curl |
 | **DEC-026** | Motion | Continuous Single-Element FLIP Destination Morph | Joint | Single shared DOM node FLIP; simultaneous 3D translation & scale interpolation; locked container layout & anti-jitter handoff |
+| **DEC-027** | UI / Motion | Ripple Displacement Slider Screen Transitions | User | WebGL liquid ripple shockwave shader over #appMain for switching between chat, trips, scrapbook, map, community, and settings; 0KB runtime bloat; leaves sidebar untouched |
 
 ---
 

@@ -30,7 +30,9 @@ export class Sidebar {
         e.preventDefault();
         const view = item.dataset.view;
         this.setActiveView(view);
-        if (typeof this.onNavChange === 'function') this.onNavChange(view);
+        if (typeof this.onNavChange === 'function') {
+          this.onNavChange(view, { clickY: e.clientY, event: e });
+        }
       });
     });
   }

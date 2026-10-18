@@ -18,6 +18,7 @@ import { communityService }   from './services/CommunityService.js';
 import { getDestinationHeaderArt } from './components/HeaderDoodlesData.js';
 import { wallpaperManager }   from './services/WallpaperManager.js';
 import { renderLoginView }   from './views/LoginView.js';
+import { rippleDisplacement } from './components/RippleDisplacementTransition.js';
 
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -219,7 +220,17 @@ document.addEventListener('DOMContentLoaded', () => {
     communityWorkspaceView?.classList.remove('view-section-enter', 'view-section-exit');
   }
 
-  async function switchView(viewName) {
+  function getViewElement(viewName) {
+    switch (viewName) {
+      case 'chat': return splitChatView;
+      case 'scrapbook': return scrapbookView;
+      case 'map': return mapWorkspaceView;
+      case 'community': return communityWorkspaceView;
+      default: return fullViewSection;
+    }
+  }
+
+  async function switchView(viewName, meta = {}) {
     if (viewName === currentActiveView) return;
 
     if (pendingTransitionTimer) {
@@ -228,7 +239,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     clearTransitionClasses();
 
-    const previousView = currentActiveView;
+    const previousView = currentActiveView || 'chat';
     currentActiveView = viewName;
     if (sidebarInstance) sidebarInstance.setActiveView(viewName);
 
@@ -239,73 +250,29 @@ document.addEventListener('DOMContentLoaded', () => {
     } catch {}
 
     const reduced = isReducedMotion();
+    const clickY = meta?.clickY ?? null;
 
+    const outgoingElement = getViewElement(previousView);
+    const incomingElement = getViewElement(viewName);
+
+    // 1. Prepare target view contents & manage background wallpapers
     if (viewName === 'scrapbook') {
-      // Show full-screen Canva-like Scrapbook Studio
       wallpaperManager.pause();
-      splitChatView?.classList.add('hidden');
-      fullViewSection?.classList.add('hidden');
-      if (mapWorkspaceView) mapWorkspaceView.classList.add('hidden');
-      if (communityWorkspaceView) communityWorkspaceView.classList.add('hidden');
-      if (scrapbookView) scrapbookView.classList.remove('hidden');
-
       if (!scrapbookWorkspace) {
         const { ScrapbookWorkspace } = await import('./components/ScrapbookWorkspace.js');
         scrapbookWorkspace = new ScrapbookWorkspace({ containerId: 'scrapbookWorkspaceView' });
       } else {
         scrapbookWorkspace.render();
       }
-
-      if (reduced) return;
-
-      isTransitioning = true;
-      scrapbookView?.classList.add('view-section-enter');
-      pendingTransitionTimer = setTimeout(() => {
-        clearTransitionClasses();
-        isTransitioning = false;
-        pendingTransitionTimer = null;
-      }, 220);
-      return;
-    } else {
-      if (scrapbookView) scrapbookView.classList.add('hidden');
-    }
-
-    if (viewName === 'map') {
-      // Show full-screen interactive MapView covering all space right of sidebar
+    } else if (viewName === 'map') {
       wallpaperManager.pause();
-      splitChatView?.classList.add('hidden');
-      fullViewSection?.classList.add('hidden');
-      if (scrapbookView) scrapbookView.classList.add('hidden');
-      if (communityWorkspaceView) communityWorkspaceView.classList.add('hidden');
       if (mapWorkspaceView) {
-        mapWorkspaceView.classList.remove('hidden');
         const { renderMapView } = await import('./views/MapView.js');
         renderMapView(mapWorkspaceView, { switchView, store });
       }
-
-      if (reduced) return;
-
-      isTransitioning = true;
-      mapWorkspaceView?.classList.add('view-section-enter');
-      pendingTransitionTimer = setTimeout(() => {
-        clearTransitionClasses();
-        isTransitioning = false;
-        pendingTransitionTimer = null;
-      }, 220);
-      return;
-    } else {
-      if (mapWorkspaceView) mapWorkspaceView.classList.add('hidden');
-    }
-
-    if (viewName === 'community') {
-      // Show full-screen Community Hub, Quests & Badges
+    } else if (viewName === 'community') {
       wallpaperManager.pause();
-      splitChatView?.classList.add('hidden');
-      fullViewSection?.classList.add('hidden');
-      if (scrapbookView) scrapbookView.classList.add('hidden');
-      if (mapWorkspaceView) mapWorkspaceView.classList.add('hidden');
       if (communityWorkspaceView) {
-        communityWorkspaceView.classList.remove('hidden');
         const { renderCommunityView } = await import('./views/CommunityView.js');
         renderCommunityView(communityWorkspaceView, {
           switchView,
@@ -313,93 +280,47 @@ document.addEventListener('DOMContentLoaded', () => {
           openPassportModal,
         });
       }
-
-      if (reduced) return;
-
-      isTransitioning = true;
-      communityWorkspaceView?.classList.add('view-section-enter');
-      pendingTransitionTimer = setTimeout(() => {
-        clearTransitionClasses();
-        isTransitioning = false;
-        pendingTransitionTimer = null;
-      }, 220);
-      return;
-    } else {
-      if (communityWorkspaceView) communityWorkspaceView.classList.add('hidden');
-    }
-
-    if (viewName === 'chat') {
-      // Switching back to Chat
+    } else if (viewName === 'chat') {
       wallpaperManager.pause();
       if (fullViewScrollContainer) fullViewScrollContainer.scrollTop = 0;
-      if (splitChatView) splitChatView.classList.remove('hidden');
+    } else {
+      // FullView cards: trips, settings, guide, privacy, share
+      wallpaperManager.resume();
+      if (fullViewScrollContainer) fullViewScrollContainer.scrollTop = 0;
+      renderCardContent(viewName);
+    }
 
-      if (reduced) {
-        fullViewSection?.classList.add('hidden');
-        return;
-      }
+    if (reduced) {
+      // Reduced motion: immediate settlement
+      [splitChatView, fullViewSection, scrapbookView, mapWorkspaceView, communityWorkspaceView].forEach((el) => {
+        if (el && el !== incomingElement) el.classList.add('hidden');
+      });
+      incomingElement?.classList.remove('hidden');
+      return;
+    }
 
-      isTransitioning = true;
-      fullViewSection?.classList.add('view-section-exit');
-      splitChatView?.classList.add('view-section-enter');
-
-      pendingTransitionTimer = setTimeout(() => {
-        fullViewSection?.classList.add('hidden');
+    // 2. Trigger VengeanceUI-style Ripple Displacement Slider Transition
+    isTransitioning = true;
+    rippleDisplacement.transition({
+      currentView: previousView,
+      nextView: viewName,
+      clickY,
+      incomingElement,
+      outgoingElement,
+      onComplete: () => {
+        [splitChatView, fullViewSection, scrapbookView, mapWorkspaceView, communityWorkspaceView].forEach((el) => {
+          if (el && el !== incomingElement) el.classList.add('hidden');
+        });
+        incomingElement?.classList.remove('hidden');
         clearTransitionClasses();
         isTransitioning = false;
-        pendingTransitionTimer = null;
-      }, 190);
-
-    } else {
-      // Switching to a standard FullView section (settings, trips, guide, privacy, share)
-      wallpaperManager.resume();
-      if (fullViewSection) fullViewSection.classList.remove('hidden');
-      if (fullViewScrollContainer) fullViewScrollContainer.scrollTop = 0;
-
-      const isSubNav = previousView !== 'chat' && previousView !== null && previousView !== 'scrapbook' && previousView !== 'map';
-
-      if (isSubNav) {
-        // Instant calm cross-fade between subviews (Trips <-> Settings)
-        renderCardContent(viewName);
-        splitChatView?.classList.add('hidden');
-        if (reduced) return;
-
-        isTransitioning = true;
-        fullViewCard?.classList.add('view-card-sub-swap');
-
-        pendingTransitionTimer = setTimeout(() => {
-          clearTransitionClasses();
-          isTransitioning = false;
-          pendingTransitionTimer = null;
-        }, 190);
-
-      } else {
-        // Switching from Chat to FullView
-        renderCardContent(viewName);
-
-        if (reduced) {
-          splitChatView?.classList.add('hidden');
-          return;
-        }
-
-        isTransitioning = true;
-        splitChatView?.classList.add('view-section-exit');
-        fullViewBackground?.classList.add('view-section-enter');
-        fullViewCard?.classList.add('view-card-stagger-in');
-
-        pendingTransitionTimer = setTimeout(() => {
-          splitChatView?.classList.add('hidden');
-          clearTransitionClasses();
-          isTransitioning = false;
-          pendingTransitionTimer = null;
-        }, 220);
-      }
-    }
+      },
+    });
   }
 
   if (btnFullViewClose) {
-    btnFullViewClose.addEventListener('click', () => {
-      switchView('chat');
+    btnFullViewClose.addEventListener('click', (e) => {
+      switchView('chat', { clickY: e.clientY });
     });
   }
 
@@ -411,8 +332,8 @@ document.addEventListener('DOMContentLoaded', () => {
       engine.sendWelcome();
       switchView('chat');
     },
-    onNavChange: (view) => {
-      switchView(view);
+    onNavChange: (view, meta) => {
+      switchView(view, meta);
     },
   });
 
