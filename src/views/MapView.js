@@ -1335,7 +1335,6 @@ export function renderMapView(container, { switchView, store }) {
 
           return `
             <div class="map-card-wrapper" data-idx="${idx}">
-              ${isStop1 ? `<div class="map-current-focus-tag">CURRENT FOCUS</div>` : ''}
               <div class="map-sight-card ${idx === activeCardIndex ? 'active' : ''}" data-idx="${idx}">
                 <!-- Photo Banner with Inline Slider & Fullscreen Gallery Trigger -->
                 <div class="map-card-photo-hero" data-action="open-gallery" title="Click to view all ${photoCount} photos">
