@@ -124,8 +124,16 @@ export class ScrapbookWorkspace {
       if (saved) {
         const parsed = JSON.parse(saved);
         if (Array.isArray(parsed) && parsed.length > 0) {
-          parsed.forEach((p) => {
-            if (p.title) p.title = p.title.replace(/^✨\s*DEMO:\s*/i, '');
+          parsed.forEach((p, idx) => {
+            if (p.title) {
+              p.title = p.title.replace(/^✨\s*DEMO:\s*/i, '');
+              // Heal incomplete or truncated page titles (e.g. "Expedition Journal — Page" without number, or "Expedition Journal — P")
+              if (/^Expedition Journal\s*—\s*(Page\s*)?$/i.test(p.title) || /^Expedition Journal\s*—\s*P$/i.test(p.title)) {
+                p.title = `Expedition Journal — Page ${idx + 1}`;
+              }
+            } else {
+              p.title = `Expedition Journal — Page ${idx + 1}`;
+            }
           });
           return parsed;
         }
@@ -344,9 +352,16 @@ export class ScrapbookWorkspace {
         
         <!-- Top Toolbar (Minimalist Title & Export Bar) -->
         <header class="scrapbook-top-bar">
-          <div class="flex items-center gap-2">
-            <span class="material-symbols-outlined text-secondary text-2xl">auto_awesome_mosaic</span>
-            <input type="text" class="scrapbook-title-input" id="scrapbookPageTitle" value="${page.title || 'Travel Scrapbook'}" title="Click to rename page" />
+          <div class="flex items-center gap-2 min-w-0">
+            <span class="material-symbols-outlined text-secondary text-2xl shrink-0">auto_awesome_mosaic</span>
+            <input
+              type="text"
+              class="scrapbook-title-input"
+              id="scrapbookPageTitle"
+              value="${(page.title || `Expedition Journal — Page ${this.activePageIndex + 1}`).replace(/"/g, '&quot;')}"
+              size="${Math.max(28, (page.title || `Expedition Journal — Page ${this.activePageIndex + 1}`).length + 2)}"
+              title="Click to rename page"
+            />
           </div>
 
           <!-- Center: Page Controls -->
@@ -2945,11 +2960,18 @@ export class ScrapbookWorkspace {
   _bindDynamicHandlers() {
     // Title input
     const titleInput = this.container.querySelector('#scrapbookPageTitle');
-    titleInput?.addEventListener('input', (e) => {
-      const page = this.getCurrentPage();
-      page.title = e.target.value;
-      this._savePages();
-    });
+    if (titleInput) {
+      const syncInputWidth = () => {
+        titleInput.size = Math.max(28, (titleInput.value || '').length + 2);
+      };
+      syncInputWidth();
+      titleInput.addEventListener('input', (e) => {
+        const page = this.getCurrentPage();
+        page.title = e.target.value;
+        syncInputWidth();
+        this._savePages();
+      });
+    }
 
     // Format selection
     this.container.querySelectorAll('[data-format]').forEach((btn) => {

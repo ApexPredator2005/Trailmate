@@ -29,19 +29,24 @@
 
 .scrapbook-title-input {
   background: transparent;
-  border: none;
+  border: 1px solid transparent;
   font-family: 'Noto Serif', serif;
   font-size: 15px;
   font-weight: 700;
   color: #1b1c1a;
   padding: 4px 8px;
   border-radius: 8px;
-  transition: background 0.15s ease;
+  min-width: 260px;
+  max-width: 440px;
+  width: auto;
+  field-sizing: content;
+  transition: background 0.15s ease, border-color 0.15s ease;
 }
 
 .scrapbook-title-input:hover,
 .scrapbook-title-input:focus {
   background: #ebe5dc;
+  border-color: rgba(196, 112, 61, 0.2);
   outline: none;
 }
 
