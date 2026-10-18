@@ -723,7 +723,9 @@ export function renderMapView(container, { switchView, store }) {
                 <span class="material-symbols-outlined text-[16px] text-[#C4703D] mr-2 shrink-0">search</span>
                 <div id="mapGooeyIdleLabel" class="map-gooey-idle-label">
                   <span class="text-xs font-semibold text-[#1E3A34]">Search 14 sights...</span>
-                  <span class="map-gooey-cmd-k">⌘K</span>
+                  <span class="map-gooey-arrow-badge" title="Search landmarks">
+                    <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+                  </span>
                 </div>
                 <input 
                   type="text" 

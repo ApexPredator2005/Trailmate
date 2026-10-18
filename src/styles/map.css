@@ -383,15 +383,28 @@
   pointer-events: none;
 }
 
-.map-gooey-cmd-k {
-  font-size: 9px;
-  font-family: var(--font-mono, monospace);
-  font-weight: 700;
+.map-gooey-arrow-badge {
+  width: 24px;
+  height: 24px;
+  border-radius: 9999px;
   background: #F4EFEA;
   color: #7A756D;
   border: 1px solid #E5E0D8;
-  padding: 1.5px 5px;
-  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1),
+              background-color 0.2s ease,
+              color 0.2s ease,
+              border-color 0.2s ease;
+  flex-shrink: 0;
+}
+
+.map-gooey-search-wrapper.is-idle:hover .map-gooey-arrow-badge {
+  transform: translateX(2px);
+  background: #EFE8DF;
+  color: #C4703D;
+  border-color: #D8D1C7;
 }
 
 .map-gooey-input-box {
