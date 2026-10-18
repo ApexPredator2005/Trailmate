@@ -754,22 +754,22 @@ To maintain this standard while offering a high-performance **Scrapbook Studio**
 
 ---
 
-### DEC-035: 60 FPS Focus Reticle Coordinate Glide Engine & Zoom Jitter Elimination
+### DEC-035: Smooth Dissolve & Re-emerge Selection Reticle & Zero Zoom Jitter Architecture
 * **Decision Makers:** User Directive
 * **Category:** Geospatial UI, Render Kinematics & Zoom Physics
 * **Status:** Implemented & Verified (October 2026)
 * **The Context & Problem:**
   1. **Zoom Jitter:** When zooming or pinch-zooming the map, the green selection focus circle jittered violently, jumping and lagging behind the map tiles. This was caused by CSS `transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1)` applied to `.map-selected-focus-circle`. When Leaflet updated the SVG `<path>` geometry (`d` attribute) on each zoom tick, the CSS transition actively delayed and tweened the path coordinates by 300ms, fighting Leaflet's matrix projections.
-  2. **Movement Stutter on Selection:** Selecting another attraction caused the circle to abruptly disappear and pop onto the new landmark because the previous layer was destroyed and recreated from scratch in 0ms, lacking any position interpolation while the camera flew over 800ms.
+  2. **Selection Jitter:** When selecting another attraction, the focus circle abruptly snapped, disappeared, or lagged in a jarring manner because coordinate changes and camera acceleration occurred simultaneously while the element was still partially visible or being destroyed mid-flight.
 * **The Decision:**
-  * **Elimination of Geometric CSS Transitions:** Replaced `transition: all` with strictly paint transitions (`transition: opacity 0.25s ease, fill-opacity 0.25s ease`), allowing Leaflet's SVG projection to scale and pan 100% rigidly with the map tiles without geometric fighting or lag during zoom.
-  * **Persistent Reticle Instance:** Retained a single persistent `L.circle` instance in `currentOverlaysGroup` rather than destroying and reconstructing it on every click.
-  * **60 FPS Coordinate Interpolation (`requestAnimationFrame`):**
-    * When switching attractions within the destination, interpolated `focusCircleInstance.setLatLng([curLat, curLng])` on every frame over 750ms using cubic ease-out (`easeOutCubic = t => 1 - Math.pow(1 - t, 3)`), running in exact lockstep with `safeMoveMap`'s 800ms camera flyTo.
-    * Added an elastic breathing radius curve (`Math.sin(progress * Math.PI) * 50m`), gently expanding the circle to 600m mid-flight and settling back at 550m as it docks onto the target landmark pin.
-    * Instant repositioning is preserved for cross-destination transitions (> 1.0 degree).
+  * **Zero Zoom Jitter (Paint-Only Transitions):** Removed all geometric CSS transitions and restricted `.map-selected-focus-circle` strictly to opacity (`transition: opacity 0.22s cubic-bezier(0.16, 1, 0.3, 1), stroke-opacity 0.22s, fill-opacity 0.22s`). Leaflet's SVG projection scales and pans 100% rigidly with map tiles during zoom with zero lag or jitter.
+  * **Smooth Dissolve & Re-emerge Lifecycle:**
+    1. **Fade Out at Previous Landmark (200ms):** When a new attraction is selected, `.circle-hidden` is added to the SVG path, smoothly dissolving the circle at the old location (`opacity: 1 -> 0`).
+    2. **Silent Repositioning:** At 200ms, while the circle is completely invisible (`opacity: 0`), its LatLng coordinate is updated to the newly selected attraction via `setLatLng()`. Because the element is invisible during the coordinate shift, there is zero coordinate jumping, path tearing, or flicker.
+    3. **Graceful Bloom at New Landmark (220ms):** `.circle-hidden` is removed, allowing the green focus halo to smoothly bloom and fade in directly centered on the new landmark pin as the camera arrives.
+  * **Cancellation Safety:** If the traveler rapidly clicks another card within 200ms, `clearTimeout(focusTransitionTimer)` immediately cancels pending timers, ensuring rock-solid state synchronization without queue buildup.
 * **Why This Was Chosen:**
-  * Cures 100% of zoom jitter and transforms selection into a fluid, physical 60 FPS reticle glide across the terrain.
+  * Delivers a calm, cinematic dissolve and reappear transition that respects physical camera motion and eliminates 100% of visual jitter during selection and zooming.
 
 ---
 

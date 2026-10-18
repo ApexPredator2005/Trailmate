@@ -1095,9 +1095,9 @@ export function renderMapView(container, { switchView, store }) {
       // Ensure every attraction has authentic photos resolved
       displayedItems = displayedItems.map(item => resolveItemWithPhotos(item, activeDestKey));
 
-      // ── Persistent Focus Reticle & Smooth 60 FPS Glide Engine ──
+      // ── Persistent Focus Reticle with Smooth Dissolve & Re-emerge Transition ──
       let focusCircleInstance = null;
-      let focusAnimId = null;
+      let focusTransitionTimer = null;
 
       function updateSelectedAttractionCircle(selectedItem, instant = false) {
         if (!selectedItem) return;
@@ -1105,7 +1105,7 @@ export function renderMapView(container, { switchView, store }) {
         const targetLng = Number(selectedItem.lng);
         if (!Number.isFinite(targetLat) || !Number.isFinite(targetLng)) return;
 
-        // If circle doesn't exist yet in current layer group, instantiate it
+        // If circle doesn't exist yet, instantiate it at target coordinate
         if (!focusCircleInstance || !currentOverlaysGroup.hasLayer(focusCircleInstance)) {
           currentOverlaysGroup.clearLayers();
           focusCircleInstance = L.circle([targetLat, targetLng], {
@@ -1121,52 +1121,41 @@ export function renderMapView(container, { switchView, store }) {
         }
 
         const startLatLng = focusCircleInstance.getLatLng();
-        const startLat = startLatLng.lat;
-        const startLng = startLatLng.lng;
+        const dist = Math.hypot(targetLat - startLatLng.lat, targetLng - startLatLng.lng);
 
-        const dist = Math.hypot(targetLat - startLat, targetLng - startLng);
-
-        // If already at target coordinate, no-op
+        // If already at target coordinate (< 5 meters), no-op
         if (dist < 0.00005) return;
 
-        // If instant requested or distance is huge (cross-city / cross-destination > 1.0 deg), snap directly
+        if (focusTransitionTimer) {
+          clearTimeout(focusTransitionTimer);
+          focusTransitionTimer = null;
+        }
+
+        // Instant repositioning (initial load, or cross-city destination switch)
         if (instant || dist > 1.0) {
-          if (focusAnimId) cancelAnimationFrame(focusAnimId);
           focusCircleInstance.setLatLng([targetLat, targetLng]);
-          focusCircleInstance.setRadius(550);
+          const el = focusCircleInstance.getElement();
+          if (el) el.classList.remove('circle-hidden');
           return;
         }
 
-        // Cancel running animation
-        if (focusAnimId) cancelAnimationFrame(focusAnimId);
+        // Smooth Disappear (Fade-Out) -> Re-position -> Reappear (Fade-In)
+        const el = focusCircleInstance.getElement();
+        if (el) {
+          // 1. Smoothly fade out at old location (200ms)
+          el.classList.add('circle-hidden');
 
-        // Smooth 60 FPS interpolation synchronized with safeMoveMap duration
-        const duration = 750; // ms
-        const startTime = performance.now();
-        const easeOut = t => 1 - Math.pow(1 - t, 3);
-
-        function animateGlide(now) {
-          const elapsed = now - startTime;
-          const progress = Math.min(elapsed / duration, 1);
-          const eased = easeOut(progress);
-
-          const curLat = startLat + (targetLat - startLat) * eased;
-          const curLng = startLng + (targetLng - startLng) * eased;
-          focusCircleInstance.setLatLng([curLat, curLng]);
-
-          // Subtle breathing radius curve (expands to 600m mid-flight and settles at 550m)
-          const radiusDelta = Math.sin(progress * Math.PI) * 50;
-          focusCircleInstance.setRadius(550 + radiusDelta);
-
-          if (progress < 1) {
-            focusAnimId = requestAnimationFrame(animateGlide);
-          } else {
-            focusCircleInstance.setRadius(550);
-            focusAnimId = null;
-          }
+          // 2. While completely invisible, update coordinates and smoothly bloom back in
+          focusTransitionTimer = setTimeout(() => {
+            focusCircleInstance.setLatLng([targetLat, targetLng]);
+            requestAnimationFrame(() => {
+              el.classList.remove('circle-hidden');
+            });
+            focusTransitionTimer = null;
+          }, 200);
+        } else {
+          focusCircleInstance.setLatLng([targetLat, targetLng]);
         }
-
-        focusAnimId = requestAnimationFrame(animateGlide);
       }
       updateActiveFocusCircle = updateSelectedAttractionCircle;
 

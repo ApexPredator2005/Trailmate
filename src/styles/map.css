@@ -1047,7 +1047,16 @@
 /* Dynamic Selected Attraction Focus Circle */
 .map-selected-focus-circle {
   pointer-events: none;
-  transition: opacity 0.25s ease, fill-opacity 0.25s ease;
+  transition: opacity 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+              stroke-opacity 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+              fill-opacity 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity;
+}
+
+.map-selected-focus-circle.circle-hidden {
+  opacity: 0 !important;
+  stroke-opacity: 0 !important;
+  fill-opacity: 0 !important;
 }
 
 /* Secondary Non-Route Photo Pin Marker */
