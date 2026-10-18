@@ -587,7 +587,7 @@
   position: absolute;
   bottom: 8px;
   right: 8px;
-  background: rgba(18, 24, 22, 0.78);
+  background: rgba(18, 24, 22, 0.82);
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
   color: #FFFFFF;
@@ -600,11 +600,83 @@
   align-items: center;
   gap: 4px;
   cursor: pointer;
-  transition: background 0.15s ease;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  z-index: 5;
+  transition: all 0.15s ease;
 }
 
 .map-photo-tag-right:hover {
-  background: rgba(18, 24, 22, 0.95);
+  background: #C4703D;
+  border-color: #C4703D;
+  transform: scale(1.04);
+}
+
+/* Card Hero Slide Navigation (Left & Right Chevrons) */
+.map-card-slide-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: rgba(20, 16, 12, 0.75);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  color: #FFFFFF;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  opacity: 0;
+  transition: opacity 0.2s ease, background 0.15s ease, transform 0.15s ease;
+}
+
+.map-card-photo-hero:hover .map-card-slide-nav {
+  opacity: 1;
+}
+
+.map-card-slide-prev {
+  left: 6px;
+}
+
+.map-card-slide-next {
+  right: 6px;
+}
+
+.map-card-slide-nav:hover {
+  background: #C4703D;
+  border-color: #C4703D;
+  transform: translateY(-50%) scale(1.12);
+}
+
+/* Slide Indicator Dots on Card Hero */
+.map-card-slide-dots {
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  z-index: 6;
+  pointer-events: none;
+}
+
+.map-card-slide-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.55);
+  transition: all 0.2s ease;
+}
+
+.map-card-slide-dot.active {
+  width: 12px;
+  border-radius: 9999px;
+  background: #C4703D;
+  box-shadow: 0 0 4px rgba(196, 112, 61, 0.8);
 }
 
 /* Card Body Content */
@@ -1153,13 +1225,65 @@
   border-radius: 12px;
 }
 
-.map-popover-thumb {
+.map-popover-thumb-wrap {
+  position: relative;
   width: 48px;
   height: 48px;
-  border-radius: 8px;
-  object-fit: cover;
   flex-shrink: 0;
+  border-radius: 8px;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.map-popover-thumb {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
   background: #EAE5DC;
+  transition: transform 0.2s ease;
+}
+
+.map-popover-thumb-wrap:hover .map-popover-thumb {
+  transform: scale(1.08);
+}
+
+.map-popover-photo-pill {
+  position: absolute;
+  bottom: 2px;
+  right: 2px;
+  background: rgba(18, 24, 22, 0.85);
+  color: #FFFFFF;
+  font-size: 8px;
+  font-family: var(--font-mono, monospace);
+  font-weight: 700;
+  padding: 1px 4px;
+  border-radius: 9999px;
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  border: 0.5px solid rgba(255, 255, 255, 0.35);
+  line-height: 1;
+}
+
+.map-popover-gallery-btn {
+  font-size: 9px;
+  font-family: var(--font-mono, monospace);
+  font-weight: 700;
+  color: #C4703D;
+  background: transparent;
+  border: none;
+  padding: 2px 0 0;
+  cursor: pointer;
+  text-align: left;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  transition: color 0.15s ease;
+}
+
+.map-popover-gallery-btn:hover {
+  color: #944A1A;
+  text-decoration: underline;
 }
 
 .map-popover-info {

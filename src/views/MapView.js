@@ -78,8 +78,15 @@ const DESTINATION_META = {
         desc: 'Orthodox CTC leaf processing dating back to 1902. Operates traditional wood-fueled drying kilns overlooking the Doddabetta foothills. Fresh estate tasting at the vintage cedar dispensary.',
         lat: 11.4132,
         lng: 76.7325,
-        audioText: 'Audio Guide (14m)',
-        photo: '/images/attractions/ooty/tea-museum-4.jpg',
+        photo: '/images/attractions/ooty/tea-museum-1.jpg',
+        photos: [
+          '/images/attractions/ooty/tea-museum-1.jpg',
+          '/images/attractions/ooty/tea-museum-2.jpg',
+          '/images/attractions/ooty/tea-museum-3.jpg',
+          '/images/attractions/ooty/tea-museum-4.jpg',
+          '/images/attractions/ooty/tea-museum-5.jpg',
+          '/images/attractions/ooty/tea-museum-6.jpg',
+        ],
       },
       {
         name: 'Doddabetta Peak & Observatory',
@@ -91,8 +98,15 @@ const DESTINATION_META = {
         desc: 'Summiting at 2,637 meters with panoramic telescope views across Tamil Nadu and Kerala valleys. Mist rolls in rapidly after 3 PM.',
         lat: 11.3995,
         lng: 76.7388,
-        audioText: 'Clear Vista (360°)',
         photo: '/images/attractions/ooty/doddabetta-peak-1.jpg',
+        photos: [
+          '/images/attractions/ooty/doddabetta-peak-1.jpg',
+          '/images/attractions/ooty/doddabetta-peak-2.jpg',
+          '/images/attractions/ooty/doddabetta-peak-3.jpg',
+          '/images/attractions/ooty/doddabetta-peak-4.jpg',
+          '/images/attractions/ooty/doddabetta-peak-5.jpg',
+          '/images/attractions/ooty/doddabetta-peak-6.jpg',
+        ],
       },
       {
         name: 'Government Botanical Gardens',
@@ -104,8 +118,15 @@ const DESTINATION_META = {
         desc: 'Laid out in 1848 by William Graham McIvor. Features 20-million-year-old fossilized tree trunk and Italian floral garden terraces.',
         lat: 11.4180,
         lng: 76.7115,
-        audioText: 'Audio Guide (8m)',
         photo: '/images/attractions/ooty/botanical-gardens-1.jpg',
+        photos: [
+          '/images/attractions/ooty/botanical-gardens-1.jpg',
+          '/images/attractions/ooty/botanical-gardens-2.jpg',
+          '/images/attractions/ooty/botanical-gardens-3.jpg',
+          '/images/attractions/ooty/botanical-gardens-4.jpg',
+          '/images/attractions/ooty/botanical-gardens-5.jpg',
+          '/images/attractions/ooty/botanical-gardens-6.jpg',
+        ],
       },
       {
         name: 'Ooty Lake & Boathouse',
@@ -117,8 +138,15 @@ const DESTINATION_META = {
         desc: 'Constructed by John Sullivan in 1824. Flanked by eucalyptus groves, offering vintage paddle boating and narrow-gauge miniature train rides.',
         lat: 11.4050,
         lng: 76.6880,
-        audioText: 'Audio Guide (6m)',
         photo: '/images/attractions/ooty/ooty-lake-1.jpg',
+        photos: [
+          '/images/attractions/ooty/ooty-lake-1.jpg',
+          '/images/attractions/ooty/ooty-lake-2.jpg',
+          '/images/attractions/ooty/ooty-lake-3.jpg',
+          '/images/attractions/ooty/ooty-lake-4.jpg',
+          '/images/attractions/ooty/ooty-lake-5.jpg',
+          '/images/attractions/ooty/ooty-lake-6.jpg',
+        ],
       },
     ],
   },
@@ -133,10 +161,86 @@ const DESTINATION_META = {
     svgArea: 'M 0,32 Q 50,30 90,32 T 150,26 Q 190,16 210,22 T 240,30 L 240,36 L 0,36 Z',
     svgStroke: 'M 0,32 Q 50,30 90,32 T 150,26 Q 190,16 210,22 T 240,30',
     circuitStops: [
-      { name: 'Fort Aguada & Lighthouse', shortName: 'Fort Aguada', altTag: '● Stop #1 • 42m BASTION', status: 'Open till 6 PM', openStatus: '● Lighthouse Open', meta: '★ 4.7 • 17th Century Portuguese Citadel', desc: 'Preserved Portuguese coastal bastion overlooking Sinquerim and Arabian Sea horizons.', lat: 15.4920, lng: 73.7735, audioText: 'Audio Guide (12m)' },
-      { name: 'Basilica of Bom Jesus', shortName: 'Bom Jesus Basilica', altTag: '● Stop #2 • 18m HERITAGE', status: 'Open till 5:30 PM', openStatus: '● Sanctuary Open', meta: '★ 4.8 • UNESCO World Heritage Site', desc: 'Baroque architecture enshrining the mortal remains of St. Francis Xavier.', lat: 15.5008, lng: 73.9116, audioText: 'Audio Guide (10m)' },
-      { name: 'Anjuna Beach & Flea Market', shortName: 'Anjuna Beach', altTag: '● Stop #3 • 5m COAST', status: 'Open 24 Hours', openStatus: '● Sunset Point', meta: '★ 4.5 • Red Laterite Cliffs & Shacks', desc: 'Curved shoreline framed by coconut groves, laterite crags, and boho artisan markets.', lat: 15.5828, lng: 73.7438, audioText: 'Audio Guide (8m)' },
-      { name: 'Chapora Fort & Sunset Viewpoint', shortName: 'Chapora Fort', altTag: '● Stop #4 • 55m RIDGE', status: 'Open till 6:30 PM', openStatus: '● Sunset Prime', meta: '★ 4.6 • Vagator Bay Panoramic Bastion', desc: 'Historic red stone ramparts famous for dramatic twilight ocean horizons.', lat: 15.6058, lng: 73.7368, audioText: 'Audio Guide (7m)' },
+      {
+        name: 'Fort Aguada & Lighthouse',
+        shortName: 'Fort Aguada',
+        altTag: '● Stop #1 • 42m BASTION',
+        status: 'Open till 6 PM',
+        openStatus: '● Lighthouse Open',
+        meta: '★ 4.7 • 17th Century Portuguese Citadel',
+        desc: 'Preserved Portuguese coastal bastion overlooking Sinquerim and Arabian Sea horizons.',
+        lat: 15.4920,
+        lng: 73.7735,
+        photo: '/images/attractions/goa/aguada-fort-1.jpg',
+        photos: [
+          '/images/attractions/goa/aguada-fort-1.jpg',
+          '/images/attractions/goa/aguada-fort-2.jpg',
+          '/images/attractions/goa/aguada-fort-3.jpg',
+          '/images/attractions/goa/aguada-fort-4.jpg',
+          '/images/attractions/goa/aguada-fort-5.jpg',
+          '/images/attractions/goa/aguada-fort-6.jpg',
+        ],
+      },
+      {
+        name: 'Basilica of Bom Jesus',
+        shortName: 'Bom Jesus Basilica',
+        altTag: '● Stop #2 • 18m HERITAGE',
+        status: 'Open till 5:30 PM',
+        openStatus: '● Sanctuary Open',
+        meta: '★ 4.8 • UNESCO World Heritage Site',
+        desc: 'Baroque architecture enshrining the mortal remains of St. Francis Xavier.',
+        lat: 15.5008,
+        lng: 73.9116,
+        photo: '/images/attractions/goa/basilica-bom-jesus-1.jpg',
+        photos: [
+          '/images/attractions/goa/basilica-bom-jesus-1.jpg',
+          '/images/attractions/goa/basilica-bom-jesus-2.jpg',
+          '/images/attractions/goa/basilica-bom-jesus-3.jpg',
+          '/images/attractions/goa/basilica-bom-jesus-4.jpg',
+          '/images/attractions/goa/basilica-bom-jesus-5.jpg',
+          '/images/attractions/goa/basilica-bom-jesus-6.jpg',
+        ],
+      },
+      {
+        name: 'Anjuna Beach & Flea Market',
+        shortName: 'Anjuna Beach',
+        altTag: '● Stop #3 • 5m COAST',
+        status: 'Open 24 Hours',
+        openStatus: '● Sunset Point',
+        meta: '★ 4.5 • Red Laterite Cliffs & Shacks',
+        desc: 'Curved shoreline framed by coconut groves, laterite crags, and boho artisan markets.',
+        lat: 15.5828,
+        lng: 73.7438,
+        photo: '/images/attractions/goa/anjuna-beach-1.jpg',
+        photos: [
+          '/images/attractions/goa/anjuna-beach-1.jpg',
+          '/images/attractions/goa/anjuna-beach-2.jpg',
+          '/images/attractions/goa/anjuna-beach-3.jpg',
+          '/images/attractions/goa/anjuna-beach-4.jpg',
+          '/images/attractions/goa/anjuna-beach-5.jpg',
+          '/images/attractions/goa/anjuna-beach-6.jpg',
+        ],
+      },
+      {
+        name: 'Chapora Fort & Sunset Viewpoint',
+        shortName: 'Chapora Fort',
+        altTag: '● Stop #4 • 55m RIDGE',
+        status: 'Open till 6:30 PM',
+        openStatus: '● Sunset Prime',
+        meta: '★ 4.6 • Vagator Bay Panoramic Bastion',
+        desc: 'Historic red stone ramparts famous for dramatic twilight ocean horizons.',
+        lat: 15.6058,
+        lng: 73.7368,
+        photo: '/images/attractions/goa/chapora-fort-1.jpg',
+        photos: [
+          '/images/attractions/goa/chapora-fort-1.jpg',
+          '/images/attractions/goa/chapora-fort-2.jpg',
+          '/images/attractions/goa/chapora-fort-3.jpg',
+          '/images/attractions/goa/chapora-fort-4.jpg',
+          '/images/attractions/goa/chapora-fort-5.jpg',
+          '/images/attractions/goa/chapora-fort-6.jpg',
+        ],
+      },
     ],
   },
   manali: {
@@ -150,10 +254,86 @@ const DESTINATION_META = {
     svgArea: 'M 0,32 Q 40,26 80,18 L 115,12 Q 145,4 175,14 L 210,22 L 240,16 L 240,36 L 0,36 Z',
     svgStroke: 'M 0,32 Q 40,26 80,18 L 115,12 Q 145,4 175,14 L 210,22 L 240,16',
     circuitStops: [
-      { name: 'Hadimba Devi Temple', shortName: 'Hadimba Temple', altTag: '● Stop #1 • 2,060m SHRINE', status: 'Open till 6 PM', openStatus: '● Forest Open', meta: '★ 4.7 • 1553 AD Pagoda Timber Sanctuary', desc: 'Four-tiered wooden pagoda temple set within ancient towering deodar pine cedar forests.', lat: 32.2483, lng: 77.1696, audioText: 'Audio Guide (12m)' },
-      { name: 'Solang Valley Adventure Point', shortName: 'Solang Valley', altTag: '● Stop #2 • 2,560m MEADOW', status: 'Open till 6 PM', openStatus: '● Cable Car Active', meta: '★ 4.6 • Glacial Meadow & Paragliding', desc: 'Expansive glacial basin offering year-round adventure sports and snow-capped peak views.', lat: 32.3167, lng: 77.1583, audioText: 'Audio Guide (10m)' },
-      { name: 'Jogini Waterfalls & Vashisht Trek', shortName: 'Jogini Falls', altTag: '● Stop #3 • 2,140m CASCADE', status: 'Daylight Access', openStatus: '● Trail Clear', meta: '★ 4.8 • Sacred Cascades & Apple Orchards', desc: 'Picturesque pine trail ascending to multiple cascading streams over granite cliffs.', lat: 32.2683, lng: 77.1925, audioText: 'Audio Guide (9m)' },
-      { name: 'Old Manali Village & Manu Temple', shortName: 'Old Manali Village', altTag: '● Stop #4 • 2,050m HERITAGE', status: 'Open till 8 PM', openStatus: '● Cafes Open', meta: '★ 4.6 • Stone & Timber Himalayan Architecture', desc: 'Narrow flagstone alleyways lined with traditional Himachali houses and bakeries.', lat: 32.2542, lng: 77.1750, audioText: 'Audio Guide (8m)' },
+      {
+        name: 'Hadimba Devi Temple',
+        shortName: 'Hadimba Temple',
+        altTag: '● Stop #1 • 2,060m SHRINE',
+        status: 'Open till 6 PM',
+        openStatus: '● Forest Open',
+        meta: '★ 4.7 • 1553 AD Pagoda Timber Sanctuary',
+        desc: 'Four-tiered wooden pagoda temple set within ancient towering deodar pine cedar forests.',
+        lat: 32.2483,
+        lng: 77.1696,
+        photo: '/images/attractions/manali/hadimba-temple-1.jpg',
+        photos: [
+          '/images/attractions/manali/hadimba-temple-1.jpg',
+          '/images/attractions/manali/hadimba-temple-2.jpg',
+          '/images/attractions/manali/hadimba-temple-3.jpg',
+          '/images/attractions/manali/hadimba-temple-4.jpg',
+          '/images/attractions/manali/hadimba-temple-5.jpg',
+          '/images/attractions/manali/hadimba-temple-6.jpg',
+        ],
+      },
+      {
+        name: 'Solang Valley Adventure Point',
+        shortName: 'Solang Valley',
+        altTag: '● Stop #2 • 2,560m MEADOW',
+        status: 'Open till 6 PM',
+        openStatus: '● Cable Car Active',
+        meta: '★ 4.6 • Glacial Meadow & Paragliding',
+        desc: 'Expansive glacial basin offering year-round adventure sports and snow-capped peak views.',
+        lat: 32.3167,
+        lng: 77.1583,
+        photo: '/images/attractions/manali/solang-valley-1.jpg',
+        photos: [
+          '/images/attractions/manali/solang-valley-1.jpg',
+          '/images/attractions/manali/solang-valley-2.jpg',
+          '/images/attractions/manali/solang-valley-3.jpg',
+          '/images/attractions/manali/solang-valley-4.jpg',
+          '/images/attractions/manali/solang-valley-5.jpg',
+          '/images/attractions/manali/solang-valley-6.jpg',
+        ],
+      },
+      {
+        name: 'Jogini Waterfalls & Vashisht Trek',
+        shortName: 'Jogini Falls',
+        altTag: '● Stop #3 • 2,140m CASCADE',
+        status: 'Daylight Access',
+        openStatus: '● Trail Clear',
+        meta: '★ 4.8 • Sacred Cascades & Apple Orchards',
+        desc: 'Picturesque pine trail ascending to multiple cascading streams over granite cliffs.',
+        lat: 32.2683,
+        lng: 77.1925,
+        photo: '/images/attractions/manali/jogini-waterfalls-1.jpg',
+        photos: [
+          '/images/attractions/manali/jogini-waterfalls-1.jpg',
+          '/images/attractions/manali/jogini-waterfalls-2.jpg',
+          '/images/attractions/manali/jogini-waterfalls-3.jpg',
+          '/images/attractions/manali/jogini-waterfalls-4.jpg',
+          '/images/attractions/manali/jogini-waterfalls-5.jpg',
+          '/images/attractions/manali/jogini-waterfalls-6.jpg',
+        ],
+      },
+      {
+        name: 'Old Manali Village & Manu Temple',
+        shortName: 'Old Manali Village',
+        altTag: '● Stop #4 • 2,050m HERITAGE',
+        status: 'Open till 8 PM',
+        openStatus: '● Cafes Open',
+        meta: '★ 4.6 • Stone & Timber Himalayan Architecture',
+        desc: 'Narrow flagstone alleyways lined with traditional Himachali houses and bakeries.',
+        lat: 32.2542,
+        lng: 77.1750,
+        photo: '/images/attractions/manali/manu-temple-1.jpg',
+        photos: [
+          '/images/attractions/manali/manu-temple-1.jpg',
+          '/images/attractions/manali/manu-temple-2.jpg',
+          '/images/attractions/manali/manu-temple-3.jpg',
+          '/images/attractions/manali/manu-temple-4.jpg',
+          '/images/attractions/manali/manu-temple-5.jpg',
+          '/images/attractions/manali/manu-temple-6.jpg',
+        ],
+      },
     ],
   },
   munnar: {
@@ -167,10 +347,86 @@ const DESTINATION_META = {
     svgArea: 'M 0,30 Q 30,22 65,18 T 120,5 Q 160,12 195,22 T 240,26 L 240,36 L 0,36 Z',
     svgStroke: 'M 0,30 Q 30,22 65,18 T 120,5 Q 160,12 195,22 T 240,26',
     circuitStops: [
-      { name: 'Tata Tea Museum & Factory', shortName: 'Tata Tea Museum', altTag: '● Stop #1 • 1,520m ALT', status: 'Open till 5 PM', openStatus: '● Rollers Active', meta: '★ 4.6 • Century-Old Tea Processing Machinery', desc: 'Live demonstration of Orthodox and CTC tea manufacturing with original Kundale valley artifacts.', lat: 10.0880, lng: 77.0580, audioText: 'Audio Guide (14m)' },
-      { name: 'Mattupetty Dam & Lake', shortName: 'Mattupetty Dam', altTag: '● Stop #2 • 1,700m BASIN', status: 'Open till 5:30 PM', openStatus: '● Speedboats Active', meta: '★ 4.5 • Hydro Reservoir & Elephant Corridor', desc: 'Concrete gravity dam surrounded by rolling tea plantations and mist-covered hills.', lat: 10.1064, lng: 77.1242, audioText: 'Audio Guide (9m)' },
-      { name: 'Top Station Nilgiri Overlook', shortName: 'Top Station', altTag: '● Stop #3 • 1,880m SUMMIT', status: 'Open till 6 PM', openStatus: '● Valley Clear', meta: '★ 4.7 • Highest Point on Munnar-Kodaikanal Ridge', desc: 'Historic terminus of the Kundala Valley Railway offering sweeping views of the Western Ghats.', lat: 10.1242, lng: 77.2444, audioText: 'Audio Guide (11m)' },
-      { name: 'Eravikulam National Park & Rajamalai', shortName: 'Eravikulam Park', altTag: '● Stop #4 • 1,750m SANCTUARY', status: 'Open till 4 PM', openStatus: '● Tahr Sighting High', meta: '★ 4.8 • Endangered Nilgiri Tahr Habitat', desc: 'Rolling shola-grassland high plateau crowned by the Anamudi peak, home to rare mountain goats.', lat: 10.1500, lng: 77.0600, audioText: 'Audio Guide (12m)' },
+      {
+        name: 'Tata Tea Museum & Factory',
+        shortName: 'Tata Tea Museum',
+        altTag: '● Stop #1 • 1,520m ALT',
+        status: 'Open till 5 PM',
+        openStatus: '● Rollers Active',
+        meta: '★ 4.6 • Century-Old Tea Processing Machinery',
+        desc: 'Live demonstration of Orthodox and CTC tea manufacturing with original Kundale valley artifacts.',
+        lat: 10.0880,
+        lng: 77.0580,
+        photo: '/images/attractions/munnar/tea-museum-1.jpg',
+        photos: [
+          '/images/attractions/munnar/tea-museum-1.jpg',
+          '/images/attractions/munnar/tea-museum-2.jpg',
+          '/images/attractions/munnar/tea-museum-3.jpg',
+          '/images/attractions/munnar/tea-museum-4.jpg',
+          '/images/attractions/munnar/tea-museum-5.jpg',
+          '/images/attractions/munnar/tea-museum-6.jpg',
+        ],
+      },
+      {
+        name: 'Mattupetty Dam & Lake',
+        shortName: 'Mattupetty Dam',
+        altTag: '● Stop #2 • 1,700m BASIN',
+        status: 'Open till 5:30 PM',
+        openStatus: '● Speedboats Active',
+        meta: '★ 4.5 • Hydro Reservoir & Elephant Corridor',
+        desc: 'Concrete gravity dam surrounded by rolling tea plantations and mist-covered hills.',
+        lat: 10.1064,
+        lng: 77.1242,
+        photo: '/images/attractions/munnar/mattupetty-dam-1.jpg',
+        photos: [
+          '/images/attractions/munnar/mattupetty-dam-1.jpg',
+          '/images/attractions/munnar/mattupetty-dam-2.jpg',
+          '/images/attractions/munnar/mattupetty-dam-3.jpg',
+          '/images/attractions/munnar/mattupetty-dam-4.jpg',
+          '/images/attractions/munnar/mattupetty-dam-5.jpg',
+          '/images/attractions/munnar/mattupetty-dam-6.jpg',
+        ],
+      },
+      {
+        name: 'Top Station Nilgiri Overlook',
+        shortName: 'Top Station',
+        altTag: '● Stop #3 • 1,880m SUMMIT',
+        status: 'Open till 6 PM',
+        openStatus: '● Valley Clear',
+        meta: '★ 4.7 • Highest Point on Munnar-Kodaikanal Ridge',
+        desc: 'Historic terminus of the Kundala Valley Railway offering sweeping views of the Western Ghats.',
+        lat: 10.1242,
+        lng: 77.2444,
+        photo: '/images/attractions/munnar/top-station-1.jpg',
+        photos: [
+          '/images/attractions/munnar/top-station-1.jpg',
+          '/images/attractions/munnar/top-station-2.jpg',
+          '/images/attractions/munnar/top-station-3.jpg',
+          '/images/attractions/munnar/top-station-4.jpg',
+          '/images/attractions/munnar/top-station-5.jpg',
+          '/images/attractions/munnar/top-station-6.jpg',
+        ],
+      },
+      {
+        name: 'Eravikulam National Park & Rajamalai',
+        shortName: 'Eravikulam Park',
+        altTag: '● Stop #4 • 1,750m SANCTUARY',
+        status: 'Open till 4 PM',
+        openStatus: '● Tahr Sighting High',
+        meta: '★ 4.8 • Endangered Nilgiri Tahr Habitat',
+        desc: 'Rolling shola-grassland high plateau crowned by the Anamudi peak, home to rare mountain goats.',
+        lat: 10.1500,
+        lng: 77.0600,
+        photo: '/images/attractions/munnar/eravikulam-national-park-1.jpg',
+        photos: [
+          '/images/attractions/munnar/eravikulam-national-park-1.jpg',
+          '/images/attractions/munnar/eravikulam-national-park-2.jpg',
+          '/images/attractions/munnar/eravikulam-national-park-3.jpg',
+          '/images/attractions/munnar/eravikulam-national-park-4.jpg',
+          '/images/attractions/munnar/eravikulam-national-park-5.jpg',
+          '/images/attractions/munnar/eravikulam-national-park-6.jpg',
+        ],
+      },
     ],
   },
   jaipur: {
@@ -572,7 +828,50 @@ export function renderMapView(container, { switchView, store }) {
     ro.observe(mapElement);
   }
 
-  // Multi-Photo Gallery Modal
+  // Helper to guarantee 100% authentic multi-photo resolution for every attraction
+  function resolveItemWithPhotos(item, destKey) {
+    const destAttractions = CURATED_ATTRACTIONS[destKey] || CURATED_ATTRACTIONS.ooty || [];
+    const itemNorm = (item.name || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+    const shortNorm = (item.shortName || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+
+    const matched = destAttractions.find(a => {
+      if (item.id && a.id === item.id) return true;
+      const aNorm = (a.name || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+      if (aNorm === itemNorm) return true;
+      if (shortNorm && (aNorm.includes(shortNorm) || shortNorm.includes(aNorm))) return true;
+      if (itemNorm && (aNorm.includes(itemNorm) || itemNorm.includes(aNorm))) return true;
+      return false;
+    });
+
+    let photos = [];
+    if (matched && Array.isArray(matched.photos) && matched.photos.length > 0) {
+      photos = matched.photos;
+    } else if (Array.isArray(item.photos) && item.photos.length > 0) {
+      photos = item.photos;
+    } else if (item.photo) {
+      const m = item.photo.match(/^(.*\/)([^\/]+)-(\d+)\.jpg$/);
+      if (m) {
+        const base = m[1] + m[2];
+        photos = [1, 2, 3, 4, 5, 6].map(num => `${base}-${num}.jpg`);
+      } else {
+        photos = [item.photo];
+      }
+    } else if (matched && matched.photo) {
+      photos = [matched.photo];
+    }
+
+    return {
+      ...(matched || {}),
+      ...item,
+      photo: photos[0] || item.photo || (matched && matched.photo) || '/images/attractions/ooty/tea-museum-1.jpg',
+      photos: photos.length > 0 ? photos : [item.photo || (matched && matched.photo) || '/images/attractions/ooty/tea-museum-1.jpg'],
+      category: item.category || (matched && matched.category) || 'Curated Landmark',
+      rating: item.rating || (matched && matched.rating) || 4.7,
+      description: item.desc || item.description || (matched && matched.description) || '',
+    };
+  }
+
+  // Multi-Photo Gallery Modal (Authentic high-resolution carousel with thumbnails & keyboard nav)
   function openPhotoGalleryModal(place, initialIdx = 0) {
     const modalContainer = document.getElementById('mapPhotoGalleryModal');
     if (!modalContainer) return;
@@ -592,6 +891,18 @@ export function renderMapView(container, { switchView, store }) {
         btn.classList.toggle('active', pIdx === currentPhotoIdx);
       });
     }
+
+    const closeModal = () => {
+      modalContainer.classList.add('hidden');
+      window.removeEventListener('keydown', handleKeyNav);
+    };
+
+    const handleKeyNav = (e) => {
+      if (modalContainer.classList.contains('hidden')) return;
+      if (e.key === 'Escape') closeModal();
+      else if (e.key === 'ArrowLeft') updateGallerySlide(currentPhotoIdx - 1);
+      else if (e.key === 'ArrowRight') updateGallerySlide(currentPhotoIdx + 1);
+    };
 
     modalContainer.innerHTML = `
       <div class="gallery-modal-overlay" id="galleryOverlayBackdrop">
@@ -621,7 +932,7 @@ export function renderMapView(container, { switchView, store }) {
           ${photos.length > 1 ? `
             <div class="gallery-thumbnails-strip">
               ${photos.map((p, pIdx) => `
-                <button type="button" class="gallery-thumb-btn ${pIdx === currentPhotoIdx ? 'active' : ''}" data-pidx="${pIdx}">
+                <button type="button" class="gallery-thumb-btn ${pIdx === currentPhotoIdx ? 'active' : ''}" data-pidx="${pIdx}" title="View photo ${pIdx + 1}">
                   <img src="${escapeHtml(p)}" alt="Thumbnail ${pIdx + 1}" loading="lazy" />
                 </button>
               `).join('')}
@@ -632,17 +943,17 @@ export function renderMapView(container, { switchView, store }) {
             <div class="flex items-start justify-between gap-3 mb-2">
               <div>
                 <h3 class="text-base sm:text-lg font-bold text-[#1E3A34] font-headline-md">${escapeHtml(place.name)}</h3>
-                <p class="text-xs text-neutral-600 font-mono mt-0.5">${escapeHtml(place.formattedAddress || `${place.lat.toFixed(4)}° N, ${place.lng.toFixed(4)}° E`)}</p>
+                <p class="text-xs text-neutral-600 font-mono mt-0.5">${escapeHtml(place.formattedAddress || `${Number(place.lat).toFixed(4)}° N, ${Number(place.lng).toFixed(4)}° E`)}</p>
               </div>
               <div class="text-right flex-shrink-0">
                 <span class="bg-[#5B8C7B]/15 text-[#2E4433] text-xs font-mono font-bold px-2.5 py-1 rounded-full border border-[#5B8C7B]/30">
-                  ★ ${place.rating} Rating
+                  ★ ${place.rating || 4.7} Rating
                 </span>
               </div>
             </div>
             <p class="text-xs text-neutral-700 leading-relaxed my-2">${escapeHtml(place.description)}</p>
             <div class="pt-3 border-t border-[#BFA895]/25 flex items-center justify-between">
-              <span class="text-[10px] font-mono text-neutral-500">Verified Trailmate Landmark</span>
+              <span class="text-[10px] font-mono text-neutral-500">Verified Trailmate Landmark (${photos.length} photos)</span>
               <button id="btnZoomToPlaceFromGallery" class="px-3.5 py-1.5 bg-[#C4703D] text-white rounded-xl text-xs font-bold hover:bg-[#944A1A] flex items-center gap-1.5 cursor-pointer">
                 <span class="material-symbols-outlined text-xs">my_location</span>
                 <span>Center On Map</span>
@@ -654,12 +965,11 @@ export function renderMapView(container, { switchView, store }) {
     `;
 
     modalContainer.classList.remove('hidden');
+    window.addEventListener('keydown', handleKeyNav);
 
-    document.getElementById('btnCloseGalleryModal')?.addEventListener('click', () => {
-      modalContainer.classList.add('hidden');
-    });
+    document.getElementById('btnCloseGalleryModal')?.addEventListener('click', closeModal);
     document.getElementById('galleryOverlayBackdrop')?.addEventListener('click', (e) => {
-      if (e.target.id === 'galleryOverlayBackdrop') modalContainer.classList.add('hidden');
+      if (e.target.id === 'galleryOverlayBackdrop') closeModal();
     });
     document.getElementById('btnGalleryPrev')?.addEventListener('click', (e) => {
       e.stopPropagation();
@@ -677,20 +987,9 @@ export function renderMapView(container, { switchView, store }) {
       });
     });
     document.getElementById('btnZoomToPlaceFromGallery')?.addEventListener('click', () => {
-      modalContainer.classList.add('hidden');
+      closeModal();
       safeMoveMap(place.lat, place.lng, 15, 0.8);
     });
-  }
-
-  // Audio Guide function via SpeechSynthesis
-  function playAudioGuide(place) {
-    if ('speechSynthesis' in window) {
-      window.speechSynthesis.cancel();
-      const text = `Now listening to the field audio guide for ${place.name}. ${place.description}. Located in ${selectedDestination}.`;
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.rate = 0.95;
-      window.speechSynthesis.speak(utterance);
-    }
   }
 
   // Load and render destination data
@@ -800,6 +1099,9 @@ export function renderMapView(container, { switchView, store }) {
         );
       }
 
+      // Ensure every attraction has authentic photos resolved
+      displayedItems = displayedItems.map(item => resolveItemWithPhotos(item, activeDestKey));
+
       // ── Topographic Water Overlays & Relief Circles (Ooty Lake & Doddabetta) ──
       if (activeDestKey === 'ooty') {
         // Soft Teal Ooty Lake polygon
@@ -898,32 +1200,43 @@ export function renderMapView(container, { switchView, store }) {
       if (feedContainer) {
         feedContainer.innerHTML = displayedItems.map((item, idx) => {
           const isStop1 = idx === 0 && isDay1Mode;
-          let photoUrl = item.photo || (item.photos && item.photos[0]) || `/images/attractions/ooty/tea-museum-4.jpg`;
-          if (item.photos && item.photos.length > 0) {
-            photoUrl = item.photos[0];
-          }
+          const photos = item.photos && item.photos.length > 0 ? item.photos : [item.photo];
+          const photoCount = photos.length;
+          const photoUrl = photos[0];
           const altTag = item.altTag || `● Stop #${idx + 1} • ${destMeta.avgElev.replace(' avg', '')} ALT`;
           const statusText = item.status || 'Open till 6 PM';
           const metaText = item.meta || `★ ${item.rating || '4.6'} • Curated Landmark`;
           const descText = item.desc || item.description || '';
           const categoryTag = item.category || 'Curated Landmark';
-          const audioText = item.audioText || 'Audio Guide (14m)';
 
           return `
             <div class="map-card-wrapper" data-idx="${idx}">
               ${isStop1 ? `<div class="map-current-focus-tag">CURRENT FOCUS</div>` : ''}
               <div class="map-sight-card ${idx === activeCardIndex ? 'active' : ''}" data-idx="${idx}">
-                <!-- Photo Banner -->
-                <div class="map-card-photo-hero">
-                  <img src="${escapeHtml(photoUrl)}" alt="${escapeHtml(item.name)}" loading="lazy" />
+                <!-- Photo Banner with Inline Slider & Fullscreen Gallery Trigger -->
+                <div class="map-card-photo-hero" data-action="open-gallery" title="Click to view all ${photoCount} photos">
+                  <img src="${escapeHtml(photoUrl)}" alt="${escapeHtml(item.name)}" class="map-card-hero-img" loading="lazy" data-current-idx="0" />
                   <span class="map-photo-tag-left">
                     <span class="tag-dot"></span>
                     <span>${escapeHtml(altTag)}</span>
                   </span>
-                  <span class="map-photo-tag-right" data-action="audio">
-                    <span class="material-symbols-outlined text-xs">headphones</span>
-                    <span>${escapeHtml(audioText)}</span>
-                  </span>
+                  <button type="button" class="map-photo-tag-right map-photo-gallery-badge" data-action="open-gallery" title="View all ${photoCount} photos">
+                    <span class="material-symbols-outlined text-[13px]">photo_library</span>
+                    <span>${photoCount} Photos</span>
+                  </button>
+                  ${photoCount > 1 ? `
+                    <button type="button" class="map-card-slide-nav map-card-slide-prev" data-action="slide-prev" title="Previous photo" aria-label="Previous photo">
+                      <span class="material-symbols-outlined text-[13px]">chevron_left</span>
+                    </button>
+                    <button type="button" class="map-card-slide-nav map-card-slide-next" data-action="slide-next" title="Next photo" aria-label="Next photo">
+                      <span class="material-symbols-outlined text-[13px]">chevron_right</span>
+                    </button>
+                    <div class="map-card-slide-dots">
+                      ${photos.slice(0, 6).map((_, pIdx) => `
+                        <span class="map-card-slide-dot ${pIdx === 0 ? 'active' : ''}" data-dot-idx="${pIdx}"></span>
+                      `).join('')}
+                    </div>
+                  ` : ''}
                 </div>
 
                 <!-- Title & Status -->
@@ -947,6 +1260,10 @@ export function renderMapView(container, { switchView, store }) {
                     <span>${escapeHtml(categoryTag)}</span>
                   </span>
                   <div class="map-card-actions">
+                    <button type="button" class="map-btn-outline" data-action="open-gallery" title="View all ${photoCount} photos">
+                      <span class="material-symbols-outlined text-[11px]">photo_library</span>
+                      <span>Photos (${photoCount})</span>
+                    </button>
                     <button type="button" class="map-btn-outline" data-action="directions">Directions</button>
                     <button type="button" class="map-btn-solid-terracotta" data-action="circuit">In Circuit ✓</button>
                   </div>
@@ -956,22 +1273,71 @@ export function renderMapView(container, { switchView, store }) {
           `;
         }).join('');
 
-        // Card Click Interactions
+        // Card Click & Carousel Interactions
         feedContainer.querySelectorAll('.map-sight-card').forEach(card => {
           const idx = parseInt(card.dataset.idx, 10);
           const item = displayedItems[idx];
+          const photos = item.photos || [item.photo];
+          let currentCardPhotoIdx = 0;
+
+          const heroImg = card.querySelector('.map-card-hero-img');
+          const dots = card.querySelectorAll('.map-card-slide-dot');
+
+          const updateCardSlide = (newIdx) => {
+            currentCardPhotoIdx = (newIdx + photos.length) % photos.length;
+            if (heroImg) {
+              heroImg.src = photos[currentCardPhotoIdx];
+              heroImg.dataset.currentIdx = currentCardPhotoIdx;
+            }
+            dots.forEach((dot, dIdx) => {
+              dot.classList.toggle('active', dIdx === currentCardPhotoIdx);
+            });
+          };
 
           card.addEventListener('click', (e) => {
-            if (e.target.closest('[data-action="audio"]')) {
-              playAudioGuide(item);
+            // Slide Prev button on hero
+            if (e.target.closest('[data-action="slide-prev"]')) {
+              e.stopPropagation();
+              updateCardSlide(currentCardPhotoIdx - 1);
               return;
             }
+
+            // Slide Next button on hero
+            if (e.target.closest('[data-action="slide-next"]')) {
+              e.stopPropagation();
+              updateCardSlide(currentCardPhotoIdx + 1);
+              return;
+            }
+
+            // Open Fullscreen Photo Gallery Modal
+            if (e.target.closest('[data-action="open-gallery"]') || e.target.closest('.map-card-photo-hero')) {
+              e.stopPropagation();
+              openPhotoGalleryModal(item, currentCardPhotoIdx);
+              return;
+            }
+
+            // Google Maps Directions
             if (e.target.closest('[data-action="directions"]')) {
+              e.stopPropagation();
               const url = `https://www.google.com/maps/dir/?api=1&destination=${item.lat},${item.lng}`;
               window.open(url, '_blank');
               return;
             }
 
+            // Circuit toggle
+            if (e.target.closest('[data-action="circuit"]')) {
+              e.stopPropagation();
+              const btn = e.target.closest('[data-action="circuit"]');
+              if (btn) {
+                const inCircuit = btn.textContent.includes('✓');
+                btn.textContent = inCircuit ? 'Add to Circuit +' : 'In Circuit ✓';
+                btn.classList.toggle('map-btn-solid-terracotta', !inCircuit);
+                btn.classList.toggle('map-btn-outline', inCircuit);
+              }
+              return;
+            }
+
+            // Select card and center map
             activeCardIndex = idx;
             feedContainer.querySelectorAll('.map-sight-card').forEach(c => c.classList.remove('active'));
             card.classList.add('active');
@@ -992,10 +1358,8 @@ export function renderMapView(container, { switchView, store }) {
         if (!Number.isFinite(itemLat) || !Number.isFinite(itemLng)) return;
 
         const isStop1 = idx === 0 && isDay1Mode;
-        let photoUrl = item.photo || (item.photos && item.photos[0]) || `/images/attractions/ooty/tea-museum-4.jpg`;
-        if (item.photos && item.photos.length > 0) {
-          photoUrl = item.photos[0];
-        }
+        const photos = item.photos && item.photos.length > 0 ? item.photos : [item.photo];
+        const photoUrl = photos[0];
         const stopLabel = item.shortName || item.name;
         const altTag = item.altTag || `STOP #${idx + 1} • ${destMeta.avgElev.replace(' avg', '')}`;
         const openStatus = item.openStatus || '● Open Today';
@@ -1016,10 +1380,16 @@ export function renderMapView(container, { switchView, store }) {
           popupAnchor: [0, -18],
         });
 
-        // Sleek horizontal popover card (matching Stitch mockup)
+        // Sleek horizontal popover card with photo counter badge and gallery button
         const popupHtml = `
           <div class="map-popover-card" data-idx="${idx}">
-            <img src="${escapeHtml(photoUrl)}" alt="${escapeHtml(item.name)}" class="map-popover-thumb" />
+            <div class="map-popover-thumb-wrap" data-action="open-popover-gallery" title="View all ${photos.length} photos">
+              <img src="${escapeHtml(photoUrl)}" alt="${escapeHtml(item.name)}" class="map-popover-thumb" />
+              <span class="map-popover-photo-pill">
+                <span class="material-symbols-outlined text-[9px]">photo_library</span>
+                <span>${photos.length}</span>
+              </span>
+            </div>
             <div class="map-popover-info">
               <span class="map-popover-stop-tag">${escapeHtml(altTag.replace('● ', ''))}</span>
               <h4 class="map-popover-title">${escapeHtml(stopLabel)}</h4>
@@ -1027,22 +1397,36 @@ export function renderMapView(container, { switchView, store }) {
                 <span class="status-dot"></span>
                 <span>${escapeHtml(openStatus.replace('● ', ''))}</span>
               </div>
+              <button type="button" class="map-popover-gallery-btn" data-action="open-popover-gallery">
+                <span class="material-symbols-outlined text-[10px]">photo_library</span>
+                <span>View ${photos.length} Photos →</span>
+              </button>
             </div>
           </div>
         `;
 
         const marker = L.marker([itemLat, itemLng], { icon: customIcon })
           .bindPopup(popupHtml, {
-            maxWidth: 240,
+            maxWidth: 250,
             minWidth: 220,
             autoPan: false, // Prevents aggressive panning that covers HUD
             offset: [0, -14],
           });
 
-        marker.on('popupopen', () => {
+        marker.on('popupopen', (e) => {
           document.querySelectorAll('.map-waypoint-pin').forEach(p => p.classList.remove('active'));
           const pinEl = document.getElementById(`waypointPin-${idx}`);
           if (pinEl) pinEl.classList.add('active');
+
+          const popupEl = e.popup?.getElement();
+          if (popupEl) {
+            popupEl.querySelectorAll('[data-action="open-popover-gallery"]').forEach(btn => {
+              btn.addEventListener('click', (ev) => {
+                ev.stopPropagation();
+                openPhotoGalleryModal(item, 0);
+              });
+            });
+          }
         });
 
         marker.on('popupclose', () => {

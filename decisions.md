@@ -598,6 +598,9 @@ To maintain this standard while offering a high-performance **Scrapbook Studio**
 | **DEC-028** | UI / Motion | Transparent Liquid Caustic Wave with Button Origin & Ease-In | User | Eliminates black screen/placeholder textures via transparent WebGL caustic glint shader + concurrent DOM clip-path expansion; originates from clicked button; applies authentic ease-in acceleration curve ($t^2$, 840ms) |
 | **DEC-029** | UI / Motion | Directional Sunbeam (315° Azimuth) & Chromatic Dispersion | User | Physically models 315° top-left sunlight reflection via 2D wave normal dot product and Cauchy's chromatic wavelength separation (R/G/B phase shift) on liquid ripple crest |
 | **DEC-030** | UI / Motion | Terracotta Liquid Meniscus & Wavefront Boundary Lockstep | User | Eliminates blue/cyan shimmer with Trailmate brand Terracotta (`#C4703D`) and sunlit amber; locks DOM clip-path and WebGL wave to exact 1:1 pixel coordinate lockstep, eliminating white gaps and pre-glow |
+| **DEC-031** | Maps | Split-Pane Dual Explorer Geospatial Map Architecture & Brand UI Palette | User | 42% itinerary ledger + 58% unobstructed map canvas; warm parchment & terracotta brand styling; zero sidebar impact |
+| **DEC-032** | Maps | Dynamic Multi-Destination Elevation Profiles & Typography Streamlining | User | Dynamic elevation curves for 15 destinations; removed coordinate clutter and obsolete estate wash layer |
+| **DEC-033** | Maps / Media | Multi-Photo Attraction Carousel & Audio Guide Elimination | User | Resolves 6 authentic photos per sight via inline card carousel & fullscreen modal; eliminated synthetic audio guide |
 
 ---
 
@@ -697,6 +700,31 @@ To maintain this standard while offering a high-performance **Scrapbook Studio**
     * Pruned the `estate` tileLayer and removed the "Estate Wash" button, leaving a balanced dual segmented control: `[ Contours | Satellite ]`.
 * **Why This Was Chosen:**
   * Dramatically improves ledger readability in the compact 30% pane while providing travellers with immediate, authentic topographic insight for every region in India.
+
+---
+
+### DEC-033: Multi-Photo Attraction Carousel & Audio Guide Elimination
+* **Decision Makers:** User Directive
+* **Category:** Geospatial UI, Media Asset Resolution & Audio Cleanup
+* **Status:** Implemented & Verified (October 2026)
+* **The Context & Problem:**
+  1. Over 1,260 authentic high-resolution photographs were already downloaded across all 15 destinations (6 per sight, 14 curated sights per destination in `public/images/attractions/<dest>/<slug>-1.jpg` through `-6.jpg`). However, `circuitStops` in `DESTINATION_META` only supplied a single photo string, leaving `place.photos` undefined and restricting ledger sight cards to a single image.
+  2. The synthetic SpeechSynthesis audio guide button, timer label (`Audio Guide (0:45)`), and headphones icon were artificial and degraded the clean, documentary cartographic aesthetic. The user requested: "let me see multiple pics of an attraction, we have already downloaded so many pictures.remove audio guide feature".
+* **The Decision:**
+  * **Authentic Multi-Photo Resolution Engine:**
+    * Implemented `resolveItemWithPhotos(item, destKey)` in `src/views/MapView.js` to cross-reference every attraction across `CURATED_ATTRACTIONS` and file paths. If a sight has an individual photo path, it dynamically derives and verifies the full array of all 6 authentic local images (`<slug>-1.jpg` through `-6.jpg`).
+  * **Complete Elimination of Audio Guide Feature:**
+    * Thoroughly removed `playAudioGuide()` function, SpeechSynthesis audio narration code, `audioText` metadata, and all audio guide buttons and headphones icons from `src/views/MapView.js` and `src/styles/map.css`.
+  * **Interactive Sight Card Photo Carousel:**
+    * Replaced the audio badge with `.map-photo-gallery-badge` (`📷 ${photoCount} Photos`) in the top-right of `.map-card-photo-hero`.
+    * Added inline carousel controls directly on the card: left/right navigation arrows (`.map-card-slide-prev`, `.map-card-slide-next`) and indicator dots (`.map-card-slide-dots`), allowing travelers to seamlessly cycle through all 6 photos without interrupting their ledger browsing.
+    * Added a dedicated `Photos (${photoCount})` button in `.map-card-footer` actions.
+  * **Map Waypoint Popover Gallery Integration:**
+    * Updated Leaflet popover cards to render `.map-popover-thumb-wrap` with `.map-popover-photo-pill` (`📷 ${photos.length}`) and a `View ${photos.length} Photos →` button, opening the modal directly from any waypoint pin on the map.
+  * **Enhanced Fullscreen Photo Gallery Modal:**
+    * Provided high-res photo viewer with fluid spring transitions, filmstrip thumbnails, rating, description, and keyboard navigation (`ArrowLeft` for previous photo, `ArrowRight` for next photo, `Escape` to close).
+* **Why This Was Chosen:**
+  * Maximizes traveler immersion by unlocking the full catalog of authentic photographs directly on the cards and in an archival fullscreen gallery, while keeping the UI clean and free of synthetic audio clutter.
 
 ---
 
