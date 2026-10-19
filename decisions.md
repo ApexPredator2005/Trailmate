@@ -603,6 +603,11 @@ To maintain this standard while offering a high-performance **Scrapbook Studio**
 | **DEC-033** | Maps / Media | Multi-Photo Attraction Carousel & Audio Guide Elimination | User | Resolves 6 authentic photos per sight via inline card carousel & fullscreen modal; eliminated synthetic audio guide |
 | **DEC-035** | Maps / Motion | Smooth Dissolve & Re-emerge Selection Reticle & Zero Zoom Jitter Architecture | User | Eliminates CSS transition fighting on Leaflet SVG during zoom; 180ms dissolve & post-settle bloom |
 | **DEC-036** | Maps | Geospatial Map Quality Remediation, In-Place Live Search & GPS Export | User | Camera-synchronized focus bloom via moveend, in-place search (zero camera jump), branded empty state, GPX v1.1 XML export, compass spin & elevation profile modal |
+| **DEC-037** | Maps | Interactive Waypoint Circuit Ledger & Dynamic Map Polyline Synchronization | User | Custom route building via ledger toggles, animated polyline recalculation, midpoint distance badges, and HUD telemetry sync |
+| **DEC-038** | UI / Settings | Tactile Archival Preferences Ledger & Settings Redesign via Stitch MCP | User | Rich currency cards, stay archetypes, dietary protocol chips, and callsign telemetry in warm parchment vellum |
+| **DEC-039** | Assets / Storage | 4K Wallpaper Catalog Curation & Saturation Optimization | User | Pruned 15 low-saturation wallpapers; reclaimed 29.1MB; curated 19 ultra-vibrant 4K destination landscapes |
+| **DEC-040** | Maps / Motion | Authentic Gooey Search Engine Architecture & Liquid Physics | User | 0.92s molten spring easing, SVG metablob filter, zero-clipping satellite orb, and signature diffing |
+| **DEC-041** | DevOps | Production Cloud Deployment & Verified Vercel CI Delivery | User | Pushed 54 atomic commits to GitHub; verified Vercel production build success (dpl_7170391828) |
 
 ---
 
@@ -910,6 +915,30 @@ To maintain this standard while offering a high-performance **Scrapbook Studio**
     - Full keyboard navigation: `⌘K` / `Ctrl+K` to open, `Escape` to close, `Enter` to select top recommendation, and clicking satellite orb to clear or close.
 * **Why This Was Chosen:**
   * Delivers a playful, tactile, 60fps gooey interaction that connects the ledger search interface directly with the Leaflet expedition map without visual defects or state resets.
+
+
+---
+
+### DEC-041: Production Cloud Deployment & Verified Vercel CI Delivery
+* **Decision Makers:** User Directive & DevOps Engineering
+* **Category:** DevOps, Cloud Hosting & Continuous Integration
+* **Status:** Implemented & Verified (October 2026)
+* **The Context & Problem:**
+  Following extensive feature additions—including the Codrops-inspired gooey search bar with liquid spring dynamics, 12 tactile 3D PVC morale patches, wallpaper catalog optimization, settings redesign, and map card height adjustments—the application needed to be deployed to production.
+* **The Decision:**
+  * **Verified Production Build & Test Suite:**
+    - Ran automated Vitest suite (35/35 passing tests).
+    - Executed Vite production bundle compilation cleanly in 3.94s.
+  * **Automated CI/CD Delivery via GitHub Remote:**
+    - Pushed 54 atomic commits cleanly to `https://github.com/ApexPredator2005/Trailmate.git` (`origin main`).
+    - Vercel's automated Git integration processed commit `7e53f64` into deployment `7170391828` (`state: success`).
+  * **Production Endpoints:**
+    - Canonical Production URL: `https://trailmate-apex-predator1.vercel.app`
+    - Deployment-Specific Instance: `https://trailmate-bo9lw90m0-apex-predator1.vercel.app`
+  * **Function Storage Footprint:**
+    - Preserved under 2MB serverless function footprint thanks to DEC-020 `functions["api/index.js"].excludeFiles` rules in `vercel.json`.
+* **Why This Was Chosen:**
+  * Delivers all latest architectural and visual features to the live production environment with zero bundle bloat and complete rollback safety.
 
 ---
 
